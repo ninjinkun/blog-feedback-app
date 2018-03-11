@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View, Button, TouchableHighlight, Linking, TouchableOpacity } from 'react-native'
+import { Image, StyleSheet, Text, View, Button, TouchableHighlight, Linking, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native'
 import firebase from 'firebase'
 import firestore from 'firebase/firestore'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
@@ -24,7 +24,7 @@ const Card = ({ children }) => <View style={styles.card}>{children}</View>
 const Title = ({ children }) => <Text style={styles.title}>{children}</Text>
 const App = () => (
   <Card>
-    <Title>BlogFeedback</Title>
+    <Header />
     <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
     <FeedView />
   </Card>
@@ -36,9 +36,14 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center'
   },
+  header: {
+    position: "fixed",
+    top: 0,
+    height: 44
+  },
   title: {
     fontSize: '1.25rem',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   image: {
     height: 16,
@@ -54,6 +59,14 @@ const styles = StyleSheet.create({
   },
   buttons: {
     flexDirection: 'row'
+  },
+  activityIndicatorContainer: {
+    flexGrow: 1,
+    justifyContent: 'center'
+  },
+  feedContainer: {
+    flexGrow: 1,
+    height: 500
   }
 })
 
@@ -73,11 +86,17 @@ const uiConfig = {
   ]
 };
 
+const Header = () => (
+  <View style={styles.header}>
+    <Title>BlogFeedback</Title>
+  </View>
+);
+
 class BlogView extends View {
   render() {
     return (
       <View>
-        <Image src="" /><Text></Text>
+        <Image src="" /><Text>{this.props.title}</Text>
       </View>
     )
   }
@@ -191,23 +210,24 @@ class FeedView extends View {
   }
 
   render() {
-    if (this.state.items) {
+    if (this.state.items.length) {
       const counts = [].concat.apply([], this.state.counts);
 
       const facebookMap = new Map(counts.filter((c) => c.type === COUNT_TYPE_FACEBOOK).map(i => [i.url, i.count]));
       const hatenaBookmarkMap = new Map(counts.filter((c) => c.type === COUNT_TYPE_HATENA_BOOKMARK).map((i) => [i.url, i.count]));
 
-      return this.state.items.map(
+      return (<ScrollView style={styles.feedContainer}>
+      {this.state.items.map(
         (item) => <FeedItemView
           title={item.title}
           link={item.url}
           facebook_count={facebookMap.get(item.url) || 0}
           hatena_bookmark_count={hatenaBookmarkMap.get(item.url) || 0}
           key={item.url}
-        />
-      );
+      />)}
+      </ScrollView>);   
     } else {
-      return null;
+      return (<View style={styles.activityIndicatorContainer}><ActivityIndicator size="large" /></View>);
     }
   }
 }
