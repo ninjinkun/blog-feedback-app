@@ -1,4 +1,5 @@
 import * as firebase from 'firebase';
+import 'firebase/firestore';
 import { BlogEntity, ItemEntity, CountEntity } from './entities';
 import { WriteBatch, CollectionReference, DocumentReference, DocumentSnapshot } from '@firebase/firestore-types';
 
@@ -15,6 +16,17 @@ export class UserRepository {
 }
 
 export class BlogRepository {
+  async getBlogs(userId: string): Promise<BlogEntity[]> {
+    const snapshot = await new UserRepository().userRef(userId).collection('blogs').get();
+    return snapshot.docs.map((i: firebase.firestore.DocumentSnapshot) => i.data()).map((i: firebase.firestore.DocumentData | undefined) =>
+      new BlogEntity(
+        i!.title,
+        i!.url,
+        i!.feedUrl
+      )
+    );
+  }
+
   blogRef(userId: string, blogUrl: string): firebase.firestore.DocumentReference {
     return new UserRepository().userRef(userId).collection('blogs').doc(encodeURIComponent(blogUrl));
   }
