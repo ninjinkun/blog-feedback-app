@@ -11,6 +11,10 @@ import { StyledFirebaseAuth } from 'react-firebaseui';
 import FeedView from './FeedView';
 import { BlogEntity } from './entities';
 import * as H from 'history';
+import { crawl } from './crawler';
+import {
+  BlogResponse
+} from './responses';
 
 const config = {
   apiKey: 'AIzaSyBxWFRf0NnBcC8Uf9JJggjkOlaGGAdZwvE',
@@ -125,19 +129,50 @@ class Header extends React.Component<{ title: string } & RouteComponentProps<{}>
 
 const HeaderWithRouter = withRouter(Header);
 
-class AddBlogView extends React.Component {
-  // render() {
-  //   return (
-  //     <View>
-  //       <TextInput onEndEditing={(event : { nativeEvent: any }) => {
-  //         const text: string = event.nativeEvent
-  //       }} />
-  //     </View>
-  //   );
-  // }
-  // addBlog(text: string) {
-    
-  // }
+class AddBlogView extends React.Component<{} & RouteComponentProps<{}>, { url: string, loading: boolean }> {
+  constructor(props: any) {
+    super(props);
+    this.state = { url: '', loading: false };
+  }
+
+  render() {
+    return (
+      <View>
+        <form onSubmit={(e) => this.handleSubmit(e)}>
+         <label>
+            Blog URL: 
+            <input type="text" value={this.state.url} onChange={(e) => { this.setState({ url: e.target.value }); }} />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+        {this.state.loading ? <View style={styles.activityIndicatorContainer}><ActivityIndicator size="large" /></View> : null}
+      </View>
+    );
+  }
+
+  handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    this.addBlog(this.state.url);
+  }
+
+  async addBlog(blogUrl: string) {
+    this.setState({loading: true});
+    const [fetchBlog, fetchFeed, fetchCount] = crawl(blogUrl);
+    const user = firebase.auth().currentUser;
+    if (!user) {
+        return;
+    }
+    const blogResponse: BlogResponse = await fetchBlog;
+    new BlogRepository().setBlog(
+      user.uid,
+      blogResponse.url,
+      blogResponse.title,
+      blogResponse.feedUrl,
+      blogResponse.feedType
+    );
+    this.setState({loading: false});
+    this.props.history.push(`/blogs/${encodeURIComponent(blogResponse.url)}`);        
+  }
 }
 
 class BlogView extends React.Component<{}, { user?: firebase.User, blogs: BlogEntity[] }> {
