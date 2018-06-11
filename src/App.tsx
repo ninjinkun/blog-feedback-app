@@ -11,7 +11,7 @@ import { StyledFirebaseAuth } from 'react-firebaseui';
 import FeedView from './FeedView';
 import { BlogEntity } from './entities';
 import * as H from 'history';
-import { crawl } from './crawler';
+import { fetchBlog } from './feed-fetcher';
 import {
   BlogResponse
 } from './responses';
@@ -155,14 +155,13 @@ class AddBlogView extends React.Component<{} & RouteComponentProps<{}>, { url: s
     this.addBlog(this.state.url);
   }
 
-  async addBlog(blogUrl: string) {
+  async addBlog(blogURL: string) {
     this.setState({loading: true});
-    const [fetchBlog, fetchFeed, fetchCount] = crawl(blogUrl);
     const user = firebase.auth().currentUser;
     if (!user) {
         return;
     }
-    const blogResponse: BlogResponse = await fetchBlog;
+    const blogResponse: BlogResponse = await fetchBlog(blogURL);
     new BlogRepository().setBlog(
       user.uid,
       blogResponse.url,
