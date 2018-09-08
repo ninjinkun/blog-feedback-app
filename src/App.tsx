@@ -1,20 +1,22 @@
 import * as React from 'react';
 import {
-  TextProperties, Image, StyleSheet,
-  Text, View, Button, TouchableHighlight, TextInput,
-  TouchableOpacity, ScrollView, ActivityIndicator, ViewProperties
+  ActivityIndicator
 } from 'react-native';
+import styled from 'styled-components';
 import { BrowserRouter, Route, Link, Redirect, match as matchParam, withRouter, RouteComponentProps } from 'react-router-dom';
 import * as firebase from 'firebase';
-import { BlogRepository } from './repositories';
+import { BlogRepository } from './models/repositories';
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import FeedView from './FeedView';
-import { BlogEntity } from './entities';
+import { BlogEntity } from './models/entities';
 import * as H from 'history';
-import { fetchBlog } from './feed-fetcher';
+import { fetchBlog } from './models/feed-fetcher';
 import {
   BlogResponse
-} from './responses';
+} from './models/responses';
+import Header from './components/organisms/Header/index';
+import BlogCell from './components/organisms/BlogCell/index';
+import ScrollView from './components/atoms/ScrollView/index';
 
 const config = {
   apiKey: 'AIzaSyBxWFRf0NnBcC8Uf9JJggjkOlaGGAdZwvE',
@@ -29,29 +31,7 @@ firebase.initializeApp(config);
 const db: firebase.firestore.Firestore = firebase.firestore();
 db.enablePersistence();
 
-// Styles
-const styles = StyleSheet.create<any>({
-  card: {
-    flexGrow: 1,
-    justifyContent: 'center'
-  },
-  header: {
-    position: 'fixed',
-    top: 0,
-    height: 44
-  },
-  title: {
-    fontSize: '1.25rem',
-    fontWeight: 'bold',
-  }
-});
-
-// Components
-const Wrapper = ({ children }: { children: JSX.Element | JSX.Element[] }) => <View style={styles.card}>{children}</View>;
-const Title = ({ children }: { children: string }) => <Text style={styles.title}>{children}</Text>;
-
 class Login extends React.Component<{}, { user?: firebase.User }> {
-
   constructor(props: any) {
     super(props);
     this.state = { user: undefined };
@@ -76,6 +56,12 @@ class Login extends React.Component<{}, { user?: firebase.User }> {
   }
 }
 
+// Components
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const App = () => (
   <BrowserRouter>
     <Wrapper>
@@ -89,17 +75,45 @@ const App = () => (
 export default App;
 
 const Blog = () => (
-  <View>
-    <HeaderWithRouter title={'BlogFeedback'} />
+  <Wrapper>
+    <Header title={'BlogFeedback'} />
     <BlogView />
-  </View>
+  </Wrapper>
 );
 
-const Feed = ({ match }: { match: matchParam<{ url: string }> }) => (
-  <View>
-    <HeaderWithRouter title={'BlogFeedback'} />
+const StyledHeader = styled(Header)`
+  position: fixed;  
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const HeaderWrapper = styled.div`
+  z-index: 100;
+  position: relative;  
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const HeaderSpacer = styled.div`
+  min-height: 64px;
+  width: 100%;
+`;
+
+const Feed = ({ match, ...props }: { match: matchParam<{ url: string }> } & RouteComponentProps<{}>) => (
+  <Wrapper>
+    <HeaderWrapper>
+      <StyledHeader
+        title={'BlogFeedback'}
+        onBackButtonClick={() => {
+          props.history.push('/blogs/');
+        }}
+      />
+    </HeaderWrapper>
+    <HeaderSpacer />
     <FeedView url={decodeURIComponent(match.params.url)} />
-  </View>
+  </Wrapper>
 );
 
 // Configure FirebaseUI.
@@ -116,19 +130,6 @@ const uiConfig = {
   ]
 };
 
-class Header extends React.Component<{ title: string } & RouteComponentProps<{}>> {
-  render() {
-    return (
-      <View style={styles.header}>
-        <Link to="/"><Title>{this.props.title}</Title></Link>
-        <Button title="+" onPress={() => { this.props.history.push('/add'); }} />
-      </View>
-    );
-  }
-}
-
-const HeaderWithRouter = withRouter(Header);
-
 class AddBlogView extends React.Component<{} & RouteComponentProps<{}>, { url: string, loading: boolean }> {
   constructor(props: any) {
     super(props);
@@ -137,16 +138,16 @@ class AddBlogView extends React.Component<{} & RouteComponentProps<{}>, { url: s
 
   render() {
     return (
-      <View>
+      <Wrapper>
         <form onSubmit={(e) => this.handleSubmit(e)}>
-         <label>
-            Blog URL: 
+          <label>
+            Blog URL:
             <input type="text" value={this.state.url} onChange={(e) => { this.setState({ url: e.target.value }); }} />
           </label>
           <input type="submit" value="Submit" />
         </form>
-        {this.state.loading ? <View style={styles.activityIndicatorContainer}><ActivityIndicator size="large" /></View> : null}
-      </View>
+        {this.state.loading ? <Wrapper><ActivityIndicator size="large" /></Wrapper> : null}
+      </Wrapper>
     );
   }
 
@@ -156,10 +157,10 @@ class AddBlogView extends React.Component<{} & RouteComponentProps<{}>, { url: s
   }
 
   async addBlog(blogURL: string) {
-    this.setState({loading: true});
+    this.setState({ loading: true });
     const user = firebase.auth().currentUser;
     if (!user) {
-        return;
+      return;
     }
     const blogResponse: BlogResponse = await fetchBlog(blogURL);
     new BlogRepository().setBlog(
@@ -169,8 +170,8 @@ class AddBlogView extends React.Component<{} & RouteComponentProps<{}>, { url: s
       blogResponse.feedUrl,
       blogResponse.feedType
     );
-    this.setState({loading: false});
-    this.props.history.push(`/blogs/${encodeURIComponent(blogResponse.url)}`);        
+    this.setState({ loading: false });
+    this.props.history.push(`/blogs/${encodeURIComponent(blogResponse.url)}`);
   }
 }
 
@@ -181,9 +182,7 @@ class BlogView extends React.Component<{}, { user?: firebase.User, blogs: BlogEn
   }
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
-      if (!user) {
-        return;
-      } else {
+      if (user) {
         this.setState({ user: user });
         this.fetchBlogs();
       }
@@ -191,28 +190,24 @@ class BlogView extends React.Component<{}, { user?: firebase.User, blogs: BlogEn
   }
   async fetchBlogs() {
     const user = firebase.auth().currentUser;
-    if (!user) {
-      return;
+    if (user) {
+      const blogs = await new BlogRepository().getBlogs(user.uid);
+      this.setState({ blogs: blogs });
     }
-    const blogs = await new BlogRepository().getBlogs(user.uid);
-    this.setState({ blogs: blogs });
   }
 
   render() {
     if (this.state.blogs && this.state.blogs.length) {
-      return this.state.blogs.map((blog) => <BlogItemView title={blog.title} url={blog.url} key={blog.url} />);
+      return this.state.blogs.map((blog) => (
+        <a href={`/blogs/${encodeURIComponent(blog.url)}`} key={blog.url}>
+          <BlogCell 
+            title={blog.title} 
+            favicon={`http://www.google.com/s2/favicons?domain=${blog.url}`} 
+          />
+        </a>
+      ));
     } else {
-      return (<View style={styles.activityIndicatorContainer}><ActivityIndicator size="large" /></View>);
+      return (<ScrollView><ActivityIndicator size="large" /></ScrollView>);
     }
-  }
-}
-
-class BlogItemView extends React.Component<{ title: string, url: string }> {
-  render() {
-    return (
-      <View>
-        <Link to={`/blogs/${encodeURIComponent(this.props.url)}`} ><Image source={{ uri: `http://www.google.com/s2/favicons?domain=${this.props.url}` }} /><Text>{this.props.title}</Text></Link>
-      </View>
-    );
   }
 }

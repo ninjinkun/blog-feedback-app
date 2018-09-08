@@ -1,4 +1,5 @@
-import { BlogResponse, ItemResponse, FeedType } from './responses';
+import { BlogResponse, ItemResponse } from './responses';
+import FeedType from '../consts/feed-type';
 
 export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
   const response = await fetch('https://query.yahooapis.com/v1/public/yql?format=json&q=' + encodeURIComponent('select * from htmlstring where url = \'' + blogURL + '\'') + '&env=' + encodeURIComponent('store://datatables.org/alltableswithkeys'));
@@ -35,7 +36,6 @@ export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
   return new BlogResponse(doc.title, blogURL, href, type);
 }
 
-// Return Promise<ItemResponse>
 export async function fetchAtom(atomUrl: string): Promise<ItemResponse[]> {
   const response = await fetch('https://query.yahooapis.com/v1/public/yql?format=json&q=' + encodeURIComponent('select * from atom(100) where url = \'' + atomUrl + '\''));
   const json: YahooAPIs.Atom.Response = await response.json();
@@ -43,7 +43,6 @@ export async function fetchAtom(atomUrl: string): Promise<ItemResponse[]> {
     .map((entry) => new ItemResponse(entry.title, entry.link[0].href, entry.published));
 }
 
-// Return Promise<ItemResponse>
 export async function fetchRss(rssUrl: string): Promise<ItemResponse[]> {
   const response = await fetch('https://query.yahooapis.com/v1/public/yql?format=json&q=' + encodeURIComponent('select * from rss(100) where url = \'' + rssUrl + '\''));
   const json: YahooAPIs.RSS.Response = await response.json();
@@ -53,60 +52,60 @@ export async function fetchRss(rssUrl: string): Promise<ItemResponse[]> {
 
 namespace YahooAPIs {
   export namespace Atom {
-    export interface Response {
+    export type Response = {
       query: Query;
       created: Date;
       count: number;
       lang: string;
-    }
-    export interface Query {
+    };
+    export type Query  = {
       results: Results;
-    }
-    export interface Results {
+    };
+    export type Results = {
       entry: Entry[];
-    }
-    export interface Entry {
+    };
+    export type Entry = {
       title: string;
       link: Link[];
       published: Date;
-    }
-    export interface Link {
+    };
+    export type Link = {
       href: string;
-    }
+    };
   }
 
   export namespace RSS {
-    export interface Response {
+    export type Response = {
       query: Query;
       created: Date;
       count: number;
       lang: string;
-    }
-    export interface Query {
+    };
+    export type Query = {
       results: Results;
-    }
-    export interface Results {
+    };
+    export type Results = {
       item: Item[];
-    }
-    export interface Item {
+    };
+    export type Item = {
       title: string;
       link: string;
       pubDate: Date;
-    }
+    };
   }
 
   export namespace HTMLString {
-    export interface Response {
+    export type Response = {
       query: Query;
       created: Date;
       count: number;
       lang: string;
-    }
-    export interface Query {
+    };
+    export type Query = {
       results: Results;
-    }
-    export interface Results {
+    };
+    export type Results = {
       result: string;
-    }
+    };
   }
 }

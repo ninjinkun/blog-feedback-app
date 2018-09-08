@@ -1,71 +1,24 @@
 import * as React from 'react';
 import {
-  TextProperties, Image, StyleSheet,
-  Text, View, Button, TouchableHighlight, Linking,
-  TouchableOpacity, ScrollView, ActivityIndicator, ViewProperties
+    ActivityIndicator
 } from 'react-native';
+import styled from 'styled-components';
 import * as firebase from 'firebase';
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import {
-  BlogResponse, ItemResponse, CountResponse, CountType
-} from './responses';
-import { crawl } from './crawler';
-import { Repository, UserRepository, BlogRepository, ItemRepository, CountRepository } from './repositories';
-import { ItemEntity, CountEntity } from './entities';
-// Styles
-const styles = StyleSheet.create<any>({
-    image: {
-        height: 16,
-        width: 16,
-        marginVertical: 10
-    },
-    button: {
-        flexGrow: 1,
-        flexDirection: 'row'
-    },
-    buttonContent: {
-        flexDirection: 'row'
-    },
-    buttons: {
-        flexDirection: 'row'
-    },
-    activityIndicatorContainer: {
-        flexGrow: 1,
-        justifyContent: 'center'
-    },
-    feedContainer: {
-        flexGrow: 1,
-        height: 500
-    }
-});
+    BlogResponse, ItemResponse, CountResponse
+} from './models/responses';
+import { crawl } from './models/crawler';
+import {
+    Repository, UserRepository, BlogRepository,
+    ItemRepository, CountRepository
+} from './models/repositories';
+import { ItemEntity, CountEntity } from './models/entities';
+import ScrollView from './components/atoms/ScrollView/index';
+import CountType from './consts/count-type';
+import BlogCell from './components/organisms/EntryCell/index';
 
-class FeedItemView extends React.Component<{ link: string, title: string, facebookCount: number, hatenaBookmarkCount: number }> {
-    render() {
-        return (
-            <View>
-                <TouchableOpacity>
-                    <Text accessibilityRole="link" href={this.props.link}>{this.props.title}</Text>
-                </TouchableOpacity>
-                <View style={styles.buttons}>
-                    <CountButton image={require('./twitter-icon.png')} count={0} />
-                    <CountButton image={require('./facebook-icon.png')} count={this.props.facebookCount} />
-                    <CountButton image={require('./hatenabookmark-icon.png')} count={this.props.hatenaBookmarkCount} />
-                </View>
-            </View>
-        );
-    }
-}
-
-const CountButton = ({ count, image }: { count: number, image: string }) => (
-    <TouchableHighlight style={styles.button}>
-        <View style={styles.buttonContent}>
-            <Image source={{ uri: image }} style={styles.image} />
-            <Text>{count}</Text>
-        </View>
-    </TouchableHighlight>
-);
-
-class FeedView extends React.Component<{url: string}, { title?: string, items?: ItemResponse[] | ItemEntity[], counts?: CountResponse[] | CountEntity[], user?: firebase.User }> {
+class FeedView extends React.Component<{ url: string }, { title?: string, items?: ItemResponse[] | ItemEntity[], counts?: CountResponse[] | CountEntity[], user?: firebase.User }> {
     constructor(props: any) {
         super(props);
         this.state = { title: '', items: [], counts: [] };
@@ -73,13 +26,13 @@ class FeedView extends React.Component<{url: string}, { title?: string, items?: 
     componentDidMount() {
         firebase.auth().onAuthStateChanged((user) => {
             if (!user) {
-              return;
+                return;
             } else {
-              this.setState({ user: user });
-              this.fetchFeeds(this.props.url);
-              this.fetchDB(this.props.url);
+                this.setState({ user: user });
+                this.fetchFeeds(this.props.url);
+                this.fetchDB(this.props.url);
             }
-          });      
+        });
     }
 
     async fetchFeeds(blogUrl: string) {
@@ -159,20 +112,24 @@ class FeedView extends React.Component<{url: string}, { title?: string, items?: 
             const hatenaBookmarkMap = new Map<string, number>(counts.filter((c: CountResponse) => c.type === CountType.HatenaBookmark).map((i: CountResponse) => [i.url, i.count]));
 
             return (
-                <ScrollView style={styles.feedContainer}>
+                <ScrollView>
                     {this.state.items.map(
                         (item: ItemResponse) =>
-                            <FeedItemView
-                                title={item.title}
-                                link={item.url}
-                                facebookCount={facebookMap.get(item.url) || 0}
-                                hatenaBookmarkCount={hatenaBookmarkMap.get(item.url) || 0}
-                                key={item.url}
-                            />
+                            <a href={item.url} key={item.url}>
+                                <BlogCell
+                                    title={item.title}
+                                    favicon={`http://www.google.com/s2/favicons?domain=${item.url}`}
+                                    counts={[
+                                        { type: CountType.Twitter, count: 0 },
+                                        { type: CountType.Facebook, count: facebookMap.get(item.url) || 0 },
+                                        { type: CountType.HatenaBookmark, count: hatenaBookmarkMap.get(item.url) || 0 }
+                                    ]}
+                                />
+                            </a>
                     )}
                 </ScrollView>);
         } else {
-            return (<View style={styles.activityIndicatorContainer}><ActivityIndicator size="large" /></View>);
+            return (<ScrollView><ActivityIndicator size="large" /></ScrollView>);
         }
     }
 }

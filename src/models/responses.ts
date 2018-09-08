@@ -1,14 +1,5 @@
-import { DatePickerAndroid } from 'react-native';
-
-export enum FeedType {
-  RSS = 'rss',
-  Atom = 'atom'
-}
-
-export enum CountType {
-  Facebook = 'facebook',
-  HatenaBookmark = 'hatenabookmark'
-}
+import CountType from '../consts/count-type';
+import FeedType from '../consts/feed-type';
 
 export class BlogResponse {
   constructor(public title: string, public url: string, public feedUrl: string, public feedType: FeedType) {
@@ -20,11 +11,11 @@ export class ItemResponse {
   }
 }
 
-export interface CountResponse {
+export type CountResponse = {
   type: CountType;
   url: string;
   count: number;
-}
+};
 
 export class HatenaBookmarkCountResponse implements CountResponse {
   public readonly type = CountType.HatenaBookmark;
