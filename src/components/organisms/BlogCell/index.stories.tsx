@@ -1,8 +1,8 @@
-import React from 'react';
+import * as React from 'react';
 import BlogCell from './index';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
-import CountType from '../../../consts/count-type';
+import { CountType } from '../../../consts/count-type';
 import styled from 'styled-components';
 
 const counts = [

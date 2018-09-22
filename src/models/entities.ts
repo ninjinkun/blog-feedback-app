@@ -1,14 +1,17 @@
-export class BlogEntity {
-  constructor(public title: string, public url: string, public feedUrl: string) {
-  }
-}
-  
-export class ItemEntity {
-  constructor(public title: string, public url: string, public published: Date) {
-  }
-}
-  
-export class CountEntity {
-  constructor(public url: string, public count: string, public type: string) {
-  }
-}
+export type BlogEntity = {
+  title: string,
+  url: string,
+  feedUrl: string
+};
+
+export type ItemEntity = {
+  title: string,
+  url: string,
+  published: Date
+};
+
+export type CountEntity = {
+  url: string,
+  count: string,
+  type: string
+};

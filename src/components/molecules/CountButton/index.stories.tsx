@@ -1,7 +1,7 @@
 import React from 'react';
 import CountButton from './index';
 import { storiesOf, Story } from '@storybook/react';
-import CountType from '../../../consts/count-type';
+import { CountType } from '../../../consts/count-type';
 
 storiesOf('molecules/CountButton', module)
 .add('Twitter', () => <CountButton type={CountType.Twitter} />)

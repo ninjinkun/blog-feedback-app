@@ -3,7 +3,7 @@ import styled, { keyframes, SimpleInterpolation } from 'styled-components';
 import * as properties from '../../properties';
 import Button from '../../atoms/Button';
 import ServiceIcon from '../../atoms/ServiceIcon';
-import CountType from '../../../consts/count-type';
+import { CountType } from '../../../consts/count-type';
 
 type Props = {
     type: CountType;

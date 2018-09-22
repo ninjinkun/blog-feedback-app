@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import * as properties from '../../properties';
-import * as Matreial from 'react-icons/lib/md';
+import * as Matreial from 'react-icons/md';
 import HeaderLoadingIndicator from '../../molecules/HeaderLoadingIndicator/index';
 
 type HeaderProps = {
@@ -10,7 +10,7 @@ type HeaderProps = {
     loadingRatio?: number;
     loading?: boolean;
     onHeaderClick?: React.MouseEventHandler;
-    onBackButtonClick?: React.MouseEventHandler<React.ReactSVGElement>;
+    onBackButtonClick?: React.MouseEventHandler;
     onAddButtonClick?: React.MouseEventHandler;
 };
 

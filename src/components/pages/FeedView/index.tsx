@@ -4,21 +4,20 @@ import {
 } from 'react-native';
 import styled from 'styled-components';
 import * as firebase from 'firebase';
-import { StyledFirebaseAuth } from 'react-firebaseui';
 import {
     BlogResponse, ItemResponse, CountResponse
-} from './models/responses';
-import { crawl } from './models/crawler';
+} from '../../../models/responses';
+import { crawl } from '../../../models/crawler';
 import {
     Repository, UserRepository, BlogRepository,
     ItemRepository, CountRepository
-} from './models/repositories';
-import { ItemEntity, CountEntity } from './models/entities';
-import ScrollView from './components/atoms/ScrollView/index';
-import CountType from './consts/count-type';
-import BlogCell from './components/organisms/EntryCell/index';
+} from '../../../models/repositories';
+import { ItemEntity, CountEntity } from '../../../models/entities';
+import ScrollView from '../../atoms/ScrollView/index';
+import { CountType } from '../../../consts/count-type';
+import BlogCell from '../../organisms/EntryCell/index';
 
-class FeedView extends React.Component<{ url: string }, { title?: string, items?: ItemResponse[] | ItemEntity[], counts?: CountResponse[] | CountEntity[], user?: firebase.User }> {
+export default class FeedView extends React.Component<{ url: string }, { title?: string, items?: ItemResponse[] | ItemEntity[], counts?: CountResponse[] | CountEntity[], user?: firebase.User }> {
     constructor(props: any) {
         super(props);
         this.state = { title: '', items: [], counts: [] };
@@ -41,46 +40,56 @@ class FeedView extends React.Component<{ url: string }, { title?: string, items?
         if (!user) {
             return;
         }
-        let blogResponse: BlogResponse;
+        let blogResponse: BlogResponse | undefined;
         {
             blogResponse = await fetchBlog;
-            new BlogRepository().setBlog(
-                user.uid,
-                blogResponse.url,
-                blogResponse.title,
-                blogResponse.feedUrl,
-                blogResponse.feedType
-            );
-            this.setState({ title: blogResponse.title });
+            if (blogResponse) {
+                BlogRepository.setBlog(
+                    user.uid,
+                    blogResponse.url,
+                    blogResponse.title,
+                    blogResponse.feedUrl,
+                    blogResponse.feedType
+                );
+                this.setState({ title: blogResponse.title });
+            }
         }
 
         {
             const feedItemsResponse = await fetchFeed;
-            this.setState({ 'items': feedItemsResponse });
+            if (feedItemsResponse) {
+                this.setState({ 'items': feedItemsResponse });
 
-            const batch = new Repository().db.batch();
-            feedItemsResponse.forEach((item: ItemResponse) => {
-                new ItemRepository().setItemBatch(
-                    batch,
-                    user.uid,
-                    blogResponse.url,
-                    item.url,
-                    item.title,
-                    item.published
-                );
-            });
-            batch.commit();
+                const batch = Repository.db.batch();
+                feedItemsResponse.forEach((item: ItemResponse) => {
+                    if (blogResponse) {
+                        ItemRepository.setItemBatch(
+                            batch,
+                            user.uid,
+                            blogResponse.url,
+                            item.url,
+                            item.title,
+                            item.published
+                        );
+                    }
+                });
+                batch.commit();
+            }
         }
 
         {
             const countsResponse = await fetchCount;
-            this.setState({ 'counts': countsResponse });
+            if (countsResponse) {
+                this.setState({ 'counts': countsResponse });
 
-            const batch = new Repository().db.batch();
-            countsResponse.filter((count: CountResponse) => count && count.count > 0).forEach((count: CountResponse) => {
-                new CountRepository().addCountBatch(batch, user.uid, blogResponse.url, count.url, count.type, count.count);
-            });
-            batch.commit();
+                const batch = Repository.db.batch();
+                countsResponse.filter((count: CountResponse) => count && count.count > 0).forEach((count: CountResponse) => {
+                    if (blogResponse) {
+                        CountRepository.addCountBatch(batch, user.uid, blogResponse.url, count.url, count.type, count.count);
+                    }
+                });
+                batch.commit();
+            }
         }
     }
 
@@ -90,15 +99,17 @@ class FeedView extends React.Component<{ url: string }, { title?: string, items?
             return;
         }
 
-        const blogEntity = await new BlogRepository().getBlog(user.uid, blogUrl);
-        this.setState({ title: blogEntity.data()!.title });
+        const blogData = (await BlogRepository.getBlog(user.uid, blogUrl)).data();
+        if (blogData) {
+            this.setState({ title: blogData.title });
+        }
 
-        const itemEntities = await new ItemRepository().getItems(user.uid, blogUrl);
+        const itemEntities = await ItemRepository.getItems(user.uid, blogUrl);
         this.setState({ items: itemEntities });
 
         const counts = await (Promise.all(
             [].concat.apply([], [CountType.Facebook, CountType.HatenaBookmark].map(type =>
-                itemEntities.map((item) => new CountRepository().getLatestCount(user.uid, blogUrl, item.url, type))
+                itemEntities.map((item) => CountRepository.getLatestCount(user.uid, blogUrl, item.url, type))
             )) as Promise<CountEntity>[]
         ));
         this.setState({ counts: counts.filter((i) => i) });
@@ -133,5 +144,3 @@ class FeedView extends React.Component<{ url: string }, { title?: string, items?
         }
     }
 }
-
-export default FeedView;

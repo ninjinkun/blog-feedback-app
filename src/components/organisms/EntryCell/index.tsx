@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import * as properties from '../../properties';
 import CountButton from '../../molecules/CountButton/index';
-import CountType from '../../../consts/count-type';
+import { CountType } from '../../../consts/count-type';
 import Favicon from '../../atoms/Favicon/index';
 
 type Count = {
