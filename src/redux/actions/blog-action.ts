@@ -2,30 +2,44 @@ import { Dispatch, Action, ActionCreator, bindActionCreators } from 'redux';
 
 import { BlogEntity } from '../../models/entities';
 import { BlogRepository } from '../../models/repositories';
+import { fetchUser } from './user-action';
 
-export interface BlogRequestAction extends Action {
-  type: 'BlogReuqestAction';
+export interface BlogFirebaseRequestAction extends Action {
+  type: 'BlogFirebaseRequestAction';
 }
 
-const blogRequest: ActionCreator<BlogRequestAction> = () => ({
-  type: 'BlogReuqestAction',
+const blogRequest: ActionCreator<BlogFirebaseRequestAction> = () => ({
+  type: 'BlogFirebaseRequestAction',
 });
 
-export interface BlogResponseAction extends Action {
-  type: 'BlogResponseAction';
-  response: BlogEntity[];
+export interface BlogFirebaseResponseAction extends Action {
+  type: 'BlogFirebaseResponseAction';
+  blogs: BlogEntity[];
 }
 
-export const blogResponseActionCreator: ActionCreator<BlogResponseAction> = (response: BlogEntity[]) => ({
-  type: 'BlogResponseAction',
-  'response': response
+export const blogResponse: ActionCreator<BlogFirebaseResponseAction> = (blogs: BlogEntity[]) => ({
+  type: 'BlogFirebaseResponseAction',
+  blogs: blogs
 });
 
-export const fetchBlogsAsyncAction = (userId: string) => async (dispatch: Dispatch<BlogRequestAction|BlogResponseAction>) => {
-  dispatch(blogRequest());
-  const blogs = await BlogRepository.getBlogs(userId);
-  dispatch(blogResponseActionCreator(blogs));
-};
+export const fetchBlogs = (auth: firebase.auth.Auth) =>
+  (dispatch: Dispatch<BlogFirebaseRequestAction | BlogFirebaseResponseAction>) => {
+    const f = async (uid: string) => {
+      dispatch(blogRequest());
+      const blogs = await BlogRepository.findAllBlogs(uid);
+      dispatch(blogResponse(blogs));
+    };
 
-export type BlogActions = BlogRequestAction|BlogResponseAction;
- 
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      f(currentUser.uid);
+    } else {
+      fetchUser(auth, (user) => {
+        if (user) {
+          f(user.uid);
+        }
+      })(dispatch);
+    }
+  };
+
+export type BlogActions = BlogFirebaseRequestAction | BlogFirebaseResponseAction;

@@ -15,19 +15,13 @@ import Header from './components/organisms/Header/index';
 import { initializeFirebase } from './firebase';
 import { createStore, compose, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import Wrapper from './components/atoms/Wrapper';
 
 initializeFirebase();
-
 const store = createStore(
   appReducer,
   composeWithDevTools(applyMiddleware()),
 );
-
-// Components
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
 
 const App = () => (
   <Provider store={store}>

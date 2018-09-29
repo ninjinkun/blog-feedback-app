@@ -3,64 +3,71 @@ import styled from 'styled-components';
 import * as firebase from 'firebase';
 import MDSpinner from 'react-md-spinner';
 import { Link } from 'react-router-dom';
-import { BlogRepository } from '../../../models/repositories';
-import { BlogEntity } from '../../../models/entities';
 import BlogCell from '../../organisms/BlogCell/index';
 import ScrollView from '../../atoms/ScrollView/index';
 import { AppState } from '../../../redux/states/app-state';
 import { BlogState } from '../../../redux/states/blog-state';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { fetchBlogsAsyncAction } from '../../../redux/actions/blog-action';
+import { fetchBlogs } from '../../../redux/actions/blog-action';
+import { Button } from '../../atoms/Button/index';
+import Wrapper from '../../atoms/Wrapper/index';
 
-type Props = {
+type StateProps = {
   blog: BlogState;
-  fetchBlogs: (userId: string) => any;
 };
 
-class BlogView extends React.Component<Props, { user?: firebase.User }> {
+type DispatchProps = {
+  fetchBlogs: (auth: firebase.auth.Auth) => any;
+};
+
+type Props = StateProps & DispatchProps;
+
+class BlogView extends React.Component<Props, {}> {
   constructor(props: any) {
     super(props);
   }
+
   componentDidMount() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({ user: user });
-        this.fetchBlogs();
-      }
-    });
+    this.fetchBlogs();
   }
-  async fetchBlogs() {
-    const user = firebase.auth().currentUser;
-    if (user) {
-      this.props.fetchBlogs(user.uid);
-    }
+
+  fetchBlogs() {
+    this.props.fetchBlogs(firebase.auth());
   }
 
   render() {
-    const { blogs } = this.props.blog;
+    const { blogs, loading } = this.props.blog;
     if (blogs && blogs.length) {
-      return blogs.map((blog) => (
-        <Link to={`/blogs/${encodeURIComponent(blog.url)}`} key={blog.url}>
-          <BlogCell
-            title={blog.title}
-            favicon={`http://www.google.com/s2/favicons?domain=${blog.url}`}
-          />
-        </Link>
-      ));
-    } else {
+      return (
+        <ScrollView>
+          {blogs.map((blog) => (
+            <Link to={`/blogs/${encodeURIComponent(blog.url)}`} key={blog.url}>
+              <BlogCell
+                title={blog.title}
+                favicon={`http://www.google.com/s2/favicons?domain=${blog.url}`}
+              />
+            </Link>
+          ))}                   
+        </ScrollView>
+      );
+    } else if (!loading && blogs && blogs.length === 0) {
+      return (<Wrapper><Button>ブログを追加する</Button></Wrapper>);
+    }  else if (loading) {
       return (<ScrollView><Spinner singleColor={'blue'} /></ScrollView>);
+    } else {
+      return (<ScrollView />);
     }
   }
 }
 
-const mapStateToProps = (state: AppState) => ({
-  'blog': state.blog
+const mapStateToProps: (state: AppState) => StateProps = (state) => ({
+  blog: state.blog
 });
 
-function mapDispatchToProps(dispatch: Dispatch<AppState>) {
+function mapDispatchToProps(dispatch: Dispatch<AppState>): DispatchProps {
   return {
-    fetchBlogs: (userId: string) => fetchBlogsAsyncAction(userId)(dispatch)
+    fetchBlogs: (auth: firebase.auth.Auth) => fetchBlogs(auth)(dispatch)
   };
 }
 
@@ -69,5 +76,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(BlogView);
 const Spinner = styled(MDSpinner)`
   width: 100%;
   height: 100%;
+  display: flex;
   position: relative;
 `;

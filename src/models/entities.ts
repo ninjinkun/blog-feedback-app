@@ -12,6 +12,6 @@ export type ItemEntity = {
 
 export type CountEntity = {
   url: string,
-  count: string,
+  count: number,
   type: string
 };

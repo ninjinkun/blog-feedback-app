@@ -54,7 +54,8 @@ export async function fetchAtom(atomUrl: string): Promise<ItemResponse[] | undef
   if (results) {
     return results.entry
       .map((entry): ItemResponse => { 
-        return { title: entry.title, url: entry.link[0].href, published: entry.published };
+        const { title, link, published } = entry;
+        return { title, url: link[0].href, published: new Date(published) };
     });
   } else {
     return undefined;
@@ -68,7 +69,8 @@ export async function fetchRss(rssUrl: string): Promise<ItemResponse[] | undefin
   if (results) {
     return results.item
       .map((item): ItemResponse => { 
-        return { title: item.title, url: item.link, published: item.pubDate };
+        const { title, link, pubDate } = item;
+        return { title, url: link, published: new Date(pubDate) };
   });
   } else {
     return undefined;
@@ -92,7 +94,7 @@ namespace YahooAPIs {
     export type Entry = {
       title: string;
       link: Link[];
-      published: Date;
+      published: string;
     };
     export type Link = {
       href: string;
@@ -115,14 +117,14 @@ namespace YahooAPIs {
     export type Item = {
       title: string;
       link: string;
-      pubDate: Date;
+      pubDate: string;
     };
   }
 
   export namespace HTMLString {
     export type Response = {
       query: Query;
-      created: Date;
+      created: string;
       count: number;
       lang: string;
     };

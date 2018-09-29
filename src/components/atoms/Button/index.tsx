@@ -19,18 +19,18 @@ const Base = styled.button`
   }  
 `;
 
-export const Button = Base.extend`
+export const Button = styled(Base)`
   background-color: inherit;
   border: ${properties.border};
   color: ${properties.colors.gray};
 `;
 
-export const PrimaryButton = Base.extend`
+export const PrimaryButton = styled(Base)`
   background-color: ${properties.colors.primary};
   color: ${properties.colors.white};
 `;
 
-export const WarningButton = Base.extend`
+export const WarningButton = styled(Base)`
   background-color: ${properties.colors.warning};
   color: ${properties.colors.white};
 `;
