@@ -9,8 +9,11 @@ export type FeedState = {
   title?: string;
   loading: boolean;
   error?: Error;
+  crowlingRatio: number; // 0...100
+  crowlingLabel?: string;
 };
 
 export const initialState = {
   loading: false,
+  crowlingRatio: 0,
 };

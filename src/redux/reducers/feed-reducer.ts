@@ -9,6 +9,9 @@ export const feedsReducer: Reducer<FeedsState> = (state = feedsIniticalState, ac
       const { blogURL } = action;
       return { ...state, currentBlogURL: blogURL };
     }
+    case 'FeedBlogURLClearAction': {
+      return { ...state, currentBlogURL: undefined };
+    }
     case 'FeedFirebaseRequestAction': {
       const { blogURL } = action;
       return updateFeed(blogURL, state, { loading: true });
@@ -34,16 +37,20 @@ export const feedsReducer: Reducer<FeedsState> = (state = feedsIniticalState, ac
         { firebaseCounts: flattenCount, loading: false }
       );
     }
+    case 'FeedCrowlerRequestAction': {
+      const { blogURL } = action;
+      return updateFeed(blogURL, state, { crowlingLabel: 'Loading blog...', crowlingRatio: 10 });
+    }
     case 'FeedCrowlerTitleResponseAction': {
       const { blogURL, title } = action;
-      return updateFeed(blogURL, state, { title });
+      return updateFeed(blogURL, state, { title, crowlingLabel: 'Loading RSS...', crowlingRatio: 30 });
     }
     case 'FeedCrowlerItemsResponseAction': {
       const { blogURL, items } = action;
       return updateFeed(
         blogURL,
         state,
-        { fethcedEntities: items, loading: false }
+        { fethcedEntities: items, loading: false, crowlingLabel: 'Loading Hatena Bookmark...', crowlingRatio: 80 }
       );
     }
     case 'FeedCrowlerCountsResponseAction': {
@@ -52,7 +59,7 @@ export const feedsReducer: Reducer<FeedsState> = (state = feedsIniticalState, ac
       return updateFeed(
         blogURL,
         state,
-        { fetchedCounts: flattenCount, loading: false }
+        { fetchedCounts: flattenCount, loading: false, crowlingLabel: undefined, crowlingRatio: 100 }
       );
     }
 
@@ -62,6 +69,9 @@ export const feedsReducer: Reducer<FeedsState> = (state = feedsIniticalState, ac
 };
 
 const updateFeed = (blogURL: string, state: FeedsState, newFeed: Partial<FeedState>): FeedsState => {
+  if (!blogURL) {
+    return state;
+  }
   const feedState = state.feeds[blogURL] || initialState;
   const newFeedState = { ...feedState, ...newFeed };
   const newFeeds = { ...state.feeds };

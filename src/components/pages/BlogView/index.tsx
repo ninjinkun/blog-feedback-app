@@ -23,11 +23,7 @@ type DispatchProps = {
 
 type Props = StateProps & DispatchProps;
 
-class BlogView extends React.Component<Props, {}> {
-  constructor(props: any) {
-    super(props);
-  }
-
+class BlogView extends React.PureComponent<Props, {}> {
   componentDidMount() {
     this.fetchBlogs();
   }

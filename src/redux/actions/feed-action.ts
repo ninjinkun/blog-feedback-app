@@ -20,6 +20,14 @@ export const feedBlogURLChange: ActionCreator<FeedBlogURLChangeAction> = (blogUR
   blogURL,
 });
 
+export interface FeedBlogURLClearAction extends Action {
+  type: 'FeedBlogURLClearAction';
+}
+
+export const feedBlogURLClear: ActionCreator<FeedBlogURLClearAction> = () => ({
+  type: 'FeedBlogURLClearAction',
+});
+
 export interface FeedFirebaseRequestAction extends Action {
   type: 'FeedFirebaseRequestAction';
   blogURL: string;
@@ -71,7 +79,7 @@ type FeedFirebaseAction = FeedFirebaseRequestAction | FeedFirebaseItemsResponseA
 export const fetchFirebaseFeed = (auth: firebase.auth.Auth, blogURL: string) =>
   (dispatch: Dispatch<FeedFirebaseActions>) => {
     const f = async (uid: string) => {
-      dispatch(feedFirebaseRequest());
+      dispatch(feedFirebaseRequest(blogURL));
 
       const blogData = (await findBlog(uid, blogURL)).data();
       if (blogData) {
@@ -216,6 +224,6 @@ export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string) =>
     }
   };
 
-type FeedCrowlerAction = FeedCrowlerRequestAction | FeedCrowlerTitleResponseAction | FeedCrowlerItemsResponseAction | FeedCrowlerCountsResponseAction;
+type FeedCrowlerAction = FeedCrowlerRequestAction | FeedBlogURLClearAction | FeedCrowlerTitleResponseAction | FeedCrowlerItemsResponseAction | FeedCrowlerCountsResponseAction;
 
 export type FeedActions = FeedBlogURLChangeAction | FeedFirebaseAction | FeedCrowlerAction;

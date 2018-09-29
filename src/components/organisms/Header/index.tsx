@@ -19,11 +19,12 @@ const Header = ({...props}: HeaderProps) => (
         <HeaderLoadingIndicator 
             ratio={props.loadingRatio} 
             label={props.loadingLabel} 
-            loading={props.loading !== undefined ? props.loading : false}
+            loading={props.loading ? props.loading : false}
         />
         <HeaderContent>
-            {props.onBackButtonClick !== undefined ? <BackButton size={20} onClick={props.onBackButtonClick}/> : <Spacer />}
+            {!!props.onBackButtonClick ? <BackButton size={20} onClick={props.onBackButtonClick}/> : <Spacer />}
             <TitleLayout><Title>{props.title}</Title></TitleLayout>
+            {!!props.onAddButtonClick ? <AddButton size={20} onClick={props.onAddButtonClick}/> : <Spacer />}
         </HeaderContent>
         <UnderLine />
     </HeaderLayout>
@@ -64,6 +65,11 @@ max-width: 100%;
 `;
 
 const BackButton = styled(Matreial.MdArrowBack)`
+cursor: pointer;
+padding: 8px;
+`;
+
+const AddButton = styled(Matreial.MdAdd)`
 cursor: pointer;
 padding: 8px;
 `;
