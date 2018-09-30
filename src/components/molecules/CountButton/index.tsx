@@ -10,10 +10,11 @@ type Props = {
     count?: Number;
 };
 
-const CountButton = ({...props}: Props) => (
+const CountButton: React.SFC<Props> = ({...props}) => (
     <StyledButton {...props}>
         <ServiceIcon type={props.type} />
         <CuontLabel>{props.count}</CuontLabel>
+        {props.children}
     </StyledButton>
 );
 

@@ -9,7 +9,7 @@ import { ItemResponse } from '../../../models/responses';
 import { CountEntity } from '../../../models/entities';
 import ScrollView from '../../atoms/ScrollView/index';
 import { CountType } from '../../../consts/count-type';
-import BlogCell from '../../organisms/EntryCell/index';
+import EntryCell from '../../organisms/EntryCell/index';
 import { AppState } from '../../../redux/states/app-state';
 import { feedBlogURLChange, fetchFirebaseFeed, fetchOnlineFeed, feedBlogURLClear } from '../../../redux/actions/feed-action';
 import { FeedsState } from '../../../redux/states/feeds-state';
@@ -52,12 +52,13 @@ class FeedView extends React.Component<Props> {
 
       const facebookMap = new Map<string, number>(countEntiries.filter((c: CountEntity) => c.type === CountType.Facebook).map((i: CountEntity) => [i.url, i.count] as [string, number]));
       const hatenaBookmarkMap = new Map<string, number>(countEntiries.filter((c: CountEntity) => c.type === CountType.HatenaBookmark).map((i: CountEntity) => [i.url, i.count] as [string, number]));
+
       return (
         <ScrollView>
           {entities.map(
             (item: ItemResponse) =>
               <a href={item.url} key={item.url}>
-                <BlogCell
+                <EntryCell
                   title={item.title}
                   favicon={`http://www.google.com/s2/favicons?domain=${item.url}`}
                   counts={[

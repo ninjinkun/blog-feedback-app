@@ -158,6 +158,16 @@ export const feedCrowlerCountsResponse: ActionCreator<FeedCrowlerCountsResponseA
   counts,
 });
 
+export interface FeedCrowlerErrorAction extends Action {
+  type: 'FeedCrowlerErrorAction';
+  blogURL: string;
+}
+
+export const feedCrowlerErrorResponse: ActionCreator<FeedCrowlerErrorAction> = (blogURL) => ({
+  type: 'FeedCrowlerErrorAction',
+  blogURL,
+});
+
 export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string) =>
   (dispatch: Dispatch<FeedCrowlerAction>) => {
 
@@ -165,16 +175,18 @@ export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string) =>
       dispatch(feedCrowlerRequest(blogURL));
       const [fetchBlog, fetchFeed, fetchCount] = crawl(blogURL);
       let blogResponse: BlogResponse | undefined;
-      {
+      try {
         blogResponse = await fetchBlog;
         if (blogResponse) {
           const { url, title, feedUrl, feedType } = blogResponse;
           saveBlog(userId, url, title, feedUrl, feedType);
           dispatch(feedCrowlerTitleResponseAction(blogURL, title));
         }
+      } catch (e) {
+        dispatch(feedCrowlerErrorResponse(blogURL));
       }
 
-      {
+      try {
         const feedItemsResponse = await fetchFeed;
         if (feedItemsResponse) {
           dispatch(feedCrowlerItemsResponse(blogURL, feedItemsResponse));
@@ -194,9 +206,11 @@ export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string) =>
           });
           batch.commit();
         }
+      } catch (e) {
+        dispatch(feedCrowlerErrorResponse(blogURL));
       }
 
-      {
+      try {
         const countsResponse = await fetchCount;
         if (countsResponse) {
           dispatch(feedCrowlerCountsResponse(blogURL, countsResponse));
@@ -209,6 +223,8 @@ export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string) =>
           });
           batch.commit();
         }
+      } catch (e) {
+        dispatch(feedCrowlerErrorResponse(blogURL));
       }
     };
 
@@ -224,6 +240,6 @@ export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string) =>
     }
   };
 
-type FeedCrowlerAction = FeedCrowlerRequestAction | FeedBlogURLClearAction | FeedCrowlerTitleResponseAction | FeedCrowlerItemsResponseAction | FeedCrowlerCountsResponseAction;
+type FeedCrowlerAction = FeedCrowlerRequestAction | FeedBlogURLClearAction | FeedCrowlerTitleResponseAction | FeedCrowlerItemsResponseAction | FeedCrowlerCountsResponseAction | FeedCrowlerErrorAction;
 
 export type FeedActions = FeedBlogURLChangeAction | FeedFirebaseAction | FeedCrowlerAction;

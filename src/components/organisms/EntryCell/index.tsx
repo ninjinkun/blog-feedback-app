@@ -4,6 +4,7 @@ import * as properties from '../../properties';
 import CountButton from '../../molecules/CountButton/index';
 import { CountType } from '../../../consts/count-type';
 import Favicon from '../../atoms/Favicon/index';
+import Twincle from '../../atoms/Twincle/index';
 
 type Count = {
     type: CountType;
@@ -14,21 +15,26 @@ type Props = {
     favicon: string;
     title: string;
     counts: Count[];
+    animate?: boolean;
 };
 
-const EntryCell = ({...props}: Props) => (
+const EntryCell = ({favicon, title, animate, counts, ...props}: Props) => (
     <Wrapper {...props}>
-        <Favicon src={props.favicon}/>
+        <Favicon src={favicon}/>
         <ContentWrapper>
-            <Title>{props.title}</Title>
+            <Title>{title}</Title>
             <ButtonWrapper>
-                {props.counts.map(count => <StyledCountButton type={count.type} count={count.count} key={count.type} />)}
+                {counts.map(count => <StyledTwincle animate={animate} key={count.type} ><StyledCountButton type={count.type} count={count.count} /></StyledTwincle>)}
             </ButtonWrapper>
         </ContentWrapper>
     </Wrapper>
 );
 
 export default EntryCell;
+
+const StyledTwincle = styled(Twincle)`
+    position: static;
+`;
 
 const Wrapper = styled.div`
 display: flex;
@@ -58,6 +64,7 @@ const ButtonWrapper = styled.div`
 `;
 
 const StyledCountButton = styled(CountButton)`
+  position: relative;
   margin: 0.2rem;
   flex-grow: 1;
 `;

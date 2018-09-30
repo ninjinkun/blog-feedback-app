@@ -20,4 +20,5 @@ const Background = styled.div`
 `;
 
 storiesOf('organisms/EntryCell', module)
-    .add('default', () => <Background><EntryCell favicon={favicon} title={'一休のDB移行'} counts={counts} /></Background>);
+    .add('default', () => <Background><EntryCell favicon={favicon} title={'一休のDB移行'} counts={counts} animate={false} /></Background>)
+    .add('animate', () => <Background><EntryCell favicon={favicon} title={'一休のDB移行'} counts={counts} animate={true} /></Background>);

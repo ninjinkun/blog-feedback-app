@@ -62,6 +62,10 @@ export const feedsReducer: Reducer<FeedsState> = (state = feedsIniticalState, ac
         { fetchedCounts: flattenCount, loading: false, crowlingLabel: undefined, crowlingRatio: 100 }
       );
     }
+    case 'FeedCrowlerErrorAction': {
+      const { blogURL } = action;
+      return updateFeed(blogURL, state, { crowlingLabel: undefined, crowlingRatio: 0 });   
+    }
 
     default:
       return state;
