@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import {  ActivityIndicator } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import styled from 'styled-components';
 import * as firebase from 'firebase';
 
@@ -13,6 +13,7 @@ import EntryCell from '../../organisms/EntryCell/index';
 import { AppState } from '../../../redux/states/app-state';
 import { feedBlogURLChange, fetchFirebaseFeed, fetchOnlineFeed, feedBlogURLClear } from '../../../redux/actions/feed-action';
 import { FeedsState } from '../../../redux/states/feeds-state';
+import { colorsValue } from '../../properties';
 
 type StateProps = {
   feeds: FeedsState;
@@ -22,7 +23,7 @@ type DispatchProps = {
   feedBlogURLClear: () => any;
   feedBlogURLChange: (blogURL: string) => any;
   fetchFirebaseFeed: (auth: firebase.auth.Auth, blogURL: string) => any;
-  fetchOnlineFeed: (auth: firebase.auth.Auth, blogURL: string) => any;  
+  fetchOnlineFeed: (auth: firebase.auth.Auth, blogURL: string) => any;
 };
 
 type Props = { url: string } & StateProps & DispatchProps;
@@ -44,35 +45,62 @@ class FeedView extends React.Component<Props> {
     if ((!feed || feed.loading) && !(feed && feed.fethcedEntities || feed && feed.firebaseEntities)) {
       return (<ScrollView><ActivityIndicator size="large" /></ScrollView>);
     } else {
-      const { firebaseEntities, firebaseCounts, fethcedEntities, fetchedCounts } = feed;
+      const { firebaseEntities, fethcedEntities, fetchedCounts } = feed;
       const entities = fethcedEntities && fethcedEntities.length ? fethcedEntities :
-      firebaseEntities && firebaseEntities.length ? firebaseEntities : [];
-      const countEntiries = fetchedCounts && fetchedCounts.length ? fetchedCounts :
-      firebaseCounts && firebaseCounts.length ? firebaseCounts : [];
+        firebaseEntities && firebaseEntities.length ? firebaseEntities : [];
 
-      const facebookMap = new Map<string, number>(countEntiries.filter((c: CountEntity) => c.type === CountType.Facebook).map((i: CountEntity) => [i.url, i.count] as [string, number]));
-      const hatenaBookmarkMap = new Map<string, number>(countEntiries.filter((c: CountEntity) => c.type === CountType.HatenaBookmark).map((i: CountEntity) => [i.url, i.count] as [string, number]));
+      let facebookMap: Map<string, number> | undefined;
+      let hatenaBookmarkMap: Map<string, number> | undefined;
+      if (fetchedCounts && fetchedCounts.length) {
+        const facebookCounts = fetchedCounts.filter(c => c.type === CountType.Facebook);
+        if (facebookCounts.length) {
+          facebookMap = new Map<string, number>(facebookCounts.map(c => [c.url, c.count] as [string, number]));
+        }
+        const hatenaBookmarkCounts = fetchedCounts.filter(c => c.type === CountType.HatenaBookmark);
+        if (hatenaBookmarkCounts.length) {
+          hatenaBookmarkMap = new Map<string, number>(hatenaBookmarkCounts.map(c => [c.url, c.count] as [string, number]));
+        }
+      } 
+      
+      if (firebaseEntities) {
+        if (!facebookMap) {
+          const facebookCounts = firebaseEntities.filter(i => i.counts && i.counts[CountType.Facebook]);
+          if (facebookCounts.length) {
+            facebookMap = new Map<string, number>(facebookCounts.map(i => [i.url, i.counts[CountType.Facebook].count] as [string, number]));
+          }
+        }
+        if (!hatenaBookmarkMap) {
+          const hanteaBookmarkCounts = firebaseEntities.filter(i => i.counts && i.counts[CountType.HatenaBookmark]);
+          if (hanteaBookmarkCounts.length) {
+            hatenaBookmarkMap = new Map<string, number>(hanteaBookmarkCounts.map(i => [i.url, i.counts[CountType.HatenaBookmark].count] as [string, number]));
+          }
+        }
+      }
 
       return (
-        <ScrollView>
+        <StyledScrollView>
           {entities.map(
             (item: ItemResponse) =>
-              <a href={item.url} key={item.url}>
-                <EntryCell
-                  title={item.title}
-                  favicon={`http://www.google.com/s2/favicons?domain=${item.url}`}
-                  counts={[
-                    { type: CountType.Twitter, count: 0 },
-                    { type: CountType.Facebook, count: facebookMap.get(item.url) || 0 },
-                    { type: CountType.HatenaBookmark, count: hatenaBookmarkMap.get(item.url) || 0 }
-                  ]}
-                />
-              </a>
+              <EntryCell
+                key={item.url}
+                title={item.title}
+                favicon={`http://www.google.com/s2/favicons?domain=${item.url}`}
+                counts={[
+                  { type: CountType.Twitter, count: 0 },
+                  { type: CountType.Facebook, count: facebookMap && facebookMap.get(item.url) || 0 },
+                  { type: CountType.HatenaBookmark, count: hatenaBookmarkMap && hatenaBookmarkMap.get(item.url) || 0 }
+                ]}
+                url={item.url}
+              />
           )}
-        </ScrollView>);
+        </StyledScrollView>);
     }
   }
 }
+
+const StyledScrollView = styled(ScrollView)`
+  background-color: ${colorsValue.grayPale};
+`;
 
 const mapStateToProps = (state: AppState) => ({
   feeds: state.feeds

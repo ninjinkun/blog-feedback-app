@@ -15,35 +15,42 @@ type Props = {
     favicon: string;
     title: string;
     counts: Count[];
-    animate?: boolean;
+    url: string;
+    animate?: boolean;    
 };
 
-const EntryCell = ({favicon, title, animate, counts, ...props}: Props) => (
-    <Wrapper {...props}>
+const EntryCell: React.SFC<Props> = ({favicon, title, animate, counts, url, ...props}) => (
+    <AnkerWrapper {...props} href={url}>
         <Favicon src={favicon}/>
         <ContentWrapper>
             <Title>{title}</Title>
             <ButtonWrapper>
-                {counts.map(count => <StyledTwincle animate={animate} key={count.type} ><StyledCountButton type={count.type} count={count.count} /></StyledTwincle>)}
+                {counts.map(count => 
+                    <StyledTwincle animate={animate} key={count.type} >
+                        <StyledCountButton type={count.type} count={count.count} />
+                    </StyledTwincle>
+                )}
             </ButtonWrapper>
         </ContentWrapper>
-    </Wrapper>
+    </AnkerWrapper>
 );
 
 export default EntryCell;
 
-const StyledTwincle = styled(Twincle)`
-    position: static;
-`;
-
-const Wrapper = styled.div`
-display: flex;
-flex-direction: row;
-padding: 8px;
-background: ${properties.colorsValue.white};
-border: ${properties.border};
-margin: 16px;
-box-shadow: 0px 0px 0.5px 0.5px #ddd;
+const AnkerWrapper = styled.a`
+    display: flex;
+    flex-direction: row;
+    padding: 8px;
+    background: ${properties.colorsValue.white};
+    border: ${properties.border};
+    margin: 8px 16px;
+    box-shadow: 0px 0px 0.5px 0.5px #ddd;
+&:first-child {
+    margin: 16px 16px 8px 16px;
+}
+&:last-child {
+    margin: 8px 16px 16px 16px;
+}
 `;
 
 const ContentWrapper = styled.div`
@@ -61,6 +68,12 @@ const ButtonWrapper = styled.div`
   display: flex;
   width: 100%;
   justify-content: stretch;
+`;
+
+const StyledTwincle = styled(Twincle)`
+  display: flex;
+  position: relative;
+  flex-grow: 1;
 `;
 
 const StyledCountButton = styled(CountButton)`

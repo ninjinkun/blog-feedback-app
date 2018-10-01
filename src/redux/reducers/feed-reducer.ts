@@ -28,15 +28,6 @@ export const feedsReducer: Reducer<FeedsState> = (state = feedsIniticalState, ac
         { firebaseEntities: items, loading: false }
       );
     }
-    case 'FeedFirebaseCountsResponseAction': {
-      const { blogURL, counts } = action;
-      const flattenCount = [].concat.apply([], counts.filter(i => i));
-      return updateFeed(
-        blogURL,
-        state,
-        { firebaseCounts: flattenCount, loading: false }
-      );
-    }
     case 'FeedCrowlerRequestAction': {
       const { blogURL } = action;
       return updateFeed(blogURL, state, { crowlingLabel: 'Loading blog...', crowlingRatio: 10 });

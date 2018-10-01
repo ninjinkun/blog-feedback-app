@@ -6,8 +6,18 @@ import { BrowserRouter, Route, Link, Redirect, match as matchParam, withRouter, 
 import { AppState } from '../../../redux/states/app-state';
 import { connect } from 'react-redux';
 import { UserState } from '../../../redux/states/user-state';
+import { Dispatch } from 'redux';
+import { fetchUser } from '../../../redux/actions/user-action';
 
-class LoginView extends React.PureComponent<{ user: UserState }> {
+type Props = {
+    user: UserState,
+    fetchUser: (auth: firebase.auth.Auth) => any,
+};
+
+class LoginView extends React.PureComponent<Props> {
+    componentDidMount() {
+      this.props.fetchUser(firebase.auth());
+    }
     render() {
         if (this.props.user.user) {
             return (
@@ -37,6 +47,12 @@ const uiConfig = {
 
 const mapStateToProps = (state: AppState) => ({
     user: state.user
-  });
-  
-export default connect(mapStateToProps)(LoginView);
+});
+
+function mapDispatchToProps(dispatch: Dispatch<AppState>) {
+    return {
+        fetchUser: (auth: firebase.auth.Auth) => fetchUser(auth)(dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginView);

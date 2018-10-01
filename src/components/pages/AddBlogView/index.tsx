@@ -5,11 +5,11 @@ import { Dispatch } from 'redux';
 import MDSpinner from 'react-md-spinner';
 import { BrowserRouter, Route, Link, Redirect, match as matchParam, withRouter, RouteComponentProps } from 'react-router-dom';
 import { fetchBlog } from './../../../models/feed-fetcher';
-import { BlogRepository } from '../../../models/repositories';
 import Wrapper from '../../atoms/Wrapper/index';
 import { connect } from 'react-redux';
 import { AppState } from '../../../redux/states/app-state';
 import { addBlog } from '../../../redux/actions/add-blog-action';
+import { saveBlog } from '../../../models/repositories/blog-repository';
 
 class AddBlogView extends React.Component<{} & RouteComponentProps<{}>, { url: string, loading: boolean }> {
   constructor(props: any) {
@@ -45,7 +45,7 @@ class AddBlogView extends React.Component<{} & RouteComponentProps<{}>, { url: s
     }
     const blogResponse = await fetchBlog(blogURL);
     if (blogResponse) {
-      BlogRepository.saveBlog(
+      saveBlog(
         user.uid,
         blogResponse.url,
         blogResponse.title,

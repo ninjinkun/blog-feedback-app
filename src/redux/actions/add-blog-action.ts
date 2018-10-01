@@ -1,7 +1,7 @@
 import { Dispatch, Action, ActionCreator, bindActionCreators } from 'redux';
-import { BlogRepository } from '../../models/repositories';
 import { fetchBlog } from '../../models/feed-fetcher';
 import { fetchUser } from './user-action';
+import { saveBlog } from '../../models/repositories/blog-repository';
 
 export interface AddBlogRequestAction extends Action {
   type: 'AddBlogRequestAction';
@@ -27,7 +27,7 @@ export const addBlog = (auth: firebase.auth.Auth, blogURL: string) =>
     const f = async (userId: string) => {
       const blogResponse = await fetchBlog(blogURL);
       if (blogResponse) {
-        BlogRepository.saveBlog(
+        saveBlog(
           userId,
           blogResponse.url,
           blogResponse.title,

@@ -7,7 +7,7 @@ type Props = {
 };
 
 const Twincle: React.SFC<Props>  = ({children, animate, ...props}) => (
-  <Wrapper>
+  <Wrapper {...props}>
     {animate ? [...Array(15).keys()].map((i) => (<AnimatedSpark key={i} />)) : undefined}
     {children}
   </Wrapper>
@@ -47,6 +47,7 @@ const AnimatedSpark: React.SFC<{}> = (props) => {
     z-index: 100;
     height: 18px;
     width: 18px;
+    pointer-events: none;
     margin: -9px -9px 0 0;
   `;
   return (<StyledSpark {...props}/>);

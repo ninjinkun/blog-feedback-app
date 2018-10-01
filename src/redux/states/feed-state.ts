@@ -3,7 +3,6 @@ import { ItemResponse, CountResponse } from '../../models/responses';
 
 export type FeedState = {
   firebaseEntities?: ItemEntity[];
-  firebaseCounts?: CountEntity[];
   fethcedEntities?: ItemResponse[];
   fetchedCounts?: CountResponse[];
   title?: string;

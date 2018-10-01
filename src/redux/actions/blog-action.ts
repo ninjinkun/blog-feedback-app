@@ -1,8 +1,8 @@
 import { Dispatch, Action, ActionCreator, bindActionCreators } from 'redux';
 
 import { BlogEntity } from '../../models/entities';
-import { BlogRepository } from '../../models/repositories';
 import { fetchUser } from './user-action';
+import { findAllBlogs } from '../../models/repositories/blog-repository';
 
 export interface BlogFirebaseRequestAction extends Action {
   type: 'BlogFirebaseRequestAction';
@@ -26,7 +26,7 @@ export const fetchBlogs = (auth: firebase.auth.Auth) =>
   (dispatch: Dispatch<BlogFirebaseRequestAction | BlogFirebaseResponseAction>) => {
     const f = async (uid: string) => {
       dispatch(blogRequest());
-      const blogs = await BlogRepository.findAllBlogs(uid);
+      const blogs = await findAllBlogs(uid);
       dispatch(blogResponse(blogs));
     };
 
