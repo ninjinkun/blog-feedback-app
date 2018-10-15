@@ -1,13 +1,14 @@
 import { Dispatch, Action, ActionCreator, bindActionCreators } from 'redux';
 
-import { ItemEntity, CountEntity, CountsMap } from '../../models/entities';
+import { ItemEntity, CountEntity, CountEntities } from '../../models/entities';
 import { fetchUser } from './user-action';
 import { CountType } from '../../consts/count-type';
 import { findBlog, saveBlog } from '../../models/repositories/blog-repository';
-import { findAllItems, saveItemBatch } from '../../models/repositories/item-repository';
+import { findAllItems, saveItemBatch, CountSaveEntities } from '../../models/repositories/item-repository';
 import { crawl } from '../../models/crawler';
 import { BlogResponse, ItemResponse, CountResponse } from '../../models/responses';
 import { writeBatch } from '../../models/repositories/app-repository';
+import firebase from 'firebase';
 
 export interface FeedBlogURLChangeAction extends Action {
   type: 'FeedBlogURLChangeAction';
@@ -131,7 +132,7 @@ export interface FeedCrowlerCountsResponseAction extends Action {
   counts: CountResponse[];
 }
 
-export const feedCrowlerCountsResponse: ActionCreator<FeedCrowlerCountsResponseAction> = (blogURL, counts) => ({
+export const feedCrowlerCountsResponse = (blogURL: string, counts: CountResponse[]) => ({
   type: 'FeedCrowlerCountsResponseAction',
   blogURL,
   counts,
@@ -140,14 +141,18 @@ export const feedCrowlerCountsResponse: ActionCreator<FeedCrowlerCountsResponseA
 export interface FeedCrowlerErrorAction extends Action {
   type: 'FeedCrowlerErrorAction';
   blogURL: string;
+  error: Error;
 }
 
-export const feedCrowlerErrorResponse: ActionCreator<FeedCrowlerErrorAction> = (blogURL) => ({
+export const feedCrowlerErrorResponse = (blogURL: string, error: Error) => ({
   type: 'FeedCrowlerErrorAction',
   blogURL,
+  error,
 });
 
-export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string) =>
+export type ItemEntitiesFunction = () => ItemEntity[];
+
+export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string, getFirebaseEntities: ItemEntitiesFunction) =>
   (dispatch: Dispatch<FeedCrowlerAction>) => {
 
     const f = async (userId: string) => {
@@ -162,7 +167,7 @@ export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string) =>
           dispatch(feedCrowlerTitleResponseAction(blogURL, title));
         }
       } catch (e) {
-        dispatch(feedCrowlerErrorResponse(blogURL));
+        dispatch(feedCrowlerErrorResponse(blogURL, e));
       }
 
       let feedItemsResponse: ItemResponse[] | undefined;
@@ -172,7 +177,7 @@ export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string) =>
           dispatch(feedCrowlerItemsResponse(blogURL, feedItemsResponse));
         }
       } catch (e) {
-        dispatch(feedCrowlerErrorResponse(blogURL));
+        dispatch(feedCrowlerErrorResponse(blogURL, e));
       }
 
       try {
@@ -185,17 +190,59 @@ export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string) =>
           const facebookMap = new Map<string, CountResponse>(counts.filter(c => c.type === CountType.Facebook).map(c => [c.url, c] as [string, CountResponse]));
           const hatenaBookmarkMap = new Map<string, CountResponse>(counts.filter(c => c.type === CountType.HatenaBookmark).map(c => [c.url, c] as [string, CountResponse]));
 
-          if (blogResponse && feedItemsResponse) {            
+          const firebaseEntities = getFirebaseEntities();
+
+          const firebaseFacebookMap = new Map<string, CountEntity>(firebaseEntities.filter(e => e.counts && e.counts[CountType.Facebook]).map(e => [e.url, e.counts && e.counts[CountType.Facebook]] as [string, CountEntity]));
+          const firebaseHatenaBookmarkMap = new Map<string, CountEntity>(firebaseEntities.filter(e => e.counts && e.counts[CountType.HatenaBookmark]).map(e => [e.url, e.counts && e.counts[CountType.HatenaBookmark]] as [string, CountEntity]));
+          const firebasePrevFacebookMap = new Map<string, CountEntity>(firebaseEntities.filter(e => e.counts && e.prevCounts[CountType.Facebook]).map(e => [e.url, e.counts && e.prevCounts[CountType.Facebook]] as [string, CountEntity]));
+          const firebasePrevHatenaBookmarkMap = new Map<string, CountEntity>(firebaseEntities.filter(e => e.counts && e.prevCounts[CountType.HatenaBookmark]).map(e => [e.url, e.counts && e.prevCounts[CountType.HatenaBookmark]] as [string, CountEntity]));
+
+          if (blogResponse && feedItemsResponse) {
             feedItemsResponse.forEach((item: ItemResponse) => {
-              const itemCounts: CountsMap = {};
+              const itemCounts: CountSaveEntities = {};
               const facebookCount = facebookMap.get(item.url);
+              const firebaseFacebookCount = firebaseFacebookMap.get(item.url);
               if (facebookCount) {
-                itemCounts[CountType.Facebook] = { count: facebookCount.count, created: new Date() };
+                const { count } = facebookCount;
+                itemCounts.facebook = { 
+                   count, 
+                   timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                };
+              } else if (firebaseFacebookCount) {
+                itemCounts.facebook = firebaseFacebookCount;
               }
+
               const hatenaBookmarkCount = hatenaBookmarkMap.get(item.url);
+              const firebaseHatenaBookmarkCount = firebaseHatenaBookmarkMap.get(item.url);
               if (hatenaBookmarkCount) {
-                itemCounts[CountType.HatenaBookmark] = { count: hatenaBookmarkCount.count, created: new Date() };
+                const { count } = hatenaBookmarkCount;
+                itemCounts.hatenabookmark = { 
+                  count, 
+                  timestamp: firebase.firestore.FieldValue.serverTimestamp() 
+                };
+              } else if (firebaseHatenaBookmarkCount) {
+                itemCounts.hatenabookmark = firebaseHatenaBookmarkCount;
               }
+
+              const prevCounts: CountSaveEntities = {};
+              const prevFacebookCount = firebasePrevFacebookMap.get(item.url);
+              if (firebaseFacebookCount && firebaseFacebookCount.timestamp.seconds < (firebase.firestore.Timestamp.now().seconds - 60 * 10)) {
+                prevCounts.facebook = firebaseFacebookCount;
+              } else if (prevFacebookCount) {
+                prevCounts.facebook = prevFacebookCount;
+              } else if (!prevFacebookCount && itemCounts.facebook) {
+                prevCounts.facebook = itemCounts.facebook;
+              }
+
+              const prevHatenaBookmarkCount = firebasePrevHatenaBookmarkMap.get(item.url);
+              if (firebaseHatenaBookmarkCount && firebaseHatenaBookmarkCount.timestamp.seconds < (firebase.firestore.Timestamp.now().seconds - 60 * 10)) {
+                prevCounts.hatenabookmark = firebaseHatenaBookmarkCount;
+              } else if (prevHatenaBookmarkCount) {
+                prevCounts.hatenabookmark = prevHatenaBookmarkCount;
+              } else if (!prevHatenaBookmarkCount && itemCounts.hatenabookmark) {
+                prevCounts.hatenabookmark = itemCounts.hatenabookmark;
+              }
+
               if (blogResponse) {
                 saveItemBatch(
                   batch,
@@ -205,14 +252,15 @@ export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string) =>
                   item.title,
                   item.published,
                   itemCounts,
+                  prevCounts,
                 );
               }
             });
-            batch.commit();
+            await batch.commit();
           }
         }
       } catch (e) {
-        dispatch(feedCrowlerErrorResponse(blogURL));
+        dispatch(feedCrowlerErrorResponse(blogURL, e));
       }
     };
 

@@ -22,9 +22,9 @@ const Header = ({...props}: HeaderProps) => (
             loading={props.loading ? props.loading : false}
         />
         <HeaderContent>
-            {!!props.onBackButtonClick ? <BackButton size={20} onClick={props.onBackButtonClick}/> : <Spacer />}
+            {!!props.onBackButtonClick ? <BackButton size={28} onClick={props.onBackButtonClick}/> : <Spacer />}
             <TitleLayout><Title>{props.title}</Title></TitleLayout>
-            {!!props.onAddButtonClick ? <AddButton size={20} onClick={props.onAddButtonClick}/> : <Spacer />}
+            {!!props.onAddButtonClick ? <AddButton size={28} onClick={props.onAddButtonClick}/> : <Spacer />}
         </HeaderContent>
         <UnderLine />
     </HeaderLayout>
@@ -48,6 +48,10 @@ flex-direction: row;
 box-sizing: border-box;
 flex-basis: 100%;
 align-items: center;
+margin-left: auto;
+margin-right: auto;
+width: 100%;
+max-width: 600px;
 `;
 
 const TitleLayout = styled.div`
@@ -55,6 +59,7 @@ justify-content: center;
 display: flex;
 box-pack: center;
 box-sizing: border-box;
+width: 100%;
 `;
 
 const Title = styled.div`
@@ -75,7 +80,8 @@ padding: 8px;
 `;
 
 const Spacer = styled.div`
-  width: 16px;
+  width: 28px;
+  padding: 8px;
 `;
 
 const UnderLine = styled.div`

@@ -24,6 +24,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: ${properties.baseMargin};  
+  background-color: white;
 `;
 
 const ContentWrapper = styled.div`

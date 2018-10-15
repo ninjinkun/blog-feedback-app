@@ -4,11 +4,12 @@ import styled, { keyframes } from 'styled-components';
 
 type Props = {
   animate?: boolean;
+  twincleNum?: number;
 };
 
-const Twincle: React.SFC<Props>  = ({children, animate, ...props}) => (
+const Twincle: React.SFC<Props>  = ({children, animate, twincleNum = 8, ...props}) => (
   <Wrapper {...props}>
-    {animate ? [...Array(15).keys()].map((i) => (<AnimatedSpark key={i} />)) : undefined}
+    {animate ? [...Array(twincleNum).keys()].map((i) => (<AnimatedSpark key={i} />)) : undefined}
     {children}
   </Wrapper>
 );
@@ -17,7 +18,6 @@ export default Twincle;
 
 const AnimatedSpark: React.SFC<{}> = (props) => {
   const [top, left] = [randomInt(0, 100), randomInt(0, 100)];
-  const [fromTranlateX, fromTranslateY] = [randomInt(-10, 10), randomInt(-10, 10)];
   const [toTranlateX, toTranslateY] = [randomInt(-10, 10), randomInt(-10, 10)];
   const rotate360 = keyframes`
     0% {

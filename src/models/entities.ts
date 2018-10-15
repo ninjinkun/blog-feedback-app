@@ -1,4 +1,6 @@
 import { CountType } from '../consts/count-type';
+import firebase from 'firebase/app';
+import { ItemResponse } from './responses';
 
 export type BlogEntity = {
   title: string,
@@ -9,14 +11,17 @@ export type BlogEntity = {
 export type ItemEntity = {
   title: string,
   url: string,
-  published: Date
-  counts: CountsMap 
-  prevCounts: CountsMap // 10 minutes before
+  published: firebase.firestore.Timestamp,
+  counts: { [key: string]: CountEntity }, // key is CountType
+  prevCounts: { [key: string]: CountEntity }, // 10 minutes before
 };
 
-export type CountsMap = { [key: string]: CountEntity }; // key is CountType
+export type CountEntities = {
+  facebook?: CountEntity[],
+  hatenabookmark?: CountEntity[]
+};
 
 export type CountEntity = {
   count: number,
-  created: Date,
+  timestamp: firebase.firestore.Timestamp,
 };

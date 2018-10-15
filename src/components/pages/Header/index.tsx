@@ -12,34 +12,35 @@ const mapStateToProps = (state: AppState) => ({
 
 type Props = {
   state: FeedsState;
-};
+} & RouteComponentProps<{}> ;
 
-export default withRouter(connect(mapStateToProps)(({ ...props }: RouteComponentProps<{}> & Props) => {
+export default withRouter(connect(mapStateToProps)(({ history, ...props }: Props) => {
   const { currentBlogURL, feeds } = props.state;
   if (currentBlogURL && feeds[currentBlogURL]) {
     const feed = feeds[currentBlogURL];
 
     return (
       <StyledHeader
+        {...props}
         title={feed.title || ''}
         loading={(feed.crowlingRatio > 0 && feed.crowlingRatio < 100)}
         loadingRatio={feed.crowlingRatio}
         loadingLabel={feed.crowlingLabel}
-        onBackButtonClick={() => { props.history.push(`/blogs/`); }}
+        onBackButtonClick={() => { history.push(`/blogs/`); }}
       />
     );
   } else {
     return (
-      <StyledHeader
+      <StyledHeader 
+        {...props}
         title={'BlogFeedback'}
-        onAddButtonClick={() => { props.history.push(`/add`); }}
+        onAddButtonClick={() => { history.push(`/add`); }}
       />
     );
   }
 }));
 
 const StyledHeader = styled(Header)`
-      position: fixed;
       width: 100%;
       display: flex;
       flex-direction: column;

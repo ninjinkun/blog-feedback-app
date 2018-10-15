@@ -1,9 +1,8 @@
 import * as React from 'react';
-import styled, { keyframes, SimpleInterpolation } from 'styled-components';
+import styled from 'styled-components';
 import * as properties from '../../properties';
 import { Spring, Transition, animated } from 'react-spring';
 import MDSpinner from 'react-md-spinner';
-import { MdFormatListNumbered } from 'react-icons/lib/md';
 
 type Props = {
   ratio?: number;
@@ -17,6 +16,7 @@ export default class HeaderLoadingIndicator extends React.PureComponent<Props, {
 
   render() {
     const { loading, label, ratio } = this.props;
+
     if (label !== this.prevLabel) {
       this.frameToggle = !this.frameToggle;
       this.prevLabel = this.props.label;
@@ -25,9 +25,11 @@ export default class HeaderLoadingIndicator extends React.PureComponent<Props, {
     // Transion needs previous frame.
     const frame1 = (style: object) => <Label style={style}>{this.frameToggle ? label : this.prevLabel}</Label>;
     const frame2 = (style: object) => <Label style={style}>{this.frameToggle ? this.prevLabel : label}</Label>;
+
     return (
       <Spring from={{ backgroundColor: loading ? properties.colorsBlanding.accent : properties.colorsValue.grayDark }} to={{ backgroundColor: loading ? properties.colorsValue.grayDark : properties.colorsBlanding.accent }} {...this.props}>
         {styles => <Wrapper style={styles}>
+        <Content>
           <SpinnerWrapper>{loading ? <Spinner size={12} singleColor={'white'}/> : undefined}</SpinnerWrapper>
           <LabelWrapper>
             <Transition
@@ -41,21 +43,30 @@ export default class HeaderLoadingIndicator extends React.PureComponent<Props, {
             </Transition>
           </LabelWrapper>
           {loading ? <Ratio><span>{`${ratio}%`}</span></Ratio> : null}
+          </Content>
         </Wrapper>}
       </Spring>
     );
   }
 }
 
-const Wrapper = styled.div`
-  width: 100%;
-  min-height: 20px;
+const Content = styled.div`
   display: grid;
-  overflow: hidden;
-  color: white;
-  will-change: opacity;
   grid-template-columns: 40px 4fr 40px;
   grid-template-areas: 'spinner label ratio';
+  width: 100%;
+  height: 100%;
+  max-width: 600px;
+  overflow: hidden;
+  min-height: 20px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const Wrapper = styled.div`
+  width: 100%;
+  color: white;
+  will-change: opacity;
 `;
 
 const SpinnerWrapper = styled.div`

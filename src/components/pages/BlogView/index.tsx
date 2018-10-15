@@ -12,6 +12,7 @@ import { Dispatch } from 'redux';
 import { fetchBlogs } from '../../../redux/actions/blog-action';
 import { Button } from '../../atoms/Button/index';
 import Wrapper from '../../atoms/Wrapper/index';
+import Spinner from '../../atoms/Spinner/index';
 
 type StateProps = {
   blog: BlogState;
@@ -36,7 +37,7 @@ class BlogView extends React.PureComponent<Props, {}> {
     const { blogs, loading } = this.props.blog;
     if (blogs && blogs.length) {
       return (
-        <ScrollView>
+        <StyledScrollView>
           {blogs.map((blog) => (
             <Link to={`/blogs/${encodeURIComponent(blog.url)}`} key={blog.url}>
               <BlogCell
@@ -45,14 +46,14 @@ class BlogView extends React.PureComponent<Props, {}> {
               />
             </Link>
           ))}                   
-        </ScrollView>
+        </StyledScrollView>
       );
     } else if (!loading && blogs && blogs.length === 0) {
       return (<Wrapper><Button>ブログを追加する</Button></Wrapper>);
     }  else if (loading) {
-      return (<ScrollView><Spinner singleColor={'blue'} /></ScrollView>);
+      return (<SpinnerContainer><Spinner /></SpinnerContainer>);
     } else {
-      return (<ScrollView />);
+      return (<StyledScrollView />);
     }
   }
 }
@@ -69,9 +70,15 @@ function mapDispatchToProps(dispatch: Dispatch<AppState>): DispatchProps {
 
 export default connect(mapStateToProps, mapDispatchToProps)(BlogView);
 
-const Spinner = styled(MDSpinner)`
+const StyledScrollView = styled(ScrollView)`
+  background-color: white;
+  min-height: 100%;
+`;
+
+const SpinnerContainer = styled(Wrapper)`
+  background-color: white;
   width: 100%;
   height: 100%;
-  display: flex;
-  position: relative;
+  align-items: center;
+  padding-top: 16px;
 `;

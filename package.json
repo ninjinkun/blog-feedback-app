@@ -7,6 +7,7 @@
     "firebase": "^5.4.2",
     "firebaseui": "^v3.4.0",
     "react": "16.4.2",
+    "react-art": "16.4.2",
     "react-dom": "16.4.2",
     "react-firebaseui": "^3.0.7",
     "react-icons": "^3.0.5",

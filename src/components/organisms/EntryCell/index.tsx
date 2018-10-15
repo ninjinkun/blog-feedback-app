@@ -4,11 +4,14 @@ import * as properties from '../../properties';
 import CountButton from '../../molecules/CountButton/index';
 import { CountType } from '../../../consts/count-type';
 import Favicon from '../../atoms/Favicon/index';
-import Twincle from '../../atoms/Twincle/index';
+import TwincleAnimation from '../../atoms/TwincleAnimation/index';
+import CountUpAnimation from '../../atoms/CountUpAnimation/index';
+import AnimatedCountButton from '../AnimatedCountButton/index';
 
 type Count = {
     type: CountType;
     count?: number;
+    animate: boolean;
 };
 
 type Props = {
@@ -16,19 +19,16 @@ type Props = {
     title: string;
     counts: Count[];
     url: string;
-    animate?: boolean;    
 };
 
-const EntryCell: React.SFC<Props> = ({favicon, title, animate, counts, url, ...props}) => (
+const EntryCell: React.SFC<Props> = ({favicon, title, counts, url, ...props}) => (
     <AnkerWrapper {...props} href={url}>
         <Favicon src={favicon}/>
         <ContentWrapper>
             <Title>{title}</Title>
             <ButtonWrapper>
                 {counts.map(count => 
-                    <StyledTwincle animate={animate} key={count.type} >
-                        <StyledCountButton type={count.type} count={count.count} />
-                    </StyledTwincle>
+                    <AnimatedCountButton animate={count.animate} key={count.type} type={count.type} count={count.count || 0} />
                 )}
             </ButtonWrapper>
         </ContentWrapper>
@@ -68,16 +68,4 @@ const ButtonWrapper = styled.div`
   display: flex;
   width: 100%;
   justify-content: stretch;
-`;
-
-const StyledTwincle = styled(Twincle)`
-  display: flex;
-  position: relative;
-  flex-grow: 1;
-`;
-
-const StyledCountButton = styled(CountButton)`
-  position: relative;
-  margin: 0.2rem;
-  flex-grow: 1;
 `;

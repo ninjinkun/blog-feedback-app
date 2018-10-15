@@ -15,7 +15,7 @@ import { initializeFirebase } from './firebase';
 import { createStore, compose, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import Wrapper from './components/atoms/Wrapper';
-
+import SmartphoneLayout from './components/templates/SmartphoneLayout/index';
 initializeFirebase();
 const store = createStore(
   appReducer,
@@ -24,13 +24,13 @@ const store = createStore(
 
 const App = () => (
   <Provider store={store}>
-    <Wrapper>
+    <SmartphoneLayout>
       <BrowserRouter>
-        <Wrapper>
-        <HeaderWrapper>
-        <StyledHeader />
-      </HeaderWrapper>
-        <HeaderSpacer />
+        <BodyWrapper>
+          <HeaderWrapper>
+            <StyledHeader />
+          </HeaderWrapper>
+          <HeaderSpacer />
           <Route exact={true} path="/" component={LoginView} />
           <Route exact={true} path="/blogs" component={BlogView} />
           <Route exact={true} path="/add" component={AddBlogView} />
@@ -39,32 +39,52 @@ const App = () => (
             path="/blogs/:url"
             component={Feed}
           />
-        </Wrapper>
+        </BodyWrapper>
       </BrowserRouter>
-    </Wrapper>
+    </SmartphoneLayout>
   </Provider>
 );
 export default App;
 
-const StyledHeader = styled(Header)`
-      position: fixed;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-    `;
+import { injectGlobal } from 'styled-components';
 
-const HeaderWrapper = styled.div`
-      z-index: 100;
-      position: relative;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-    `;
+// tslint:disable-next-line:no-unused-expression
+injectGlobal`
+  html, body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+  }
+  #root {
+    height: 100vh;
+  }
+`;
+
+const StyledHeader = styled(Header)`
+  position: fixed;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  right: 0;
+`;
+
+const HeaderWrapper = styled(Wrapper)`
+  z-index: 100;
+  position: relative;
+  width: 100%;
+  align-items: center;
+`;
+
+const BodyWrapper = styled(Wrapper)`
+  min-height: 100vh;
+  width: 100%;
+`;
 
 const HeaderSpacer = styled.div`
-      min-height: 64px;
-      width: 100%;
-    `;
+  min-height: 64px;
+  width: 100%;
+`;
 
 const Feed = ({ match }: { match: matchParam<{ url: string }> } & RouteComponentProps<{}>) => (
   <FeedView url={decodeURIComponent(match.params.url)} />

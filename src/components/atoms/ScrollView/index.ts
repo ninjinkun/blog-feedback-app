@@ -9,6 +9,11 @@ const ScrollView = styled.div`
   overflow-y: scroll;
   overflow-x: hidden;
   transform: translateZ(0px);
+  flex-shrink: 0;
+  flex-grow: 1;
+  flex-basis: auto;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
 `;
 
 export default ScrollView;
