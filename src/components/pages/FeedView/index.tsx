@@ -3,7 +3,8 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { ActivityIndicator } from 'react-native';
 import styled from 'styled-components';
-import * as firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 import { ItemResponse, CountResponse } from '../../../models/responses';
 import { ItemEntity } from '../../../models/entities';
@@ -11,11 +12,12 @@ import ScrollView from '../../atoms/ScrollView/index';
 import { CountType } from '../../../consts/count-type';
 import EntryCell from '../../organisms/EntryCell/index';
 import Wrapper from '../../atoms/Wrapper/index';
-import Spinner from '../../atoms/Spinner/index';
 import { AppState } from '../../../redux/states/app-state';
 import { feedBlogURLChange, fetchFirebaseFeed, fetchOnlineFeed, feedBlogURLClear, ItemEntitiesFunction } from '../../../redux/actions/feed-action';
 import { FeedsState } from '../../../redux/states/feeds-state';
 import { colorsValue } from '../../properties';
+import LoadingView from '../../molecules/LoadingView/index';
+import { RouteComponentProps } from 'react-router-dom';
 
 type StateProps = {
   feeds: FeedsState;
@@ -28,9 +30,15 @@ type DispatchProps = {
   fetchOnlineFeed: (auth: firebase.auth.Auth, blogURL: string, getItemEntities: ItemEntitiesFunction) => any;
 };
 
-type Props = { url: string } & StateProps & DispatchProps;
+type Props = { url: string } & StateProps & DispatchProps & RouteComponentProps<{}>;
 
-class FeedView extends React.Component<Props> {
+class FeedView extends React.PureComponent<Props> {
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.location !== prevProps.location) {
+      window.scrollTo(0, 0);
+    }
+  } 
+
   componentDidMount() {
     const blogURL = this.props.url;
     this.props.feedBlogURLChange(blogURL);
@@ -55,7 +63,7 @@ class FeedView extends React.Component<Props> {
     const feed = feeds.feeds[url];
 
     if ((!feed || feed.loading) && !(feed && feed.fethcedEntities || feed && feed.firebaseEntities)) {
-      return (<SpinnerContainer><Spinner /></SpinnerContainer>);
+      return (<LoadingView />);
     } else {
       const { firebaseEntities, fethcedEntities, fetchedCounts } = feed;
 
@@ -103,15 +111,6 @@ class FeedView extends React.Component<Props> {
 const StyledScrollView = styled(ScrollView)`
   background-color: ${colorsValue.grayPale};
   min-height: 100vh;
-`;
-
-const SpinnerContainer = styled(Wrapper)`
-  background-color: ${colorsValue.grayPale};
-  min-height: 100%;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  padding-top: 16px;
 `;
 
 const mapStateToProps = (state: AppState) => ({

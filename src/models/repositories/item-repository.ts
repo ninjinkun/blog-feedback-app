@@ -1,4 +1,5 @@
 import { firestore } from 'firebase/app';
+import 'firebase/firestore';
 import { blogRef } from './blog-repository';
 import { ItemEntity, CountEntities, CountEntity } from '../entities';
 

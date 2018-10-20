@@ -1,13 +1,13 @@
 import { BlogResponse, ItemResponse } from './responses';
 import { FeedType } from '../consts/feed-type';
 
-export async function fetchBlog(blogURL: string): Promise<BlogResponse | undefined> {
+export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
   const response = await fetch('https://query.yahooapis.com/v1/public/yql?format=json&q=' + encodeURIComponent('select * from htmlstring where url = \'' + blogURL + '\'') + '&env=' + encodeURIComponent('store://datatables.org/alltableswithkeys'));
   const json: YahooAPIs.HTMLString.Response = await response.json();
   const results = json.query.results;
 
   if (!results) {
-    return undefined;
+    throw new Error('Blog not found');
   } else {
     const htmlText = results.result;
 
@@ -41,7 +41,7 @@ export async function fetchBlog(blogURL: string): Promise<BlogResponse | undefin
     return {
       title: doc.title,
       url: blogURL,
-      feedUrl: href,
+      feedURL: href,
       feedType: type
     };
   }
@@ -58,7 +58,7 @@ export async function fetchAtom(atomUrl: string): Promise<ItemResponse[] | undef
         return { title, url: link[0].href, published: new Date(published) };
     });
   } else {
-    return undefined;
+    throw new Error('Invalid Atom feed');
   }
 }
 
@@ -73,7 +73,7 @@ export async function fetchRss(rssUrl: string): Promise<ItemResponse[] | undefin
         return { title, url: link, published: new Date(pubDate) };
   });
   } else {
-    return undefined;
+    throw new Error('Invalid RSS feed');
   }
 }
 

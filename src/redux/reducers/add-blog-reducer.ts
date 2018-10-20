@@ -1,14 +1,17 @@
 import { Reducer } from 'redux';
-import { AddBlogState, initialState } from '../states/add-blog-state';
-import { UserActions } from '../actions/user-action';
+import { UserState, initialState } from '../states/user-state';
+import { AddBlogActions } from '../actions/add-blog-action';
 
-export const addBlogReducer: Reducer<AddBlogState> = (state = initialState, action: UserActions) => {
+export const addBlogReducer: Reducer<UserState> = (state = initialState, action: AddBlogActions) => {
   switch (action.type) {
-    case 'UserFirebaseRequestAction':
-      return { ...state, loading: true };
-    case 'UserFirebaseResponseAction':
-      const { user } = action;
-      return { ...state, user, loading: false };
+    case 'AddBlogRequestAction':
+      return { ...state, finished: false, loading: true };
+    case 'AddBlogResponseAction':
+    const { url } = action.response;
+    return { ...state, error: null, finished: true, blogURL: url, loading: false };
+    case 'AddBlogErrorAction':
+    const { error } = action;
+    return { ...state, error, finished: false, loading: false };
     default:
       return state;
   }

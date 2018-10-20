@@ -7454,9 +7454,9 @@ react-error-overlay@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-4.0.0.tgz#d198408a85b4070937a98667f500c832f86bd5d4"
 
-react-firebaseui@^3.0.7:
-  version "3.0.7"
-  resolved "https://registry.yarnpkg.com/react-firebaseui/-/react-firebaseui-3.0.7.tgz#a9e5473c64e72d5ded3928c9023a0d54d2141fee"
+react-firebaseui@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/react-firebaseui/-/react-firebaseui-3.1.2.tgz#a1651713a3dae989b2fb7ccb0c288afd8ae28f30"
   dependencies:
     firebaseui "^3.2.0"
 

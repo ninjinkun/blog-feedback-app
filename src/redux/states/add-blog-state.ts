@@ -1,8 +1,11 @@
 export type AddBlogState = {
   loading: boolean;
-  error?: Error;  
+  finished: boolean;
+  blogURL?: string;
+  error?: Error;
 };
 
 export const initialState: AddBlogState = {
   loading: false,
+  finished: false,
 };

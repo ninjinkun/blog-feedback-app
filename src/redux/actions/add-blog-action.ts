@@ -1,52 +1,59 @@
 import { Dispatch, Action, ActionCreator, bindActionCreators } from 'redux';
 import { fetchBlog } from '../../models/feed-fetcher';
-import { fetchUser } from './user-action';
+import { fetchOrCurrenUser } from './user-action';
 import { saveBlog } from '../../models/repositories/blog-repository';
+import { BlogResponse } from '../../models/responses';
 
 export interface AddBlogRequestAction extends Action {
   type: 'AddBlogRequestAction';
 }
 
-const addBlogRequest: ActionCreator<AddBlogRequestAction> = () => ({
+const addBlogRequest = (): AddBlogRequestAction => ({
   type: 'AddBlogRequestAction',
 });
 
 export interface AddBlogResponseAction extends Action {
   type: 'AddBlogResponseAction';
+  response: BlogResponse;
 }
 
-export const addBlogResponse: ActionCreator<AddBlogResponseAction> = () => ({
+export const addBlogResponse = (response: BlogResponse): AddBlogResponseAction => ({
   type: 'AddBlogResponseAction',
+  response,
 });
 
-export type AddBlogActions = AddBlogRequestAction | AddBlogResponseAction;
+export interface AddBlogErrorAction extends Action {
+  type: 'AddBlogErrorAction';
+  error: Error;
+}
+
+export const addBlogError = (error: Error): AddBlogErrorAction => ({
+  type: 'AddBlogErrorAction',
+  error,
+});
+
+export type AddBlogActions = AddBlogRequestAction | AddBlogResponseAction | AddBlogErrorAction;
 
 export const addBlog = (auth: firebase.auth.Auth, blogURL: string) =>
   (dispatch: Dispatch<AddBlogActions>) => {
     dispatch(addBlogRequest());
-    const f = async (userId: string) => {
-      const blogResponse = await fetchBlog(blogURL);
-      if (blogResponse) {
-        saveBlog(
-          userId,
-          blogResponse.url,
-          blogResponse.title,
-          blogResponse.feedUrl,
-          blogResponse.feedType
-        );
-      } else {
-        // show error
-      }
-    };
-
-    const currentUser = auth.currentUser;
-    if (currentUser) {
-      f(currentUser.uid);
-    } else {
-      fetchUser(auth, (user) => {
+    fetchOrCurrenUser(auth, dispatch, async (user: firebase.User | null) => {
+      try {
+        const blogResponse = await fetchBlog(blogURL);
         if (user) {
-          f(user.uid);
+          saveBlog(
+            user.uid,
+            blogResponse.url,
+            blogResponse.title,
+            blogResponse.feedURL,
+            blogResponse.feedType
+          );
+          dispatch(addBlogResponse(blogResponse));
+        } else {
+          dispatch(addBlogError(new Error('Blog missing')));
         }
-      })(dispatch);
-    }
+      } catch (e) {
+        dispatch(addBlogError(e));
+      }
+    });
   };

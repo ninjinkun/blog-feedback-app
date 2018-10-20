@@ -4,7 +4,7 @@ import { FeedType } from '../consts/feed-type';
 export type BlogResponse = {
   title: string;
   url: string;
-  feedUrl: string;
+  feedURL: string;
   feedType: FeedType;
 };
 

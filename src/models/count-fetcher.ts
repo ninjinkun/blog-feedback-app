@@ -3,7 +3,7 @@ import { CountResponse } from './responses';
 import { CountType } from '../consts/count-type';
 
 export async function fetchHatenaBookmarkCounts(urls: string[]): Promise<CountResponse[]> {
-  const apiUrl: string = 'http://api.b.st-hatena.com/entry.counts?' + urls.map((i: string) => 'url=' + encodeURIComponent(i)).join('&');
+  const apiUrl: string = 'https://b.hatena.ne.jp/entry.counts?' + urls.map((i: string) => 'url=' + encodeURIComponent(i)).join('&');
   const response = await fetchJsonp(apiUrl);
   const json = await response.json();
   return Object.keys(json).map((url): CountResponse => { 

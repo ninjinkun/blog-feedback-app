@@ -16,16 +16,17 @@ export function crawl(blogURL: string): [Promise<BlogResponse | undefined>, Prom
 async function fetchFeed(fetchingBlog: Promise<BlogResponse | undefined>): Promise<ItemResponse[] | undefined> {
   const blogResponse = await fetchingBlog;
   if (blogResponse) {
-    switch (blogResponse.feedType) {
+    const { feedType, feedURL } = blogResponse;
+    switch (feedType) {
       case FeedType.Atom:
-        return fetchAtom(blogResponse.feedUrl);
+        return fetchAtom(feedURL);
       case FeedType.RSS:
-        return fetchRss(blogResponse.feedUrl);
+        return fetchRss(feedURL);
       default:
-        throw new Error('Unknown feed type: ' + blogResponse.feedType);
+        throw new Error(`Unknown feed type: ${feedType}`);
     }
   } else {
-    return undefined;
+    throw new Error('Fetch feed failed');
   }
 }
 

@@ -16,11 +16,14 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import Wrapper from './components/atoms/Wrapper';
 import SmartphoneLayout from './components/templates/SmartphoneLayout/index';
+import { baseStyle } from './components/base-style';
 initializeFirebase();
 const store = createStore(
   appReducer,
   composeWithDevTools(applyMiddleware()),
 );
+
+baseStyle();
 
 const App = () => (
   <Provider store={store}>
@@ -46,18 +49,8 @@ const App = () => (
 );
 export default App;
 
-import { injectGlobal } from 'styled-components';
-
-// tslint:disable-next-line:no-unused-expression
-injectGlobal`
-  html, body {
-    height: 100vh;
-    width: 100vw;
-    margin: 0;
-  }
-  #root {
-    height: 100vh;
-  }
+const BodyWrapper = styled(Wrapper)`
+  min-height: 100vh;
 `;
 
 const StyledHeader = styled(Header)`
@@ -74,11 +67,6 @@ const HeaderWrapper = styled(Wrapper)`
   position: relative;
   width: 100%;
   align-items: center;
-`;
-
-const BodyWrapper = styled(Wrapper)`
-  min-height: 100vh;
-  width: 100%;
 `;
 
 const HeaderSpacer = styled.div`

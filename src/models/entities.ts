@@ -1,11 +1,12 @@
 import { CountType } from '../consts/count-type';
 import firebase from 'firebase/app';
+import 'firebase/firestore';
 import { ItemResponse } from './responses';
 
 export type BlogEntity = {
   title: string,
   url: string,
-  feedUrl: string
+  feedURL: string
 };
 
 export type ItemEntity = {

@@ -2,8 +2,10 @@ import { Reducer, Action, AnyAction } from 'redux';
 import { FeedsState, initialState as feedsIniticalState, FeedStates } from '../states/feeds-state';
 import { FeedState, initialState } from '../states/feed-state';
 import { FeedActions } from '../actions/feed-action';
+import { AddBlogResponseAction } from '../actions/add-blog-action';
+import { BlogFirebaseResponseAction } from '../actions/blog-action';
 
-export const feedsReducer: Reducer<FeedsState> = (state = feedsIniticalState, action: FeedActions | Dummy): FeedsState => {
+export const feedsReducer: Reducer<FeedsState> = (state = feedsIniticalState, action: FeedActions | Dummy | AddBlogResponseAction | BlogFirebaseResponseAction): FeedsState => {
   switch (action.type) {
     case 'FeedBlogURLChangeAction': {
       const { blogURL } = action;
@@ -57,7 +59,17 @@ export const feedsReducer: Reducer<FeedsState> = (state = feedsIniticalState, ac
       const { blogURL } = action;
       return updateFeed(blogURL, state, { crowlingLabel: undefined, crowlingRatio: 0 });   
     }
+    case 'AddBlogResponseAction':
+      const { title, url, feedURL } = action.response;
+      return updateFeed(url, state, { title, feedURL });   
 
+    case 'BlogFirebaseResponseAction':
+      const { blogs } = action;      
+      for (let blog of blogs) {
+        const { title, url, feedURL } = blog;
+        state = updateFeed(url, state, { title, feedURL });
+      }
+      return state;
     default:
       return state;
   }

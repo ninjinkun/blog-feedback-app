@@ -8,6 +8,7 @@ export type FeedState = {
   title?: string;
   loading: boolean;
   error?: Error;
+  feedURL?: string;
   crowlingRatio: number; // 0...100
   crowlingLabel?: string;
 };

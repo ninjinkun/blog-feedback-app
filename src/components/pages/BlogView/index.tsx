@@ -1,8 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import * as firebase from 'firebase';
-import MDSpinner from 'react-md-spinner';
-import { Link } from 'react-router-dom';
+import firebase from 'firebase/app';
+import { RouteComponentProps } from 'react-router-dom';
+import 'firebase/auth';
+
 import BlogCell from '../../organisms/BlogCell/index';
 import ScrollView from '../../atoms/ScrollView/index';
 import { AppState } from '../../../redux/states/app-state';
@@ -11,8 +12,8 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { fetchBlogs } from '../../../redux/actions/blog-action';
 import { Button } from '../../atoms/Button/index';
-import Wrapper from '../../atoms/Wrapper/index';
-import Spinner from '../../atoms/Spinner/index';
+import LoadingView from '../../molecules/LoadingView/index';
+import Wrapper from '../../atoms/Wrapper/index'; 
 
 type StateProps = {
   blog: BlogState;
@@ -22,9 +23,15 @@ type DispatchProps = {
   fetchBlogs: (auth: firebase.auth.Auth) => any;
 };
 
-type Props = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps & RouteComponentProps<{}>;
 
 class BlogView extends React.PureComponent<Props, {}> {
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.location !== prevProps.location) {
+      window.scrollTo(0, 0);
+    }
+  } 
+
   componentDidMount() {
     this.fetchBlogs();
   }
@@ -39,21 +46,21 @@ class BlogView extends React.PureComponent<Props, {}> {
       return (
         <StyledScrollView>
           {blogs.map((blog) => (
-            <Link to={`/blogs/${encodeURIComponent(blog.url)}`} key={blog.url}>
-              <BlogCell
-                title={blog.title}
-                favicon={`http://www.google.com/s2/favicons?domain=${blog.url}`}
-              />
-            </Link>
+            <BlogCell 
+              to={`/blogs/${encodeURIComponent(blog.url)}`} 
+              title={blog.title}
+              favicon={`http://www.google.com/s2/favicons?domain=${blog.url}`}
+              key={blog.url}
+            />
           ))}                   
         </StyledScrollView>
       );
     } else if (!loading && blogs && blogs.length === 0) {
       return (<Wrapper><Button>ブログを追加する</Button></Wrapper>);
     }  else if (loading) {
-      return (<SpinnerContainer><Spinner /></SpinnerContainer>);
+      return (<LoadingView />);
     } else {
-      return (<StyledScrollView />);
+      return (<LoadingView />);
     }
   }
 }
@@ -73,12 +80,4 @@ export default connect(mapStateToProps, mapDispatchToProps)(BlogView);
 const StyledScrollView = styled(ScrollView)`
   background-color: white;
   min-height: 100%;
-`;
-
-const SpinnerContainer = styled(Wrapper)`
-  background-color: white;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  padding-top: 16px;
 `;

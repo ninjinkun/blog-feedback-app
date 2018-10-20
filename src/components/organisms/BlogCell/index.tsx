@@ -2,29 +2,34 @@ import * as React from 'react';
 import styled from 'styled-components';
 import * as properties from '../../properties';
 import Favicon from '../../atoms/Favicon/index';
+import { Link } from 'react-router-dom';
+import { LocationDescriptor } from 'history';
 
 type Props = {
     favicon: string;
     title: string;
+    to: LocationDescriptor;
 };
 
-const BlogCell = ({...props}: Props) => (
-  <Wrapper>
-    <ContentWrapper {...props}>
-      <Favicon src={props.favicon}/>
-      <Title>{props.title}</Title>
+const BlogCell = ({to, favicon, title, ...props}: Props) => (
+  <LinkWrapper to={to} {...props}>
+    <ContentWrapper>
+      <Favicon src={favicon}/>
+      <Title>{title}</Title>
     </ContentWrapper>
     <Underline />
-  </Wrapper>
+  </LinkWrapper>
 );
 
 export default BlogCell;
 
-const Wrapper = styled.div`
+const LinkWrapper = styled(Link)`
   display: flex;
   flex-direction: column;
   padding: ${properties.baseMargin};  
   background-color: white;
+  margin: 0;
+  padding: 16px 8px 0px 8px;
 `;
 
 const ContentWrapper = styled.div`
@@ -40,6 +45,5 @@ const Title = styled.h3`
 
 const Underline = styled.span`
   border-bottom: ${properties.border};
-  margin-top: 8px;
-  margin-left: ${8 + 16}px;
+  margin: 8px 0 0 ${8 + 16}px;  
 `;

@@ -162,8 +162,8 @@ export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string, getFi
       try {
         blogResponse = await fetchBlog;
         if (blogResponse) {
-          const { url, title, feedUrl, feedType } = blogResponse;
-          saveBlog(userId, url, title, feedUrl, feedType);
+          const { url, title, feedURL, feedType } = blogResponse;
+          saveBlog(userId, url, title, feedURL, feedType);
           dispatch(feedCrowlerTitleResponseAction(blogURL, title));
         }
       } catch (e) {

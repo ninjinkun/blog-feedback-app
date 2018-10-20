@@ -1,7 +1,6 @@
-import * as firebase from 'firebase';
-
 export type UserState = {
-  user?: firebase.User
+  user?: firebase.User,
+  loading: boolean,
 };
 
-export const initialState: UserState = {};
+export const initialState: UserState = { loading: false };

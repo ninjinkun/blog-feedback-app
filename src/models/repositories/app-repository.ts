@@ -1,4 +1,5 @@
-import { firestore } from 'firebase';
+import { firestore } from 'firebase/app';
+import 'firebase/firestore';
 
 export function db(): firestore.Firestore {
   return firestore();
