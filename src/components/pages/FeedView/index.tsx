@@ -17,7 +17,6 @@ import { feedBlogURLChange, fetchFirebaseFeed, fetchOnlineFeed, feedBlogURLClear
 import { FeedsState } from '../../../redux/states/feeds-state';
 import { colorsValue } from '../../properties';
 import LoadingView from '../../molecules/LoadingView/index';
-import { RouteComponentProps } from 'react-router-dom';
 
 type StateProps = {
   feeds: FeedsState;
@@ -30,15 +29,9 @@ type DispatchProps = {
   fetchOnlineFeed: (auth: firebase.auth.Auth, blogURL: string, getItemEntities: ItemEntitiesFunction) => any;
 };
 
-type Props = { url: string } & StateProps & DispatchProps & RouteComponentProps<{}>;
+type Props = { url: string } & StateProps & DispatchProps;
 
 class FeedView extends React.PureComponent<Props> {
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.location !== prevProps.location) {
-      window.scrollTo(0, 0);
-    }
-  } 
-
   componentDidMount() {
     const blogURL = this.props.url;
     this.props.feedBlogURLChange(blogURL);

@@ -23,15 +23,9 @@ type DispatchProps = {
   fetchBlogs: (auth: firebase.auth.Auth) => any;
 };
 
-type Props = StateProps & DispatchProps & RouteComponentProps<{}>;
+type Props = StateProps & DispatchProps;
 
 class BlogView extends React.PureComponent<Props, {}> {
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.location !== prevProps.location) {
-      window.scrollTo(0, 0);
-    }
-  } 
-
   componentDidMount() {
     this.fetchBlogs();
   }

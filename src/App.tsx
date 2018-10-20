@@ -17,6 +17,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import Wrapper from './components/atoms/Wrapper';
 import SmartphoneLayout from './components/templates/SmartphoneLayout/index';
 import { baseStyle } from './components/base-style';
+import ScrollToTop from './components/templates/ScrollToTop/index';
 initializeFirebase();
 const store = createStore(
   appReducer,
@@ -29,6 +30,7 @@ const App = () => (
   <Provider store={store}>
     <SmartphoneLayout>
       <BrowserRouter>
+        <ScrollToTop>
         <BodyWrapper>
           <HeaderWrapper>
             <StyledHeader />
@@ -43,6 +45,7 @@ const App = () => (
             component={Feed}
           />
         </BodyWrapper>
+        </ScrollToTop>
       </BrowserRouter>
     </SmartphoneLayout>
   </Provider>
