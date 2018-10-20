@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import CountButton from '../../molecules/CountButton/index';
 import { CountType } from '../../../consts/count-type';
-import Favicon from '../../atoms/Favicon/index';
 import TwincleAnimation from '../../atoms/TwincleAnimation/index';
 import CountUpAnimation from '../../atoms/CountUpAnimation/index';
 

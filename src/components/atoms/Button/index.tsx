@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import * as properties from '../../properties';
 
-const Base = styled.button`
+const baseStyle = `
   border-radius: 4px;
   border-width: 0;
   display: flex;
@@ -19,20 +19,32 @@ const Base = styled.button`
   }  
 `;
 
-export const Button = styled(Base)`
+const ButtonBase = styled.button`${baseStyle}`;
+const InputBase = styled.input`${baseStyle}`;
+
+const buttonStyle = `
   background-color: inherit;
   border: ${properties.border};
   color: ${properties.colors.gray};
 `;
 
-export const PrimaryButton = styled(Base)`
+export const Button = styled(ButtonBase)`${buttonStyle}`;
+export const Input = styled(InputBase)`${buttonStyle}`;
+
+const primaryButtonStyle = `
   background-color: ${properties.colors.primary};
   color: ${properties.colors.white};
 `;
 
-export const WarningButton = styled(Base)`
+export const PrimaryButton = styled(ButtonBase)`${primaryButtonStyle}`;
+export const PrimaryInput = styled(InputBase)`${primaryButtonStyle}`;
+
+const warningButtonStyle = `
   background-color: ${properties.colors.warning};
   color: ${properties.colors.white};
 `;
+
+export const WarningButton = styled(ButtonBase)`${warningButtonStyle}`;
+export const WarningInput = styled(InputBase)`${warningButtonStyle}`;
 
 export default Button;

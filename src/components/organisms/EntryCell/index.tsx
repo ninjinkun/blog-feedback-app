@@ -40,13 +40,14 @@ const AnkerWrapper = styled.a`
   padding: 8px;
   background: ${properties.colorsValue.white};
   border: ${properties.border};
-  margin: 8px 16px;
-  box-shadow: 0px 0px 0.5px 0.5px #ddd;
+  margin: 6px 12px;
+  box-sizing: border-box;
+  box-shadow: 0 0 1px 0 #e1e1e1;
   &:first-child {
-      margin: 16px 16px 8px 16px;
+      margin: 12px 12px 6px 12px;
   }
   &:last-child {
-      margin: 8px 16px 16px 16px;
+      margin: 6px 12px 12px 12px;
   }
 `;
 

@@ -33,7 +33,7 @@ export const colorsMedia = {
   infoLayer1: colorsValue.grayPale,
   infoLayer2: colorsValue.white,
   card: colorsValue.white,
-  cardHeader: colorsValue.black
+  cardHeader: colorsValue.black,
 };
 
 export const colors = Object.assign(colorsValue, colorsBlanding, colorsMedia);

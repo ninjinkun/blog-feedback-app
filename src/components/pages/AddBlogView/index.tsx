@@ -7,10 +7,12 @@ import { BrowserRouter, Route, Link, Redirect, match as matchParam, withRouter, 
 import { fetchBlog } from './../../../models/feed-fetcher';
 import Wrapper from '../../atoms/Wrapper/index';
 import Spinner from '../../atoms/Spinner/index';
+import AddBlogForm from '../../organisms/AddBlogForm/index';
 import { connect } from 'react-redux';
 import { AppState } from '../../../redux/states/app-state';
 import { addBlog } from '../../../redux/actions/add-blog-action';
 import { AddBlogState } from '../../../redux/states/add-blog-state';
+import { MdError } from 'react-icons/md';
 
 type StateProps = {
   addBlogState: AddBlogState;
@@ -19,39 +21,34 @@ type StateProps = {
 type DispatchProps = {
   addBlog: (auth: firebase.auth.Auth, blogURL: string) => any;
 };
+type Props = StateProps & DispatchProps & RouteComponentProps<{}>;
 
-class AddBlogView extends React.Component<StateProps & DispatchProps & RouteComponentProps<{}>, { url: string }> {
-  constructor(props: any) {
-    super(props);
-    this.state = { url: '' };
-  }
-
+class AddBlogView extends React.PureComponent<StateProps & DispatchProps & RouteComponentProps<{}>> {
   render() {
     const { loading, error, finished, blogURL } = this.props.addBlogState;
     if (finished && blogURL) {
       return (<Redirect to={`/blogs/${encodeURIComponent(blogURL)}`} />);
     } else {
       return (
-        <Wrapper>
-          <form onSubmit={(e) => this.handleSubmit(e)}>
-            <label>
-              Blog URL:
-              <input type="url" value={this.state.url} onChange={(e) => { this.setState({ url: e.target.value }); }} />
-            </label>
-            <input type="submit" value="Submit" />
-          </form>
-          {loading ? <Wrapper><Spinner /></Wrapper> : null}
-          {error ? <Wrapper>{error.message}</Wrapper> : null}
-        </Wrapper>
+        <FormWrapper>
+          <AddBlogForm  
+            handleSubmit={(e) => this.handleSubmit(e)} 
+            loading={loading}
+            errorMessage={error && error.message}
+          />
+        </FormWrapper>
       );
     }
   }
 
-  handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    this.props.addBlog(firebase.auth(), this.state.url);
+  handleSubmit(url: string) {
+    this.props.addBlog(firebase.auth(), url);
   }
 }
+
+const FormWrapper = styled(Wrapper)`
+  margin-top: 30vh;
+`;
 
 const mapStateToProps = (state: AppState) => ({
   'addBlogState': state.addBlog

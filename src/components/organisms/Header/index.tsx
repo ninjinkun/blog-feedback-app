@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import * as properties from '../../properties';
-import * as Matreial from 'react-icons/md';
+import { MdArrowBack, MdAdd } from 'react-icons/md';
 import HeaderLoadingIndicator from '../../molecules/HeaderLoadingIndicator/index';
 
 type HeaderProps = {
@@ -69,12 +69,12 @@ white-space: nowrap;
 max-width: 100%;
 `;
 
-const BackButton = styled(Matreial.MdArrowBack)`
+const BackButton = styled(MdArrowBack)`
 cursor: pointer;
 padding: 8px;
 `;
 
-const AddButton = styled(Matreial.MdAdd)`
+const AddButton = styled(MdAdd)`
 cursor: pointer;
 padding: 8px;
 `;
