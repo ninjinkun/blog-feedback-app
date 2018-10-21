@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import * as properties from '../../properties';
-import { CountType } from '../../../consts/count-type';
+import { CountType, toServiceURL } from '../../../consts/count-type';
 import Favicon from '../../atoms/Favicon/index';
 import AnimatedCountButton from '../AnimatedCountButton/index';
 
@@ -25,7 +25,19 @@ const EntryCell: React.SFC<Props> = ({ favicon, title, counts, url, ...props }) 
       <Title>{title}</Title>
       <ButtonWrapper>
         {counts.map(count =>
-          <AnimatedCountButton animate={count.animate} key={count.type} type={count.type} count={count.count || 0} />
+          <AnimatedCountButton 
+            animate={count.animate} 
+            key={count.type} 
+            type={count.type} 
+            count={count.count || 0} 
+            onClick={ (e) =>  {
+              e.preventDefault();
+              const location = toServiceURL(count.type, url);
+              if (location) {
+                window.location.href = location;
+              }
+            }}
+          />
         )}
       </ButtonWrapper>
     </ContentWrapper>

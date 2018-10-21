@@ -10,18 +10,19 @@ type Props = {
   animate: boolean,
   type: CountType,
   count: number,
+  onClick?: React.MouseEventHandler;
 };
 
 export default class AnimatedCountButton extends React.PureComponent<Props> {
   prevCount?: number;
 
   render() {
-    const { animate, type, count } = this.props;
+    const { animate, type, count, onClick } = this.props;
     const { prevCount } = this;
     const res = (
       <StyledTwincleAnimation animate={animate} key={type} >
         <CountUpAnimation start={animate && prevCount ? prevCount : count} end={count}>
-          {(value) => <StyledCountButton type={type} count={value} />}
+          {(value) => <StyledCountButton type={type} count={value} onClick={onClick} />}
         </CountUpAnimation>
       </StyledTwincleAnimation>
     );

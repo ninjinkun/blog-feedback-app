@@ -8,10 +8,11 @@ import { CountType } from '../../../consts/count-type';
 type Props = {
     type: CountType;
     count?: Number;
+    onClick?: React.MouseEventHandler;
 };
 
-const CountButton: React.SFC<Props> = ({count, type, children, ...props}) => (
-    <StyledButton {...props}>
+const CountButton: React.SFC<Props> = ({count, type, children, onClick, ...props}) => (
+    <StyledButton onClick={onClick} {...props}>
         <ServiceIcon type={type} />
         <CuontLabel>{count}</CuontLabel>
         {children}
