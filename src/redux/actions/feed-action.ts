@@ -1,3 +1,6 @@
+import firebase from 'firebase';
+import 'firebase/auth';
+
 import { Dispatch, Action, ActionCreator, bindActionCreators } from 'redux';
 
 import { ItemEntity, CountEntity, CountEntities } from '../../models/entities';
@@ -8,7 +11,6 @@ import { findAllItems, saveItemBatch, CountSaveEntities } from '../../models/rep
 import { crawl } from '../../models/crawler';
 import { BlogResponse, ItemResponse, CountResponse } from '../../models/responses';
 import { writeBatch } from '../../models/repositories/app-repository';
-import firebase from 'firebase';
 
 export interface FeedBlogURLChangeAction extends Action {
   type: 'FeedBlogURLChangeAction';
@@ -191,14 +193,15 @@ export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string, getFi
           const hatenaBookmarkMap = new Map<string, CountResponse>(counts.filter(c => c.type === CountType.HatenaBookmark).map(c => [c.url, c] as [string, CountResponse]));
 
           const firebaseEntities = getFirebaseEntities();
-
+          const firebaseMap = new Map<string, ItemEntity>(firebaseEntities.map(i => [i.url, i] as [string, ItemEntity]));
           const firebaseFacebookMap = new Map<string, CountEntity>(firebaseEntities.filter(e => e.counts && e.counts[CountType.Facebook]).map(e => [e.url, e.counts && e.counts[CountType.Facebook]] as [string, CountEntity]));
           const firebaseHatenaBookmarkMap = new Map<string, CountEntity>(firebaseEntities.filter(e => e.counts && e.counts[CountType.HatenaBookmark]).map(e => [e.url, e.counts && e.counts[CountType.HatenaBookmark]] as [string, CountEntity]));
           const firebasePrevFacebookMap = new Map<string, CountEntity>(firebaseEntities.filter(e => e.counts && e.prevCounts[CountType.Facebook]).map(e => [e.url, e.counts && e.prevCounts[CountType.Facebook]] as [string, CountEntity]));
           const firebasePrevHatenaBookmarkMap = new Map<string, CountEntity>(firebaseEntities.filter(e => e.counts && e.prevCounts[CountType.HatenaBookmark]).map(e => [e.url, e.counts && e.prevCounts[CountType.HatenaBookmark]] as [string, CountEntity]));
 
           if (blogResponse && feedItemsResponse) {
-            feedItemsResponse.forEach((item: ItemResponse) => {
+            let shouldCommit = false;
+            for (let item of feedItemsResponse) {
               const itemCounts: CountSaveEntities = {};
               const facebookCount = facebookMap.get(item.url);
               const firebaseFacebookCount = firebaseFacebookMap.get(item.url);
@@ -242,21 +245,43 @@ export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string, getFi
               } else if (!prevHatenaBookmarkCount && itemCounts.hatenabookmark) {
                 prevCounts.hatenabookmark = itemCounts.hatenabookmark;
               }
+ 
+              const firebaseItem = firebaseMap.get(item.url);
+              let shouldSave = false;
+              if (firebaseItem) {
+                shouldSave = item.title !== firebaseItem.title;
+              } else {
+                shouldSave = true;
+              }
+              if (hatenaBookmarkCount && firebaseHatenaBookmarkCount) {
+                shouldSave = hatenaBookmarkCount.count !== firebaseHatenaBookmarkCount.count;
+              } else if (hatenaBookmarkCount) {
+                shouldSave = true;
+              }
 
-              if (blogResponse) {
+              if (facebookCount && firebaseFacebookCount) {
+                shouldSave = facebookCount.count !== firebaseFacebookCount.count;
+              } else if (facebookCount) {
+                shouldSave = true;
+              }
+
+              if (shouldSave) {                
                 saveItemBatch(
                   batch,
                   userId,
-                  blogResponse.url,
+                  blogURL,
                   item.url,
                   item.title,
                   item.published,
                   itemCounts,
                   prevCounts,
                 );
+                shouldCommit = true;
               }
-            });
-            await batch.commit();
+            }
+            if (shouldCommit) {
+              await batch.commit();
+            }
           }
         }
       } catch (e) {
