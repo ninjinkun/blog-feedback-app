@@ -31,6 +31,9 @@ type DispatchProps = {
 
 type Props = { url: string } & StateProps & DispatchProps;
 
+type CountMap = Map<string, number>;
+type AnimateMap = Map<string, boolean>;
+
 class FeedView extends React.PureComponent<Props> {
   componentDidMount() {
     const blogURL = this.props.url;
@@ -84,18 +87,31 @@ class FeedView extends React.PureComponent<Props> {
     }
   }
 
-  stateToViewData(fetchedCounts: CountResponse[] | undefined, firebaseEntities: ItemEntity[] | undefined, countType: CountType): [Map<string, number>, Map<string, boolean>] {
-    const filteredFetchedCounts: CountResponse[] = fetchedCounts && fetchedCounts.filter(({ type }) => type === countType) || [];
-    const fetchedMap: Map<string, number> = new Map<string, number>(filteredFetchedCounts.map(({ url, count }) => [url, count] as [string, number]));
+  stateToViewData(fetchedCounts: CountResponse[] | undefined, firebaseEntities: ItemEntity[] | undefined, countType: CountType): [CountMap, AnimateMap] {
+    const filteredFetchedCounts: CountResponse[] = fetchedCounts && fetchedCounts.filter(
+      ({ type }) => type === countType
+    ) || [];
+    const fetchedMap: CountMap = new Map(filteredFetchedCounts.map(
+      ({ url, count }) => [url, count] as [string, number]
+    ));
 
-    const filteredFirebaseCounts = firebaseEntities && firebaseEntities.filter(({ counts }) => counts && (counts[countType])) || [];
-    const firebaseMap = new Map<string, number>(filteredFirebaseCounts.map(({ url, counts }) => [url, counts[countType].count] as [string, number]));
+    const filteredFirebaseCounts = firebaseEntities && firebaseEntities.filter(
+      ({ counts }) => counts && counts[countType]
+    ) || [];
+    const firebaseMap: CountMap = new Map(filteredFirebaseCounts.map(
+      ({ url, counts }) => [url, counts[countType].count] as [string, number]
+    ));
+    const countsMap: CountMap = new Map([...firebaseMap, ...fetchedMap]);
 
-    const countsMap = new Map([...firebaseMap, ...fetchedMap]);
-
-    const prevFirebaseCounts = filteredFirebaseCounts.filter(i => i.prevCounts && i.prevCounts[countType]);
-    const prevFirebaseMap = new Map<string, number>(prevFirebaseCounts.map(({ url, prevCounts }) => [url, prevCounts[countType].count] as [string, number]));
-    const animateMap = new Map<string, boolean>(filteredFetchedCounts.map(({ url, count }) => [url, (count > (prevFirebaseMap.get(url) || 0))] as [string, boolean]));
+    const prevFirebaseCounts = filteredFirebaseCounts.filter(
+      ({ prevCounts }) => prevCounts && prevCounts[countType]
+    );
+    const prevFirebaseMap: CountMap = new Map(prevFirebaseCounts.map(
+      ({ url, prevCounts }) => [url, prevCounts[countType].count] as [string, number]
+    ));
+    const animateMap: AnimateMap = new Map(filteredFetchedCounts.map(
+      ({ url, count }) => [url, (count > (prevFirebaseMap.get(url) || 0))] as [string, boolean]
+    ));
 
     return [countsMap, animateMap];
   }
