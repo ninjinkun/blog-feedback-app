@@ -9,6 +9,8 @@ export const userReducer: Reducer<AddBlogState> = (state = initialState, action:
     case 'UserFirebaseResponseAction':
       const { user } = action;
       return { ...state, user, loading: false };
+    case 'UserFirebaseUnauthorizedResponseAction':
+      return { ...state, loading: false };
     default:
       return state;
   }

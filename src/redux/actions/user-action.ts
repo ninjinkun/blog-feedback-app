@@ -21,11 +21,21 @@ const userResponse: ActionCreator<UserFirebaseResponseAction> = (user: firebase.
   user: user,
 });
 
+export interface UserFirebaseUnauthorizedResponseAction extends Action {
+  type: 'UserFirebaseUnauthorizedResponseAction';
+}
+
+const unauthorizedReponse = () => ({
+  type: 'UserFirebaseUnauthorizedResponseAction',
+});
+
 export const fetchUser = (auth: firebase.auth.Auth, callback?: (user: firebase.User | null) => any) => (dispatch: Dispatch<AppState>) => {
   dispatch(userRequest());
   auth.onAuthStateChanged((user) => {
     if (user) {
       dispatch(userResponse(user));
+    } else {
+      dispatch(unauthorizedReponse());
     }
     if (callback) {
       callback(user);
@@ -42,4 +52,4 @@ export function fetchOrCurrenUser(auth: firebase.auth.Auth, dispatch: Dispatch<A
   }
 } 
 
-export type UserActions = UserFirebaseRequestAction | UserFirebaseResponseAction;
+export type UserActions = UserFirebaseRequestAction | UserFirebaseResponseAction | UserFirebaseUnauthorizedResponseAction;
