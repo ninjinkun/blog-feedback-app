@@ -43,7 +43,7 @@ class BlogView extends React.PureComponent<Props, {}> {
             <BlogCell 
               to={`/blogs/${encodeURIComponent(blog.url)}`} 
               title={blog.title}
-              favicon={`http://www.google.com/s2/favicons?domain=${blog.url}`}
+              favicon={`https://www.google.com/s2/favicons?domain=${blog.url}`}
               key={blog.url}
             />
           ))}                   

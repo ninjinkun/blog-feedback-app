@@ -74,7 +74,7 @@ class FeedView extends React.PureComponent<Props> {
               <EntryCell
                 key={item.url}
                 title={item.title}
-                favicon={`http://www.google.com/s2/favicons?domain=${item.url}`}
+                favicon={`https://www.google.com/s2/favicons?domain=${item.url}`}
                 counts={[
                   { type: CountType.Twitter, count: 0, animate: false },
                   { type: CountType.Facebook, count: facebookMap.get(item.url) || 0, animate: !!(facebookAnimateMap && facebookAnimateMap.get(item.url)) },
