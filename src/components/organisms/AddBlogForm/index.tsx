@@ -43,8 +43,8 @@ export default class AddBlogForm extends React.PureComponent<Props, States> {
           </StyledLabel>
           <PrimaryInput type="submit" value="Add blog" />
         </StyledForm>
-        {loading ? <SpinnerWrapper><Spinner /></SpinnerWrapper> : null}
         {errorMessage ? <ErrorWrapper><ErrorIcon size={20} />  {errorMessage}</ErrorWrapper> : null}
+        {loading ? <SpinnerWrapper><Spinner /></SpinnerWrapper> : null}
       </StyledWrapper>
     );
   }

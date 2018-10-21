@@ -47,7 +47,7 @@ class AddBlogView extends React.PureComponent<StateProps & DispatchProps & Route
 }
 
 const FormWrapper = styled(Wrapper)`
-  margin-top: 30vh;
+  margin-top: 25vh;
 `;
 
 const mapStateToProps = (state: AppState) => ({

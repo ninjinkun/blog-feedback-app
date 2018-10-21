@@ -13,6 +13,7 @@ const baseStyle = `
   text-decoration: none;
   align-items: center;
   cursor: pointer;
+  border-radius; 4px;
   transition: ${properties.fadeAnimation}};
   &:hover {
     opacity: ${properties.hoverFeedbackOpacity};
