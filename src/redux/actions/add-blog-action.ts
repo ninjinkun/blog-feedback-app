@@ -1,3 +1,6 @@
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+
 import { Dispatch, Action, ActionCreator, bindActionCreators } from 'redux';
 import { fetchBlog } from '../../models/feed-fetcher';
 import { fetchOrCurrenUser } from './user-action';

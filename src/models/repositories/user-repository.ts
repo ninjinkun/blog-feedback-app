@@ -1,4 +1,4 @@
-import { firestore } from 'firebase/app';
+import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { db } from './app-repository';
 

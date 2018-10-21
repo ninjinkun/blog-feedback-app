@@ -1,10 +1,10 @@
-import { firestore } from 'firebase/app';
+import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 
-export function db(): firestore.Firestore {
-  return firestore();
+export function db(): firebase.firestore.Firestore {
+  return firebase.firestore();
 }
 
-export function writeBatch(): firestore.WriteBatch {
+export function writeBatch(): firebase.firestore.WriteBatch {
   return db().batch();
 }

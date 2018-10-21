@@ -1,4 +1,4 @@
-import { firestore } from 'firebase/app';
+import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { userRef } from './user-repository';
 import { BlogEntity } from './../entities';
@@ -29,6 +29,6 @@ export function saveBlog(userId: string, blogUrl: string, blogTitle: string, fee
     url: blogUrl,
     feedURL,
     feedType,
-    timestamp: firestore.FieldValue.serverTimestamp()
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
   });
 }

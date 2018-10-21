@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import firebase from 'firebase/app';
+import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
 import { ItemResponse, CountResponse } from '../../../models/responses';

@@ -1,5 +1,5 @@
 import { Dispatch, Action, ActionCreator, bindActionCreators } from 'redux';
-import firebase from 'firebase/app';
+import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { AppState } from '../states/app-state';
 

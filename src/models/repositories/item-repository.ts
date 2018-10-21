@@ -1,4 +1,4 @@
-import { firestore } from 'firebase/app';
+import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { blogRef } from './blog-repository';
 import { ItemEntity, CountEntities, CountEntity } from '../entities';
@@ -45,6 +45,6 @@ export function saveItemBatch(
     published,
     counts,
     prevCounts,
-    timestamp: firestore.FieldValue.serverTimestamp()
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
   });
 }

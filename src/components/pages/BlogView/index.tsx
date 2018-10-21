@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import firebase from 'firebase/app';
-import { RouteComponentProps } from 'react-router-dom';
+import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
 import BlogCell from '../../organisms/BlogCell/index';

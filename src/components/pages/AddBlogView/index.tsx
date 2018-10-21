@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import firebase from 'firebase/app';
+import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import { Dispatch } from 'redux';
 import { BrowserRouter, Route, Link, Redirect, match as matchParam, withRouter, RouteComponentProps } from 'react-router-dom';

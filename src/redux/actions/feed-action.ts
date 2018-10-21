@@ -1,9 +1,9 @@
-import firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
-import { Dispatch, Action, ActionCreator, bindActionCreators } from 'redux';
+import { Dispatch, Action, ActionCreator } from 'redux';
 
-import { ItemEntity, CountEntity, CountEntities } from '../../models/entities';
+import { ItemEntity, CountEntity } from '../../models/entities';
 import { fetchUser } from './user-action';
 import { CountType } from '../../consts/count-type';
 import { findBlog, saveBlog } from '../../models/repositories/blog-repository';
