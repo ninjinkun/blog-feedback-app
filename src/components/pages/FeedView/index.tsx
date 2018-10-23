@@ -6,7 +6,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
 import { ItemResponse, CountResponse } from '../../../models/responses';
-import { ItemEntity } from '../../../models/entities';
+import { ItemEntity, CountEntity } from '../../../models/entities';
 import ScrollView from '../../atoms/ScrollView/index';
 import { CountType } from '../../../consts/count-type';
 import EntryCell from '../../organisms/EntryCell/index';
@@ -105,12 +105,15 @@ class FeedView extends React.PureComponent<Props> {
     const prevFirebaseCounts = filteredFirebaseCounts.filter(
       ({ prevCounts }) => prevCounts && prevCounts[countType]
     );
-    const prevFirebaseMap: CountMap = new Map(prevFirebaseCounts.map(
-      ({ url, prevCounts }) => [url, prevCounts[countType].count] as [string, number]
+    const prevFirebaseMap: Map<string, CountEntity> = new Map(prevFirebaseCounts.map(
+      ({ url, prevCounts }) => [url, prevCounts[countType]] as [string, CountEntity]
     ));
-    const animateMap: AnimateMap = new Map(filteredFetchedCounts.map(
-      ({ url, count }) => [url, (count > (prevFirebaseMap.get(url) || 0))] as [string, boolean]
-    ));
+    const animateMap: AnimateMap = new Map(filteredFetchedCounts.map(({ url, count }) => {
+      const prevCount = prevFirebaseMap.get(url);
+      const animate = !prevCount && count > 0 || 
+        prevCount && count > prevCount.count;
+      return [url, animate] as [string, boolean];
+    }));
 
     return [countsMap, animateMap];
   }

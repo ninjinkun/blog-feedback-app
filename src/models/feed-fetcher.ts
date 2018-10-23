@@ -2,7 +2,7 @@ import { BlogResponse, ItemResponse } from './responses';
 import { FeedType } from '../consts/feed-type';
 
 export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
-  const response = await fetch('https://query.yahooapis.com/v1/public/yql?format=json&q=' + encodeURIComponent('select * from htmlstring where url = \'' + blogURL + '\'') + '&env=' + encodeURIComponent('store://datatables.org/alltableswithkeys'));
+  const response = await fetch(`https://query.yahooapis.com/v1/public/yql?format=json&q=${encodeURIComponent(`select * from htmlstring where url = '${blogURL}'`)}&env=${encodeURIComponent('store://datatables.org/alltableswithkeys')}`);
   const json: YahooAPIs.HTMLString.Response = await response.json();
   const results = json.query.results;
 
@@ -13,23 +13,26 @@ export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
 
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlText, 'text/html');
-    const snapshots = doc.evaluate('/html/head/link[@rel=\'alternate\']', doc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+    const snapshots = doc.evaluate(`/html/head/link[@rel='alternate']`, doc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
 
     // prefer Atom than RSS
     let type: FeedType | undefined;
     let href: string | undefined;
-    for (let i = 0; i < snapshots.snapshotLength || type === FeedType.Atom; i++) {
+    for (let i = 0; i < snapshots.snapshotLength; i++) {
       const item = snapshots.snapshotItem(i) as HTMLAnchorElement;
-      href = item.href;
-      switch (item.type) {
-        case 'application/atom+xml':
-          type = FeedType.Atom;
-          break;
-        case 'application/rss+xml':
-          type = FeedType.RSS;
-          break;
-        default:
-          break;
+      if (item) {
+        switch (item.type) {
+          case 'application/atom+xml':
+            href = item.href;
+            type = FeedType.Atom;
+            break;
+          case 'application/rss+xml':
+            href = item.href;
+            type = FeedType.RSS;
+            break;
+          default:
+            break;
+        }  
       }
     }
     if (!href) {

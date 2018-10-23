@@ -207,9 +207,9 @@ export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string, getFi
               const firebaseFacebookCount = firebaseFacebookMap.get(item.url);
               if (facebookCount) {
                 const { count } = facebookCount;
-                itemCounts.facebook = { 
-                   count, 
-                   timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                itemCounts.facebook = {
+                  count,
+                  timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 };
               } else if (firebaseFacebookCount) {
                 itemCounts.facebook = firebaseFacebookCount;
@@ -219,9 +219,9 @@ export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string, getFi
               const firebaseHatenaBookmarkCount = firebaseHatenaBookmarkMap.get(item.url);
               if (hatenaBookmarkCount) {
                 const { count } = hatenaBookmarkCount;
-                itemCounts.hatenabookmark = { 
-                  count, 
-                  timestamp: firebase.firestore.FieldValue.serverTimestamp() 
+                itemCounts.hatenabookmark = {
+                  count,
+                  timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 };
               } else if (firebaseHatenaBookmarkCount) {
                 itemCounts.hatenabookmark = firebaseHatenaBookmarkCount;
@@ -245,27 +245,24 @@ export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string, getFi
               } else if (!prevHatenaBookmarkCount && itemCounts.hatenabookmark) {
                 prevCounts.hatenabookmark = itemCounts.hatenabookmark;
               }
- 
+
               const firebaseItem = firebaseMap.get(item.url);
-              let shouldSave = false;
-              if (firebaseItem) {
-                shouldSave = item.title !== firebaseItem.title;
-              } else {
-                shouldSave = true;
-              }
-              if (hatenaBookmarkCount && firebaseHatenaBookmarkCount) {
-                shouldSave = hatenaBookmarkCount.count !== firebaseHatenaBookmarkCount.count;
-              } else if (hatenaBookmarkCount) {
-                shouldSave = true;
-              }
 
-              if (facebookCount && firebaseFacebookCount) {
-                shouldSave = facebookCount.count !== firebaseFacebookCount.count;
-              } else if (facebookCount) {
-                shouldSave = true;
-              }
+              const isTitleChanged = !firebaseItem || firebaseItem && item.title !== firebaseItem.title;
+              const isHatenaBookmarkCountChanged = !firebaseHatenaBookmarkCount || hatenaBookmarkCount && firebaseHatenaBookmarkCount &&
+                hatenaBookmarkCount.count !== firebaseHatenaBookmarkCount.count;
+              const isFacebookCountChanged = !firebaseFacebookCount || facebookCount && firebaseFacebookCount &&
+                facebookCount.count !== firebaseFacebookCount.count;
 
-              if (shouldSave) {                
+              const firebasePrevHatenaBookmarkCount = firebasePrevHatenaBookmarkMap.get(item.url);
+              const isPrevHatenaBookmarkCountChanged = !firebaseHatenaBookmarkCount ||
+                prevHatenaBookmarkCount && firebasePrevHatenaBookmarkCount && prevHatenaBookmarkCount.count !== firebasePrevHatenaBookmarkCount.count;
+              const firebasePrevFacebookCount = firebasePrevFacebookMap.get(item.url);
+              const isPrevFacebookCountChanged = !firebaseFacebookCount ||
+                prevFacebookCount && firebasePrevFacebookCount && prevFacebookCount.count !== firebasePrevFacebookCount.count;
+
+              const shouldSave = isTitleChanged || isHatenaBookmarkCountChanged || isFacebookCountChanged || isPrevHatenaBookmarkCountChanged || isPrevFacebookCountChanged;
+              if (shouldSave) {
                 saveItemBatch(
                   batch,
                   userId,
