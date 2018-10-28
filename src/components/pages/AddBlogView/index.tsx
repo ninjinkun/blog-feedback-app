@@ -4,15 +4,12 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import { Dispatch } from 'redux';
 import { BrowserRouter, Route, Link, Redirect, match as matchParam, withRouter, RouteComponentProps } from 'react-router-dom';
-import { fetchBlog } from './../../../models/feed-fetcher';
 import Wrapper from '../../atoms/Wrapper/index';
-import Spinner from '../../atoms/Spinner/index';
 import AddBlogForm from '../../organisms/AddBlogForm/index';
 import { connect } from 'react-redux';
 import { AppState } from '../../../redux/states/app-state';
-import { addBlog } from '../../../redux/actions/add-blog-action';
+import { addBlog, addBlogInitialize } from '../../../redux/actions/add-blog-action';
 import { AddBlogState } from '../../../redux/states/add-blog-state';
-import { MdError } from 'react-icons/md';
 
 type StateProps = {
   addBlogState: AddBlogState;
@@ -20,10 +17,15 @@ type StateProps = {
 
 type DispatchProps = {
   addBlog: (auth: firebase.auth.Auth, blogURL: string) => any;
+  addBlogInitialize: () => any;
 };
 type Props = StateProps & DispatchProps & RouteComponentProps<{}>;
 
-class AddBlogView extends React.PureComponent<StateProps & DispatchProps & RouteComponentProps<{}>> {
+class AddBlogView extends React.PureComponent<Props> {
+  componentDidMount() {
+    this.props.addBlogInitialize();
+  }
+
   render() {
     const { loading, error, finished, blogURL } = this.props.addBlogState;
     if (finished && blogURL) {
@@ -56,7 +58,8 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: Dispatch<AppState>) {
   return {
-    addBlog: (auth: firebase.auth.Auth, blogURL: string) => addBlog(auth, blogURL)(dispatch)
+    addBlog: (auth: firebase.auth.Auth, blogURL: string) => addBlog(auth, blogURL)(dispatch),
+    addBlogInitialize: () => dispatch(addBlogInitialize()),
   };
 }
 

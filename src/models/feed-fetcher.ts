@@ -1,9 +1,12 @@
 import { BlogResponse, ItemResponse } from './responses';
 import { FeedType } from '../consts/feed-type';
+import { HTMLStringResponse } from '../consts/yahoo-api/html-string';
+import { AtomResponse } from '../consts/yahoo-api/atom';
+import { RSSResponse } from '../consts/yahoo-api/rss';
 
 export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
   const response = await fetch(`https://query.yahooapis.com/v1/public/yql?format=json&q=${encodeURIComponent(`select * from htmlstring where url = '${blogURL}'`)}&env=${encodeURIComponent('store://datatables.org/alltableswithkeys')}`);
-  const json: YahooAPIs.HTMLString.Response = await response.json();
+  const json: HTMLStringResponse = await response.json();
   const results = json.query.results;
 
   if (!results) {
@@ -52,7 +55,7 @@ export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
 
 export async function fetchAtom(atomUrl: string): Promise<ItemResponse[] | undefined> {
   const response = await fetch('https://query.yahooapis.com/v1/public/yql?format=json&q=' + encodeURIComponent('select * from atom(100) where url = \'' + atomUrl + '\''));
-  const json: YahooAPIs.Atom.Response = await response.json();
+  const json: AtomResponse = await response.json();
   const results = json.query.results;
   if (results) {
     return results.entry
@@ -67,7 +70,7 @@ export async function fetchAtom(atomUrl: string): Promise<ItemResponse[] | undef
 
 export async function fetchRss(rssUrl: string): Promise<ItemResponse[] | undefined> {
   const response = await fetch('https://query.yahooapis.com/v1/public/yql?format=json&q=' + encodeURIComponent('select * from rss(100) where url = \'' + rssUrl + '\''));
-  const json: YahooAPIs.RSS.Response = await response.json();
+  const json: RSSResponse = await response.json();
   const results = json.query.results;
   if (results) {
     return results.item
@@ -77,65 +80,5 @@ export async function fetchRss(rssUrl: string): Promise<ItemResponse[] | undefin
   });
   } else {
     throw new Error('Invalid RSS feed');
-  }
-}
-
-namespace YahooAPIs {
-  export namespace Atom {
-    export type Response = {
-      query: Query;
-      created: Date;
-      count: number;
-      lang: string;
-    };
-    export type Query = {
-      results: Results | null;
-    };
-    export type Results = {
-      entry: Entry[];
-    };
-    export type Entry = {
-      title: string;
-      link: Link[];
-      published: string;
-    };
-    export type Link = {
-      href: string;
-    };
-  }
-
-  export namespace RSS {
-    export type Response = {
-      query: Query;
-      created: Date;
-      count: number;
-      lang: string;
-    };
-    export type Query = {
-      results: Results | null;
-    };
-    export type Results = {
-      item: Item[];
-    };
-    export type Item = {
-      title: string;
-      link: string;
-      pubDate: string;
-    };
-  }
-
-  export namespace HTMLString {
-    export type Response = {
-      query: Query;
-      created: string;
-      count: number;
-      lang: string;
-    };
-    export type Query = {
-      results: Results | null;
-    };
-    export type Results = {
-      result: string;
-    };
   }
 }

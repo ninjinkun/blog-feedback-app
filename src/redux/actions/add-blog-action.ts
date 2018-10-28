@@ -35,7 +35,15 @@ export const addBlogError = (error: Error): AddBlogErrorAction => ({
   error,
 });
 
-export type AddBlogActions = AddBlogRequestAction | AddBlogResponseAction | AddBlogErrorAction;
+export interface AddBlogInitializeAction extends Action {
+  type: 'AddBlogInitializeAction';
+}
+
+export const addBlogInitialize = (): AddBlogInitializeAction => ({
+  type: 'AddBlogInitializeAction',
+});
+
+export type AddBlogActions = AddBlogRequestAction | AddBlogResponseAction | AddBlogErrorAction | AddBlogInitializeAction;
 
 export const addBlog = (auth: firebase.auth.Auth, blogURL: string) =>
   (dispatch: Dispatch<AddBlogActions>) => {

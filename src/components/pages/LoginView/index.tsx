@@ -17,7 +17,7 @@ type Props = {
     fetchUser: (auth: firebase.auth.Auth) => any,
 };
 
-class LoginView extends React.PureComponent<Props> {
+class LoginView extends React.PureComponent<Props & RouteComponentProps> {
     componentDidMount() {
       this.props.fetchUser(firebase.auth());
     }

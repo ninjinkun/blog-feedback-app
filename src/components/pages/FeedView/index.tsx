@@ -121,7 +121,7 @@ class FeedView extends React.PureComponent<Props> {
 
 const StyledScrollView = styled(ScrollView)`
   background-color: ${colorsValue.grayPale};
-  min-height: 100vh;
+  min-height: 100%;
 `;
 
 const mapStateToProps = (state: AppState) => ({

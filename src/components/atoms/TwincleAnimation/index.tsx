@@ -7,14 +7,14 @@ type Props = {
   twincleNum?: number;
 };
 
-const Twincle: React.SFC<Props>  = ({children, animate, twincleNum = 8, ...props}) => (
+const TwincleAnimation: React.SFC<Props>  = ({children, animate, twincleNum = 8, ...props}) => (
   <Wrapper {...props}>
     {animate ? [...Array(twincleNum).keys()].map((i) => (<AnimatedSpark key={i} />)) : undefined}
     {children}
   </Wrapper>
 );
 
-export default Twincle;
+export default TwincleAnimation;
 
 const AnimatedSpark: React.SFC<{}> = (props) => {
   const [top, left] = [randomInt(0, 100), randomInt(0, 100)];

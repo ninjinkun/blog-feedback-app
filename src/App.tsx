@@ -30,22 +30,22 @@ const App = () => (
   <Provider store={store}>
     <SmartphoneLayout>
       <BrowserRouter>
-        <ScrollToTop>
         <BodyWrapper>
           <HeaderWrapper>
             <StyledHeader />
           </HeaderWrapper>
           <HeaderSpacer />
-          <Route exact={true} path="/" component={LoginView} />
-          <Route exact={true} path="/blogs" component={BlogView} />
-          <Route exact={true} path="/add" component={AddBlogView} />
-          <Route
-            exact={true}
-            path="/blogs/:url"
-            component={Feed}
-          />
+          <ScrollToTop>
+            <Route exact={true} path="/" component={LoginView} />
+            <Route exact={true} path="/blogs" component={BlogView} />
+            <Route exact={true} path="/add" component={AddBlogView} />
+            <Route
+              exact={true}
+              path="/blogs/:url"
+              component={Feed}
+            />
+          </ScrollToTop>
         </BodyWrapper>
-        </ScrollToTop>
       </BrowserRouter>
     </SmartphoneLayout>
   </Provider>
