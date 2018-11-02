@@ -8,11 +8,12 @@ import ScrollView from '../../atoms/ScrollView/index';
 import { AppState } from '../../../redux/states/app-state';
 import { BlogState } from '../../../redux/states/blog-state';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { fetchBlogs } from '../../../redux/actions/blog-action';
+import { Dispatch, bindActionCreators } from 'redux';
+import { fetchBlogs, BlogActions } from '../../../redux/actions/blog-action';
 import { Button } from '../../atoms/Button/index';
 import LoadingView from '../../molecules/LoadingView/index';
 import Wrapper from '../../atoms/Wrapper/index'; 
+import { ThunkDispatch } from 'redux-thunk';
 
 type StateProps = {
   blog: BlogState;
@@ -58,15 +59,13 @@ class BlogView extends React.PureComponent<Props, {}> {
   }
 }
 
-const mapStateToProps: (state: AppState) => StateProps = (state) => ({
+const mapStateToProps = (state: AppState): StateProps => ({
   blog: state.blog
 });
 
-function mapDispatchToProps(dispatch: Dispatch<AppState>): DispatchProps {
-  return {
-    fetchBlogs: (auth: firebase.auth.Auth) => fetchBlogs(auth)(dispatch)
-  };
-}
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, BlogActions>): DispatchProps =>({ 
+  fetchBlogs: (auth) => dispatch(fetchBlogs(auth))
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(BlogView);
 

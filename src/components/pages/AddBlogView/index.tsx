@@ -2,13 +2,13 @@ import * as React from 'react';
 import styled from 'styled-components';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import { Dispatch } from 'redux';
+import { Dispatch, bindActionCreators } from 'redux';
 import { BrowserRouter, Route, Link, Redirect, match as matchParam, withRouter, RouteComponentProps } from 'react-router-dom';
 import Wrapper from '../../atoms/Wrapper/index';
 import AddBlogForm from '../../organisms/AddBlogForm/index';
 import { connect } from 'react-redux';
 import { AppState } from '../../../redux/states/app-state';
-import { addBlog, addBlogInitialize } from '../../../redux/actions/add-blog-action';
+import { addBlog, addBlogInitialize, AddBlogAction, AddBlogInitializeAction } from '../../../redux/actions/add-blog-action';
 import { AddBlogState } from '../../../redux/states/add-blog-state';
 
 type StateProps = {
@@ -16,10 +16,12 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  addBlog: (auth: firebase.auth.Auth, blogURL: string) => any;
-  addBlogInitialize: () => any;
+  addBlog: AddBlogAction;
+  addBlogInitialize: () => AddBlogInitializeAction;
 };
-type Props = StateProps & DispatchProps & RouteComponentProps<{}>;
+
+type OwnProps = {};
+type Props = StateProps & DispatchProps & RouteComponentProps<OwnProps>;
 
 class AddBlogView extends React.PureComponent<Props> {
   componentDidMount() {
@@ -52,15 +54,11 @@ const FormWrapper = styled(Wrapper)`
   margin-top: 25vh;
 `;
 
-const mapStateToProps = (state: AppState) => ({
-  'addBlogState': state.addBlog
+const mapStateToProps = (state: AppState): StateProps => ({
+  addBlogState: state.addBlog
 });
 
-function mapDispatchToProps(dispatch: Dispatch<AppState>) {
-  return {
-    addBlog: (auth: firebase.auth.Auth, blogURL: string) => addBlog(auth, blogURL)(dispatch),
-    addBlogInitialize: () => dispatch(addBlogInitialize()),
-  };
-}
+const mapDispatchToProps = (dispatch: Dispatch<AppState>): DispatchProps =>
+  bindActionCreators({ addBlog, addBlogInitialize }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddBlogView);

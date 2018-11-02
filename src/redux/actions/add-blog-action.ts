@@ -6,6 +6,8 @@ import { fetchBlog } from '../../models/feed-fetcher';
 import { fetchOrCurrenUser } from './user-action';
 import { saveBlog } from '../../models/repositories/blog-repository';
 import { BlogResponse } from '../../models/responses';
+import { ThunkAction } from 'redux-thunk';
+import { AppState } from '../states/app-state';
 
 export interface AddBlogRequestAction extends Action {
   type: 'AddBlogRequestAction';
@@ -43,12 +45,14 @@ export const addBlogInitialize = (): AddBlogInitializeAction => ({
   type: 'AddBlogInitializeAction',
 });
 
-export type AddBlogActions = AddBlogRequestAction | AddBlogResponseAction | AddBlogErrorAction | AddBlogInitializeAction;
+type AddBlogFetchActions = AddBlogRequestAction | AddBlogResponseAction | AddBlogErrorAction;
+export type AddBlogActions = AddBlogFetchActions | AddBlogInitializeAction;
 
-export const addBlog = (auth: firebase.auth.Auth, blogURL: string) =>
-  (dispatch: Dispatch<AddBlogActions>) => {
+export type AddBlogAction = (auth: firebase.auth.Auth, blogURL: string) => ThunkAction<void, AppState, undefined, AddBlogFetchActions>;
+export const addBlog: AddBlogAction = (auth, blogURL) =>
+  (dispatch, getState) => {
     dispatch(addBlogRequest());
-    fetchOrCurrenUser(auth, dispatch, async (user: firebase.User | null) => {
+    fetchOrCurrenUser(auth, async (user: firebase.User | null) => {
       try {
         const blogResponse = await fetchBlog(blogURL);
         if (user) {

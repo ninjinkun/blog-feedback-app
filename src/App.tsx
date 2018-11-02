@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { BrowserRouter, Route, Link, Redirect, match as matchParam, withRouter, RouteComponentProps } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
-import { appReducer } from './redux/reducers/app-reducer';
-
 import FeedView from './components/pages/FeedView/index';
 import BlogView from './components/pages/BlogView/index';
 import AddBlogView from './components/pages/AddBlogView/index';
@@ -13,21 +11,17 @@ import Header from './components/pages/Header/index';
 
 import { initializeFirebase } from './firebase';
 import { createStore, compose, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import Wrapper from './components/atoms/Wrapper';
 import SmartphoneLayout from './components/templates/SmartphoneLayout/index';
 import { baseStyle } from './components/base-style';
 import ScrollToTop from './components/templates/ScrollToTop/index';
-initializeFirebase();
-const store = createStore(
-  appReducer,
-  composeWithDevTools(applyMiddleware()),
-);
+import { appStore } from './redux/create-store';
 
+initializeFirebase();
 baseStyle();
 
 const App = () => (
-  <Provider store={store}>
+  <Provider store={appStore}>
     <SmartphoneLayout>
       <BrowserRouter>
         <BodyWrapper>

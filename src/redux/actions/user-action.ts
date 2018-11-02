@@ -2,12 +2,13 @@ import { Dispatch, Action, ActionCreator, bindActionCreators } from 'redux';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { AppState } from '../states/app-state';
+import { ThunkAction } from 'redux-thunk';
 
 export interface UserFirebaseRequestAction extends Action {
   type: 'UserFirebaseRequestAction';
 }
 
-const userRequest: ActionCreator<UserFirebaseRequestAction> = () => ({
+const userRequest = (): UserFirebaseRequestAction => ({
   type: 'UserFirebaseRequestAction',
 });
 
@@ -16,7 +17,7 @@ export interface UserFirebaseResponseAction extends Action {
   user: firebase.User;
 }
 
-const userResponse: ActionCreator<UserFirebaseResponseAction> = (user: firebase.User) => ({
+const userResponse = (user: firebase.User): UserFirebaseResponseAction => ({
   type: 'UserFirebaseResponseAction',
   user: user,
 });
@@ -25,11 +26,14 @@ export interface UserFirebaseUnauthorizedResponseAction extends Action {
   type: 'UserFirebaseUnauthorizedResponseAction';
 }
 
-const unauthorizedReponse = () => ({
+const unauthorizedReponse = (): UserFirebaseUnauthorizedResponseAction => ({
   type: 'UserFirebaseUnauthorizedResponseAction',
 });
+export type UserActions = UserFirebaseRequestAction | UserFirebaseResponseAction | UserFirebaseUnauthorizedResponseAction;
 
-export const fetchUser = (auth: firebase.auth.Auth, callback?: (user: firebase.User | null) => any) => (dispatch: Dispatch<AppState>) => {
+type UserCallback = (user: firebase.User | null) => any;
+export const fetchUser = (auth: firebase.auth.Auth, callback?: UserCallback): ThunkAction<void, AppState, undefined, UserActions>  => 
+  (dispatch, getState) => {
   dispatch(userRequest());
   auth.onAuthStateChanged((user) => {
     if (user) {
@@ -43,13 +47,12 @@ export const fetchUser = (auth: firebase.auth.Auth, callback?: (user: firebase.U
   });
 };
 
-export function fetchOrCurrenUser(auth: firebase.auth.Auth, dispatch: Dispatch<AppState>, callback: (user: firebase.User | null) => any) {
+export const fetchOrCurrenUser = (auth: firebase.auth.Auth,  callback: (user: firebase.User | null) => any): ThunkAction<void, AppState, undefined, UserActions> => (dispatch, getState) => {
   const currentUser = auth.currentUser;
   if (currentUser) {
     callback(currentUser);
   } else {
-    fetchUser(auth, callback)(dispatch);
+    dispatch(fetchUser(auth, callback));
   }
 } 
 
-export type UserActions = UserFirebaseRequestAction | UserFirebaseResponseAction | UserFirebaseUnauthorizedResponseAction;
