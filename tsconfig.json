@@ -15,12 +15,6 @@
     "strict": true,
     "noImplicitAny": true,
     "moduleResolution": "node",
-    "baseUrl": "./src",
-    "paths": {
-      "*": [
-        "types/*"
-      ]
-    },
     "rootDirs": [
       "./src",
       "./stories"

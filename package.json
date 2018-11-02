@@ -15,8 +15,9 @@
     "react-md-spinner": "^0.3.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "next",
+    "react-scripts": "^2.1.1",
     "react-spring": "^5.7.0",
+    "redux-thunk": "^2.3.0",
     "styled-components": "^3.4.5"
   },
   "scripts": {
@@ -26,7 +27,8 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "storybook:visual": "start-storybook -p 9001 -s ./build"
+    "storybook:visual": "start-storybook -p 9001 -s ./build",
+    "test:compile": "tsc --noEmit"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.4.8",
@@ -56,9 +58,6 @@
     "typescript": "^3.1.3"
   },
   "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
+    "defaults"
   ]
 }
