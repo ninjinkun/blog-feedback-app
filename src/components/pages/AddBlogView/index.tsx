@@ -8,7 +8,7 @@ import Wrapper from '../../atoms/Wrapper/index';
 import AddBlogForm from '../../organisms/AddBlogForm/index';
 import { connect } from 'react-redux';
 import { AppState } from '../../../redux/states/app-state';
-import { addBlog, addBlogInitialize, AddBlogAction, AddBlogInitializeAction } from '../../../redux/actions/add-blog-action';
+import { addBlog, addBlogInitialize, AddBlogThunkAction, AddBlogInitializeAction } from '../../../redux/actions/add-blog-action';
 import { AddBlogState } from '../../../redux/states/add-blog-state';
 
 type StateProps = {
@@ -16,7 +16,7 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  addBlog: AddBlogAction;
+  addBlog: (auth: firebase.auth.Auth, blogURL: string) => AddBlogThunkAction;
   addBlogInitialize: () => AddBlogInitializeAction;
 };
 

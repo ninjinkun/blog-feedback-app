@@ -10,24 +10,28 @@ export interface BlogFirebaseRequestAction extends Action {
   type: 'BlogFirebaseRequestAction';
 }
 
-const blogRequest: ActionCreator<BlogFirebaseRequestAction> = () => ({
-  type: 'BlogFirebaseRequestAction',
-});
+function blogRequest(): BlogFirebaseRequestAction {
+  return {
+    type: 'BlogFirebaseRequestAction',
+  };
+}
 
 export interface BlogFirebaseResponseAction extends Action {
   type: 'BlogFirebaseResponseAction';
   blogs: BlogEntity[];
 }
 
-export const blogResponse: ActionCreator<BlogFirebaseResponseAction> = (blogs: BlogEntity[]) => ({
-  type: 'BlogFirebaseResponseAction',
-  blogs: blogs
-});
+export function blogResponse(blogs: BlogEntity[]): BlogFirebaseResponseAction {
+  return {
+    type: 'BlogFirebaseResponseAction',
+    blogs: blogs
+  }
+};
 
 type BlogFirebaseFetchActions = BlogFirebaseRequestAction | BlogFirebaseResponseAction;
 
-export const fetchBlogs = (auth: firebase.auth.Auth): ThunkAction<void, AppState, undefined, BlogFirebaseFetchActions>  =>
-  (dispatch, getState) => {
+export function fetchBlogs (auth: firebase.auth.Auth): ThunkAction<void, AppState, undefined, BlogFirebaseFetchActions> {
+  return (dispatch, getState) => {
     dispatch(fetchOrCurrenUser(auth, async (user) => {
       if (user) {
         dispatch(blogRequest());
@@ -36,5 +40,6 @@ export const fetchBlogs = (auth: firebase.auth.Auth): ThunkAction<void, AppState
       }
     }));
   };
+}
 
 export type BlogActions = BlogFirebaseRequestAction | BlogFirebaseResponseAction;

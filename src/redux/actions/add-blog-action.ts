@@ -13,44 +13,52 @@ export interface AddBlogRequestAction extends Action {
   type: 'AddBlogRequestAction';
 }
 
-const addBlogRequest = (): AddBlogRequestAction => ({
-  type: 'AddBlogRequestAction',
-});
+function addBlogRequest(): AddBlogRequestAction {
+  return {
+    type: 'AddBlogRequestAction',
+  }
+};
 
 export interface AddBlogResponseAction extends Action {
   type: 'AddBlogResponseAction';
   response: BlogResponse;
 }
 
-export const addBlogResponse = (response: BlogResponse): AddBlogResponseAction => ({
-  type: 'AddBlogResponseAction',
-  response,
-});
+export function addBlogResponse(response: BlogResponse): AddBlogResponseAction {
+  return {
+    type: 'AddBlogResponseAction',
+    response,
+  };
+}
 
 export interface AddBlogErrorAction extends Action {
   type: 'AddBlogErrorAction';
   error: Error;
 }
 
-export const addBlogError = (error: Error): AddBlogErrorAction => ({
-  type: 'AddBlogErrorAction',
-  error,
-});
+export function addBlogError(error: Error): AddBlogErrorAction {
+  return {
+    type: 'AddBlogErrorAction',
+    error,
+  }
+};
 
 export interface AddBlogInitializeAction extends Action {
   type: 'AddBlogInitializeAction';
 }
 
-export const addBlogInitialize = (): AddBlogInitializeAction => ({
-  type: 'AddBlogInitializeAction',
-});
+export function addBlogInitialize(): AddBlogInitializeAction {
+  return {
+    type: 'AddBlogInitializeAction',
+  }
+};
 
 type AddBlogFetchActions = AddBlogRequestAction | AddBlogResponseAction | AddBlogErrorAction;
 export type AddBlogActions = AddBlogFetchActions | AddBlogInitializeAction;
 
-export type AddBlogAction = (auth: firebase.auth.Auth, blogURL: string) => ThunkAction<void, AppState, undefined, AddBlogFetchActions>;
-export const addBlog: AddBlogAction = (auth, blogURL) =>
-  (dispatch, getState) => {
+export type AddBlogThunkAction = ThunkAction<void, AppState, undefined, AddBlogFetchActions>;
+export function addBlog(auth: firebase.auth.Auth, blogURL: string): AddBlogThunkAction {
+  return (dispatch, getState) => {
     dispatch(addBlogRequest());
     fetchOrCurrenUser(auth, async (user: firebase.User | null) => {
       try {
@@ -72,3 +80,4 @@ export const addBlog: AddBlogAction = (auth, blogURL) =>
       }
     });
   };
+}

@@ -19,28 +19,34 @@ export interface FeedBlogURLChangeAction extends Action {
   blogURL: string;
 }
 
-export const feedBlogURLChange = (blogURL: string): FeedBlogURLChangeAction => ({
-  type: 'FeedBlogURLChangeAction',
-  blogURL,
-});
+export function feedBlogURLChange(blogURL: string): FeedBlogURLChangeAction {
+  return {
+    type: 'FeedBlogURLChangeAction',
+    blogURL,
+  };
+}
 
 export interface FeedBlogURLClearAction extends Action {
   type: 'FeedBlogURLClearAction';
 }
 
-export const feedBlogURLClear: ActionCreator<FeedBlogURLClearAction> = () => ({
-  type: 'FeedBlogURLClearAction',
-});
+export function feedBlogURLClear(): FeedBlogURLClearAction {
+  return {
+    type: 'FeedBlogURLClearAction',
+  };
+}
 
 export interface FeedFirebaseRequestAction extends Action {
   type: 'FeedFirebaseRequestAction';
   blogURL: string;
 }
 
-const feedFirebaseRequest: ActionCreator<FeedFirebaseRequestAction> = (blogURL) => ({
-  type: 'FeedFirebaseRequestAction',
-  blogURL,
-});
+function feedFirebaseRequest(blogURL: string): FeedFirebaseRequestAction {
+  return {
+    type: 'FeedFirebaseRequestAction',
+    blogURL,
+  }
+}
 
 export interface FeedFirebaseItemsResponseAction extends Action {
   type: 'FeedFirebaseItemsResponseAction';
@@ -48,11 +54,13 @@ export interface FeedFirebaseItemsResponseAction extends Action {
   items: ItemEntity[];
 }
 
-export const feedFirebaseResponse: ActionCreator<FeedFirebaseItemsResponseAction> = (blogURL, items) => ({
-  type: 'FeedFirebaseItemsResponseAction',
-  blogURL,
-  items,
-});
+export function feedFirebaseResponse(blogURL: string, items: ItemEntity[]): FeedFirebaseItemsResponseAction {
+  return {
+    type: 'FeedFirebaseItemsResponseAction',
+    blogURL,
+    items,
+  };
+}
 
 export interface FeedFirebaseBlogTitleResponseAction extends Action {
   type: 'FeedFirebaseBlogTitleResponseAction';
@@ -60,17 +68,19 @@ export interface FeedFirebaseBlogTitleResponseAction extends Action {
   title: string;
 }
 
-export const feedFirebaseBlogTitleResponse: ActionCreator<FeedFirebaseBlogTitleResponseAction> = (blogURL, title) => ({
-  type: 'FeedFirebaseBlogTitleResponseAction',
-  blogURL,
-  title,
-});
+export function feedFirebaseBlogTitleResponse(blogURL: string, title: string) : FeedFirebaseBlogTitleResponseAction {
+  return {
+    type: 'FeedFirebaseBlogTitleResponseAction',
+    blogURL,
+    title,
+  };
+}
 
 type FeedFirebaseAction = FeedFirebaseRequestAction | FeedFirebaseItemsResponseAction | FeedFirebaseBlogTitleResponseAction;
 
-export const fetchFirebaseFeed = (auth: firebase.auth.Auth, blogURL: string) =>
-  (dispatch: ThunkDispatch<AppState, undefined, FeedFirebaseActions>) =>
-  dispatch(fetchOrCurrenUser(auth, async (user) => {
+export function fetchFirebaseFeed(auth: firebase.auth.Auth, blogURL: string) {
+  return (dispatch: ThunkDispatch<AppState, undefined, FeedFirebaseActions>) => {
+    dispatch(fetchOrCurrenUser(auth, async (user) => {
       if (user) {
         dispatch(feedFirebaseRequest(blogURL));
 
@@ -83,6 +93,9 @@ export const fetchFirebaseFeed = (auth: firebase.auth.Auth, blogURL: string) =>
         dispatch(feedFirebaseResponse(blogURL, itemEntities));
       }
     }));
+  }
+}
+
 
 export type FeedFirebaseActions = FeedFirebaseRequestAction | FeedFirebaseItemsResponseAction | FeedFirebaseBlogTitleResponseAction;
 
@@ -91,10 +104,12 @@ export interface FeedCrowlerRequestAction extends Action {
   blogURL: string;
 }
 
-export const feedCrowlerRequest: ActionCreator<FeedCrowlerRequestAction> = (blogURL) => ({
-  type: 'FeedCrowlerRequestAction',
-  blogURL,
-});
+export function feedCrowlerRequest(blogURL: string): FeedCrowlerRequestAction {
+  return {
+    type: 'FeedCrowlerRequestAction',
+    blogURL,
+  };
+}
 
 export interface FeedCrowlerTitleResponseAction extends Action {
   type: 'FeedCrowlerTitleResponseAction';
@@ -102,11 +117,13 @@ export interface FeedCrowlerTitleResponseAction extends Action {
   title: string;
 }
 
-export const feedCrowlerTitleResponseAction: ActionCreator<FeedCrowlerTitleResponseAction> = (blogURL, title) => ({
-  type: 'FeedCrowlerTitleResponseAction',
-  blogURL,
-  title,
-});
+export function feedCrowlerTitleResponseAction(blogURL: string, title: string): FeedCrowlerTitleResponseAction {
+  return {
+    type: 'FeedCrowlerTitleResponseAction',
+    blogURL,
+    title,
+  };
+}
 
 export interface FeedCrowlerItemsResponseAction extends Action {
   type: 'FeedCrowlerItemsResponseAction';
@@ -114,11 +131,13 @@ export interface FeedCrowlerItemsResponseAction extends Action {
   items: ItemResponse[];
 }
 
-export const feedCrowlerItemsResponse: ActionCreator<FeedCrowlerItemsResponseAction> = (blogURL, items) => ({
-  type: 'FeedCrowlerItemsResponseAction',
-  blogURL,
-  items,
-});
+export function feedCrowlerItemsResponse(blogURL: string, items: ItemResponse[]): FeedCrowlerItemsResponseAction {
+  return {
+    type: 'FeedCrowlerItemsResponseAction',
+    blogURL,
+    items,
+  };
+}
 
 export interface FeedCrowlerCountsResponseAction extends Action {
   type: 'FeedCrowlerCountsResponseAction';
@@ -126,11 +145,13 @@ export interface FeedCrowlerCountsResponseAction extends Action {
   counts: CountResponse[];
 }
 
-export const feedCrowlerCountsResponse = (blogURL: string, counts: CountResponse[]): FeedCrowlerCountsResponseAction => ({
-  type: 'FeedCrowlerCountsResponseAction',
-  blogURL,
-  counts,
-});
+export function feedCrowlerCountsResponse(blogURL: string, counts: CountResponse[]): FeedCrowlerCountsResponseAction {
+  return {
+    type: 'FeedCrowlerCountsResponseAction',
+    blogURL,
+    counts,
+  };
+}
 
 export interface FeedCrowlerErrorAction extends Action {
   type: 'FeedCrowlerErrorAction';
@@ -138,16 +159,18 @@ export interface FeedCrowlerErrorAction extends Action {
   error: Error;
 }
 
-export const feedCrowlerErrorResponse = (blogURL: string, error: Error): FeedCrowlerErrorAction => ({
-  type: 'FeedCrowlerErrorAction',
-  blogURL,
-  error,
-});
+export function feedCrowlerErrorResponse(blogURL: string, error: Error): FeedCrowlerErrorAction {
+  return {
+    type: 'FeedCrowlerErrorAction',
+    blogURL,
+    error,
+  };
+}
 
 export type ItemEntitiesFunction = () => ItemEntity[];
 
-export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string, getFirebaseEntities: ItemEntitiesFunction): ThunkAction<void, AppState, undefined, FeedCrowlerActions> =>
-  (dispatch: ThunkDispatch<AppState, undefined, FeedCrowlerActions>, getState) =>
+export function fetchOnlineFeed(auth: firebase.auth.Auth, blogURL: string, getFirebaseEntities: ItemEntitiesFunction): ThunkAction<void, AppState, undefined, FeedCrowlerActions> {
+  return (dispatch: ThunkDispatch<AppState, undefined, FeedCrowlerActions>, getState) => {
     dispatch(fetchOrCurrenUser(auth, async (user) => {
       if (user) {
         dispatch(feedCrowlerRequest(blogURL));
@@ -278,6 +301,8 @@ export const fetchOnlineFeed = (auth: firebase.auth.Auth, blogURL: string, getFi
         }
       }
     }));
+  }
+}
 
 type FeedCrowlerActions = FeedCrowlerRequestAction | FeedBlogURLClearAction | FeedCrowlerTitleResponseAction | FeedCrowlerItemsResponseAction | FeedCrowlerCountsResponseAction | FeedCrowlerErrorAction;
 
