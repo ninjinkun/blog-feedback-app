@@ -35,7 +35,7 @@ export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
             break;
           default:
             break;
-        }  
+        }
       }
     }
     if (!href) {
@@ -53,31 +53,31 @@ export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
   }
 }
 
-export async function fetchAtom(atomUrl: string): Promise<ItemResponse[] | undefined> {
+export async function fetchAtom(atomUrl: string): Promise<ItemResponse[]> {
   const response = await fetch('https://query.yahooapis.com/v1/public/yql?format=json&q=' + encodeURIComponent('select * from atom(100) where url = \'' + atomUrl + '\''));
   const json: AtomResponse = await response.json();
   const results = json.query.results;
   if (results) {
     return results.entry
-      .map((entry): ItemResponse => { 
+      .map((entry): ItemResponse => {
         const { title, link, published } = entry;
         return { title, url: link[0].href, published: new Date(published) };
-    });
+      });
   } else {
     throw new Error('Invalid Atom feed');
   }
 }
 
-export async function fetchRss(rssUrl: string): Promise<ItemResponse[] | undefined> {
+export async function fetchRss(rssUrl: string): Promise<ItemResponse[]> {
   const response = await fetch('https://query.yahooapis.com/v1/public/yql?format=json&q=' + encodeURIComponent('select * from rss(100) where url = \'' + rssUrl + '\''));
   const json: RSSResponse = await response.json();
   const results = json.query.results;
   if (results) {
     return results.item
-      .map((item): ItemResponse => { 
+      .map((item): ItemResponse => {
         const { title, link, pubDate } = item;
         return { title, url: link, published: new Date(pubDate) };
-  });
+      });
   } else {
     throw new Error('Invalid RSS feed');
   }
