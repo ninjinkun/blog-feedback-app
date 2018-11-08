@@ -7,9 +7,9 @@
     "firebase": "^5.5.5",
     "firebaseui": "^3.4.1",
     "normalize.css": "^8.0.0",
-    "react": "16.5.2",
-    "react-art": "16.5.2",
-    "react-dom": "16.5.2",
+    "react": "16.6.1",
+    "react-art": "16.6.1",
+    "react-dom": "16.6.1",
     "react-firebaseui": "^3.1.2",
     "react-icons": "^3.2.1",
     "react-md-spinner": "^0.3.0",
@@ -17,8 +17,10 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.1",
     "react-spring": "^5.7.0",
+    "redux-saga": "^0.16.2",
     "redux-thunk": "^2.3.0",
-    "styled-components": "^3.4.5"
+    "styled-components": "^3.4.5",
+    "urijs": "^1.19.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -45,6 +47,7 @@
     "@types/react-router-dom": "^4.3.1",
     "@types/storybook__addon-actions": "^3.0.3",
     "@types/storybook__react": "^3.0.7",
+    "@types/urijs": "^1.15.38",
     "babel-core": "^6.26.3",
     "babel-runtime": "^6.26.0",
     "html-webpack-plugin": "^2.29.0",
