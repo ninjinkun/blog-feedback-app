@@ -8,7 +8,7 @@ import Wrapper from '../../atoms/Wrapper/index';
 import AddBlogForm from '../../organisms/AddBlogForm/index';
 import { connect } from 'react-redux';
 import { AppState } from '../../../redux/states/app-state';
-import { addBlog, addBlogInitialize, AddBlogThunkAction, AddBlogInitializeAction } from '../../../redux/actions/add-blog-action';
+import { addBlog, addBlogInitialize, AddBlogThunkAction, AddBlogInitializeAction, AddBlogActions } from '../../../redux/actions/add-blog-action';
 import { AddBlogState } from '../../../redux/states/add-blog-state';
 
 type StateProps = {
@@ -58,7 +58,7 @@ const mapStateToProps = (state: AppState): StateProps => ({
   addBlogState: state.addBlog
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<AppState>): DispatchProps =>
+const mapDispatchToProps = (dispatch: Dispatch<AddBlogActions>): DispatchProps =>
   bindActionCreators({ addBlog, addBlogInitialize }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddBlogView);

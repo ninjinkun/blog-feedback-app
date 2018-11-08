@@ -118,7 +118,7 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
   feed: state.feeds.feeds[ownProps.url],
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<AppState>): DispatchProps => ({
+const mapDispatchToProps = (dispatch: Dispatch<FeedActions>): DispatchProps => ({
   feedBlogURLClear: () => dispatch(feedBlogURLClear()),
   feedBlogURLChange: (url) => dispatch(feedBlogURLChange(url)),
   fetchFeed: (auth, blogURL) => dispatch(fetchFeed(blogURL, auth)),

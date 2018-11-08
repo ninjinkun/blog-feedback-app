@@ -3,7 +3,10 @@ const TSDocgenPlugin = require("react-docgen-typescript-webpack-plugin");
 module.exports = (baseConfig, env, config) => {
   config.module.rules.push({
     test: /\.(ts|tsx)$/,
-    loader: require.resolve("ts-loader")
+    loader: require.resolve('awesome-typescript-loader'),
+    options: {
+      configFileName: 'tsconfig.storybook.json'
+    }
   });
   config.plugins.push(new TSDocgenPlugin()); // optional
   config.resolve.extensions.push(".ts", ".tsx");

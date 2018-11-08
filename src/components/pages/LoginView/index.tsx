@@ -64,7 +64,7 @@ const mapStateToProps = (state: AppState): StateProps => ({
   user: state.user
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<AppState>): DispatchProps =>
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
   bindActionCreators({
     fetchUser: fetchUser,
   }, dispatch);
