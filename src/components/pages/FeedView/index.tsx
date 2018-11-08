@@ -12,21 +12,19 @@ import { CountType } from '../../../consts/count-type';
 import EntryCell from '../../organisms/EntryCell/index';
 import Wrapper from '../../atoms/Wrapper/index';
 import { AppState } from '../../../redux/states/app-state';
-import { feedBlogURLChange, fetchFirebaseFeed, fetchOnlineFeed, feedBlogURLClear, ItemEntitiesFunction, FeedActions } from '../../../redux/actions/feed-action';
+import { feedBlogURLChange, fetchFeed, feedBlogURLClear, FeedActions } from '../../../redux/actions/feed-action';
 import { FeedState } from '../../../redux/states/feed-state';
 import { colorsValue } from '../../properties';
 import LoadingView from '../../molecules/LoadingView/index';
-import { ThunkDispatch } from 'redux-thunk';
 
 type StateProps = {
   feed: FeedState;
 };
 
 type DispatchProps = {
-  feedBlogURLClear: () => any;
-  feedBlogURLChange: (blogURL: string) => any;
-  fetchFirebaseFeed: (auth: firebase.auth.Auth, blogURL: string) => any;
-  fetchOnlineFeed: (auth: firebase.auth.Auth, blogURL: string, getItemEntities: ItemEntitiesFunction) => any;
+  feedBlogURLClear: () => void;
+  feedBlogURLChange: (blogURL: string) => void;
+  fetchFeed: (auth: firebase.auth.Auth, blogURL: string) => any;
 };
 
 type OwnProps = { url: string };
@@ -40,15 +38,7 @@ class FeedView extends React.PureComponent<Props> {
   componentDidMount() {
     const blogURL = this.props.url;
     this.props.feedBlogURLChange(blogURL);
-    this.props.fetchFirebaseFeed(firebase.auth(), blogURL);
-
-    this.getItemEntities = this.getItemEntities.bind(this);
-    this.props.fetchOnlineFeed(firebase.auth(), blogURL, this.getItemEntities);
-  }
-
-  getItemEntities(): ItemEntity[] {
-    const { feed } = this.props;
-    return feed && feed.firebaseEntities ? feed.firebaseEntities : [];
+    this.props.fetchFeed(firebase.auth(), blogURL);
   }
 
   componentWillUnmount() {
@@ -56,14 +46,14 @@ class FeedView extends React.PureComponent<Props> {
   }
 
   render() {
-    const { feed, url } = this.props;
+    const { feed } = this.props;
     if ((!feed || feed.loading) && !(feed && feed.fethcedEntities || feed && feed.firebaseEntities)) {
       return (<LoadingView />);
     } else {
-      const { firebaseEntities, fethcedEntities, fetchedCounts } = feed;
+      const { firebaseEntities, fethcedEntities, fetchedHatenaBookmarkCounts, fetchedFacebookCounts } = feed;
 
-      const [facebookMap, facebookAnimateMap] = this.stateToViewData(fetchedCounts, firebaseEntities, CountType.Facebook);
-      const [hatenabookmarkMap, hatenabookmarkAnimateMap] = this.stateToViewData(fetchedCounts, firebaseEntities, CountType.HatenaBookmark);
+      const [hatenabookmarkMap, hatenabookmarkAnimateMap] = this.stateToViewData(fetchedHatenaBookmarkCounts, firebaseEntities, CountType.HatenaBookmark);
+      const [facebookMap, facebookAnimateMap] = this.stateToViewData(fetchedFacebookCounts, firebaseEntities, CountType.Facebook);
 
       const items: (ItemResponse | ItemEntity)[] = fethcedEntities && fethcedEntities.length ? fethcedEntities : firebaseEntities && firebaseEntities.length ? firebaseEntities : [];
       return (
@@ -128,11 +118,10 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
   feed: state.feeds.feeds[ownProps.url],
 });
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, FeedActions>): DispatchProps => ({
+const mapDispatchToProps = (dispatch: Dispatch<AppState>): DispatchProps => ({
   feedBlogURLClear: () => dispatch(feedBlogURLClear()),
   feedBlogURLChange: (url) => dispatch(feedBlogURLChange(url)),
-  fetchFirebaseFeed: (auth, blogURL) => dispatch(fetchFirebaseFeed(auth, blogURL)),
-  fetchOnlineFeed: (auth, blogURL, getItemEntities) => dispatch(fetchOnlineFeed(auth, blogURL, getItemEntities)),  
-  });
+  fetchFeed: (auth, blogURL) => dispatch(fetchFeed(blogURL, auth)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedView);

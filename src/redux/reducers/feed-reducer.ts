@@ -14,15 +14,19 @@ export const feedsReducer: Reducer<FeedsState> = (state = feedsIniticalState, ac
     case 'FeedBlogURLClearAction': {
       return { ...state, currentBlogURL: undefined };
     }
-    case 'FeedFirebaseRequestAction': {
+    case 'FeedFetchFeedAction': {
       const { blogURL } = action;
       return updateFeed(blogURL, state, { loading: true });
     }
-    case 'FeedFirebaseBlogTitleResponseAction': {
-      const { blogURL, title } = action;
-      return updateFeed(blogURL, state, { title });
+    case 'FeedFirebaseBlogRequestAction': {
+      const { blogURL } = action;
+      return updateFeed(blogURL, state, { crowlingLabel: 'Loading blog...', crowlingRatio: 10 });
     }
-    case 'FeedFirebaseItemsResponseAction': {
+    case 'FeedFirebaseBlogResponseAction': {
+      const { blogURL, blogEntity } = action;
+      return updateFeed(blogURL, state, { title: blogEntity.title, crowlingLabel: 'Loading RSS...', crowlingRatio: 30 });
+    }    
+    case 'FeedFirebaseFeedItemsResponseAction': {
       const { blogURL, items } = action;
       return updateFeed(
         blogURL,
@@ -30,29 +34,30 @@ export const feedsReducer: Reducer<FeedsState> = (state = feedsIniticalState, ac
         { firebaseEntities: items, loading: false }
       );
     }
-    case 'FeedCrowlerRequestAction': {
-      const { blogURL } = action;
-      return updateFeed(blogURL, state, { crowlingLabel: 'Loading blog...', crowlingRatio: 10 });
-    }
-    case 'FeedCrowlerTitleResponseAction': {
-      const { blogURL, title } = action;
-      return updateFeed(blogURL, state, { title, crowlingLabel: 'Loading RSS...', crowlingRatio: 30 });
-    }
-    case 'FeedCrowlerItemsResponseAction': {
+    case 'FeedFetchFeedItemsResponseAction': {
       const { blogURL, items } = action;
       return updateFeed(
         blogURL,
         state,
-        { fethcedEntities: items, loading: false, crowlingLabel: 'Loading Hatena Bookmark...', crowlingRatio: 80 }
+        { fethcedEntities: items, loading: false, crowlingLabel: 'Loading Hatena Bookmark...', crowlingRatio: 60 }
       );
     }
-    case 'FeedCrowlerCountsResponseAction': {
+    case 'FeedFetchHatenaBookmarkCountsResponseAction': {
       const { blogURL, counts } = action;
       const flattenCount = [].concat.apply([], counts.filter(i => i));
       return updateFeed(
         blogURL,
         state,
-        { fetchedCounts: flattenCount, loading: false, crowlingLabel: undefined, crowlingRatio: 100 }
+        { fetchedHatenaBookmarkCounts: flattenCount, loading: false, crowlingLabel: 'Loading Facebook Shares...', crowlingRatio: 80 }
+      );
+    }
+    case 'FeedFetchFacebookCountResponseAction': {
+      const { blogURL, counts } = action;
+      const flattenCount = [].concat.apply([], counts.filter(i => i));
+      return updateFeed(
+        blogURL,
+        state,
+        { fetchedFacebookCounts: flattenCount, loading: false, crowlingLabel: undefined, crowlingRatio: 100 }
       );
     }
     case 'FeedCrowlerErrorAction': {

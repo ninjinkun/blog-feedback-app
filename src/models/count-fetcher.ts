@@ -15,7 +15,7 @@ export function fetchFacebookCounts(urls: string[]): Promise<CountResponse>[] {
   return urls.map((url) => fetchFacebookCount(url));
 }
 
-async function fetchFacebookCount(url: string): Promise<CountResponse> {
+export async function fetchFacebookCount(url: string): Promise<CountResponse> {
   const response = await fetch('https://graph.facebook.com/?id=' + encodeURIComponent(url));
   const json = await response.json();
   if (json.hasOwnProperty('share')) {

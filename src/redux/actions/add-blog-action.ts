@@ -2,8 +2,8 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
 import { Dispatch, Action, ActionCreator, bindActionCreators } from 'redux';
-import { fetchBlog } from '../../models/feed-fetcher';
-import { fetchOrCurrenUser } from './user-action';
+import { fetchBlog } from '../../models/blog-fetcher';
+import { fetchOrCurrenUser, currenUserOronAuthStateChanged } from './user-action';
 import { saveBlog } from '../../models/repositories/blog-repository';
 import { BlogResponse } from '../../models/responses';
 import { ThunkAction } from 'redux-thunk';
@@ -58,26 +58,25 @@ export type AddBlogActions = AddBlogFetchActions | AddBlogInitializeAction;
 
 export type AddBlogThunkAction = ThunkAction<void, AppState, undefined, AddBlogFetchActions>;
 export function addBlog(auth: firebase.auth.Auth, blogURL: string): AddBlogThunkAction {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     dispatch(addBlogRequest());
-    fetchOrCurrenUser(auth, async (user: firebase.User | null) => {
-      try {
-        const blogResponse = await fetchBlog(blogURL);
-        if (user) {
-          saveBlog(
-            user.uid,
-            blogResponse.url,
-            blogResponse.title,
-            blogResponse.feedURL,
-            blogResponse.feedType
-          );
-          dispatch(addBlogResponse(blogResponse));
-        } else {
-          dispatch(addBlogError(new Error('Blog missing')));
-        }
-      } catch (e) {
-        dispatch(addBlogError(e));
+    const user = await currenUserOronAuthStateChanged(auth);
+    try {
+      const blogResponse = await fetchBlog(blogURL);
+      if (user) {
+        saveBlog(
+          user.uid,
+          blogResponse.url,
+          blogResponse.title,
+          blogResponse.feedURL,
+          blogResponse.feedType
+        );
+        dispatch(addBlogResponse(blogResponse));
+      } else {
+        dispatch(addBlogError(new Error('Blog missing')));
       }
-    });
+    } catch (e) {
+      dispatch(addBlogError(e));
+    }
   };
 }

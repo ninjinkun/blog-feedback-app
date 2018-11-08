@@ -1,4 +1,4 @@
-import { fetchBlog, fetchAtom, fetchRss } from './feed-fetcher';
+import { fetchAtom, fetchRss } from './feed-fetcher';
 import { fetchHatenaBookmarkCounts, fetchFacebookCounts } from './count-fetcher';
 import { BlogResponse, ItemResponse, CountResponse } from './responses';
 import { FeedType } from '../consts/feed-type';
@@ -6,31 +6,24 @@ import { FeedType } from '../consts/feed-type';
 // 4 parallel fetch
 const Parallel = 4;
 
-export function crawl(blogURL: string): [Promise<BlogResponse | undefined>, Promise<ItemResponse[] | undefined>, Promise<CountResponse[] | undefined>] {
-  const fetchingBlog = fetchBlog(blogURL);
-  const fetchingFeed = fetchFeed(fetchingBlog);
+export function crawl(feedType: FeedType, feedURL: string): [Promise<ItemResponse[]>, Promise<CountResponse[] | undefined>] {
+  const fetchingFeed = fetchFeed(feedType, feedURL);
   const fetchingCount = fetchCount(fetchingFeed);
-  return [fetchingBlog, fetchingFeed, fetchingCount];
+  return [fetchingFeed, fetchingCount];
 }
 
-async function fetchFeed(fetchingBlog: Promise<BlogResponse | undefined>): Promise<ItemResponse[] | undefined> {
-  const blogResponse = await fetchingBlog;
-  if (blogResponse) {
-    const { feedType, feedURL } = blogResponse;
-    switch (feedType) {
-      case FeedType.Atom:
-        return fetchAtom(feedURL);
-      case FeedType.RSS:
-        return fetchRss(feedURL);
-      default:
-        throw new Error(`Unknown feed type: ${feedType}`);
-    }
-  } else {
-    throw new Error('Fetch feed failed');
+export async function fetchFeed(feedType: FeedType, feedURL: string): Promise<ItemResponse[]> {
+  switch (feedType) {
+    case FeedType.Atom:
+      return fetchAtom(feedURL);
+    case FeedType.RSS:
+      return fetchRss(feedURL);
+    default:
+      throw new Error(`Unknown feed type: ${feedType}`);
   }
 }
 
-async function fetchCount(fetchingFeed: Promise<ItemResponse[] | undefined>): Promise<CountResponse[] | undefined> {
+async function fetchCount(fetchingFeed: Promise<ItemResponse[]>): Promise<CountResponse[] | undefined> {
   const itemsResponse = await fetchingFeed;
   if (itemsResponse) {
     const fetchHatenaBookmark = fetchHatenaBookmarkCounts(itemsResponse.map((item: ItemResponse) => item.url));

@@ -1,55 +1,16 @@
-import { BlogResponse, ItemResponse } from './responses';
-import { FeedType } from '../consts/feed-type';
-import { HTMLStringResponse } from '../consts/yahoo-api/html-string';
+import { ItemResponse } from './responses';
 import { AtomResponse } from '../consts/yahoo-api/atom';
 import { RSSResponse } from '../consts/yahoo-api/rss';
 
-export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
-  const response = await fetch(`https://query.yahooapis.com/v1/public/yql?format=json&q=${encodeURIComponent(`select * from htmlstring where url = '${blogURL}'`)}&env=${encodeURIComponent('store://datatables.org/alltableswithkeys')}`);
-  const json: HTMLStringResponse = await response.json();
-  const results = json.query.results;
-
-  if (!results) {
-    throw new Error('Blog not found');
-  } else {
-    const htmlText = results.result;
-
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlText, 'text/html');
-    const snapshots = doc.evaluate(`/html/head/link[@rel='alternate']`, doc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-
-    // prefer Atom than RSS
-    let type: FeedType | undefined;
-    let href: string | undefined;
-    for (let i = 0; i < snapshots.snapshotLength; i++) {
-      const item = snapshots.snapshotItem(i) as HTMLAnchorElement;
-      if (item) {
-        switch (item.type) {
-          case 'application/atom+xml':
-            href = item.href;
-            type = FeedType.Atom;
-            break;
-          case 'application/rss+xml':
-            href = item.href;
-            type = FeedType.RSS;
-            break;
-          default:
-            break;
-        }
-      }
-    }
-    if (!href) {
-      throw new Error('Feed not found: ' + blogURL);
-    }
-    if (!type) {
-      throw new Error('Feed type unknown: ' + blogURL);
-    }
-    return {
-      title: doc.title,
-      url: blogURL,
-      feedURL: href,
-      feedType: type
-    };
+export async function fetchUncertainnFeed(feedURL: string): Promise<ItemResponse[]> {
+  try {
+    return await fetchAtom(feedURL);
+  } catch (e) {
+    try {
+      return await fetchRss(feedURL);
+    } catch (e) {
+      throw new Error('Invalid feed');
+    }  
   }
 }
 
@@ -60,8 +21,8 @@ export async function fetchAtom(atomUrl: string): Promise<ItemResponse[]> {
   if (results) {
     return results.entry
       .map((entry): ItemResponse => {
-        const { title, link, published } = entry;
-        return { title, url: link[0].href, published: new Date(published) };
+        const { title, link, published, updated } = entry;
+        return { title, url: link.href, published: new Date(published || updated) };
       });
   } else {
     throw new Error('Invalid Atom feed');

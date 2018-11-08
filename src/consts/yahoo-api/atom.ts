@@ -15,8 +15,9 @@ type Results = {
 
 type Entry = {
   title: string;
-  link: Link[];
-  published: string;
+  link: Link;
+  published?: string;
+  updated: string;
 };
 
 type Link = {

@@ -1,10 +1,12 @@
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
+import { FeedType } from '../consts/feed-type';
 
 export type BlogEntity = {
   title: string,
   url: string,
-  feedURL: string
+  feedURL: string,
+  feedType: FeedType,
 };
 
 export type ItemEntity = {

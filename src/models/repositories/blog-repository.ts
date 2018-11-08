@@ -10,17 +10,16 @@ export async function findAllBlogs(userId: string): Promise<BlogEntity[]> {
     .map((i: firebase.firestore.DocumentSnapshot) => i.data())
     .filter(i => i !== undefined) as firebase.firestore.DocumentData[];
   
-  return items.map(
-    ({ title, url, feedURL }): BlogEntity => ({ title, url, feedURL })
-  );
+  return items as BlogEntity[];
 }
 
 export function blogRef(userId: string, blogUrl: string): firebase.firestore.DocumentReference {
   return userRef(userId).collection('blogs').doc(encodeURIComponent(blogUrl));
 }
 
-export function findBlog(userId: string, blogUrl: string): Promise<firebase.firestore.DocumentSnapshot> {
-  return blogRef(userId, blogUrl).get();
+export async function findBlog(userId: string, blogUrl: string): Promise<BlogEntity> {
+  const snapshot = await blogRef(userId, blogUrl).get();
+  return snapshot.data() as BlogEntity;
 }
 
 export function saveBlog(userId: string, blogUrl: string, blogTitle: string, feedURL: string, feedType: string): Promise<void> {

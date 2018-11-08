@@ -4,11 +4,23 @@ import 'firebase/firestore';
 import { AppState } from '../states/app-state';
 import { ThunkAction } from 'redux-thunk';
 
+export interface UserFetchFirebaseUserAction extends Action {
+  type: 'UserFetchFirebaseUserAction';
+  auth: firebase.auth.Auth;
+}
+
+export function userFetchFirebaseUser(auth: firebase.auth.Auth): UserFetchFirebaseUserAction {
+  return {
+    type: 'UserFetchFirebaseUserAction',
+    auth  
+  };
+}
+
 export interface UserFirebaseRequestAction extends Action {
   type: 'UserFirebaseRequestAction';
 }
 
-function userRequest(): UserFirebaseRequestAction {
+function userFirebaseUserRequest(): UserFirebaseRequestAction {
   return {
     type: 'UserFirebaseRequestAction',
   };
@@ -19,10 +31,10 @@ export interface UserFirebaseResponseAction extends Action {
   user: firebase.User;
 }
 
-function userResponse(user: firebase.User): UserFirebaseResponseAction {
+export function userFirebaseUserResponse(user: firebase.User): UserFirebaseResponseAction {
   return {
     type: 'UserFirebaseResponseAction',
-    user: user,
+    user,
   };
 }
 
@@ -35,15 +47,28 @@ function unauthorizedReponse(): UserFirebaseUnauthorizedResponseAction {
     type: 'UserFirebaseUnauthorizedResponseAction',
   };
 }
+
+export interface UserFirebaseErrorAction extends Action {
+  type: 'UserFirebaseErrorAction';
+  error: Error;
+}
+
+export function userFirebaseError(error: Error): UserFirebaseErrorAction {
+  return {
+    type: 'UserFirebaseErrorAction',
+    error,
+  }
+}
+
 export type UserActions = UserFirebaseRequestAction | UserFirebaseResponseAction | UserFirebaseUnauthorizedResponseAction;
 
 type UserCallback = (user: firebase.User | null) => any;
 export function fetchUser(auth: firebase.auth.Auth, callback?: UserCallback): ThunkAction<void, AppState, undefined, UserActions> {
   return (dispatch, getState) => {
-    dispatch(userRequest());
+    dispatch(userFirebaseUserRequest());
     auth.onAuthStateChanged((user) => {
       if (user) {
-        dispatch(userResponse(user));
+        dispatch(userFirebaseUserResponse(user));
       } else {
         dispatch(unauthorizedReponse());
       }
@@ -63,4 +88,25 @@ export function fetchOrCurrenUser(auth: firebase.auth.Auth,  callback: (user: fi
       dispatch(fetchUser(auth, callback));
     }
   } 
+}
+
+export function onAuthStateChanged(auth: firebase.auth.Auth): Promise<firebase.User> {
+  return new Promise((resolve, reject) => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        resolve(user);
+      } else {
+        reject(new Error('User login failed'));
+      }
+    });
+  });
+}
+
+export async function currenUserOronAuthStateChanged(auth: firebase.auth.Auth): Promise<firebase.User> {
+  const currentUser = auth.currentUser;
+  if (currentUser) {
+    return currentUser;
+  } else {
+    return await onAuthStateChanged(auth);
+  }
 }

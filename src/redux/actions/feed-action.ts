@@ -1,18 +1,9 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
-import { Dispatch, Action, ActionCreator } from 'redux';
-
-import { ItemEntity, CountEntity } from '../../models/entities';
-import { fetchUser, fetchOrCurrenUser } from './user-action';
-import { CountType } from '../../consts/count-type';
-import { findBlog, saveBlog } from '../../models/repositories/blog-repository';
-import { findAllItems, saveItemBatch, CountSaveEntities } from '../../models/repositories/item-repository';
-import { crawl } from '../../models/crawler';
+import { Action } from 'redux';
+import { ItemEntity, CountEntity, BlogEntity } from '../../models/entities';
 import { BlogResponse, ItemResponse, CountResponse } from '../../models/responses';
-import { writeBatch } from '../../models/repositories/app-repository';
-import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../states/app-state';
 
 export interface FeedBlogURLChangeAction extends Action {
   type: 'FeedBlogURLChangeAction';
@@ -36,68 +27,77 @@ export function feedBlogURLClear(): FeedBlogURLClearAction {
   };
 }
 
-export interface FeedFirebaseRequestAction extends Action {
-  type: 'FeedFirebaseRequestAction';
+export interface FeedFetchFeedAction extends Action {
+  type: 'FeedFetchFeedAction';
+  blogURL: string;
+  auth: firebase.auth.Auth
+}
+
+export function fetchFeed(blogURL: string, auth: firebase.auth.Auth): FeedFetchFeedAction {
+  return {
+    type: 'FeedFetchFeedAction',
+    blogURL,
+    auth
+  }
+}
+
+export interface FeedUserResponseAction extends Action {
+  type: 'FeedUserResponseAction';
+  blogURL: string,
+  user: firebase.User;
+}
+
+export function userResponse(blogURL: string, user: firebase.User): FeedUserResponseAction {
+  return {
+    type: 'FeedUserResponseAction',
+    blogURL,
+    user,
+  };
+}
+
+export interface FeedFirebaseBlogRequestAction extends Action {
+  type: 'FeedFirebaseBlogRequestAction';
   blogURL: string;
 }
 
-function feedFirebaseRequest(blogURL: string): FeedFirebaseRequestAction {
+export function feedFirebaseBlogRequest(blogURL: string): FeedFirebaseBlogRequestAction {
   return {
-    type: 'FeedFirebaseRequestAction',
+    type: 'FeedFirebaseBlogRequestAction',
     blogURL,
   }
 }
 
-export interface FeedFirebaseItemsResponseAction extends Action {
-  type: 'FeedFirebaseItemsResponseAction';
+export interface FeedFirebaseFeedItemsResponseAction extends Action {
+  type: 'FeedFirebaseFeedItemsResponseAction';
   blogURL: string;
   items: ItemEntity[];
 }
 
-export function feedFirebaseResponse(blogURL: string, items: ItemEntity[]): FeedFirebaseItemsResponseAction {
+export function feedFirebaseFeedItemsResponse(blogURL: string, items: ItemEntity[]): FeedFirebaseFeedItemsResponseAction {
   return {
-    type: 'FeedFirebaseItemsResponseAction',
+    type: 'FeedFirebaseFeedItemsResponseAction',
     blogURL,
     items,
   };
 }
 
-export interface FeedFirebaseBlogTitleResponseAction extends Action {
-  type: 'FeedFirebaseBlogTitleResponseAction';
+export interface FeedFirebaseBlogResponseAction extends Action {
+  type: 'FeedFirebaseBlogResponseAction';
   blogURL: string;
-  title: string;
+  blogEntity: BlogEntity;
+  user: firebase.User;
 }
 
-export function feedFirebaseBlogTitleResponse(blogURL: string, title: string) : FeedFirebaseBlogTitleResponseAction {
+export function feedFirebaseBlogResponse(blogURL: string, blogEntity: BlogEntity, user: firebase.User) : FeedFirebaseBlogResponseAction {
   return {
-    type: 'FeedFirebaseBlogTitleResponseAction',
+    type: 'FeedFirebaseBlogResponseAction',
     blogURL,
-    title,
+    blogEntity,
+    user,
   };
 }
 
-type FeedFirebaseAction = FeedFirebaseRequestAction | FeedFirebaseItemsResponseAction | FeedFirebaseBlogTitleResponseAction;
-
-export function fetchFirebaseFeed(auth: firebase.auth.Auth, blogURL: string) {
-  return (dispatch: ThunkDispatch<AppState, undefined, FeedFirebaseActions>) => {
-    dispatch(fetchOrCurrenUser(auth, async (user) => {
-      if (user) {
-        dispatch(feedFirebaseRequest(blogURL));
-
-        const blogData = (await findBlog(user.uid, blogURL)).data();
-        if (blogData) {
-          dispatch(feedFirebaseBlogTitleResponse(blogURL, blogData.title));
-        }
-
-        const itemEntities = await findAllItems(user.uid, blogURL);
-        dispatch(feedFirebaseResponse(blogURL, itemEntities));
-      }
-    }));
-  }
-}
-
-
-export type FeedFirebaseActions = FeedFirebaseRequestAction | FeedFirebaseItemsResponseAction | FeedFirebaseBlogTitleResponseAction;
+export type FeedFirebaseActions = FeedFetchFeedAction | FeedFirebaseBlogRequestAction | FeedFirebaseFeedItemsResponseAction | FeedFirebaseBlogResponseAction;
 
 export interface FeedCrowlerRequestAction extends Action {
   type: 'FeedCrowlerRequestAction';
@@ -108,6 +108,20 @@ export function feedCrowlerRequest(blogURL: string): FeedCrowlerRequestAction {
   return {
     type: 'FeedCrowlerRequestAction',
     blogURL,
+  };
+}
+
+export interface FeedFirebaseUserResponseAction extends Action {
+  type: 'FeedFirebaseUserResponseAction';
+  blogURL: string;
+  user: firebase.User;
+}
+
+export function feedFirebaseUserResponse(blogURL: string, user: firebase.User): FeedFirebaseUserResponseAction {
+  return {
+    type: 'FeedFirebaseUserResponseAction',
+    blogURL,
+    user,
   };
 }
 
@@ -125,32 +139,59 @@ export function feedCrowlerTitleResponseAction(blogURL: string, title: string): 
   };
 }
 
-export interface FeedCrowlerItemsResponseAction extends Action {
-  type: 'FeedCrowlerItemsResponseAction';
+export interface FeedFetchFeedItemsResponseAction extends Action {
+  type: 'FeedFetchFeedItemsResponseAction';
   blogURL: string;
   items: ItemResponse[];
 }
 
-export function feedCrowlerItemsResponse(blogURL: string, items: ItemResponse[]): FeedCrowlerItemsResponseAction {
+export function feedCrowlerItemsResponse(blogURL: string, items: ItemResponse[]): FeedFetchFeedItemsResponseAction {
   return {
-    type: 'FeedCrowlerItemsResponseAction',
+    type: 'FeedFetchFeedItemsResponseAction',
     blogURL,
     items,
   };
 }
 
-export interface FeedCrowlerCountsResponseAction extends Action {
-  type: 'FeedCrowlerCountsResponseAction';
+export interface FeedFetchHatenaBookmarkCountsResponseAction extends Action {
+  type: 'FeedFetchHatenaBookmarkCountsResponseAction';
   blogURL: string;
   counts: CountResponse[];
 }
 
-export function feedCrowlerCountsResponse(blogURL: string, counts: CountResponse[]): FeedCrowlerCountsResponseAction {
+export function feedFetchHatenaBookmarkCountsResponse(blogURL: string, counts: CountResponse[]): FeedFetchHatenaBookmarkCountsResponseAction {
   return {
-    type: 'FeedCrowlerCountsResponseAction',
+    type: 'FeedFetchHatenaBookmarkCountsResponseAction',
     blogURL,
     counts,
   };
+}
+
+
+export interface FeedFetchFacebookCountResponseAction extends Action {
+  type: 'FeedFetchFacebookCountResponseAction';
+  blogURL: string;
+  counts: CountResponse[];
+}
+
+export function feedFetchFacebookCountResponse(blogURL: string, counts: CountResponse[]): FeedFetchFacebookCountResponseAction {
+  return {
+    type: 'FeedFetchFacebookCountResponseAction',
+    blogURL,
+    counts,
+  };
+}
+
+export interface FeedSaveFeedsResponseAction extends Action {
+  type: 'FeedSaveFeedsResponseAction';
+  blogURL: string;
+}
+
+export function feedSaveFeedsResponseAction(blogURL: string) {
+  return {
+    type: 'FeedSaveFeedsResponseAction',
+    blogURL,
+  }
 }
 
 export interface FeedCrowlerErrorAction extends Action {
@@ -169,141 +210,6 @@ export function feedCrowlerErrorResponse(blogURL: string, error: Error): FeedCro
 
 export type ItemEntitiesFunction = () => ItemEntity[];
 
-export function fetchOnlineFeed(auth: firebase.auth.Auth, blogURL: string, getFirebaseEntities: ItemEntitiesFunction): ThunkAction<void, AppState, undefined, FeedCrowlerActions> {
-  return (dispatch: ThunkDispatch<AppState, undefined, FeedCrowlerActions>, getState) => {
-    dispatch(fetchOrCurrenUser(auth, async (user) => {
-      if (user) {
-        dispatch(feedCrowlerRequest(blogURL));
-        const [fetchBlog, fetchFeed, fetchCount] = crawl(blogURL);
-        let blogResponse: BlogResponse | undefined;
-        try {
-          blogResponse = await fetchBlog;
-          if (blogResponse) {
-            const { url, title, feedURL, feedType } = blogResponse;
-            saveBlog(user.uid, url, title, feedURL, feedType);
-            dispatch(feedCrowlerTitleResponseAction(blogURL, title));
-          }
-        } catch (e) {
-          dispatch(feedCrowlerErrorResponse(blogURL, e));
-        }
+type FeedCrowlerActions = FeedCrowlerRequestAction | FeedBlogURLClearAction | FeedCrowlerTitleResponseAction | FeedFetchFeedItemsResponseAction | FeedFetchHatenaBookmarkCountsResponseAction | FeedFetchFacebookCountResponseAction | FeedCrowlerErrorAction | FeedSaveFeedsResponseAction;
 
-        let feedItemsResponse: ItemResponse[] | undefined;
-        try {
-          feedItemsResponse = await fetchFeed;
-          if (feedItemsResponse) {
-            dispatch(feedCrowlerItemsResponse(blogURL, feedItemsResponse));
-          }
-        } catch (e) {
-          dispatch(feedCrowlerErrorResponse(blogURL, e));
-        }
-
-        try {
-          const countsResponse = await fetchCount;
-          if (countsResponse) {
-            dispatch(feedCrowlerCountsResponse(blogURL, countsResponse));
-
-            const batch = writeBatch();
-            const counts = countsResponse.filter((count: CountResponse) => count && count.count > 0);
-            const facebookMap = new Map<string, CountResponse>(counts.filter(c => c.type === CountType.Facebook).map(c => [c.url, c] as [string, CountResponse]));
-            const hatenaBookmarkMap = new Map<string, CountResponse>(counts.filter(c => c.type === CountType.HatenaBookmark).map(c => [c.url, c] as [string, CountResponse]));
-
-            const firebaseEntities = getFirebaseEntities();
-            const firebaseMap = new Map<string, ItemEntity>(firebaseEntities.map(i => [i.url, i] as [string, ItemEntity]));
-            const firebaseFacebookMap = new Map<string, CountEntity>(firebaseEntities.filter(e => e.counts && e.counts[CountType.Facebook]).map(e => [e.url, e.counts && e.counts[CountType.Facebook]] as [string, CountEntity]));
-            const firebaseHatenaBookmarkMap = new Map<string, CountEntity>(firebaseEntities.filter(e => e.counts && e.counts[CountType.HatenaBookmark]).map(e => [e.url, e.counts && e.counts[CountType.HatenaBookmark]] as [string, CountEntity]));
-            const firebasePrevFacebookMap = new Map<string, CountEntity>(firebaseEntities.filter(e => e.counts && e.prevCounts[CountType.Facebook]).map(e => [e.url, e.counts && e.prevCounts[CountType.Facebook]] as [string, CountEntity]));
-            const firebasePrevHatenaBookmarkMap = new Map<string, CountEntity>(firebaseEntities.filter(e => e.counts && e.prevCounts[CountType.HatenaBookmark]).map(e => [e.url, e.counts && e.prevCounts[CountType.HatenaBookmark]] as [string, CountEntity]));
-
-            if (blogResponse && feedItemsResponse) {
-              let shouldCommit = false;
-              for (let item of feedItemsResponse) {
-                const itemCounts: CountSaveEntities = {};
-                const facebookCount = facebookMap.get(item.url);
-                const firebaseFacebookCount = firebaseFacebookMap.get(item.url);
-                if (facebookCount) {
-                  const { count } = facebookCount;
-                  itemCounts.facebook = {
-                    count,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                  };
-                } else if (firebaseFacebookCount) {
-                  itemCounts.facebook = firebaseFacebookCount;
-                }
-
-                const hatenaBookmarkCount = hatenaBookmarkMap.get(item.url);
-                const firebaseHatenaBookmarkCount = firebaseHatenaBookmarkMap.get(item.url);
-                if (hatenaBookmarkCount) {
-                  const { count } = hatenaBookmarkCount;
-                  itemCounts.hatenabookmark = {
-                    count,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                  };
-                } else if (firebaseHatenaBookmarkCount) {
-                  itemCounts.hatenabookmark = firebaseHatenaBookmarkCount;
-                }
-
-                const prevCounts: CountSaveEntities = {};
-                const prevFacebookCount = firebasePrevFacebookMap.get(item.url);
-                if (firebaseFacebookCount && firebaseFacebookCount.timestamp.seconds < (firebase.firestore.Timestamp.now().seconds - 60 * 10)) {
-                  prevCounts.facebook = firebaseFacebookCount;
-                } else if (prevFacebookCount) {
-                  prevCounts.facebook = prevFacebookCount;
-                } else if (!prevFacebookCount && itemCounts.facebook) {
-                  prevCounts.facebook = itemCounts.facebook;
-                }
-
-                const prevHatenaBookmarkCount = firebasePrevHatenaBookmarkMap.get(item.url);
-                if (firebaseHatenaBookmarkCount && firebaseHatenaBookmarkCount.timestamp.seconds < (firebase.firestore.Timestamp.now().seconds - 60 * 10)) {
-                  prevCounts.hatenabookmark = firebaseHatenaBookmarkCount;
-                } else if (prevHatenaBookmarkCount) {
-                  prevCounts.hatenabookmark = prevHatenaBookmarkCount;
-                } else if (!prevHatenaBookmarkCount && itemCounts.hatenabookmark) {
-                  prevCounts.hatenabookmark = itemCounts.hatenabookmark;
-                }
-
-                const firebaseItem = firebaseMap.get(item.url);
-
-                const isTitleChanged = !firebaseItem || firebaseItem && item.title !== firebaseItem.title;
-                const isHatenaBookmarkCountChanged = !firebaseHatenaBookmarkCount || hatenaBookmarkCount && firebaseHatenaBookmarkCount &&
-                  hatenaBookmarkCount.count !== firebaseHatenaBookmarkCount.count;
-                const isFacebookCountChanged = !firebaseFacebookCount || facebookCount && firebaseFacebookCount &&
-                  facebookCount.count !== firebaseFacebookCount.count;
-
-                const firebasePrevHatenaBookmarkCount = firebasePrevHatenaBookmarkMap.get(item.url);
-                const isPrevHatenaBookmarkCountChanged = !firebaseHatenaBookmarkCount ||
-                  prevHatenaBookmarkCount && firebasePrevHatenaBookmarkCount && prevHatenaBookmarkCount.count !== firebasePrevHatenaBookmarkCount.count;
-                const firebasePrevFacebookCount = firebasePrevFacebookMap.get(item.url);
-                const isPrevFacebookCountChanged = !firebaseFacebookCount ||
-                  prevFacebookCount && firebasePrevFacebookCount && prevFacebookCount.count !== firebasePrevFacebookCount.count;
-
-                const shouldSave = isTitleChanged || isHatenaBookmarkCountChanged || isFacebookCountChanged || isPrevHatenaBookmarkCountChanged || isPrevFacebookCountChanged;
-                if (shouldSave) {
-                  saveItemBatch(
-                    batch,
-                    user.uid,
-                    blogURL,
-                    item.url,
-                    item.title,
-                    item.published,
-                    itemCounts,
-                    prevCounts,
-                  );
-                  shouldCommit = true;
-                }
-              }
-              if (shouldCommit) {
-                await batch.commit();
-              }
-            }
-          }
-        } catch (e) {
-          dispatch(feedCrowlerErrorResponse(blogURL, e));
-        }
-      }
-    }));
-  }
-}
-
-type FeedCrowlerActions = FeedCrowlerRequestAction | FeedBlogURLClearAction | FeedCrowlerTitleResponseAction | FeedCrowlerItemsResponseAction | FeedCrowlerCountsResponseAction | FeedCrowlerErrorAction;
-
-export type FeedActions = FeedBlogURLChangeAction | FeedFirebaseAction | FeedCrowlerActions;
+export type FeedActions = FeedBlogURLChangeAction | FeedFirebaseActions | FeedCrowlerActions;
