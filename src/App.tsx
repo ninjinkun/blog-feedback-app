@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { BrowserRouter, Route, match as matchParam, RouteComponentProps } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
-import FeedView from './components/pages/FeedView/index';
-import BlogView from './components/pages/BlogView/index';
-import AddBlogView from './components/pages/AddBlogView/index';
-import LoginView from './components/pages/LoginView/index';
+import EntriesPage from './components/pages/EntriesPage/index';
+import BlogsPage from './components/pages/BlogsPage/index';
+import AddBlogPage from './components/pages/AddBlogPage/index';
+import LoginPage from './components/pages/LoginPage/index';
 import Header from './components/pages/Header/index';
 
 import { initializeFirebase } from './firebase';
@@ -30,9 +30,9 @@ const App = () => (
           </HeaderWrapper>
           <HeaderSpacer />
           <ScrollToTop>
-            <Route exact={true} path="/" component={LoginView} />
-            <Route exact={true} path="/blogs" component={BlogView} />
-            <Route exact={true} path="/add" component={AddBlogView} />
+            <Route exact={true} path="/" component={LoginPage} />
+            <Route exact={true} path="/blogs" component={BlogsPage} />
+            <Route exact={true} path="/add" component={AddBlogPage} />
             <Route
               exact={true}
               path="/blogs/:url"
@@ -72,5 +72,5 @@ const HeaderSpacer = styled.div`
 `;
 
 const Feed = ({ match }: { match: matchParam<{ url: string }> } & RouteComponentProps<{}>) => (
-  <FeedView url={decodeURIComponent(match.params.url)} />
+  <EntriesPage url={decodeURIComponent(match.params.url)} />
 );
