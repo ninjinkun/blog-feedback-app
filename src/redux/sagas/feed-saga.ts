@@ -2,7 +2,7 @@ import { call, put, takeEvery, takeLatest, all, throttle, take, fork, join } fro
 import { delay } from 'redux-saga';
 import { findBlog, saveBlog } from '../../models/repositories/blog-repository';
 import { findAllItems, saveItemBatch, CountSaveEntities } from '../../models/repositories/item-repository';
-import { crawl, fetchFeed as fetchFeedAction } from '../../models/crawler';
+import { fetchFeed as fetchFeedAction } from '../../models/feed-fetcher';
 import { BlogResponse, ItemResponse, CountResponse } from '../../models/responses';
 import { FeedFirebaseBlogResponseAction, feedCrowlerItemsResponse, feedCrowlerErrorResponse, FeedFetchFeedItemsResponseAction, feedFetchHatenaBookmarkCountsResponse, feedFetchFacebookCountResponse, FeedCrowlerTitleResponseAction, FeedFetchFacebookCountResponseAction, FeedFetchHatenaBookmarkCountsResponseAction, FeedFirebaseFeedItemsResponseAction, feedSaveFeedsResponseAction, FeedFetchFeedAction, feedFirebaseUserResponse, FeedFirebaseUserResponseAction, feedFirebaseBlogResponse, feedFirebaseFeedItemsResponse, feedFirebaseBlogRequest } from '../actions/feed-action';
 import { fetchHatenaBookmarkCounts as fetchHatenaBookmarkCountsAction, fetchFacebookCount } from '../../models/count-fetcher';

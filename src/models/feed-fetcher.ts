@@ -1,6 +1,18 @@
 import { ItemResponse } from './responses';
 import { AtomResponse } from '../consts/yahoo-api/atom';
 import { RSSResponse } from '../consts/yahoo-api/rss';
+import { FeedType } from '../consts/feed-type';
+
+export async function fetchFeed(feedType: FeedType, feedURL: string): Promise<ItemResponse[]> {
+  switch (feedType) {
+    case FeedType.Atom:
+      return fetchAtom(feedURL);
+    case FeedType.RSS:
+      return fetchRss(feedURL);
+    default:
+      throw new Error(`Unknown feed type: ${feedType}`);
+  }
+}
 
 export async function fetchUncertainnFeed(feedURL: string): Promise<ItemResponse[]> {
   try {

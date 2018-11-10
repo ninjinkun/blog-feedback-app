@@ -17,35 +17,31 @@ export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
     const doc = parser.parseFromString(htmlText, 'text/html');
     const snapshots = doc.evaluate(`/html/head/link[@rel='alternate']`, doc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
     // prefer Atom than RSS
-    let type: FeedType | undefined;
-    let href: string | undefined;
-    for (let i = 0; i < snapshots.snapshotLength; i++) {
-      const item = snapshots.snapshotItem(i) as HTMLAnchorElement;
-      switch (item.type) {
-        case 'application/atom+xml':
-          href = item.href;
-          type = FeedType.Atom;
-          break;
-        case 'application/rss+xml':
-          href = item.href;
-          type = FeedType.RSS;
-          break;
-        default:
-          break;
-      }
-    }
-    if (!href) {
+    const feedURLType = detectFeedURLAndType(snapshots);
+    if (!feedURLType) {
       throw new Error('Feed not found: ' + blogURL);
     }
-    if (!type) {
-      throw new Error('Feed type unknown: ' + blogURL);
-    }
+    const { feedURL: parsedFeedURL, type } = feedURLType;
     return {
       title: doc.title,
       url: blogURL,
-      feedURL: feedURL(href, blogURL),
+      feedURL: feedURL(parsedFeedURL, blogURL),
       feedType: type
     };
+  }
+}
+
+function detectFeedURLAndType(snapshots: XPathResult): { feedURL: string, type: FeedType } | undefined {
+  for (let i = 0; i < snapshots.snapshotLength; i++) {
+    const item = snapshots.snapshotItem(i) as HTMLAnchorElement;
+    switch (item.type) {
+      case 'application/atom+xml':
+        return { feedURL: item.href, type: FeedType.Atom };
+      case 'application/rss+xml':
+        return { feedURL: item.href, type: FeedType.RSS };
+      default:
+        break;
+    }
   }
 }
 
