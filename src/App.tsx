@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { BrowserRouter, Route, Link, Redirect, match as matchParam, withRouter, RouteComponentProps } from 'react-router-dom';
+import { BrowserRouter, Route, match as matchParam, RouteComponentProps } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import FeedView from './components/pages/FeedView/index';

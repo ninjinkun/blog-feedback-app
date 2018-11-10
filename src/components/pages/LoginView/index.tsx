@@ -4,7 +4,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
 import { StyledFirebaseAuth } from 'react-firebaseui';
-import { BrowserRouter, Route, Link, Redirect, match as matchParam, withRouter, RouteComponentProps } from 'react-router-dom';
+import { Redirect, withRouter, RouteComponentProps } from 'react-router-dom';
 import { AppState } from '../../../redux/states/app-state';
 import { connect } from 'react-redux';
 import { UserState } from '../../../redux/states/user-state';
