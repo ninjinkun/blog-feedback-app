@@ -1,6 +1,6 @@
 export const colorsValue = {
   white: '#fff',
-  black: '#000',
+  black: 'rgb(20, 23, 26)',
   gray: '#8c8c8c',
   grayDark: '#1a1a1a',
   grayLight: '#ddd',
@@ -11,7 +11,7 @@ export const colorsValue = {
 
 export const colorsBlanding = {
   base: colorsValue.white,
-  link: colorsValue.green,
+  link: colorsValue.black,
   linkVisited: 'none',
   linkHover: 'none',
   linkActive: 'none',
@@ -22,7 +22,8 @@ export const colorsBlanding = {
   primary: colorsValue.green,
   secondary: 'none',
   accent: 'rgba(0, 71, 132, 1)',
-  selected: colorsValue.grayPale
+  selected: colorsValue.grayPale,
+  hover: 'rgb(245, 248, 250)',
 };
 
 export const colorsMedia = {
@@ -33,7 +34,6 @@ export const colorsMedia = {
   infoLayer1: colorsValue.grayPale,
   infoLayer2: colorsValue.white,
   card: colorsValue.white,
-  cardHeader: colorsValue.black,
 };
 
 export const colors = Object.assign(colorsValue, colorsBlanding, colorsMedia);

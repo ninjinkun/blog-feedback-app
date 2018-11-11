@@ -18,7 +18,6 @@ storiesOf('organisms/BlogCell', module)
       <BlogCell
         favicon={favicon}
         title={'一休.com Developers Blog'}
-        to={''}
       />
     </Background>
   ));

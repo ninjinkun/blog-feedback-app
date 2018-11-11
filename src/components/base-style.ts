@@ -1,6 +1,6 @@
 
 import { injectGlobal } from 'styled-components';
-import { fontFamily } from './properties';
+import { fontFamily, colors } from './properties';
 
 export function baseStyle() {
   // tslint:disable-next-line:no-unused-expression
@@ -24,6 +24,12 @@ export function baseStyle() {
     }
     a {
       text-decoration: none;
+    }
+    a:link {
+      color: ${colors.link};
+    }
+    a:visited {
+      color: ${colors.link};
     }
   `;
 }

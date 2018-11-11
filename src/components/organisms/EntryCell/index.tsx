@@ -61,6 +61,10 @@ const AnkerWrapper = styled.a`
   &:last-child {
       margin: 6px 12px 12px 12px;
   }
+  transition: ${properties.hoverAnimation};
+  &:hover {
+    background-color: ${properties.colors.hover};
+  }
 `;
 
 const ContentWrapper = styled.div`

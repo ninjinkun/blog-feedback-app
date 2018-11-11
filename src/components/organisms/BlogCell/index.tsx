@@ -2,34 +2,35 @@ import * as React from 'react';
 import styled from 'styled-components';
 import * as properties from '../../properties';
 import Favicon from '../../atoms/Favicon/index';
-import { Link } from 'react-router-dom';
-import { LocationDescriptor } from 'history';
 
 type Props = {
     favicon: string;
     title: string;
-    to: LocationDescriptor;
 };
 
-const BlogCell = ({to, favicon, title, ...props}: Props) => (
-  <LinkWrapper to={to} {...props}>
+const BlogCell = ({favicon, title, ...props}: Props) => (
+  <CellWrapper {...props}>
     <ContentWrapper>
       <Favicon src={favicon}/>
       <Title>{title}</Title>
     </ContentWrapper>
     <Underline />
-  </LinkWrapper>
+  </CellWrapper>
 );
 
 export default BlogCell;
 
-const LinkWrapper = styled(Link)`
+const CellWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: ${properties.baseMargin};  
-  background-color: white;
+  background-color: ${properties.colors.white};
   margin: 0;
   padding: 16px 8px 0px 8px;
+  transition: ${properties.hoverAnimation};
+  &:hover {
+    background-color: ${properties.colors.hover};
+  }
 `;
 
 const ContentWrapper = styled.div`
