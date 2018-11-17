@@ -14,6 +14,7 @@ const baseStyle = `
   align-items: center;
   cursor: pointer;
   border-radius; 4px;
+  text-align: center;
   transition: ${properties.fadeAnimation}};
   &:hover {
     opacity: ${properties.hoverFeedbackOpacity};
@@ -22,6 +23,7 @@ const baseStyle = `
 
 const ButtonBase = styled.button`${baseStyle}`;
 const InputBase = styled.input`${baseStyle}`;
+const AnkerBase = styled.a`${baseStyle}`;
 
 const buttonStyle = `
   background-color: inherit;
@@ -31,6 +33,7 @@ const buttonStyle = `
 
 export const Button = styled(ButtonBase)`${buttonStyle}`;
 export const Input = styled(InputBase)`${buttonStyle}`;
+export const Anker = styled(AnkerBase)`${buttonStyle}`;
 
 const primaryButtonStyle = `
   background-color: ${properties.colors.primary};

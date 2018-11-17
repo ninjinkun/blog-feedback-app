@@ -1,18 +1,18 @@
 import * as React from 'react';
 import styled, { keyframes, SimpleInterpolation } from 'styled-components';
 import * as properties from '../../properties';
-import Button from '../../atoms/Button';
+import Button, { Anker } from '../../atoms/Button';
 import ServiceIcon from '../../atoms/ServiceIcon';
 import { CountType } from '../../../consts/count-type';
 
 type Props = {
+    href?: string;
     type: CountType;
     count?: Number;
-    onClick?: React.MouseEventHandler;
 };
 
-const CountButton: React.SFC<Props> = ({count, type, children, onClick, ...props}) => (
-    <StyledButton onClick={onClick} {...props}>
+const CountButton: React.SFC<Props> = ({count, type, children, href, ...props}) => (
+    <StyledButton href={href} {...props}>
         <ServiceIcon type={type} />
         <CuontLabel>{count}</CuontLabel>
         {children}
@@ -21,7 +21,7 @@ const CountButton: React.SFC<Props> = ({count, type, children, onClick, ...props
 
 export default CountButton;
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(Anker)`
     padding: 0.2rem;
     font-size: ${properties.fontSizes.s};
     background: linear-gradient(${properties.colorsValue.grayPale}, #eee);

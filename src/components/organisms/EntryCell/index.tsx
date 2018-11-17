@@ -19,7 +19,7 @@ type Props = {
 };
 
 const EntryCell: React.SFC<Props> = ({ favicon, title, counts, url, ...props }) => (
-  <AnkerWrapper {...props} href={url}>
+  <AnkerWrapper {...props} href={url} target="_blank">
     <Favicon src={favicon} />
     <ContentWrapper>
       <Title>{title}</Title>
@@ -30,13 +30,8 @@ const EntryCell: React.SFC<Props> = ({ favicon, title, counts, url, ...props }) 
             key={count.type} 
             type={count.type} 
             count={count.count || 0} 
-            onClick={ (e) =>  {
-              e.preventDefault();
-              const location = toServiceURL(count.type, url);
-              if (location) {
-                window.location.href = location;
-              }
-            }}
+            href={toServiceURL(count.type, url) || ''}
+            target={'_blank'}
           />
         )}
       </ButtonWrapper>
