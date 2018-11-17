@@ -16,6 +16,8 @@ import { feedBlogURLChange, fetchFeed, feedBlogURLClear, FeedActions } from '../
 import { FeedState } from '../../../redux/states/feed-state';
 import { colorsValue } from '../../properties';
 import LoadingView from '../../molecules/LoadingView/index';
+import { withRouter, RouteComponentProps } from 'react-router';
+import PageLayout from '../../templates/PageLayout/index';
 
 type StateProps = {
   feed: FeedState;
@@ -24,10 +26,10 @@ type StateProps = {
 type DispatchProps = {
   feedBlogURLClear: () => void;
   feedBlogURLChange: (blogURL: string) => void;
-  fetchFeed: (auth: firebase.auth.Auth, blogURL: string) => any;
+  fetchFeed: (auth: firebase.auth.Auth, blogURL: string) => void;
 };
 
-type OwnProps = { url: string };
+type OwnProps = RouteComponentProps<{ blogURL: string }>;
 
 type Props = OwnProps & StateProps & DispatchProps;
 
@@ -36,7 +38,7 @@ type AnimateMap = Map<string, boolean>;
 
 class EntriesPage extends React.PureComponent<Props> {
   componentDidMount() {
-    const blogURL = this.props.url;
+    const blogURL = decodeURIComponent(this.props.match.params.blogURL);
     this.props.feedBlogURLChange(blogURL);
     this.props.fetchFeed(firebase.auth(), blogURL);
   }
@@ -46,34 +48,47 @@ class EntriesPage extends React.PureComponent<Props> {
   }
 
   render() {
-    const { feed } = this.props;
-    if ((!feed || feed.loading) && !(feed && feed.fethcedEntities || feed && feed.firebaseEntities)) {
-      return (<LoadingView />);
-    } else {
-      const { firebaseEntities, fethcedEntities, fetchedHatenaBookmarkCounts, fetchedFacebookCounts } = feed;
+    const { feed, history } = this.props;
+    return (
+      <PageLayout header={{
+        title: feed && feed.title || '',
+        loading: feed && feed.crowlingRatio > 0 && feed.crowlingRatio < 100,
+        loadingRatio: feed && feed.crowlingRatio,
+        loadingLabel: feed && feed.crowlingLabel,
+        onBackButtonClick: () => history.push(`/blogs/`)
+      }} >
+        {(() => {
+          if ((!feed || feed.loading) && !(feed && feed.fethcedEntities || feed && feed.firebaseEntities)) {
+            return (<LoadingView />);
+          } else {
+            const { firebaseEntities, fethcedEntities, fetchedHatenaBookmarkCounts, fetchedFacebookCounts } = feed;
 
-      const [hatenabookmarkMap, hatenabookmarkAnimateMap] = this.stateToViewData(fetchedHatenaBookmarkCounts, firebaseEntities, CountType.HatenaBookmark);
-      const [facebookMap, facebookAnimateMap] = this.stateToViewData(fetchedFacebookCounts, firebaseEntities, CountType.Facebook);
+            const [hatenabookmarkMap, hatenabookmarkAnimateMap] = this.stateToViewData(fetchedHatenaBookmarkCounts, firebaseEntities, CountType.HatenaBookmark);
+            const [facebookMap, facebookAnimateMap] = this.stateToViewData(fetchedFacebookCounts, firebaseEntities, CountType.Facebook);
 
-      const items: (ItemResponse | ItemEntity)[] = fethcedEntities && fethcedEntities.length ? fethcedEntities : firebaseEntities && firebaseEntities.length ? firebaseEntities : [];
-      return (
-        <StyledScrollView>
-          {items
-            .map(item =>
-              <EntryCell
-                key={item.url}
-                title={item.title}
-                favicon={`https://www.google.com/s2/favicons?domain=${item.url}`}
-                counts={[
-                  { type: CountType.Twitter, count: 0, animate: false },
-                  { type: CountType.Facebook, count: facebookMap.get(item.url) || 0, animate: !!(facebookAnimateMap && facebookAnimateMap.get(item.url)) },
-                  { type: CountType.HatenaBookmark, count: hatenabookmarkMap.get(item.url) || 0, animate: !!(hatenabookmarkAnimateMap && hatenabookmarkAnimateMap.get(item.url)) }
-                ]}
-                url={item.url}
-              />
-            )}
-        </StyledScrollView>);
-    }
+            const items: (ItemResponse | ItemEntity)[] = fethcedEntities && fethcedEntities.length ? fethcedEntities : firebaseEntities && firebaseEntities.length ? firebaseEntities : [];
+            return (
+              <StyledScrollView>
+                {items
+                  .map(item =>
+                    <EntryCell
+                      key={item.url}
+                      title={item.title}
+                      favicon={`https://www.google.com/s2/favicons?domain=${item.url}`}
+                      counts={[
+                        { type: CountType.Twitter, count: 0, animate: false },
+                        { type: CountType.Facebook, count: facebookMap.get(item.url) || 0, animate: !!(facebookAnimateMap && facebookAnimateMap.get(item.url)) },
+                        { type: CountType.HatenaBookmark, count: hatenabookmarkMap.get(item.url) || 0, animate: !!(hatenabookmarkAnimateMap && hatenabookmarkAnimateMap.get(item.url)) }
+                      ]}
+                      url={item.url}
+                    />
+                  )}
+              </StyledScrollView>
+            );
+          }
+        })()}
+      </PageLayout>
+    );
   }
 
   stateToViewData(fetchedCounts: CountResponse[] | undefined, firebaseEntities: ItemEntity[] | undefined, countType: CountType): [CountMap, AnimateMap] {
@@ -100,7 +115,7 @@ class EntriesPage extends React.PureComponent<Props> {
     ));
     const animateMap: AnimateMap = new Map(filteredFetchedCounts.map(({ url, count }) => {
       const prevCount = prevFirebaseMap.get(url);
-      const animate = !prevCount && count > 0 || 
+      const animate = !prevCount && count > 0 ||
         prevCount && count > prevCount.count;
       return [url, animate] as [string, boolean];
     }));
@@ -115,7 +130,7 @@ const StyledScrollView = styled(ScrollView)`
 `;
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
-  feed: state.feeds.feeds[ownProps.url],
+  feed: state.feeds.feeds[decodeURIComponent(ownProps.match.params.blogURL)],
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<FeedActions>): DispatchProps => ({
@@ -124,4 +139,4 @@ const mapDispatchToProps = (dispatch: Dispatch<FeedActions>): DispatchProps => (
   fetchFeed: (auth, blogURL) => dispatch(fetchFeed(blogURL, auth)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EntriesPage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EntriesPage));

@@ -5,7 +5,7 @@ import { FeedActions } from '../actions/feed-action';
 import { AddBlogResponseAction } from '../actions/add-blog-action';
 import { BlogFirebaseResponseAction } from '../actions/blog-action';
 
-export const feedsReducer: Reducer<FeedsState> = (state = feedsIniticalState, action: FeedActions | Dummy | AddBlogResponseAction | BlogFirebaseResponseAction): FeedsState => {
+export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseAction | BlogFirebaseResponseAction> = (state = feedsIniticalState, action): FeedsState => {
   switch (action.type) {
     case 'FeedBlogURLChangeAction': {
       const { blogURL } = action;
@@ -57,8 +57,12 @@ export const feedsReducer: Reducer<FeedsState> = (state = feedsIniticalState, ac
       return updateFeed(
         blogURL,
         state,
-        { fetchedFacebookCounts: flattenCount, loading: false, crowlingLabel: undefined, crowlingRatio: 100 }
+        { fetchedFacebookCounts: flattenCount, loading: false, crowlingLabel: 'Saving data...', crowlingRatio: 90 }
       );
+    }
+    case 'FeedSaveFeedsResponseAction': {
+      const { blogURL } = action;
+      return updateFeed(blogURL, state, { loading: false, crowlingLabel: undefined, crowlingRatio: 100 });
     }
     case 'FeedCrowlerErrorAction': {
       const { blogURL } = action;

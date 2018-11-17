@@ -2,7 +2,7 @@ import { Reducer } from 'redux';
 import { UserState, initialState } from '../states/user-state';
 import { AddBlogActions } from '../actions/add-blog-action';
 
-export const addBlogReducer: Reducer<UserState> = (state = initialState, action: AddBlogActions) => {
+export const addBlogReducer: Reducer<UserState, AddBlogActions> = (state = initialState, action) => {
   switch (action.type) {
     case 'AddBlogRequestAction':
       return { ...state, finished: false, loading: true };

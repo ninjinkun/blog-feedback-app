@@ -1,7 +1,7 @@
 import { Dispatch, Action, ActionCreator, bindActionCreators } from 'redux';
 
 import { BlogEntity } from '../../models/entities';
-import { fetchOrCurrenUser } from './user-action';
+import { fetchOrCurrenUser, currenUserOronAuthStateChanged } from './user-action';
 import { findAllBlogs } from '../../models/repositories/blog-repository';
 import { ThunkAction } from 'redux-thunk';
 import { AppState } from '../states/app-state';
@@ -31,15 +31,21 @@ export function blogResponse(blogs: BlogEntity[]): BlogFirebaseResponseAction {
 type BlogFirebaseFetchActions = BlogFirebaseRequestAction | BlogFirebaseResponseAction;
 
 export function fetchBlogs (auth: firebase.auth.Auth): ThunkAction<void, AppState, undefined, BlogFirebaseFetchActions> {
-  return (dispatch, getState) => {
-    dispatch(fetchOrCurrenUser(auth, async (user) => {
-      if (user) {
-        dispatch(blogRequest());
-        const blogs = await findAllBlogs(user.uid);
-        dispatch(blogResponse(blogs));
-      }
-    }));
+  return async (dispatch, getState) => {
+    let user;
+    try {
+      user = await currenUserOronAuthStateChanged(auth);
+    } catch (e) {
+      throw e;
+    }
+    try {
+      dispatch(blogRequest());
+      const blogs = await findAllBlogs(user.uid);
+      dispatch(blogResponse(blogs));
+    } catch (e) {
+      throw new Error('Fetch Blog Failed');
+    }
   };
 }
 
-export type BlogActions = BlogFirebaseRequestAction | BlogFirebaseResponseAction;
+export type BlogActions = BlogFirebaseFetchActions;

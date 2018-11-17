@@ -4,27 +4,28 @@ import * as properties from '../../properties';
 import { MdArrowBack, MdAdd } from 'react-icons/md';
 import HeaderLoadingIndicator from '../../molecules/HeaderLoadingIndicator/index';
 
-type HeaderProps = {
-    title: string;
-    loadingLabel?: string;
-    loadingRatio?: number;
-    loading?: boolean;
-    onHeaderClick?: React.MouseEventHandler;
-    onBackButtonClick?: React.MouseEventHandler;
-    onAddButtonClick?: React.MouseEventHandler;
+export type HeaderProps = {
+    title: string,
+    loadingLabel?: string
+    loadingRatio?: number,
+    loading?: boolean,
+    onHeaderClick?: React.MouseEventHandler,
+    onBackButtonClick?: React.MouseEventHandler,
+    onAddButtonClick?: React.MouseEventHandler,
+    onSettingButtonClick?: React.MouseEventHandler,
 };
 
-const Header = ({...props}: HeaderProps) => (
-    <HeaderLayout onClick={props.onHeaderClick} {...props}>
+const Header = ({onBackButtonClick, onAddButtonClick, onHeaderClick, loadingRatio, loadingLabel, loading, title, ...props}: HeaderProps) => (
+    <HeaderLayout onClick={onHeaderClick} {...props}>
         <HeaderLoadingIndicator 
-            ratio={props.loadingRatio} 
-            label={props.loadingLabel} 
-            loading={props.loading ? props.loading : false}
+            ratio={loadingRatio} 
+            label={loadingLabel} 
+            loading={!!loading}
         />
         <HeaderContent>
-            {!!props.onBackButtonClick ? <BackButton size={28} onClick={props.onBackButtonClick}/> : <Spacer />}
-            <TitleLayout><Title>{props.title}</Title></TitleLayout>
-            {!!props.onAddButtonClick ? <AddButton size={28} onClick={props.onAddButtonClick}/> : <Spacer />}
+            {onBackButtonClick ? <BackButton size={24} onClick={onBackButtonClick}/> : <Spacer />}
+            <TitleLayout><Title>{title}</Title></TitleLayout>
+            {onAddButtonClick ? <AddButton size={24} onClick={onAddButtonClick}/> : <Spacer />}
         </HeaderContent>
         <UnderLine />
     </HeaderLayout>
@@ -59,24 +60,27 @@ justify-content: center;
 display: flex;
 box-pack: center;
 box-sizing: border-box;
-width: 100%;
+flex: 1 1 auto;
+overflow: hidden;
 `;
 
 const Title = styled.div`
 font-size: 1.25rem;
 font-weight: bold;
 white-space: nowrap;
-max-width: 100%;
+overflow: hidden;
 `;
 
 const BackButton = styled(MdArrowBack)`
 cursor: pointer;
 padding: 8px;
+flex: 0 0 auto;
 `;
 
 const AddButton = styled(MdAdd)`
 cursor: pointer;
 padding: 8px;
+flex: 0 0 auto;
 `;
 
 const Spacer = styled.div`

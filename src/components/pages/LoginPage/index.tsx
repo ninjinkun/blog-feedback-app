@@ -11,6 +11,7 @@ import { UserState } from '../../../redux/states/user-state';
 import { Dispatch, bindActionCreators } from 'redux';
 import { fetchUser } from '../../../redux/actions/user-action';
 import LoadingView from '../../molecules/LoadingView/index';
+import PageLayout from '../../templates/PageLayout/index';
 
 type StateProps = {
   user: UserState
@@ -27,20 +28,28 @@ class LoginPage extends React.PureComponent<Props> {
   }
   render() {
     const { loading, user } = this.props.user;
-    if (loading && !user) {
-      return (
-        <LoadingView />
-      );
-    } else if (user) {
-      return (
-        <Redirect to="/blogs" />
-      );
+    if (user) {
+      return (<Redirect to="/blogs" />);
     } else {
       return (
-        <StyledFirebaseAuth
-          uiConfig={uiConfig}
-          firebaseAuth={firebase.auth()}
-        />
+        <PageLayout header={{
+          title: 'Login',
+        }}>
+          {() => {
+            if (loading && !user) {
+              return (
+                <LoadingView />
+              );
+            } else {
+              return (
+                <StyledFirebaseAuth
+                  uiConfig={uiConfig}
+                  firebaseAuth={firebase.auth()}
+                />
+              );
+            }
+          }}
+        </PageLayout>
       );
     }
   }

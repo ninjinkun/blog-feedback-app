@@ -27,7 +27,10 @@ export default class HeaderLoadingIndicator extends React.PureComponent<Props, {
     const frame2 = (style: object) => <Label style={style}>{this.frameToggle ? this.prevLabel : label}</Label>;
 
     return (
-      <Spring from={{ backgroundColor: loading ? properties.colorsBlanding.accent : properties.colorsValue.grayDark }} to={{ backgroundColor: loading ? properties.colorsValue.grayDark : properties.colorsBlanding.accent }} {...this.props}>
+      <Spring 
+        to={{ backgroundColor: loading ? properties.colorsValue.grayDark : properties.colorsBlanding.accent }} 
+        {...this.props}
+      >
         {styles => <Wrapper style={styles}>
         <Content>
           <SpinnerWrapper>{loading ? <Spinner size={12} singleColor={'white'}/> : undefined}</SpinnerWrapper>

@@ -2,7 +2,7 @@ import { Reducer } from 'redux';
 import { AddBlogState, initialState } from '../states/add-blog-state';
 import { UserActions } from '../actions/user-action';
 
-export const userReducer: Reducer<AddBlogState> = (state = initialState, action: UserActions) => {
+export const userReducer: Reducer<AddBlogState, UserActions> = (state = initialState, action) => {
   switch (action.type) {
     case 'UserFirebaseRequestAction':
       return { ...state, loading: true };

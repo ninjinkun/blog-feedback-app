@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { AppState } from '../../../redux/states/app-state';
 import { addBlog, addBlogInitialize, AddBlogThunkAction, AddBlogInitializeAction, AddBlogActions } from '../../../redux/actions/add-blog-action';
 import { AddBlogState } from '../../../redux/states/add-blog-state';
+import PageLayout from '../../templates/PageLayout/index';
 
 type StateProps = {
   addBlogState: AddBlogState;
@@ -29,18 +30,24 @@ class AddBlogView extends React.PureComponent<Props> {
   }
 
   render() {
-    const { loading, error, finished, blogURL } = this.props.addBlogState;
+    const { history, addBlogState } = this.props;
+    const { loading, error, finished, blogURL } = addBlogState;
     if (finished && blogURL) {
       return (<Redirect to={`/blogs/${encodeURIComponent(blogURL)}`} />);
     } else {
       return (
-        <FormWrapper>
-          <AddBlogForm
-            handleSubmit={(e) => this.handleSubmit(e)}
-            loading={loading}
-            errorMessage={error && error.message}
-          />
-        </FormWrapper>
+        <PageLayout header={{
+          title: 'Add Blog',
+          onAddButtonClick: () => history.push(`/blogs/`)
+        }}>
+          <FormWrapper>
+            <AddBlogForm
+              handleSubmit={(e) => this.handleSubmit(e)}
+              loading={loading}
+              errorMessage={error && error.message}
+            />
+          </FormWrapper>
+        </PageLayout>
       );
     }
   }

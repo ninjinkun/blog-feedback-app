@@ -13,17 +13,19 @@ import { Button } from '../../atoms/Button/index';
 import LoadingView from '../../molecules/LoadingView/index';
 import Wrapper from '../../atoms/Wrapper/index';
 import { ThunkDispatch } from 'redux-thunk';
-import { Link } from 'react-router-dom';
+import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import { Dispatch } from 'redux';
+import PageLayout from '../../templates/PageLayout/index';
 
 type StateProps = {
   blog: BlogState;
 };
 
 type DispatchProps = {
-  fetchBlogs: (auth: firebase.auth.Auth) => any;
+  fetchBlogs: (auth: firebase.auth.Auth) => void;
 };
 
-type Props = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps & RouteComponentProps<{}> & { dispatch: Dispatch };
 
 class BlogsPage extends React.PureComponent<Props, {}> {
   componentDidMount() {
@@ -35,28 +37,37 @@ class BlogsPage extends React.PureComponent<Props, {}> {
   }
 
   render() {
-    const { blogs, loading } = this.props.blog;
-    if (blogs && blogs.length) {
-      return (
-        <StyledScrollView>
-          {blogs.map((blog) => (
-            <Link to={`/blogs/${encodeURIComponent(blog.url)}`} >
-              <BlogCell
-                title={blog.title}
-                favicon={`https://www.google.com/s2/favicons?domain=${blog.url}`}
-                key={blog.url}
-              />
-            </Link>
-          ))}
-        </StyledScrollView>
-      );
-    } else if (!loading && blogs && blogs.length === 0) {
-      return (<Wrapper><Button>ブログを追加する</Button></Wrapper>);
-    } else if (loading) {
-      return (<LoadingView />);
-    } else {
-      return (<LoadingView />);
-    }
+    const { history, blog } = this.props;
+    const { blogs, loading } = blog;
+    return (
+      <PageLayout header={{
+        title: 'BlogFeedback',
+        onAddButtonClick: () => history.push(`/add`)
+      }}>
+        {(() => {
+          if (blogs && blogs.length) {
+            return (
+              <StyledScrollView>
+                {blogs.map((blog) => (
+                  <Link to={`/blogs/${encodeURIComponent(blog.url)}`} key={blog.url} >
+                    <BlogCell
+                      title={blog.title}
+                      favicon={`https://www.google.com/s2/favicons?domain=${blog.url}`}
+                    />
+                  </Link>
+                ))}
+              </StyledScrollView>
+            );
+          } else if (!loading && blogs && blogs.length === 0) {
+            return (<Wrapper><Button>ブログを追加する</Button></Wrapper>);
+          } else if (loading) {
+            return (<LoadingView />);
+          } else {
+            return (<LoadingView />);
+          }
+        })()}
+      </PageLayout>
+    );
   }
 }
 
@@ -65,10 +76,11 @@ const mapStateToProps = (state: AppState): StateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, BlogActions>): DispatchProps => ({
-  fetchBlogs: (auth) => dispatch(fetchBlogs(auth))
+  fetchBlogs: (auth) =>
+    (dispatch as ThunkDispatch<AppState, undefined, BlogActions>)(fetchBlogs(auth)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(BlogsPage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BlogsPage));
 
 const StyledScrollView = styled(ScrollView)`
   background-color: white;

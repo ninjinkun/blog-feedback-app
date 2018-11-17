@@ -107,6 +107,10 @@ export async function currenUserOronAuthStateChanged(auth: firebase.auth.Auth): 
   if (currentUser) {
     return currentUser;
   } else {
-    return await onAuthStateChanged(auth);
+    try {
+      return await onAuthStateChanged(auth);
+    } catch (e) {
+      throw e;
+    }
   }
 }
