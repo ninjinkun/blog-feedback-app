@@ -12,30 +12,32 @@ import { initializeFirebase } from './firebase';
 import { createStore, compose, applyMiddleware } from 'redux';
 import Wrapper from './components/atoms/Wrapper';
 import SmartphoneLayout from './components/templates/SmartphoneLayout/index';
-import { baseStyle } from './components/base-style';
+import { GlobalStyle } from './components/base-style';
 import ScrollToTop from './components/templates/ScrollToTop/index';
 import { appStore } from './redux/create-store';
 import SettingsPage from './components/pages/SettingsPage/index';
 import SettingPage from './components/pages/SettingPage/index';
 
 initializeFirebase();
-baseStyle();
 
 const App = () => (
-  <Provider store={appStore}>
-    <SmartphoneLayout>
-      <BrowserRouter>
-          <ScrollToTop>
-            <Route exact={true} path="/" component={LoginPage} />
-            <Route exact={true} path="/blogs" component={BlogsPage} />
-            <Route exact={true} path="/add" component={AddBlogPage} />
-            <Route exact={true} path="/settings" component={SettingsPage} />
-            <Route exact={true} path="/setting/:blogURL" component={SettingPage} />
-            <Route exact={true} path="/blogs/:blogURL" component={EntriesPage} />
-          </ScrollToTop>
-      </BrowserRouter>
-    </SmartphoneLayout>
-  </Provider>
+  <React.Fragment>
+    <GlobalStyle />
+    <Provider store={appStore}>
+      <SmartphoneLayout>
+        <BrowserRouter>
+            <ScrollToTop>
+              <Route exact={true} path="/" component={LoginPage} />
+              <Route exact={true} path="/blogs" component={BlogsPage} />
+              <Route exact={true} path="/add" component={AddBlogPage} />
+              <Route exact={true} path="/settings" component={SettingsPage} />
+              <Route exact={true} path="/setting/:blogURL" component={SettingPage} />
+              <Route exact={true} path="/blogs/:blogURL" component={EntriesPage} />
+            </ScrollToTop>
+        </BrowserRouter>
+      </SmartphoneLayout>
+    </Provider>
+  </React.Fragment>
 );
 export default App;
 

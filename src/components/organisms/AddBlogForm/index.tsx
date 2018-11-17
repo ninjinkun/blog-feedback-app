@@ -31,14 +31,14 @@ export default class AddBlogForm extends React.PureComponent<Props, States> {
     const { loading, errorMessage } = this.props;
     return (
       <StyledWrapper>
-        <StyledForm onSubmit={(e) => this.handleSubmit(e)}>
+        <StyledForm onSubmit={(e: React.FormEvent<HTMLFormElement>) => this.handleSubmit(e)}>
           <StyledLabel>
               <Text>Enter Blog URL</Text>
               <URLField 
                 type="url" 
                 value={this.state.url} 
                 placeholder={'https://exampleblog.com/'}
-                onChange={(e) => { this.setState({ url: e.target.value }); }} 
+                onChange={(e: React.FormEvent<HTMLInputElement>) => { this.setState({ url: (e.target as HTMLInputElement).value }); }} 
               />
           </StyledLabel>
           <PrimaryInput type="submit" value="Add blog" />
