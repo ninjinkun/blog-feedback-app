@@ -3,7 +3,7 @@ import 'firebase/auth';
 
 import { Dispatch, Action, ActionCreator, bindActionCreators } from 'redux';
 import { fetchBlog } from '../../models/blog-fetcher';
-import { fetchOrCurrenUser, currenUserOronAuthStateChanged } from './user-action';
+import { currenUserOronAuthStateChanged } from './user-action';
 import { saveBlog } from '../../models/repositories/blog-repository';
 import { BlogResponse } from '../../models/responses';
 import { ThunkAction } from 'redux-thunk';

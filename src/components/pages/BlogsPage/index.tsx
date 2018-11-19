@@ -42,7 +42,8 @@ class BlogsPage extends React.PureComponent<Props, {}> {
     return (
       <PageLayout header={{
         title: 'BlogFeedback',
-        onAddButtonClick: () => history.push(`/add`)
+        onAddButtonClick: () => history.push(`/add`),
+        onSettingButtonClick: () => history.push('/settings')
       }}>
         {(() => {
           if (blogs && blogs.length) {

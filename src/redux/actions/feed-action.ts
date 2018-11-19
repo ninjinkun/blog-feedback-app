@@ -4,6 +4,10 @@ import 'firebase/auth';
 import { Action } from 'redux';
 import { ItemEntity, CountEntity, BlogEntity } from '../../models/entities';
 import { BlogResponse, ItemResponse, CountResponse } from '../../models/responses';
+import { findBlog } from '../../models/repositories/blog-repository';
+import { currenUserOronAuthStateChanged } from './user-action';
+import { ThunkAction } from 'redux-thunk';
+import { AppState } from '../states/app-state';
 
 export interface FeedBlogURLChangeAction extends Action {
   type: 'FeedBlogURLChangeAction';
@@ -97,7 +101,21 @@ export function feedFirebaseBlogResponse(blogURL: string, blogEntity: BlogEntity
   };
 }
 
-export type FeedFirebaseActions = FeedFetchFeedAction | FeedFirebaseBlogRequestAction | FeedFirebaseFeedItemsResponseAction | FeedFirebaseBlogResponseAction;
+export interface FeedFirebaseBlogErrorAction extends Action {
+  type: 'FeedFirebaseBlogErrorAction';
+  blogURL: string;
+  error: Error;
+}
+
+export function feedFirebaseBlogError(blogURL: string, error: Error) : FeedFirebaseBlogErrorAction {
+  return {
+    type: 'FeedFirebaseBlogErrorAction',
+    blogURL,
+    error
+  };
+}
+
+export type FeedFirebaseActions = FeedFetchFeedAction | FeedFirebaseBlogRequestAction | FeedFirebaseFeedItemsResponseAction | FeedFirebaseBlogResponseAction | FeedFirebaseBlogErrorAction;
 
 export interface FeedCrowlerRequestAction extends Action {
   type: 'FeedCrowlerRequestAction';
@@ -213,3 +231,21 @@ export type ItemEntitiesFunction = () => ItemEntity[];
 type FeedCrowlerActions = FeedCrowlerRequestAction | FeedBlogURLClearAction | FeedCrowlerTitleResponseAction | FeedFetchFeedItemsResponseAction | FeedFetchHatenaBookmarkCountsResponseAction | FeedFetchFacebookCountResponseAction | FeedCrowlerErrorAction | FeedSaveFeedsResponseAction;
 
 export type FeedActions = FeedBlogURLChangeAction | FeedFirebaseActions | FeedCrowlerActions;
+
+export function fetchFirebaseBlog (auth: firebase.auth.Auth, blogURL: string): ThunkAction<void, AppState, undefined, FeedFirebaseActions> {
+  return async (dispatch) => {
+    let user;
+    try {
+      user = await currenUserOronAuthStateChanged(auth);
+    } catch (e) {
+      throw e;
+    }
+    try {
+      dispatch(feedFirebaseBlogRequest(blogURL));
+      const blog = await findBlog(user.uid, blogURL);
+      dispatch(feedFirebaseBlogResponse(blogURL, blog, user));
+    } catch (e) {
+      dispatch(feedFirebaseBlogError(blogURL, e));
+    }
+  };
+}

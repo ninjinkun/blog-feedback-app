@@ -1,14 +1,14 @@
 import { Reducer } from 'redux';
-import { UserState, initialState } from '../states/user-state';
+import { AddBlogState, initialState } from '../states/add-blog-state';
 import { AddBlogActions } from '../actions/add-blog-action';
 
-export const addBlogReducer: Reducer<UserState, AddBlogActions> = (state = initialState, action) => {
+export const addBlogReducer: Reducer<AddBlogState, AddBlogActions> = (state = initialState, action) => {
   switch (action.type) {
     case 'AddBlogRequestAction':
       return { ...state, finished: false, loading: true };
     case 'AddBlogResponseAction':
       const { url } = action.response;
-      return { ...state, error: null, finished: true, blogURL: url, loading: false };
+      return { ...state, error: undefined, finished: true, blogURL: url, loading: false };
     case 'AddBlogErrorAction':
       const { error } = action;
       return { ...state, error, finished: false, loading: false };

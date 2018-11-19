@@ -1,24 +1,14 @@
-import { call, put, takeEvery, takeLatest, all, throttle, take, fork, join } from 'redux-saga/effects'
+import { call, put, takeEvery, all, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga';
-import { findBlog, saveBlog } from '../../models/repositories/blog-repository';
-import { findAllItems, saveItemBatch, CountSaveEntities } from '../../models/repositories/item-repository';
+import { findBlog } from '../../models/repositories/blog-repository';
+import { findAllItems } from '../../models/repositories/item-repository';
 import { fetchFeed as fetchFeedAction } from '../../models/feed-fetcher';
-import { BlogResponse, ItemResponse, CountResponse } from '../../models/responses';
-import { FeedFirebaseBlogResponseAction, feedCrowlerItemsResponse, feedCrowlerErrorResponse, FeedFetchFeedItemsResponseAction, feedFetchHatenaBookmarkCountsResponse, feedFetchFacebookCountResponse, FeedCrowlerTitleResponseAction, FeedFetchFacebookCountResponseAction, FeedFetchHatenaBookmarkCountsResponseAction, FeedFirebaseFeedItemsResponseAction, feedSaveFeedsResponseAction, FeedFetchFeedAction, feedFirebaseUserResponse, FeedFirebaseUserResponseAction, feedFirebaseBlogResponse, feedFirebaseFeedItemsResponse, feedFirebaseBlogRequest } from '../actions/feed-action';
+import { ItemResponse, CountResponse } from '../../models/responses';
+import { FeedFirebaseBlogResponseAction, feedCrowlerItemsResponse, feedCrowlerErrorResponse, FeedFetchFeedItemsResponseAction, feedFetchHatenaBookmarkCountsResponse, feedFetchFacebookCountResponse, FeedFetchFacebookCountResponseAction, FeedFetchHatenaBookmarkCountsResponseAction, FeedFirebaseFeedItemsResponseAction, feedSaveFeedsResponseAction, FeedFetchFeedAction, feedFirebaseUserResponse, FeedFirebaseUserResponseAction, feedFirebaseBlogResponse, feedFirebaseFeedItemsResponse, feedFirebaseBlogRequest } from '../actions/feed-action';
 import { fetchHatenaBookmarkCounts as fetchHatenaBookmarkCountsAction, fetchFacebookCount } from '../../models/count-fetcher';
 import { saveFeedsAndCounts } from '../../models/save-count-response';
-import { UserFirebaseResponseAction, currenUserOronAuthStateChanged, userFirebaseUserResponse, UserFetchFirebaseUserAction, userFetchFirebaseUser, userFirebaseError } from '../actions/user-action';
+import { currenUserOronAuthStateChanged, userFirebaseUserResponse, UserFetchFirebaseUserAction, userFetchFirebaseUser, userFirebaseFetchError } from '../actions/user-action';
 import { BlogEntity, ItemEntity } from '../../models/entities';
-
-function* fetchFiresbaseUser(action: UserFetchFirebaseUserAction) {
-  const { auth } = action;
-  try {
-    const user: firebase.User = yield call(currenUserOronAuthStateChanged, auth);
-    yield put(userFirebaseUserResponse(user));
-  } catch (e) {
-    yield put(userFirebaseError(e));
-  }
-}
 
 function* handleUser() {
   while (true) {
@@ -29,6 +19,15 @@ function* handleUser() {
   }
 }
 
+function* fetchFiresbaseUser(action: UserFetchFirebaseUserAction) {
+  const { auth } = action;
+  try {
+    const user: firebase.User = yield call(currenUserOronAuthStateChanged, auth);
+    yield put(userFirebaseUserResponse(user));
+  } catch (e) {
+    yield put(userFirebaseFetchError(e));
+  }
+}
 
 function* firebaseBlog(action: FeedFirebaseUserResponseAction) {
   const { blogURL, user } = action;

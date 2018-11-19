@@ -22,7 +22,7 @@ type DispatchProps = {
 }
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
-class LoginPage extends React.PureComponent<Props> {
+class AuthPage extends React.PureComponent<Props> {
   componentDidMount() {
     this.props.fetchUser(firebase.auth());
   }
@@ -33,9 +33,9 @@ class LoginPage extends React.PureComponent<Props> {
     } else {
       return (
         <PageLayout header={{
-          title: 'Login',
+          title: 'Sign in',
         }}>
-          {() => {
+          {(() => {
             if (loading && !user) {
               return (
                 <LoadingView />
@@ -48,7 +48,7 @@ class LoginPage extends React.PureComponent<Props> {
                 />
               );
             }
-          }}
+          })()}
         </PageLayout>
       );
     }
@@ -78,4 +78,4 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
     fetchUser: fetchUser,
   }, dispatch);
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginPage));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AuthPage));

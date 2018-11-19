@@ -1,7 +1,7 @@
 import { Dispatch, Action, ActionCreator, bindActionCreators } from 'redux';
 
 import { BlogEntity } from '../../models/entities';
-import { fetchOrCurrenUser, currenUserOronAuthStateChanged } from './user-action';
+import { currenUserOronAuthStateChanged } from './user-action';
 import { findAllBlogs } from '../../models/repositories/blog-repository';
 import { ThunkAction } from 'redux-thunk';
 import { AppState } from '../states/app-state';

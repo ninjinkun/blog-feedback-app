@@ -1,7 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import * as properties from '../../properties';
-import { MdArrowBack, MdAdd } from 'react-icons/md';
+import { MdArrowBack, MdAdd, MdSettings } from 'react-icons/md';
+import { FiPlus } from 'react-icons/fi';
+
 import HeaderLoadingIndicator from '../../molecules/HeaderLoadingIndicator/index';
 
 export type HeaderProps = {
@@ -15,17 +17,18 @@ export type HeaderProps = {
     onSettingButtonClick?: React.MouseEventHandler,
 };
 
-const Header = ({onBackButtonClick, onAddButtonClick, onHeaderClick, loadingRatio, loadingLabel, loading, title, ...props}: HeaderProps) => (
+const Header = ({ onBackButtonClick, onAddButtonClick, onSettingButtonClick, onHeaderClick, loadingRatio, loadingLabel, loading, title, ...props }: HeaderProps) => (
     <HeaderLayout onClick={onHeaderClick} {...props}>
-        <HeaderLoadingIndicator 
-            ratio={loadingRatio} 
-            label={loadingLabel} 
+        <HeaderLoadingIndicator
+            ratio={loadingRatio}
+            label={loadingLabel}
             loading={!!loading}
         />
         <HeaderContent>
-            {onBackButtonClick ? <BackButton size={24} onClick={onBackButtonClick}/> : <Spacer />}
+            {onBackButtonClick ? <BackButton size={24} onClick={onBackButtonClick} /> :
+                onSettingButtonClick ? <SettingsButton size={22} onClick={onSettingButtonClick} /> : <Spacer />}
             <TitleLayout><Title>{title}</Title></TitleLayout>
-            {onAddButtonClick ? <AddButton size={24} onClick={onAddButtonClick}/> : <Spacer />}
+            {onAddButtonClick ? <AddButton size={24} onClick={onAddButtonClick} /> : <Spacer />}
         </HeaderContent>
         <UnderLine />
     </HeaderLayout>
@@ -77,7 +80,13 @@ padding: 8px;
 flex: 0 0 auto;
 `;
 
-const AddButton = styled(MdAdd)`
+const AddButton = styled(FiPlus)`
+cursor: pointer;
+padding: 8px;
+flex: 0 0 auto;
+`;
+
+const SettingsButton = styled(MdSettings)`
 cursor: pointer;
 padding: 8px;
 flex: 0 0 auto;

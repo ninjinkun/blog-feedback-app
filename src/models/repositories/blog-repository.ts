@@ -31,3 +31,7 @@ export function saveBlog(userId: string, blogUrl: string, blogTitle: string, fee
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   });
 }
+
+export function deleteBlog(userId: string, blogURL: string): Promise<void> {
+  return blogRef(userId, blogURL).delete();
+}
