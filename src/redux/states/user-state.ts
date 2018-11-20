@@ -6,4 +6,4 @@ export type UserState = {
   loading: boolean,
 };
 
-export const initialState: UserState = { loading: false };
+export const initialState: UserState = { loading: true };

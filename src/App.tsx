@@ -14,6 +14,7 @@ import AddBlogPage from './components/pages/AddBlogPage/index';
 import AuthPage from './components/pages/AuthPage/index';
 import SettingsPage from './components/pages/SettingsPage/index';
 import SettingPage from './components/pages/SettingPage/index';
+import IndexPage from './components/pages/IndexPage/index';
 
 initializeFirebase();
 
@@ -24,7 +25,8 @@ const App = () => (
       <SmartphoneLayout>
         <Router>
           <ScrollToTop>
-            <Route exact={true} path="/" component={AuthPage} />
+            <Route exact={true} path="/" component={IndexPage} />
+            <Route exact={true} path="/signin" component={AuthPage} />
             <Route exact={true} path="/blogs" component={BlogsPage} />
             <Route exact={true} path="/add" component={AddBlogPage} />
             <Route exact={true} path="/settings" component={SettingsPage} />
