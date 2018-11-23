@@ -14,7 +14,7 @@ export async function findAllItems(userId: string, blogUrl: string): Promise<Ite
     .filter(i => i) as firebase.firestore.DocumentData[];
   return items.map((i: firebase.firestore.DocumentData): ItemEntity => {
     const { title, url, published, counts, prevCounts } = i;
-    return {　title, url, published: published, counts, prevCounts } as ItemEntity;
+    return { title, url, published: published, counts, prevCounts } as ItemEntity;
   });
 }
 
@@ -29,16 +29,15 @@ export type CountSaveEntities = CountEntities | {
 };
 
 export function saveItemBatch(
-    batch: firebase.firestore.WriteBatch, 
-    userId: string, 
-    blogUrl: string, 
-    url: string, 
-    title: string, 
-    published: Date, 
-    counts: CountSaveEntities,
-    prevCounts: CountSaveEntities,
-  ): firebase.firestore.WriteBatch {
-
+  batch: firebase.firestore.WriteBatch,
+  userId: string,
+  blogUrl: string,
+  url: string,
+  title: string,
+  published: Date,
+  counts: CountSaveEntities,
+  prevCounts: CountSaveEntities
+): firebase.firestore.WriteBatch {
   return batch.set(itemRef(userId, blogUrl, url), {
     title,
     url,
