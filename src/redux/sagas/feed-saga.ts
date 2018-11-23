@@ -10,7 +10,7 @@ import { saveFeedsAndCounts } from '../../models/save-count-response';
 import { currenUserOronAuthStateChanged, userFirebaseUserResponse, UserFetchFirebaseUserAction, userFetchFirebaseUser, userFirebaseFetchError } from '../actions/user-action';
 import { BlogEntity, ItemEntity } from '../../models/entities';
 
-function* handleUser() {
+function* handleFetchAction() {
   while (true) {
     const { auth, blogURL }: FeedFetchFeedAction = yield take('FeedFetchFeedAction');
     yield put(userFetchFirebaseUser(auth));
@@ -106,7 +106,7 @@ function* saveBlogFeedItemsAndCounts() {
 }
 
 export default function* rootSaga() {
-  yield fork(handleUser);
+  yield fork(handleFetchAction);
   yield takeEvery('FeedFetchFeedAction', fetchFiresbaseUser);
   yield takeEvery('FeedFirebaseUserResponseAction', firebaseBlog);
   yield takeEvery('FeedFirebaseBlogResponseAction', firebaseFeed);
