@@ -1,6 +1,7 @@
 import { FeedType } from '../consts/feed-type';
 import { HTMLStringResponse } from '../consts/yahoo-api/html-string';
 import { BlogResponse } from './responses';
+import unescape from 'lodash/unescape';
 
 export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
   const q = `select * from htmlstring where url = '${blogURL}'`;
@@ -33,7 +34,7 @@ export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
     }
     const { feedURL: parsedFeedURL, type } = feedURLType;
     return {
-      title: doc.title,
+      title: unescape(doc.title),
       url: blogURL,
       feedURL: feedURL(parsedFeedURL, blogURL),
       feedType: type,
