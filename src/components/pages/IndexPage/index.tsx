@@ -3,11 +3,10 @@ import 'firebase/auth';
 import React from 'react';
 import styled from 'styled-components';
 
-import { StyledFirebaseAuth } from 'react-firebaseui';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
-import { bindActionCreators, Dispatch } from 'redux';
-import { fetchUser } from '../../../redux/actions/user-action';
+import { ThunkDispatch } from 'redux-thunk';
+import { fetchUser, UserActions } from '../../../redux/actions/user-action';
 import { AppState } from '../../../redux/states/app-state';
 import { UserState } from '../../../redux/states/user-state';
 import LoadingView from '../../molecules/LoadingView/index';
@@ -46,17 +45,18 @@ class IndexPage extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: AppState): StateProps => ({
-  user: state.user,
-});
+function mapStateToProps(state: AppState): StateProps {
+  return {
+    user: state.user,
+  };
+}
 
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
-  bindActionCreators(
-    {
-      fetchUser,
-    },
-    dispatch
-  );
+type TD = ThunkDispatch<AppState, undefined, UserActions>;
+function mapDispatchToProps(dispatch: TD): DispatchProps {
+  return {
+    fetchUser: (auth: firebase.auth.Auth) => dispatch(fetchUser(auth)),
+  };
+}
 
 export default withRouter(
   connect(

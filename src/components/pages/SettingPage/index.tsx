@@ -104,18 +104,22 @@ const SpinnerWrapper = styled(Wrapper)`
   margin: 16px;
 `;
 
-const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
-  feedState: state.feeds.feeds[decodeURIComponent(ownProps.match.params.blogURL)],
-  deleteBlogState: state.deleteBlog,
-});
+function mapStateToProps(state: AppState, ownProps: OwnProps): StateProps {
+  return {
+    feedState: state.feeds.feeds[decodeURIComponent(ownProps.match.params.blogURL)],
+    deleteBlogState: state.deleteBlog,
+  };
+}
 
 type TD = ThunkDispatch<AppState, undefined, FeedFirebaseActions | DeleteBlogActions>;
 
-const mapDispatchToProps = (dispatch: TD | Dispatch<DeleteBlogActions>): DispatchProps => ({
-  fetchFirebaseBlog: (auth, blogURL) => (dispatch as TD)(fetchFirebaseBlog(auth, blogURL)),
-  deleteBlog: (auth, blogURL) => (dispatch as TD)(deleteBlog(auth, blogURL)),
-  deleteBlogReset: () => dispatch(deleteBlogReset()),
-});
+function mapDispatchToProps(dispatch: TD | Dispatch<DeleteBlogActions>): DispatchProps {
+  return {
+    fetchFirebaseBlog: (auth, blogURL) => (dispatch as TD)(fetchFirebaseBlog(auth, blogURL)),
+    deleteBlog: (auth, blogURL) => (dispatch as TD)(deleteBlog(auth, blogURL)),
+    deleteBlogReset: () => dispatch(deleteBlogReset()),
+  };
+}
 
 export default withRouter(
   connect(

@@ -92,15 +92,19 @@ class SettingsPage extends React.PureComponent<Props, {}> {
   }
 }
 
-const mapStateToProps = (state: AppState): StateProps => ({
-  blogState: state.blog,
-  userState: state.user,
-});
+function mapStateToProps(state: AppState): StateProps {
+  return {
+    blogState: state.blog,
+    userState: state.user,
+  };
+}
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, BlogActions>): DispatchProps => ({
-  fetchBlogs: auth => dispatch(fetchBlogs(auth)),
-  signOut: auth => dispatch(signOut(auth)),
-});
+function mapDispatchToProps(dispatch: ThunkDispatch<AppState, undefined, BlogActions>): DispatchProps {
+  return {
+    fetchBlogs: auth => dispatch(fetchBlogs(auth)),
+    signOut: auth => dispatch(signOut(auth)),
+  };
+}
 
 export default connect(
   mapStateToProps,

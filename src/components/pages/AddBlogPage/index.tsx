@@ -3,7 +3,8 @@ import 'firebase/auth';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
-import { bindActionCreators, Dispatch } from 'redux';
+import { Dispatch } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 import styled from 'styled-components';
 import {
   addBlog,
@@ -23,8 +24,8 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  addBlog: (auth: firebase.auth.Auth, blogURL: string) => AddBlogThunkAction;
-  addBlogInitialize: () => AddBlogInitializeAction;
+  addBlog: (auth: firebase.auth.Auth, blogURL: string) => void;
+  addBlogInitialize: () => void;
 };
 
 type OwnProps = {};
@@ -69,12 +70,19 @@ const FormWrapper = styled(Wrapper)`
   margin-top: 25vh;
 `;
 
-const mapStateToProps = (state: AppState): StateProps => ({
-  addBlogState: state.addBlog,
-});
+function mapStateToProps(state: AppState): StateProps {
+  return {
+    addBlogState: state.addBlog,
+  };
+}
 
-const mapDispatchToProps = (dispatch: Dispatch<AddBlogActions>): DispatchProps =>
-  bindActionCreators({ addBlog, addBlogInitialize }, dispatch);
+type TD = ThunkDispatch<AppState, undefined, AddBlogActions>;
+function mapDispatchToProps(dispatch: TD | Dispatch<AddBlogActions>): DispatchProps {
+  return {
+    addBlog: (auth: firebase.auth.Auth, blogURL: string) => (dispatch as TD)(addBlog(auth, blogURL)),
+    addBlogInitialize: () => (dispatch as Dispatch<AddBlogActions>)(addBlogInitialize()),
+  };
+}
 
 export default connect(
   mapStateToProps,

@@ -75,13 +75,17 @@ class BlogsPage extends React.PureComponent<Props, {}> {
   }
 }
 
-const mapStateToProps = (state: AppState): StateProps => ({
-  blog: state.blog,
-});
+function mapStateToProps(state: AppState): StateProps {
+  return {
+    blog: state.blog,
+  };
+}
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, BlogActions>): DispatchProps => ({
-  fetchBlogs: auth => dispatch(fetchBlogs(auth)),
-});
+function mapDispatchToProps(dispatch: ThunkDispatch<AppState, undefined, BlogActions>): DispatchProps {
+  return {
+    fetchBlogs: auth => dispatch(fetchBlogs(auth)),
+  };
+}
 
 export default withRouter(
   connect(

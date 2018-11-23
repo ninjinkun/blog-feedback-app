@@ -2,7 +2,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
+import { Dispatch } from 'redux';
 import styled from 'styled-components';
 
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -152,15 +152,19 @@ const StyledScrollView = styled(ScrollView)`
   min-height: 100%;
 `;
 
-const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
-  feed: state.feeds.feeds[decodeURIComponent(ownProps.match.params.blogURL)],
-});
+function mapStateToProps(state: AppState, ownProps: OwnProps): StateProps {
+  return {
+    feed: state.feeds.feeds[decodeURIComponent(ownProps.match.params.blogURL)],
+  };
+}
 
-const mapDispatchToProps = (dispatch: Dispatch<FeedActions>): DispatchProps => ({
-  feedBlogURLClear: () => dispatch(feedBlogURLClear()),
-  feedBlogURLChange: url => dispatch(feedBlogURLChange(url)),
-  fetchFeed: (auth, blogURL) => dispatch(fetchFeed(blogURL, auth)),
-});
+function mapDispatchToProps(dispatch: Dispatch<FeedActions>): DispatchProps {
+  return {
+    feedBlogURLClear: () => dispatch(feedBlogURLClear()),
+    feedBlogURLChange: url => dispatch(feedBlogURLChange(url)),
+    fetchFeed: (auth, blogURL) => dispatch(fetchFeed(blogURL, auth)),
+  };
+}
 
 export default withRouter(
   connect(
