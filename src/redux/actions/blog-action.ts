@@ -24,9 +24,9 @@ export interface BlogFirebaseResponseAction extends Action {
 export function blogResponse(blogs: BlogEntity[]): BlogFirebaseResponseAction {
   return {
     type: 'BlogFirebaseResponseAction',
-    blogs: blogs
-  }
-};
+    blogs,
+  };
+}
 
 export interface BlogFirebaseErrorAction extends Action {
   type: 'BlogFirebaseErrorAction';
@@ -42,7 +42,7 @@ export function blogFirebaseError(error: Error): BlogFirebaseErrorAction {
 
 type BlogFirebaseFetchActions = BlogFirebaseRequestAction | BlogFirebaseResponseAction | BlogFirebaseErrorAction;
 
-export function fetchBlogs (auth: firebase.auth.Auth): ThunkAction<void, AppState, undefined, BlogFirebaseFetchActions> {
+export function fetchBlogs(auth: firebase.auth.Auth): ThunkAction<void, AppState, undefined, BlogFirebaseFetchActions> {
   return async dispatch => {
     let user;
     try {

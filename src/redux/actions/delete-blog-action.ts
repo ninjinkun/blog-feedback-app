@@ -1,12 +1,11 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import { Action } from 'redux';
-import { AppState } from '../states/app-state';
 import { ThunkAction } from 'redux-thunk';
-import { currenUserOronAuthStateChanged } from './user-action';
 import * as BlogRepo from '../../models/repositories/blog-repository';
 import * as ItemsRepo from '../../models/repositories/item-repository';
-import { writeBatch } from '../../models/repositories/app-repository';
+import { AppState } from '../states/app-state';
+import { currenUserOronAuthStateChanged } from './user-action';
 
 export interface DeleteBlogRequestAction extends Action {
   type: 'DeleteBlogRequestAction';
@@ -64,7 +63,7 @@ export type DeleteBlogActions =
 
 type TA = ThunkAction<void, AppState, undefined, DeleteBlogActions>;
 export function deleteBlog(auth: firebase.auth.Auth, blogURL: string): TA {
-  return async (dispatch, getState) => {
+  return async dispatch => {
     try {
       const user = await currenUserOronAuthStateChanged(auth);
       dispatch(deleteBlogRequest(blogURL));

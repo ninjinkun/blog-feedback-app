@@ -12,7 +12,7 @@ export interface UserFetchFirebaseUserAction extends Action {
 export function userFetchFirebaseUser(auth: firebase.auth.Auth): UserFetchFirebaseUserAction {
   return {
     type: 'UserFetchFirebaseUserAction',
-    auth  
+    auth,
   };
 }
 
@@ -57,7 +57,7 @@ export function userFirebaseFetchError(error: Error): UserFirebaseFetchErrorActi
   return {
     type: 'UserFirebaseFetchErrorActionction',
     error,
-  }
+  };
 }
 
 export interface UserFirebaseSignoutRequestAction extends Action {
@@ -76,7 +76,7 @@ export interface UserFirebaseSignoutResponseAction extends Action {
 
 export function userFirebaseSignoutResponse(): UserFirebaseSignoutResponseAction {
   return {
-    type: 'UserFirebaseSignoutResponseAction'
+    type: 'UserFirebaseSignoutResponseAction',
   };
 }
 
@@ -89,7 +89,7 @@ export function userFirebaseSignoutError(error: Error): UserFirebaseSignoutError
   return {
     type: 'UserFirebaseSignoutErrorAction',
     error,
-  }
+  };
 }
 
 export type UserFetchActions =
@@ -136,7 +136,7 @@ export async function currenUserOronAuthStateChanged(auth: firebase.auth.Auth): 
   }
 }
 
-export function signOut(auth: firebase.auth.Auth): ThunkAction<void, AppState, undefined, UserSignoutActions>  {
+export function signOut(auth: firebase.auth.Auth): ThunkAction<void, AppState, undefined, UserSignoutActions> {
   return async dispatch => {
     try {
       dispatch(userFirebaseSignoutRequest());

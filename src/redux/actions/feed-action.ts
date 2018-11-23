@@ -47,7 +47,7 @@ export function fetchFeed(blogURL: string, auth: firebase.auth.Auth): FeedFetchF
 
 export interface FeedUserResponseAction extends Action {
   type: 'FeedUserResponseAction';
-  blogURL: string,
+  blogURL: string;
   user: firebase.User;
 }
 
@@ -156,7 +156,7 @@ export function feedFirebaseUserResponse(blogURL: string, user: firebase.User): 
 }
 
 export interface FeedFetchRSSRequestAction extends Action {
-  type: 'FeedFetchRSSRequestAction',
+  type: 'FeedFetchRSSRequestAction';
   blogURL: string;
 }
 
@@ -228,7 +228,10 @@ export interface FeedFetchFacebookCountResponseAction extends Action {
   counts: CountResponse[];
 }
 
-export function feedFetchFacebookCountResponse(blogURL: string, counts: CountResponse[]): FeedFetchFacebookCountResponseAction {
+export function feedFetchFacebookCountResponse(
+  blogURL: string,
+  counts: CountResponse[]
+): FeedFetchFacebookCountResponseAction {
   return {
     type: 'FeedFetchFacebookCountResponseAction',
     blogURL,

@@ -56,7 +56,7 @@ export function saveItemBatch(
     published,
     counts,
     prevCounts,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
   });
 }
 
