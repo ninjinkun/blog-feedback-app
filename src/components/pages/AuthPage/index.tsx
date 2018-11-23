@@ -33,7 +33,7 @@ class AuthPage extends React.PureComponent<Props> {
     } else {
       return (
         <PageLayout header={{
-          title: 'Sign in',
+          title: 'ログイン',
         }}>
           {(() => {
             if (loading && !user) {

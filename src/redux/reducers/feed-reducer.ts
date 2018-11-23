@@ -20,7 +20,7 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
     }
     case 'FeedFirebaseBlogRequestAction': {
       const { blogURL } = action;
-      return updateFeed(blogURL, state, { crowlingLabel: 'Loading blog...', crowlingRatio: 10 });
+      return updateFeed(blogURL, state, { crowlingLabel: 'ブログを読み込んでいます', crowlingRatio: 10 });
     }
     case 'FeedFirebaseBlogResponseAction': {
       const { blogURL, blogEntity } = action;
@@ -36,11 +36,7 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
     }
     case 'FeedFetchRSSRequestAction': {
       const { blogURL } = action;
-      return updateFeed(blogURL, state, { crowlingLabel: 'Loading RSS...', crowlingRatio: 30 });
-    }
-    case 'FeedFetchRSSRequestAction': {
-      const { blogURL } = action;
-      return updateFeed(blogURL, state, { crowlingLabel: 'Loading RSS...', crowlingRatio: 30 });
+      return updateFeed(blogURL, state, { crowlingLabel: 'RSSを読み込んでいます', crowlingRatio: 30 });
     }
     case 'FeedFetchRSSResponseAction': {
       const { blogURL, items } = action;
@@ -55,7 +51,7 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
       return updateFeed(
         blogURL,
         state,
-        { crowlingLabel: 'Loading Hatena Bookmark...', crowlingRatio: 50 }
+        { crowlingLabel: 'はてなブックマークを読み込んでいます', crowlingRatio: 50 }
       );
     }
     case 'FeedFetchHatenaBookmarkCountsResponseAction': {
@@ -72,7 +68,7 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
       return updateFeed(
         blogURL,
         state,
-        { crowlingLabel: 'Loading Facebook Shares...', crowlingRatio: 60 }
+        { crowlingLabel: 'Facebookシェアを読み込んでいます', crowlingRatio: 60 }
       );
     }
     case 'FeedFetchFacebookCountResponseAction': {
@@ -86,7 +82,7 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
     }
     case 'FeedSaveFeedFirebaseRequestAction': {
       const { blogURL } = action;
-      return updateFeed(blogURL, state, { crowlingLabel: 'Saving data...', crowlingRatio: 80 });
+      return updateFeed(blogURL, state, { crowlingLabel: 'データを保存しています', crowlingRatio: 80 });
     }
     case 'FeedSaveFeedFirebaseResponseAction': {
       const { blogURL } = action;

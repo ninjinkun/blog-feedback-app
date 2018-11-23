@@ -55,7 +55,7 @@ class SettingsPage extends React.PureComponent<Props, {}> {
       if (blogs && blogs.length) {
         return (
           <StyledScrollView>
-            <SettingCell><Button onClick={this.signOut}>SignOut</Button></SettingCell>
+            <SettingCell><Button onClick={this.signOut}>ログアウト</Button></SettingCell>
             {blogs.map((blog) => (
               <Link to={`/settings/${encodeURIComponent(blog.url)}`} key={blog.url}>
                 <BlogCell
