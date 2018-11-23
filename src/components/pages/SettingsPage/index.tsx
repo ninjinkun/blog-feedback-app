@@ -14,14 +14,16 @@ import LoadingView from '../../molecules/LoadingView/index';
 import Wrapper from '../../atoms/Wrapper/index';
 import { ThunkDispatch } from 'redux-thunk';
 import PageLayout from '../../templates/PageLayout/index';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import { signOut } from '../../../redux/actions/user-action';
 import * as properties from '../../properties';
 import SectionHeader from '../../organisms/SettingSectionHeader/index';
+import { UserState } from '../../../redux/states/user-state';
 
 type StateProps = {
-  blog: BlogState;
+  blogState: BlogState;
+  userState: UserState;
 };
 
 type DispatchProps = {
@@ -49,8 +51,12 @@ class SettingsPage extends React.PureComponent<Props, {}> {
   }
 
   render() {
-    const { history } = this.props;
-    const { blogs, loading } = this.props.blog;
+    const { userState, blogState } = this.props;
+
+    const { blogs, loading } = blogState;
+    if (!userState.user && !userState.loading) {
+      return (<Redirect to="/" />);
+    }
 
     const content = () => {
       if (blogs && blogs.length) {
@@ -86,7 +92,8 @@ class SettingsPage extends React.PureComponent<Props, {}> {
 }
 
 const mapStateToProps = (state: AppState): StateProps => ({
-  blog: state.blog
+  blogState: state.blog,
+  userState: state.user,
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, BlogActions>): DispatchProps => ({

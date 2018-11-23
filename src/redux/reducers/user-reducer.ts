@@ -12,7 +12,7 @@ export const userReducer: Reducer<UserState, UserActions> = (state = initialStat
     case 'UserFirebaseUnauthorizedResponseAction':
       return { ...state, loading: false };
     case 'UserFirebaseSignoutResponseAction':
-      return initialState;
+      return { ...initialState, loading: false };
     default:
       return state;
   }

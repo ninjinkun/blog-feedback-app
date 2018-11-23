@@ -28,7 +28,19 @@ export function blogResponse(blogs: BlogEntity[]): BlogFirebaseResponseAction {
   }
 };
 
-type BlogFirebaseFetchActions = BlogFirebaseRequestAction | BlogFirebaseResponseAction;
+export interface BlogFirebaseErrorAction extends Action {
+  type: 'BlogFirebaseErrorAction';
+  error: Error;
+}
+
+export function blogFirebaseError(error: Error): BlogFirebaseErrorAction {
+  return {
+    type: 'BlogFirebaseErrorAction',
+    error,
+  };
+}
+
+type BlogFirebaseFetchActions = BlogFirebaseRequestAction | BlogFirebaseResponseAction | BlogFirebaseErrorAction;
 
 export function fetchBlogs (auth: firebase.auth.Auth): ThunkAction<void, AppState, undefined, BlogFirebaseFetchActions> {
   return async (dispatch, getState) => {
@@ -43,7 +55,7 @@ export function fetchBlogs (auth: firebase.auth.Auth): ThunkAction<void, AppStat
       const blogs = await findAllBlogs(user.uid);
       dispatch(blogResponse(blogs));
     } catch (e) {
-      throw new Error('Fetch Blog Failed');
+      dispatch(blogFirebaseError(e));
     }
   };
 }

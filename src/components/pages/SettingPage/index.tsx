@@ -17,10 +17,12 @@ import Spinner from '../../atoms/Spinner/index';
 import Wrapper from '../../atoms/Wrapper/index';
 import * as properties from '../../properties';
 import ScrollView from '../../atoms/ScrollView/index';
+import { UserState } from '../../../redux/states/user-state';
 
 type StateProps = {
   feedState: FeedState;
   deleteBlogState: DeleteBlogState;
+  userState: UserState;
 };
 
 type DispatchProps = {
@@ -51,7 +53,7 @@ class SettingPage extends React.PureComponent<Props, {}> {
   }
 
   render() {
-    const { history, feedState, deleteBlogState } = this.props;
+    const { history, feedState, deleteBlogState, userState } = this.props;
     console.log(deleteBlogState);
     if (deleteBlogState.finished) {
       return (<Redirect to={'/settings'} />)
@@ -96,7 +98,8 @@ const SpinnerWrapper = styled(Wrapper)`
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
   feedState: state.feeds.feeds[decodeURIComponent(ownProps.match.params.blogURL)],
-  deleteBlogState: state.deleteBlog
+  deleteBlogState: state.deleteBlog,
+  userState: state.user,
 });
 
 type TD = ThunkDispatch<AppState, undefined, FeedFirebaseActions | DeleteBlogActions>;
