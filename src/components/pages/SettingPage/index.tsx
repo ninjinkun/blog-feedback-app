@@ -14,6 +14,9 @@ import { deleteBlog, deleteBlogReset, DeleteBlogActions } from '../../../redux/a
 import { DeleteBlogState } from '../../../redux/states/delete-blog-state';
 import { Dispatch } from 'redux';
 import Spinner from '../../atoms/Spinner/index';
+import Wrapper from '../../atoms/Wrapper/index';
+import * as properties from '../../properties';
+import ScrollView from '../../atoms/ScrollView/index';
 
 type StateProps = {
   feedState: FeedState;
@@ -58,13 +61,38 @@ class SettingPage extends React.PureComponent<Props, {}> {
           title: `${feedState && feedState.title || 'ブログ'}の設定`,
           backButtonLink: '/settings/',
         }}>
-          <WarningButton onClick={this.deleteBlog}>{`${feedState && feedState.title || 'ブログ'}`}を削除</WarningButton>
-          {deleteBlogState.loading ? <Spinner /> : undefined}
+          <StyledScrollView>
+            <DeleteWrapper>
+              <StyledWarningButton onClick={this.deleteBlog}>{`${feedState && feedState.title || 'ブログ'}`}を削除</StyledWarningButton>
+            {deleteBlogState.loading ? <SpinnerWrapper><Spinner /></SpinnerWrapper> : undefined}
+            </DeleteWrapper>
+          </StyledScrollView>
         </PageLayout>
       );
     }
   }
 }
+
+const StyledScrollView = styled(ScrollView)`
+  padding: 16px;
+  background-color: ${properties.colors.white};
+  min-height: 100%;
+`;
+
+const DeleteWrapper = styled(Wrapper)`
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+`;
+
+const StyledWarningButton = styled(WarningButton)`
+  width: 100%;
+  justify-content: center;
+`;
+
+const SpinnerWrapper = styled(Wrapper)`
+  margin: 16px;
+`;
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
   feedState: state.feeds.feeds[decodeURIComponent(ownProps.match.params.blogURL)],

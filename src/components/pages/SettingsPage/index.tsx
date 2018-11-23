@@ -15,9 +15,10 @@ import Wrapper from '../../atoms/Wrapper/index';
 import { ThunkDispatch } from 'redux-thunk';
 import PageLayout from '../../templates/PageLayout/index';
 import { RouteComponentProps } from 'react-router';
-import SettingCell from '../../organisms/SettingCell/index';
 import { Link } from 'react-router-dom';
 import { signOut } from '../../../redux/actions/user-action';
+import * as properties from '../../properties';
+import SectionHeader from '../../organisms/SettingSectionHeader/index';
 
 type StateProps = {
   blog: BlogState;
@@ -55,7 +56,7 @@ class SettingsPage extends React.PureComponent<Props, {}> {
       if (blogs && blogs.length) {
         return (
           <StyledScrollView>
-            <SettingCell><Button onClick={this.signOut}>ログアウト</Button></SettingCell>
+            <SectionHeader>ブログの設定</SectionHeader>
             {blogs.map((blog) => (
               <Link to={`/settings/${encodeURIComponent(blog.url)}`} key={blog.url}>
                 <BlogCell
@@ -64,6 +65,8 @@ class SettingsPage extends React.PureComponent<Props, {}> {
                 />
               </Link>
             ))}
+            <SectionHeader>ユーザーの設定</SectionHeader>
+            <SignOutButtonWrapper><SignOutButton onClick={this.signOut}>ログアウト</SignOutButton></SignOutButtonWrapper>
           </StyledScrollView>
         );
       } else if (loading) {
@@ -93,7 +96,16 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, BlogAct
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);
 
+const SignOutButtonWrapper = styled(Wrapper)`
+  padding: 16px;
+`;
+
+const SignOutButton = styled(Button)`
+  width: 100%;
+  justify-content: center;
+`;
+
 const StyledScrollView = styled(ScrollView)`
-  background-color: white;
+  background-color: ${properties.colors.white};
   min-height: 100%;
 `;
