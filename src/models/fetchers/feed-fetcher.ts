@@ -1,7 +1,7 @@
-import { FeedType } from '../consts/feed-type';
-import { AtomResponse } from '../consts/yahoo-api/atom';
-import { RSSResponse } from '../consts/yahoo-api/rss';
-import { ItemResponse } from './responses';
+import { FeedType } from '../../consts/feed-type';
+import { AtomResponse } from '../../consts/yahoo-api/atom';
+import { RSSResponse } from '../../consts/yahoo-api/rss';
+import { ItemResponse } from '../responses';
 
 export async function fetchFeed(feedType: FeedType, feedURL: string): Promise<ItemResponse[]> {
   switch (feedType) {

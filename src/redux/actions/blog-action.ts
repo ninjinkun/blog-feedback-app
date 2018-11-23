@@ -1,10 +1,10 @@
-import { Dispatch, Action, ActionCreator, bindActionCreators } from 'redux';
+import { Action } from 'redux';
 
-import { BlogEntity } from '../../models/entities';
-import { currenUserOronAuthStateChanged } from './user-action';
-import { findAllBlogs } from '../../models/repositories/blog-repository';
 import { ThunkAction } from 'redux-thunk';
+import { BlogEntity } from '../../models/entities';
+import { findAllBlogs } from '../../models/repositories/blog-repository';
 import { AppState } from '../states/app-state';
+import { currenUserOronAuthStateChanged } from './user-action';
 
 export interface BlogFirebaseRequestAction extends Action {
   type: 'BlogFirebaseRequestAction';
@@ -43,7 +43,7 @@ export function blogFirebaseError(error: Error): BlogFirebaseErrorAction {
 type BlogFirebaseFetchActions = BlogFirebaseRequestAction | BlogFirebaseResponseAction | BlogFirebaseErrorAction;
 
 export function fetchBlogs (auth: firebase.auth.Auth): ThunkAction<void, AppState, undefined, BlogFirebaseFetchActions> {
-  return async (dispatch, getState) => {
+  return async dispatch => {
     let user;
     try {
       user = await currenUserOronAuthStateChanged(auth);

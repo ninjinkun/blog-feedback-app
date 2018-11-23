@@ -3,7 +3,7 @@ import 'firebase/auth';
 
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { fetchBlog } from '../../models/blog-fetcher';
+import { fetchBlog } from '../../models/fetchers/blog-fetcher';
 import { saveBlog } from '../../models/repositories/blog-repository';
 import { BlogResponse } from '../../models/responses';
 import { AppState } from '../states/app-state';

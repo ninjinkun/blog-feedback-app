@@ -1,6 +1,6 @@
 import fetchJsonp from 'fetch-jsonp';
-import { CountType } from '../consts/count-type';
-import { CountResponse } from './responses';
+import { CountType } from '../../consts/count-type';
+import { CountResponse } from '../responses';
 
 export async function fetchHatenaBookmarkCounts(urls: string[]): Promise<CountResponse[]> {
   const apiUrl: string =
