@@ -23,4 +23,3 @@ type Entry = {
 type Link = {
   href: string;
 };
-  

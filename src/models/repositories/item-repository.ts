@@ -2,6 +2,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { blogRef } from './blog-repository';
 import { ItemEntity, CountEntities, CountEntity } from '../entities';
+import { writeBatch } from './app-repository';
 
 export function itemRef(userId: string, blogUrl: string, itemUrl: string): firebase.firestore.DocumentReference {
   return blogRef(userId, blogUrl).collection('items').doc(encodeURIComponent(itemUrl));
@@ -46,4 +47,22 @@ export function saveItemBatch(
     prevCounts,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   });
+}
+
+export async function deleteItemsBatch(
+  userId: string,
+  blogUrl: string,
+  batchSize: number = 50
+): Promise<void[]> {
+  const snapshots = await blogRef(userId, blogUrl).collection('items').get();
+  const docs = snapshots.docs;
+  const promsies: Array<Promise<void>> = [];
+  for (let i = 0; i <= docs.length; i += batchSize) {
+    const batch = writeBatch();
+    for (let j = i; j < i + batchSize; j++) {
+      docs.forEach(d => batch.delete(d.ref));
+    }
+    promsies.push(batch.commit());
+  }
+  return Promise.all(promsies);
 }
