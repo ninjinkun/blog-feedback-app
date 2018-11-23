@@ -28,8 +28,9 @@ export async function fetchUncertainnFeed(feedURL: string): Promise<ItemResponse
 
 export async function fetchAtom(atomUrl: string): Promise<ItemResponse[]> {
   const response = await fetch(
-    'https://query.yahooapis.com/v1/public/yql?format=json&q=' +
-      encodeURIComponent("select * from atom(100) where url = '" + atomUrl + "'")
+    `https://query.yahooapis.com/v1/public/yql?format=json&q=${encodeURIComponent(
+      `select * from atom(100) where url = '${atomUrl}'`
+    )}`
   );
   const json: AtomResponse = await response.json();
   const results = json.query.results;
@@ -37,7 +38,8 @@ export async function fetchAtom(atomUrl: string): Promise<ItemResponse[]> {
     return results.entry.map(
       (entry): ItemResponse => {
         const { title, link, published, updated } = entry;
-        return { title, url: link.href, published: new Date(published || updated) };
+        const url = link instanceof Array ? link[0] : link;
+        return { title, url: url.href, published: new Date(published || updated) };
       }
     );
   } else {

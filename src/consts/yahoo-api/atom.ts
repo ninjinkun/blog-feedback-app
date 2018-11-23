@@ -15,7 +15,7 @@ type Results = {
 
 type Entry = {
   title: string;
-  link: Link;
+  link: Link | Link[];
   published?: string;
   updated: string;
 };
