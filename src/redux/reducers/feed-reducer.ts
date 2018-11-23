@@ -98,7 +98,7 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
     }
     case 'BlogFirebaseResponseAction': {
       const { blogs } = action;
-      for (let blog of blogs) {
+      for (const blog of blogs) {
         const { title, url, feedURL } = blog;
         state = updateFeed(url, state, { title, feedURL });
       }
