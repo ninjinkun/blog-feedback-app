@@ -7,25 +7,14 @@ import { ItemResponse, CountResponse } from '../../models/responses';
 import { FeedFirebaseBlogResponseAction, feedCrowlerItemsResponse, feedCrowlerErrorResponse, FeedFetchFeedItemsResponseAction, feedFetchHatenaBookmarkCountsResponse, feedFetchFacebookCountResponse, FeedFetchFacebookCountResponseAction, FeedFetchHatenaBookmarkCountsResponseAction, FeedFirebaseFeedItemsResponseAction, feedSaveFeedsResponseAction, FeedFetchFeedAction, feedFirebaseUserResponse, FeedFirebaseUserResponseAction, feedFirebaseBlogResponse, feedFirebaseFeedItemsResponse, feedFirebaseBlogRequest } from '../actions/feed-action';
 import { fetchHatenaBookmarkCounts as fetchHatenaBookmarkCountsAction, fetchFacebookCount } from '../../models/count-fetcher';
 import { saveFeedsAndCounts } from '../../models/save-count-response';
-import { currenUserOronAuthStateChanged, userFirebaseUserResponse, UserFetchFirebaseUserAction, userFetchFirebaseUser, userFirebaseFetchError } from '../actions/user-action';
 import { BlogEntity, ItemEntity } from '../../models/entities';
+import { fetchFiresbaseUser } from './user-saga';
 
 function* handleFetchAction() {
   while (true) {
-    const { auth, blogURL }: FeedFetchFeedAction = yield take('FeedFetchFeedAction');
-    yield put(userFetchFirebaseUser(auth));
+    const { blogURL }: FeedFetchFeedAction = yield take('FeedFetchFeedAction');
     const { user }: FeedFirebaseUserResponseAction = yield take('UserFirebaseResponseAction');
     yield put(feedFirebaseUserResponse(blogURL, user));
-  }
-}
-
-function* fetchFiresbaseUser(action: UserFetchFirebaseUserAction) {
-  const { auth } = action;
-  try {
-    const user: firebase.User = yield call(currenUserOronAuthStateChanged, auth);
-    yield put(userFirebaseUserResponse(user));
-  } catch (e) {
-    yield put(userFirebaseFetchError(e));
   }
 }
 
@@ -49,7 +38,6 @@ function* firebaseFeed(action: FeedFirebaseBlogResponseAction) {
     yield put(feedCrowlerErrorResponse(blogURL, e));
   }
 }
-
 
 function* fetchFeed(action: FeedFirebaseBlogResponseAction) {
   const { url, feedType, feedURL } = action.blogEntity;
