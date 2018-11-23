@@ -89,7 +89,7 @@
         ],
         "interface-over-type-literal": false,
         "member-access": false,
-        "no-submodule-imports": [true, "firebase"],
+        "no-submodule-imports": false,
         "object-literal-sort-keys" : false
     }
 }
