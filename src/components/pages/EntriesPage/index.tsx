@@ -53,9 +53,9 @@ class EntriesPage extends React.PureComponent<Props> {
       <PageLayout
         header={{
           title: (feed && feed.title) || '',
-          loading: feed && feed.crowlingRatio > 0 && feed.crowlingRatio < 100,
-          loadingRatio: feed && feed.crowlingRatio,
-          loadingLabel: feed && feed.crowlingLabel,
+          loading: feed && feed.loadingRatio > 0 && feed.loadingRatio < 100,
+          loadingRatio: feed && feed.loadingRatio,
+          loadingLabel: feed && feed.loadingLabel,
           backButtonLink: '/blogs/',
         }}
       >

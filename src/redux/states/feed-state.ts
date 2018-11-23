@@ -10,11 +10,11 @@ export type FeedState = {
   loading: boolean;
   error?: Error;
   feedURL?: string;
-  crowlingRatio: number; // 0...100
-  crowlingLabel?: string;
+  loadingRatio: number; // 0...100
+  loadingLabel?: string;
 };
 
 export const initialState = {
   loading: false,
-  crowlingRatio: 0,
+  loadingRatio: 0,
 };
