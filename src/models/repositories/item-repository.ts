@@ -1,33 +1,44 @@
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
-import { blogRef } from './blog-repository';
-import { ItemEntity, CountEntities, CountEntity } from '../entities';
+import { CountEntities, CountEntity, ItemEntity } from '../entities';
 import { writeBatch } from './app-repository';
+import { blogRef } from './blog-repository';
 
 export function itemRef(userId: string, blogUrl: string, itemUrl: string): firebase.firestore.DocumentReference {
-  return blogRef(userId, blogUrl).collection('items').doc(encodeURIComponent(itemUrl));
+  return blogRef(userId, blogUrl)
+    .collection('items')
+    .doc(encodeURIComponent(itemUrl));
 }
 
 export async function findAllItems(userId: string, blogUrl: string): Promise<ItemEntity[]> {
-  const snapshot = await blogRef(userId, blogUrl).collection('items').orderBy('published', 'desc').get();
+  const snapshot = await blogRef(userId, blogUrl)
+    .collection('items')
+    .orderBy('published', 'desc')
+    .get();
   const items = snapshot.docs
     .map((i: firebase.firestore.DocumentSnapshot) => i.data())
     .filter(i => i) as firebase.firestore.DocumentData[];
-  return items.map((i: firebase.firestore.DocumentData): ItemEntity => {
-    const { title, url, published, counts, prevCounts } = i;
-    return { title, url, published: published, counts, prevCounts } as ItemEntity;
-  });
+  return items.map(
+    (i: firebase.firestore.DocumentData): ItemEntity => {
+      const { title, url, published, counts, prevCounts } = i;
+      return { title, url, published, counts, prevCounts };
+    }
+  );
 }
 
-export type CountSaveEntity = CountEntity | {
-  count: number,
-  timestamp: firebase.firestore.FieldValue,
-};
+export type CountSaveEntity =
+  | CountEntity
+  | {
+      count: number;
+      timestamp: firebase.firestore.FieldValue;
+    };
 
-export type CountSaveEntities = CountEntities | {
-  hatenabookmark?: CountSaveEntity,
-  facebook?: CountSaveEntity,
-};
+export type CountSaveEntities =
+  | CountEntities
+  | {
+      hatenabookmark?: CountSaveEntity;
+      facebook?: CountSaveEntity;
+    };
 
 export function saveItemBatch(
   batch: firebase.firestore.WriteBatch,
@@ -49,12 +60,10 @@ export function saveItemBatch(
   });
 }
 
-export async function deleteItemsBatch(
-  userId: string,
-  blogUrl: string,
-  batchSize: number = 50
-): Promise<void[]> {
-  const snapshots = await blogRef(userId, blogUrl).collection('items').get();
+export async function deleteItemsBatch(userId: string, blogUrl: string, batchSize: number = 50): Promise<void[]> {
+  const snapshots = await blogRef(userId, blogUrl)
+    .collection('items')
+    .get();
   const docs = snapshots.docs;
   const promsies: Array<Promise<void>> = [];
   for (let i = 0; i <= docs.length; i += batchSize) {

@@ -2,12 +2,12 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
 import { Action } from 'redux';
-import { ItemEntity, CountEntity, BlogEntity } from '../../models/entities';
-import { BlogResponse, ItemResponse, CountResponse } from '../../models/responses';
-import { findBlog } from '../../models/repositories/blog-repository';
-import { currenUserOronAuthStateChanged } from './user-action';
 import { ThunkAction } from 'redux-thunk';
+import { BlogEntity, ItemEntity } from '../../models/entities';
+import { findBlog } from '../../models/repositories/blog-repository';
+import { CountResponse, ItemResponse } from '../../models/responses';
 import { AppState } from '../states/app-state';
+import { currenUserOronAuthStateChanged } from './user-action';
 
 export interface FeedBlogURLChangeAction extends Action {
   type: 'FeedBlogURLChangeAction';
@@ -34,15 +34,15 @@ export function feedBlogURLClear(): FeedBlogURLClearAction {
 export interface FeedFetchFeedAction extends Action {
   type: 'FeedFetchFeedAction';
   blogURL: string;
-  auth: firebase.auth.Auth
+  auth: firebase.auth.Auth;
 }
 
 export function fetchFeed(blogURL: string, auth: firebase.auth.Auth): FeedFetchFeedAction {
   return {
     type: 'FeedFetchFeedAction',
     blogURL,
-    auth
-  }
+    auth,
+  };
 }
 
 export interface FeedUserResponseAction extends Action {
@@ -65,7 +65,10 @@ export interface FeedFirebaseFeedItemsResponseAction extends Action {
   items: ItemEntity[];
 }
 
-export function feedFirebaseFeedItemsResponse(blogURL: string, items: ItemEntity[]): FeedFirebaseFeedItemsResponseAction {
+export function feedFirebaseFeedItemsResponse(
+  blogURL: string,
+  items: ItemEntity[]
+): FeedFirebaseFeedItemsResponseAction {
   return {
     type: 'FeedFirebaseFeedItemsResponseAction',
     blogURL,
@@ -82,7 +85,7 @@ export function feedFirebaseBlogRequest(blogURL: string): FeedFirebaseBlogReques
   return {
     type: 'FeedFirebaseBlogRequestAction',
     blogURL,
-  }
+  };
 }
 
 export interface FeedFirebaseBlogResponseAction extends Action {
@@ -92,7 +95,11 @@ export interface FeedFirebaseBlogResponseAction extends Action {
   user: firebase.User;
 }
 
-export function feedFirebaseBlogResponse(blogURL: string, blogEntity: BlogEntity, user: firebase.User): FeedFirebaseBlogResponseAction {
+export function feedFirebaseBlogResponse(
+  blogURL: string,
+  blogEntity: BlogEntity,
+  user: firebase.User
+): FeedFirebaseBlogResponseAction {
   return {
     type: 'FeedFirebaseBlogResponseAction',
     blogURL,
@@ -111,11 +118,16 @@ export function feedFirebaseBlogError(blogURL: string, error: Error): FeedFireba
   return {
     type: 'FeedFirebaseBlogErrorAction',
     blogURL,
-    error
+    error,
   };
 }
 
-export type FeedFirebaseActions = FeedFetchFeedAction | FeedFirebaseBlogRequestAction | FeedFirebaseFeedItemsResponseAction | FeedFirebaseBlogResponseAction | FeedFirebaseBlogErrorAction;
+export type FeedFirebaseActions =
+  | FeedFetchFeedAction
+  | FeedFirebaseBlogRequestAction
+  | FeedFirebaseFeedItemsResponseAction
+  | FeedFirebaseBlogResponseAction
+  | FeedFirebaseBlogErrorAction;
 
 export interface FeedCrowlerRequestAction extends Action {
   type: 'FeedCrowlerRequestAction';
@@ -152,7 +164,7 @@ export function feedFetchRSSRequest(blogURL: string): FeedFetchRSSRequestAction 
   return {
     type: 'FeedFetchRSSRequestAction',
     blogURL,
-  }
+  };
 }
 
 export interface FeedFetchRSSResponseAction extends Action {
@@ -187,7 +199,10 @@ export interface FeedFetchHatenaBookmarkCountsResponseAction extends Action {
   counts: CountResponse[];
 }
 
-export function feedFetchHatenaBookmarkCountsResponse(blogURL: string, counts: CountResponse[]): FeedFetchHatenaBookmarkCountsResponseAction {
+export function feedFetchHatenaBookmarkCountsResponse(
+  blogURL: string,
+  counts: CountResponse[]
+): FeedFetchHatenaBookmarkCountsResponseAction {
   return {
     type: 'FeedFetchHatenaBookmarkCountsResponseAction',
     blogURL,
@@ -230,7 +245,7 @@ export function feedSaveFeedRequest(blogURL: string): FeedSaveFeedFirebaseReques
   return {
     type: 'FeedSaveFeedFirebaseRequestAction',
     blogURL,
-  }
+  };
 }
 
 export interface FeedSaveFeedFirebaseResponseAction extends Action {
@@ -242,7 +257,7 @@ export function feedSaveFeedFirebaseResponse(blogURL: string): FeedSaveFeedFireb
   return {
     type: 'FeedSaveFeedFirebaseResponseAction',
     blogURL,
-  }
+  };
 }
 
 export interface FeedCrowlerErrorAction extends Action {
@@ -261,12 +276,24 @@ export function feedCrowlerErrorResponse(blogURL: string, error: Error): FeedCro
 
 export type ItemEntitiesFunction = () => ItemEntity[];
 
-type FeedCrowlerActions = FeedCrowlerRequestAction | FeedBlogURLClearAction | FeedFetchRSSResponseAction | FeedFetchHatenaBookmarkCountsRequestAction | FeedFetchHatenaBookmarkCountsResponseAction | FeedFetchFacebookCountRequestAction | FeedFetchFacebookCountResponseAction | FeedCrowlerErrorAction | FeedSaveFeedFirebaseResponseAction | FeedSaveFeedFirebaseRequestAction | FeedFetchRSSRequestAction;
+type FeedCrowlerActions =
+  | FeedCrowlerRequestAction
+  | FeedBlogURLClearAction
+  | FeedFetchRSSResponseAction
+  | FeedFetchHatenaBookmarkCountsRequestAction
+  | FeedFetchHatenaBookmarkCountsResponseAction
+  | FeedFetchFacebookCountRequestAction
+  | FeedFetchFacebookCountResponseAction
+  | FeedCrowlerErrorAction
+  | FeedSaveFeedFirebaseResponseAction
+  | FeedSaveFeedFirebaseRequestAction
+  | FeedFetchRSSRequestAction;
 
 export type FeedActions = FeedBlogURLChangeAction | FeedFirebaseActions | FeedCrowlerActions;
 
-export function fetchFirebaseBlog(auth: firebase.auth.Auth, blogURL: string): ThunkAction<void, AppState, undefined, FeedFirebaseActions> {
-  return async (dispatch) => {
+type TA = ThunkAction<void, AppState, undefined, FeedFirebaseActions>;
+export function fetchFirebaseBlog(auth: firebase.auth.Auth, blogURL: string): TA {
+  return async dispatch => {
     let user;
     try {
       user = await currenUserOronAuthStateChanged(auth);

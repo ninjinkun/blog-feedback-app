@@ -1,8 +1,8 @@
-import { Action } from 'redux';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import { AppState } from '../states/app-state';
+import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
+import { AppState } from '../states/app-state';
 
 export interface UserFetchFirebaseUserAction extends Action {
   type: 'UserFetchFirebaseUserAction';
@@ -92,13 +92,19 @@ export function userFirebaseSignoutError(error: Error): UserFirebaseSignoutError
   }
 }
 
-export type UserFetchActions = UserFirebaseRequestAction | UserFirebaseResponseAction | UserFirebaseUnauthorizedResponseAction;
-export type UserSignoutActions = UserFirebaseSignoutRequestAction | UserFirebaseSignoutResponseAction | UserFirebaseSignoutErrorAction;
+export type UserFetchActions =
+  | UserFirebaseRequestAction
+  | UserFirebaseResponseAction
+  | UserFirebaseUnauthorizedResponseAction;
+export type UserSignoutActions =
+  | UserFirebaseSignoutRequestAction
+  | UserFirebaseSignoutResponseAction
+  | UserFirebaseSignoutErrorAction;
 
 export type UserActions = UserFetchActions | UserSignoutActions;
 
 export function fetchUser(auth: firebase.auth.Auth): ThunkAction<void, AppState, undefined, UserFetchActions> {
-  return async (dispatch) => {
+  return async dispatch => {
     try {
       dispatch(userFirebaseUserRequest());
       const user = await currenUserOronAuthStateChanged(auth);
@@ -111,7 +117,7 @@ export function fetchUser(auth: firebase.auth.Auth): ThunkAction<void, AppState,
 
 export function onAuthStateChanged(auth: firebase.auth.Auth): Promise<firebase.User> {
   return new Promise((resolve, reject) => {
-    auth.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged(user => {
       if (user) {
         resolve(user);
       } else {
@@ -126,12 +132,12 @@ export async function currenUserOronAuthStateChanged(auth: firebase.auth.Auth): 
   if (currentUser) {
     return currentUser;
   } else {
-    return await onAuthStateChanged(auth);
+    return onAuthStateChanged(auth);
   }
 }
 
 export function signOut(auth: firebase.auth.Auth): ThunkAction<void, AppState, undefined, UserSignoutActions>  {
-  return async (dispatch) => {
+  return async dispatch => {
     try {
       dispatch(userFirebaseSignoutRequest());
       const user = await auth.signOut();
@@ -139,6 +145,5 @@ export function signOut(auth: firebase.auth.Auth): ThunkAction<void, AppState, u
     } catch (e) {
       dispatch(userFirebaseSignoutError(e));
     }
-  };  
+  };
 }
-
