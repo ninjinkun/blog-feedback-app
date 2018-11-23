@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { keyframes, SimpleInterpolation } from 'styled-components';
+import styled from 'styled-components';
 import { CountType } from '../../../consts/count-type';
 import Button from '../../atoms/Button';
 import ServiceIcon from '../../atoms/ServiceIcon';
@@ -8,7 +8,7 @@ import * as properties from '../../properties';
 type Props = {
   href?: string;
   type: CountType;
-  count?: Number;
+  count?: number;
 };
 
 const CountButton: React.FunctionComponent<Props> = ({ count, type, children, href, ...props }) => (
