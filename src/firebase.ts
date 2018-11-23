@@ -30,11 +30,11 @@ const DotEnvKeys = [
 
 function validateDotEnv() {
   if (!process.env) {
-    throw `.env file is missing.`;
+    throw new Error(`.env file is missing.`);
   }
-  for (let key of DotEnvKeys) {
+  for (const key of DotEnvKeys) {
     if (!process.env[key]) {
-      throw `${key} is missing in .env file.`;
+      throw new Error(`${key} is missing in .env file.`);
     }
   }
 }

@@ -14,12 +14,15 @@
     "react-icons": "^3.2.2",
     "react-md-spinner": "^0.3.0",
     "react-redux": "^5.0.7",
+    "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.1",
     "react-spring": "^5.7.0",
+    "redux": "^4.0.1",
     "redux-saga": "^0.16.2",
     "redux-thunk": "^2.3.0",
-    "styled-components": "^4.1.1"
+    "styled-components": "^4.1.1",
+    "redux-devtools-extension": "^2.13.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -58,7 +61,6 @@
     "jest": "^23.6.0",
     "prettier": "^1.15.2",
     "react-docgen-typescript-webpack-plugin": "^1.1.0",
-    "redux-devtools-extension": "^2.13.5",
     "ts-jest": "^23.10.4",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.16.0",

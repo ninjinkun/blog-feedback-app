@@ -88,6 +88,8 @@
             "allow-pascal-case"
         ],
         "interface-over-type-literal": false,
-        "member-access": false
+        "member-access": false,
+        "no-submodule-imports": [true, "firebase"],
+        "object-literal-sort-keys" : false
     }
 }
