@@ -1,6 +1,6 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps, withRouter } from 'react-router';
 import { Dispatch } from 'redux';
@@ -22,7 +22,6 @@ import PageLayout from '../../templates/PageLayout/index';
 type StateProps = {
   feedState: FeedState;
   deleteBlogState: DeleteBlogState;
-  userState: UserState;
 };
 
 type DispatchProps = {
@@ -53,8 +52,7 @@ class SettingPage extends React.PureComponent<Props, {}> {
   }
 
   render() {
-    const { history, feedState, deleteBlogState, userState } = this.props;
-    console.log(deleteBlogState);
+    const { history, feedState, deleteBlogState } = this.props;
     if (deleteBlogState.finished) {
       return <Redirect to={'/settings'} />;
     } else {
@@ -109,7 +107,6 @@ const SpinnerWrapper = styled(Wrapper)`
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
   feedState: state.feeds.feeds[decodeURIComponent(ownProps.match.params.blogURL)],
   deleteBlogState: state.deleteBlog,
-  userState: state.user,
 });
 
 type TD = ThunkDispatch<AppState, undefined, FeedFirebaseActions | DeleteBlogActions>;

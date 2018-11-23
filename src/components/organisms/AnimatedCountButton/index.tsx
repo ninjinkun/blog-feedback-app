@@ -19,10 +19,9 @@ export default class AnimatedCountButton extends React.PureComponent<Props> {
 
   render() {
     const { animate, type, count, href, target } = this.props;
-    const { prevCount } = this;
     const res = (
       <StyledTwincleAnimation animate={animate} key={type}>
-        <CountUpAnimation start={animate && prevCount ? prevCount : count} end={count}>
+        <CountUpAnimation start={animate && this.prevCount ? this.prevCount : count} end={count}>
           {value => <StyledCountButton type={type} count={value} href={href} target={target} />}
         </CountUpAnimation>
       </StyledTwincleAnimation>
