@@ -55,7 +55,7 @@ class EntriesPage extends React.PureComponent<Props> {
         loading: feed && feed.crowlingRatio > 0 && feed.crowlingRatio < 100,
         loadingRatio: feed && feed.crowlingRatio,
         loadingLabel: feed && feed.crowlingLabel,
-        onBackButtonClick: () => history.push(`/blogs/`)
+        backButtonLink: '/blogs/',
       }} >
         {(() => {
           if ((!feed || feed.loading) && !(feed && feed.fethcedEntities || feed && feed.firebaseEntities)) {

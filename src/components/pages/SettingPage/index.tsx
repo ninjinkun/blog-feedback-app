@@ -55,10 +55,10 @@ class SettingPage extends React.PureComponent<Props, {}> {
     } else {
       return (
         <PageLayout header={{
-          title: `${feedState && feedState.title || 'Blog'} Setting`,
-          onBackButtonClick: () => history.push('/settings/'),
+          title: `${feedState && feedState.title || 'ブログ'} の設定`,
+          backButtonLink: '/settings/',
         }}>
-          <WarningButton onClick={this.deleteBlog}>Delete {`${feedState && feedState.title || 'Blog'}`}</WarningButton>
+          <WarningButton onClick={this.deleteBlog}>Delete {`${feedState && feedState.title || 'ブログ'}`}</WarningButton>
           {deleteBlogState.loading ? <Spinner /> : undefined}
         </PageLayout>
       );

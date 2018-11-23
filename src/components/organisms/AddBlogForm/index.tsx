@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Wrapper from '../../atoms/Wrapper/index';
 import Spinner from '../../atoms/Spinner/index';
 import * as properties from '../../properties';
-import { PrimaryInput } from '../../atoms/Button';
+import { PrimaryButton } from '../../atoms/Button';
 import { MdError } from 'react-icons/md';
 
 type Props = {
@@ -33,7 +33,7 @@ export default class AddBlogForm extends React.PureComponent<Props, States> {
       <StyledWrapper>
         <StyledForm onSubmit={(e: React.FormEvent<HTMLFormElement>) => this.handleSubmit(e)}>
           <StyledLabel>
-              <Text>Enter Blog URL</Text>
+              <Text>ブログのURLを入力してください</Text>
               <URLField 
                 type="url" 
                 value={this.state.url} 
@@ -41,7 +41,7 @@ export default class AddBlogForm extends React.PureComponent<Props, States> {
                 onChange={(e: React.FormEvent<HTMLInputElement>) => { this.setState({ url: (e.target as HTMLInputElement).value }); }} 
               />
           </StyledLabel>
-          <PrimaryInput type="submit" value="Add blog" />
+          <PrimaryButton type="submit" value="ブログを追加" as="input" />
         </StyledForm>
         {errorMessage ? <ErrorWrapper><ErrorIcon size={20} />  {errorMessage}</ErrorWrapper> : null}
         {loading ? <SpinnerWrapper><Spinner /></SpinnerWrapper> : null}

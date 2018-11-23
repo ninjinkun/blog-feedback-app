@@ -5,4 +5,4 @@ import { storiesOf } from '@storybook/react';
 
 storiesOf('organisms/Header', module)
 .add('default', () => <Header title={'BlogFeedback'} />)
-.add('Long Title', () => <Header title={'BlogFeedback BlogFeedback BlogFeedback BlogFeedback'} onAddButtonClick={()=>{}} onBackButtonClick={()=>{}}/>);
+.add('Long Title', () => <Header title={'BlogFeedback BlogFeedback BlogFeedback BlogFeedback'} addButtonLink="/" backButtonLink="/"/>);

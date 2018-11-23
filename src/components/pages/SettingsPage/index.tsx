@@ -73,8 +73,8 @@ class SettingsPage extends React.PureComponent<Props, {}> {
 
     return (
       <PageLayout header={{
-        title: 'Settings',
-        onBackButtonClick: () => history.push('/blogs/'),
+        title: '設定',
+        backButtonLink: '/',
       }}>
         {content()}
       </PageLayout>
