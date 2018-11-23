@@ -1,6 +1,6 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 import { bindActionCreators, Dispatch } from 'redux';

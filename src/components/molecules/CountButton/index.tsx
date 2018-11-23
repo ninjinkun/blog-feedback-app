@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import styled, { keyframes, SimpleInterpolation } from 'styled-components';
 import { CountType } from '../../../consts/count-type';
 import Button from '../../atoms/Button';

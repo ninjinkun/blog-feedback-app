@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import MDSpinner from 'react-md-spinner';
 import { animated, Spring, Transition } from 'react-spring';
 import styled from 'styled-components';

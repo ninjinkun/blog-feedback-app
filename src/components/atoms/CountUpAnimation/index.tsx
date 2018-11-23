@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Spring } from 'react-spring';
 
 type ChildRenderer = (count: number) => React.ReactNode;

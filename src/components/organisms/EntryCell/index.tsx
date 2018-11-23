@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { CountType, toServiceURL } from '../../../consts/count-type';
 import Favicon from '../../atoms/Favicon/index';

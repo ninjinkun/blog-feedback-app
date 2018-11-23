@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Wrapper from '../../atoms/Wrapper/index';
 import Header, { HeaderProps } from '../../organisms/Header/index';

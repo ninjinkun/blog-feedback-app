@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { MdError } from 'react-icons/md';
 import styled from 'styled-components';
 import { PrimaryButton } from '../../atoms/Button';

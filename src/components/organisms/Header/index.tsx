@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { MdAdd, MdArrowBack, MdSettings } from 'react-icons/md';
 import styled from 'styled-components';

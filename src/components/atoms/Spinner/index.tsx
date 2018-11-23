@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import MDSpinner, { MDSpinnerProps } from 'react-md-spinner';
 import styled from 'styled-components';
 import { colorsBlanding } from '../../properties';

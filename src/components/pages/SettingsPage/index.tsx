@@ -1,6 +1,6 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { connect } from 'react-redux';
