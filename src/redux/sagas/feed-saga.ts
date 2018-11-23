@@ -1,5 +1,6 @@
 import { call, put, takeEvery, all, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga';
+import flatten from 'lodash/flatten';
 import { findBlog } from '../../models/repositories/blog-repository';
 import { findAllItems } from '../../models/repositories/item-repository';
 import { fetchFeed as fetchFeedAction } from '../../models/feed-fetcher';
@@ -30,7 +31,7 @@ function* firebaseBlog(action: FeedFirebaseUserResponseAction) {
 }
 
 function* firebaseFeed(action: FeedFirebaseBlogResponseAction) {
-  const { blogURL, user } = action;  
+  const { blogURL, user } = action;
   try {
     yield put(feedFirebaseBlogRequest(blogURL));
     const items: ItemEntity[] = yield call(findAllItems, user.uid, blogURL);
@@ -56,9 +57,9 @@ function* fetchHatenaBookmarkCounts(action: FeedFetchRSSResponseAction) {
   try {
     yield put(feedFetchHatenaBookmarkCountsRequest(blogURL));
     const counts: CountResponse[] = yield call(fetchHatenaBookmarkCountsAction, items.map(i => i.url));
-    yield put(feedFetchHatenaBookmarkCountsResponse(blogURL, counts))
+    yield put(feedFetchHatenaBookmarkCountsResponse(blogURL, counts));
   } catch (e) {
-    yield put(feedFetchHatenaBookmarkCountsResponse(blogURL, []))
+    yield put(feedFetchHatenaBookmarkCountsResponse(blogURL, []));
     //    yield put(feedCrowlerErrorResponse(blogURL, e));
   }
 }
@@ -70,12 +71,12 @@ function* fetchFacebookCounts(action: FeedFetchRSSResponseAction) {
     const counts: CountResponse[] = yield all(
       items.map(i => {
         call(delay, 100);
-        return call(fetchFacebookCount, i.url)
+        return call(fetchFacebookCount, i.url);
       })
     );
-    yield put(feedFetchFacebookCountResponse(blogURL, counts))
+    yield put(feedFetchFacebookCountResponse(blogURL, counts));
   } catch (e) {
-    yield put(feedFetchFacebookCountResponse(blogURL, []))
+    yield put(feedFetchFacebookCountResponse(blogURL, []));
     //    yield put(feedCrowlerErrorResponse(blogURL, e));
   }
 }
@@ -87,7 +88,7 @@ function* saveBlogFeedItemsAndCounts() {
     const { blogURL, items: fetchedItems }: FeedFetchRSSResponseAction = yield take('FeedFetchRSSResponseAction');
     const { counts: hatenaBookmarkCounts }: FeedFetchHatenaBookmarkCountsResponseAction = yield take('FeedFetchHatenaBookmarkCountsResponseAction');
     const { counts: facebookCounts }: FeedFetchFacebookCountResponseAction = yield take('FeedFetchFacebookCountResponseAction');
-    const counts: CountResponse[] = [].concat.apply([], [hatenaBookmarkCounts, facebookCounts])
+    const counts: CountResponse[] = flatten([hatenaBookmarkCounts, facebookCounts]);
     try {
       yield put(feedSaveFeedRequest(blogURL));
       yield call(saveFeedsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts);

@@ -1,4 +1,5 @@
 import { Reducer, Action, AnyAction } from 'redux';
+import flatten from 'lodash/flatten';
 import { FeedsState, initialState as feedsIniticalState, FeedStates } from '../states/feeds-state';
 import { FeedState, initialState } from '../states/feed-state';
 import { FeedActions } from '../actions/feed-action';
@@ -56,11 +57,10 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
     }
     case 'FeedFetchHatenaBookmarkCountsResponseAction': {
       const { blogURL, counts } = action;
-      const flattenCount = [].concat.apply([], counts.filter(i => i));
       return updateFeed(
         blogURL,
         state,
-        { fetchedHatenaBookmarkCounts: flattenCount }
+        { fetchedHatenaBookmarkCounts: flatten(counts) }
       );
     }
     case 'FeedFetchFacebookCountRequestAction': {
@@ -73,11 +73,10 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
     }
     case 'FeedFetchFacebookCountResponseAction': {
       const { blogURL, counts } = action;
-      const flattenCount = [].concat.apply([], counts.filter(i => i));
       return updateFeed(
         blogURL,
         state,
-        { fetchedFacebookCounts: flattenCount }
+        { fetchedFacebookCounts: flatten(counts) }
       );
     }
     case 'FeedSaveFeedFirebaseRequestAction': {
