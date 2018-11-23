@@ -45,8 +45,8 @@ const AnimatedSpark: React.SFC<{}> = (props) => {
     will-change: transform;
     animation: ${rotate360} ${randomFloat(1, 2)}s linear infinite;
     z-index: 100;
-    height: 18px;
-    width: 18px;
+    height: 24px;
+    width: 24px;
     pointer-events: none;
     margin: -9px -9px 0 0;
   `;
