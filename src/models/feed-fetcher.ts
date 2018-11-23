@@ -47,8 +47,9 @@ export async function fetchAtom(atomUrl: string): Promise<ItemResponse[]> {
 
 export async function fetchRss(rssUrl: string): Promise<ItemResponse[]> {
   const response = await fetch(
-    'https://query.yahooapis.com/v1/public/yql?format=json&q=' +
-      encodeURIComponent("select * from rss(100) where url = '" + rssUrl + "'")
+    `https://query.yahooapis.com/v1/public/yql?format=json&q=${encodeURIComponent(
+      `select * from rss(100) where url = '${rssUrl}'`
+    )}`
   );
   const json: RSSResponse = await response.json();
   const results = json.query.results;
