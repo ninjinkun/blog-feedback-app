@@ -1,4 +1,4 @@
-import { call, put, takeEvery, all, take, fork } from 'redux-saga/effects'
+import { call, put, takeEvery, all, take, fork } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import flatten from 'lodash/flatten';
 import { findBlog } from '../../models/repositories/blog-repository';
