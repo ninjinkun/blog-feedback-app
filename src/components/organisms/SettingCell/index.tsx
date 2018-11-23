@@ -6,7 +6,7 @@ type Props = {
   title?: string;
 };
 
-const SettingCell: React.SFC<Props> = ({ title, children, ...props }) => (
+const SettingCell: React.FunctionComponent<Props> = ({ title, children, ...props }) => (
   <CellWrapper>
     <ContentWrapper>
       <Title>{title}</Title>

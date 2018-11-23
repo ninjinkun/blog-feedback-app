@@ -18,7 +18,7 @@ type Props = {
   url: string;
 };
 
-const EntryCell: React.SFC<Props> = ({ favicon, title, counts, url, ...props }) => (
+const EntryCell: React.FunctionComponent<Props> = ({ favicon, title, counts, url, ...props }) => (
   <AnkerWrapper {...props} href={url} target="_blank">
     <Favicon src={favicon} />
     <ContentWrapper>

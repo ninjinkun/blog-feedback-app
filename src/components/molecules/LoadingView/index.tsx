@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Spinner from '../../atoms/Spinner/index';
 import Wrapper from '../../atoms/Wrapper/index';
 
-const LoadingView: React.SFC = (...props) => (
+const LoadingView: React.FunctionComponent = (...props) => (
   <SpinnerContainer {...props}>
     <Spinner />
   </SpinnerContainer>

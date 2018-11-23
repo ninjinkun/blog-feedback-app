@@ -6,7 +6,7 @@ type Props = {
   twincleNum?: number;
 };
 
-const TwincleAnimation: React.SFC<Props> = ({ children, animate, twincleNum = 8, ...props }) => (
+const TwincleAnimation: React.FunctionComponent<Props> = ({ children, animate, twincleNum = 8, ...props }) => (
   <Wrapper {...props}>
     {animate ? [...Array(twincleNum).keys()].map(i => <AnimatedSpark key={i} />) : undefined}
     {children}
@@ -15,7 +15,7 @@ const TwincleAnimation: React.SFC<Props> = ({ children, animate, twincleNum = 8,
 
 export default TwincleAnimation;
 
-const AnimatedSpark: React.SFC<{}> = props => {
+const AnimatedSpark: React.FunctionComponent<{}> = props => {
   const [top, left] = [randomInt(0, 100), randomInt(0, 100)];
   const [toTranlateX, toTranslateY] = [randomInt(-10, 10), randomInt(-10, 10)];
   const rotate360 = keyframes`

@@ -9,7 +9,7 @@ type Props = {
   children: ChildRenderer;
 };
 
-const CountUp: React.SFC<Props> = ({ children, start, end, ...props }) => (
+const CountUp: React.FunctionComponent<Props> = ({ children, start, end, ...props }) => (
   <Spring from={{ value: start }} to={{ value: end }} config={{ duration: 3000, easing: t => t }}>
     {({ value }) => children && children(Math.round(value))}
   </Spring>

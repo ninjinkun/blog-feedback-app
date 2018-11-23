@@ -11,7 +11,7 @@ type Props = {
   count?: Number;
 };
 
-const CountButton: React.SFC<Props> = ({ count, type, children, href, ...props }) => (
+const CountButton: React.FunctionComponent<Props> = ({ count, type, children, href, ...props }) => (
   <StyledButton href={href} {...props} as="a">
     <ServiceIcon type={type} />
     <CuontLabel>{count}</CuontLabel>

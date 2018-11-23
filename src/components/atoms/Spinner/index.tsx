@@ -10,7 +10,7 @@ const Spinner = styled(MDSpinner)`
   position: relative;
 `;
 
-const ColoredSpinner: React.SFC<MDSpinnerProps> = (...props) => (
+const ColoredSpinner: React.FunctionComponent<MDSpinnerProps> = (...props) => (
   <Spinner singleColor={colorsBlanding.accent} {...props} />
 );
 

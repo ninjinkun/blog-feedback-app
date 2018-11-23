@@ -5,7 +5,7 @@ import Header, { HeaderProps } from '../../organisms/Header/index';
 
 type Props = { header: HeaderProps };
 
-const PageLayout: React.SFC<Props> = ({ children, header, ...props }) => {
+const PageLayout: React.FunctionComponent<Props> = ({ children, header, ...props }) => {
   return (
     <BodyWrapper {...props}>
       <HeaderWrapper>
