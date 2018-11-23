@@ -1,10 +1,14 @@
-import { BlogResponse } from './responses';
 import { FeedType } from '../consts/feed-type';
 import { HTMLStringResponse } from '../consts/yahoo-api/html-string';
+import { BlogResponse } from './responses';
 
 export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
   const q = `select * from htmlstring where url = '${blogURL}'`;
-  const response = await fetch(`https://query.yahooapis.com/v1/public/yql?format=json&q=${encodeURIComponent(q)}&env=${encodeURIComponent('store://datatables.org/alltableswithkeys')}`);
+  const response = await fetch(
+    `https://query.yahooapis.com/v1/public/yql?format=json&q=${encodeURIComponent(q)}&env=${encodeURIComponent(
+      'store://datatables.org/alltableswithkeys'
+    )}`
+  );
   const json: HTMLStringResponse = await response.json();
   const results = json.query.results;
 
@@ -15,7 +19,13 @@ export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
 
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlText, 'text/html');
-    const snapshots = doc.evaluate(`/html/head/link[@rel='alternate']`, doc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+    const snapshots = doc.evaluate(
+      `/html/head/link[@rel='alternate']`,
+      doc,
+      null,
+      XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+      null
+    );
     // prefer Atom than RSS
     const feedURLType = detectFeedURLAndType(snapshots);
     if (!feedURLType) {
@@ -26,12 +36,12 @@ export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
       title: doc.title,
       url: blogURL,
       feedURL: feedURL(parsedFeedURL, blogURL),
-      feedType: type
+      feedType: type,
     };
   }
 }
 
-function detectFeedURLAndType(snapshots: XPathResult): { feedURL: string, type: FeedType } | undefined {
+function detectFeedURLAndType(snapshots: XPathResult): { feedURL: string; type: FeedType } | undefined {
   for (let i = 0; i < snapshots.snapshotLength; i++) {
     const item = snapshots.snapshotItem(i) as HTMLAnchorElement;
     switch (item.type) {
@@ -47,7 +57,6 @@ function detectFeedURLAndType(snapshots: XPathResult): { feedURL: string, type: 
 
 function feedURL(parsedFeedURL: string, baseURL: string) {
   const { host, protocol } = new URL(baseURL);
-  const { pathname, search } = new URL(parsedFeedURL);    
+  const { pathname, search } = new URL(parsedFeedURL);
   return `${protocol}//${host}${pathname}${search}`;
 }
-

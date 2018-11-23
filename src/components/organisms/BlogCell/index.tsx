@@ -1,17 +1,17 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import * as properties from '../../properties';
 import Favicon from '../../atoms/Favicon/index';
+import * as properties from '../../properties';
 
 type Props = {
-    favicon: string;
-    title: string;
+  favicon: string;
+  title: string;
 };
 
-const BlogCell = ({favicon, title, ...props}: Props) => (
+const BlogCell = ({ favicon, title, ...props }: Props) => (
   <CellWrapper {...props}>
     <ContentWrapper>
-      <Favicon src={favicon}/>
+      <Favicon src={favicon} />
       <Title>{title}</Title>
     </ContentWrapper>
     <Underline />
@@ -23,7 +23,7 @@ export default BlogCell;
 const CellWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: ${properties.baseMargin};  
+  padding: ${properties.baseMargin};
   background-color: ${properties.colors.white};
   margin: 0;
   padding: 16px 8px 0px 8px;
@@ -46,5 +46,5 @@ const Title = styled.h3`
 
 const Underline = styled.span`
   border-bottom: ${properties.border};
-  margin: 8px 0 0 ${8 + 16}px;  
+  margin: 8px 0 0 ${8 + 16}px;
 `;

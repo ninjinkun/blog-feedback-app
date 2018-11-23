@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import * as properties from '../../properties';
 
-const SmartphoneLayout: React.SFC<{}> = ({children, ...props}) => (
+const SmartphoneLayout: React.SFC<{}> = ({ children, ...props }) => (
   <Background>
     <Content>{children}</Content>
   </Background>
@@ -21,5 +21,5 @@ const Content = styled.div`
 const Background = styled.div`
   background: ${properties.colorsValue.grayPale};
   width: 100%;
-  min-height: 100vh;  
+  min-height: 100vh;
 `;

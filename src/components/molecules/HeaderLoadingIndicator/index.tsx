@@ -1,8 +1,8 @@
 import * as React from 'react';
+import MDSpinner from 'react-md-spinner';
+import { animated, Spring, Transition } from 'react-spring';
 import styled from 'styled-components';
 import * as properties from '../../properties';
-import { Spring, Transition, animated } from 'react-spring';
-import MDSpinner from 'react-md-spinner';
 
 type Props = {
   ratio?: number;
@@ -27,27 +27,34 @@ export default class HeaderLoadingIndicator extends React.PureComponent<Props, {
     const frame2 = (style: object) => <Label style={style}>{this.frameToggle ? this.prevLabel : label}</Label>;
 
     return (
-      <Spring 
-        to={{ backgroundColor: loading ? properties.colorsValue.grayDark : properties.colorsBlanding.accent }} 
+      <Spring
+        to={{ backgroundColor: loading ? properties.colorsValue.grayDark : properties.colorsBlanding.accent }}
         {...this.props}
       >
-        {styles => <Wrapper style={styles}>
-        <Content>
-          <SpinnerWrapper>{loading ? <Spinner size={12} singleColor={'white'}/> : undefined}</SpinnerWrapper>
-          <LabelWrapper>
-            <Transition
-              native={true}
-              keys={label}
-              from={{ opacity: 0, transform: `translate3d(0, -100%, 0)` }}
-              enter={{ opacity: 1, transform: `translate3d(0, 0, 0)` }}
-              // tslint:disable-next-line:jsx-alignment
-              leave={{ opacity: 0, transform: `translate3d(0, 100%, 0)` }}>
-              {this.frameToggle ? frame1 : frame2}
-            </Transition>
-          </LabelWrapper>
-          {loading ? <Ratio><span>{`${ratio}%`}</span></Ratio> : null}
-          </Content>
-        </Wrapper>}
+        {styles => (
+          <Wrapper style={styles}>
+            <Content>
+              <SpinnerWrapper>{loading ? <Spinner size={12} singleColor={'white'} /> : undefined}</SpinnerWrapper>
+              <LabelWrapper>
+                <Transition
+                  native={true}
+                  keys={label}
+                  from={{ opacity: 0, transform: `translate3d(0, -100%, 0)` }}
+                  enter={{ opacity: 1, transform: `translate3d(0, 0, 0)` }}
+                  // tslint:disable-next-line:jsx-alignment
+                  leave={{ opacity: 0, transform: `translate3d(0, 100%, 0)` }}
+                >
+                  {this.frameToggle ? frame1 : frame2}
+                </Transition>
+              </LabelWrapper>
+              {loading ? (
+                <Ratio>
+                  <span>{`${ratio}%`}</span>
+                </Ratio>
+              ) : null}
+            </Content>
+          </Wrapper>
+        )}
       </Spring>
     );
   }
@@ -80,8 +87,7 @@ const SpinnerWrapper = styled.div`
   margin-left: 4px;
 `;
 
-const Spinner = styled(MDSpinner)`
-`;
+const Spinner = styled(MDSpinner)``;
 
 const LabelWrapper = styled.div`
   grid-area: label;
@@ -93,7 +99,7 @@ const LabelWrapper = styled.div`
 const Label = styled(animated.div)`
   width: 100%;
   height: 100%;
-  display: flex;  
+  display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;

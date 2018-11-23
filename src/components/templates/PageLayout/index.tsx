@@ -1,19 +1,20 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Header, { HeaderProps } from '../../organisms/Header/index';
 import Wrapper from '../../atoms/Wrapper/index';
+import Header, { HeaderProps } from '../../organisms/Header/index';
 
 type Props = { header: HeaderProps };
 
 const PageLayout: React.SFC<Props> = ({ children, header, ...props }) => {
-  return (<BodyWrapper {...props}>
-    <HeaderWrapper>
-      <FixedHeader {...header} />
-    </HeaderWrapper>
-    <HeaderSpacer />
-    {children}
-  </BodyWrapper>
-  )
+  return (
+    <BodyWrapper {...props}>
+      <HeaderWrapper>
+        <FixedHeader {...header} />
+      </HeaderWrapper>
+      <HeaderSpacer />
+      {children}
+    </BodyWrapper>
+  );
 };
 
 export default PageLayout;

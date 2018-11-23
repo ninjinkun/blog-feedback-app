@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import * as properties from '../../properties';
 
 type Props = {
-  title?: string,
+  title?: string;
 };
 
 const SettingCell: React.SFC<Props> = ({ title, children, ...props }) => (

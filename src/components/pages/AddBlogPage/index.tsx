@@ -1,15 +1,21 @@
-import * as React from 'react';
-import styled from 'styled-components';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import { Dispatch, bindActionCreators } from 'redux';
+import * as React from 'react';
+import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
+import { bindActionCreators, Dispatch } from 'redux';
+import styled from 'styled-components';
+import {
+  addBlog,
+  AddBlogActions,
+  addBlogInitialize,
+  AddBlogInitializeAction,
+  AddBlogThunkAction,
+} from '../../../redux/actions/add-blog-action';
+import { AddBlogState } from '../../../redux/states/add-blog-state';
+import { AppState } from '../../../redux/states/app-state';
 import Wrapper from '../../atoms/Wrapper/index';
 import AddBlogForm from '../../organisms/AddBlogForm/index';
-import { connect } from 'react-redux';
-import { AppState } from '../../../redux/states/app-state';
-import { addBlog, addBlogInitialize, AddBlogThunkAction, AddBlogInitializeAction, AddBlogActions } from '../../../redux/actions/add-blog-action';
-import { AddBlogState } from '../../../redux/states/add-blog-state';
 import PageLayout from '../../templates/PageLayout/index';
 
 type StateProps = {
@@ -33,16 +39,18 @@ class AddBlogView extends React.PureComponent<Props> {
     const { history, addBlogState } = this.props;
     const { loading, error, finished, blogURL } = addBlogState;
     if (finished && blogURL) {
-      return (<Redirect to={`/blogs/${encodeURIComponent(blogURL)}`} />);
+      return <Redirect to={`/blogs/${encodeURIComponent(blogURL)}`} />;
     } else {
       return (
-        <PageLayout header={{
-          title: 'ブログを追加する',
-          backButtonLink: '/blogs/',
-        }}>
+        <PageLayout
+          header={{
+            title: 'ブログを追加する',
+            backButtonLink: '/blogs/',
+          }}
+        >
           <FormWrapper>
             <AddBlogForm
-              handleSubmit={(e) => this.handleSubmit(e)}
+              handleSubmit={e => this.handleSubmit(e)}
               loading={loading}
               errorMessage={error && error.message}
             />
@@ -62,10 +70,13 @@ const FormWrapper = styled(Wrapper)`
 `;
 
 const mapStateToProps = (state: AppState): StateProps => ({
-  addBlogState: state.addBlog
+  addBlogState: state.addBlog,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AddBlogActions>): DispatchProps =>
   bindActionCreators({ addBlog, addBlogInitialize }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddBlogView);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddBlogView);

@@ -1,10 +1,10 @@
 import * as React from 'react';
-import styled from 'styled-components';
-import Wrapper from '../../atoms/Wrapper/index';
-import Spinner from '../../atoms/Spinner/index';
-import * as properties from '../../properties';
-import { PrimaryButton } from '../../atoms/Button';
 import { MdError } from 'react-icons/md';
+import styled from 'styled-components';
+import { PrimaryButton } from '../../atoms/Button';
+import Spinner from '../../atoms/Spinner/index';
+import Wrapper from '../../atoms/Wrapper/index';
+import * as properties from '../../properties';
 
 type Props = {
   handleSubmit: (url: string) => any;
@@ -13,7 +13,7 @@ type Props = {
 };
 
 type States = {
-  url: string
+  url: string;
 };
 
 export default class AddBlogForm extends React.PureComponent<Props, States> {
@@ -33,18 +33,28 @@ export default class AddBlogForm extends React.PureComponent<Props, States> {
       <StyledWrapper>
         <StyledForm onSubmit={(e: React.FormEvent<HTMLFormElement>) => this.handleSubmit(e)}>
           <StyledLabel>
-              <Text>ブログのURLを入力してください</Text>
-              <URLField 
-                type="url" 
-                value={this.state.url} 
-                placeholder={'https://exampleblog.com/'}
-                onChange={(e: React.FormEvent<HTMLInputElement>) => { this.setState({ url: (e.target as HTMLInputElement).value }); }} 
-              />
+            <Text>ブログのURLを入力してください</Text>
+            <URLField
+              type="url"
+              value={this.state.url}
+              placeholder={'https://exampleblog.com/'}
+              onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                this.setState({ url: (e.target as HTMLInputElement).value });
+              }}
+            />
           </StyledLabel>
           <PrimaryButton type="submit" value="ブログを追加" as="input" />
         </StyledForm>
-        {errorMessage ? <ErrorWrapper><ErrorIcon size={20} />  {errorMessage}</ErrorWrapper> : null}
-        {loading ? <SpinnerWrapper><Spinner /></SpinnerWrapper> : null}
+        {errorMessage ? (
+          <ErrorWrapper>
+            <ErrorIcon size={20} /> {errorMessage}
+          </ErrorWrapper>
+        ) : null}
+        {loading ? (
+          <SpinnerWrapper>
+            <Spinner />
+          </SpinnerWrapper>
+        ) : null}
       </StyledWrapper>
     );
   }
@@ -53,7 +63,7 @@ export default class AddBlogForm extends React.PureComponent<Props, States> {
 const StyledWrapper = styled(Wrapper)`
   background-color: ${properties.colors.grayPale};
   align-items: center;
-  padding: 16px;  
+  padding: 16px;
 `;
 
 const Text = styled.p`
@@ -74,9 +84,9 @@ const ErrorWrapper = styled(Wrapper)`
   flex-direction: row;
   margin: 16px;
   background: #ffecec;
-  border:1px solid #f5aca6;
-  border-radius:4px;
-  padding:8px;
+  border: 1px solid #f5aca6;
+  border-radius: 4px;
+  padding: 8px;
   color: ${properties.colors.grayDark};
   align-items: center;
 `;
@@ -97,12 +107,12 @@ const StyledLabel = styled.label`
 `;
 
 const URLField = styled.input`
-  margin: 16px; 
+  margin: 16px;
   padding: 4px;
   width: 100%;
   display: inline-block;
   box-sizing: border-box;
   font-size: 1rem;
-  border:1px solid ${properties.colors.grayLight};
+  border: 1px solid ${properties.colors.grayLight};
   border-radius: 4px;
 `;

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import MDSpinner, { MDSpinnerProps } from 'react-md-spinner';
+import styled from 'styled-components';
 import { colorsBlanding } from '../../properties';
 
 const Spinner = styled(MDSpinner)`
@@ -10,7 +10,8 @@ const Spinner = styled(MDSpinner)`
   position: relative;
 `;
 
-const ColoredSpinner: React.SFC<MDSpinnerProps> = (...props) => 
-  <Spinner singleColor={colorsBlanding.accent} {...props} />;
+const ColoredSpinner: React.SFC<MDSpinnerProps> = (...props) => (
+  <Spinner singleColor={colorsBlanding.accent} {...props} />
+);
 
 export default ColoredSpinner;

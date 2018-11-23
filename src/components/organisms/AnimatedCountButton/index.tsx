@@ -1,10 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import CountButton from '../../molecules/CountButton/index';
 import { CountType } from '../../../consts/count-type';
-import TwincleAnimation from '../../atoms/TwincleAnimation/index';
 import CountUpAnimation from '../../atoms/CountUpAnimation/index';
+import TwincleAnimation from '../../atoms/TwincleAnimation/index';
+import CountButton from '../../molecules/CountButton/index';
 
 type Props = {
   animate: boolean;
@@ -21,9 +21,9 @@ export default class AnimatedCountButton extends React.PureComponent<Props> {
     const { animate, type, count, href, target } = this.props;
     const { prevCount } = this;
     const res = (
-      <StyledTwincleAnimation animate={animate} key={type} >
+      <StyledTwincleAnimation animate={animate} key={type}>
         <CountUpAnimation start={animate && prevCount ? prevCount : count} end={count}>
-          {(value) => <StyledCountButton type={type} count={value} href={href} target={target} />}
+          {value => <StyledCountButton type={type} count={value} href={href} target={target} />}
         </CountUpAnimation>
       </StyledTwincleAnimation>
     );

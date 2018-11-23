@@ -1,6 +1,5 @@
+import { storiesOf } from '@storybook/react';
 import React from 'react';
 import Spinner from './index';
-import { storiesOf } from '@storybook/react';
 
-storiesOf('atoms/Spinner', module)
-  .add('default', () => <Spinner />);
+storiesOf('atoms/Spinner', module).add('default', () => <Spinner />);

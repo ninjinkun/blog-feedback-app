@@ -1,4 +1,4 @@
 export enum FeedType {
   RSS = 'rss',
-  Atom = 'atom'
+  Atom = 'atom',
 }

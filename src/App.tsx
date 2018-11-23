@@ -1,20 +1,20 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import { initializeFirebase } from './firebase';
-import { appStore } from './redux/create-store';
-import SmartphoneLayout from './components/templates/SmartphoneLayout/index';
 import { GlobalStyle } from './components/base-style';
 import ScrollToTop from './components/templates/ScrollToTop/index';
+import SmartphoneLayout from './components/templates/SmartphoneLayout/index';
+import { initializeFirebase } from './firebase';
+import { appStore } from './redux/create-store';
 
-import EntriesPage from './components/pages/EntriesPage/index';
-import BlogsPage from './components/pages/BlogsPage/index';
 import AddBlogPage from './components/pages/AddBlogPage/index';
 import AuthPage from './components/pages/AuthPage/index';
-import SettingsPage from './components/pages/SettingsPage/index';
-import SettingPage from './components/pages/SettingPage/index';
+import BlogsPage from './components/pages/BlogsPage/index';
+import EntriesPage from './components/pages/EntriesPage/index';
 import IndexPage from './components/pages/IndexPage/index';
+import SettingPage from './components/pages/SettingPage/index';
+import SettingsPage from './components/pages/SettingsPage/index';
 
 initializeFirebase();
 

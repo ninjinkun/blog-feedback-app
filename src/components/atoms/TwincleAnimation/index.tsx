@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import styled, { keyframes } from 'styled-components';
 
@@ -7,16 +6,16 @@ type Props = {
   twincleNum?: number;
 };
 
-const TwincleAnimation: React.SFC<Props>  = ({children, animate, twincleNum = 8, ...props}) => (
+const TwincleAnimation: React.SFC<Props> = ({ children, animate, twincleNum = 8, ...props }) => (
   <Wrapper {...props}>
-    {animate ? [...Array(twincleNum).keys()].map((i) => (<AnimatedSpark key={i} />)) : undefined}
+    {animate ? [...Array(twincleNum).keys()].map(i => <AnimatedSpark key={i} />) : undefined}
     {children}
   </Wrapper>
 );
 
 export default TwincleAnimation;
 
-const AnimatedSpark: React.SFC<{}> = (props) => {
+const AnimatedSpark: React.SFC<{}> = props => {
   const [top, left] = [randomInt(0, 100), randomInt(0, 100)];
   const [toTranlateX, toTranslateY] = [randomInt(-10, 10), randomInt(-10, 10)];
   const rotate360 = keyframes`
@@ -50,7 +49,7 @@ const AnimatedSpark: React.SFC<{}> = (props) => {
     pointer-events: none;
     margin: -9px -9px 0 0;
   `;
-  return (<StyledSpark {...props}/>);
+  return <StyledSpark {...props} />;
 };
 
 function randomInt(min: number, max: number) {
@@ -61,7 +60,7 @@ function randomFloat(min: number, max: number) {
   return Math.random() * (max - min + 1) + min;
 }
 
-const Spark = (props: any) => (<img src={require('../../../assets/images/twincle-perticle.svg')} {...props} />);
+const Spark = (props: any) => <img src={require('../../../assets/images/twincle-perticle.svg')} {...props} />;
 
 const Wrapper = styled.div`
   position: relative;

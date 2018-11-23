@@ -36,7 +36,7 @@ export const colorsMedia = {
   card: colorsValue.white,
 };
 
-export const colors = Object.assign(colorsValue, colorsBlanding, colorsMedia);
+export const colors = { ...colorsValue, ...colorsBlanding, ...colorsMedia };
 
 export const fontSizes = {
   xxs: 'none',
@@ -47,12 +47,12 @@ export const fontSizes = {
   xl: '1.4rem',
   xxl: '1.6rem',
   xxxl: '1.8rem',
-  xxxxl: '2.0rem'
+  xxxxl: '2.0rem',
 };
 
 export const fontWeights = {
   default: 400,
-  bold: 700
+  bold: 700,
 };
 
 export const space = '0.5rem';
@@ -75,7 +75,8 @@ export const zHeader = 10;
 
 export const breakPointS = 'min-width: 768px';
 
-export const fontFamily = '-apple-system, ".SFNSText-Regular", "San Francisco", BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", "Lucida Grande", Arial, sans-serif';
+export const fontFamily =
+  '-apple-system, ".SFNSText-Regular", "San Francisco", BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", "Lucida Grande", Arial, sans-serif';
 
 export const faviconSize = '16px';
 export const baseMargin = '8px';

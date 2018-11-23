@@ -1,23 +1,23 @@
-import * as React from 'react';
-import styled from 'styled-components';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import { WarningButton } from '../../atoms/Button/index';
-import PageLayout from '../../templates/PageLayout/index';
-import { RouteComponentProps, Redirect, withRouter } from 'react-router';
-import { AppState } from '../../../redux/states/app-state';
-import { FeedState } from '../../../redux/states/feed-state';
-import { FeedActions, fetchFirebaseBlog, FeedFirebaseActions } from '../../../redux/actions/feed-action';
-import { ThunkDispatch } from 'redux-thunk';
+import * as React from 'react';
 import { connect } from 'react-redux';
-import { deleteBlog, deleteBlogReset, DeleteBlogActions } from '../../../redux/actions/delete-blog-action';
-import { DeleteBlogState } from '../../../redux/states/delete-blog-state';
+import { Redirect, RouteComponentProps, withRouter } from 'react-router';
 import { Dispatch } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import styled from 'styled-components';
+import { deleteBlog, DeleteBlogActions, deleteBlogReset } from '../../../redux/actions/delete-blog-action';
+import { FeedActions, FeedFirebaseActions, fetchFirebaseBlog } from '../../../redux/actions/feed-action';
+import { AppState } from '../../../redux/states/app-state';
+import { DeleteBlogState } from '../../../redux/states/delete-blog-state';
+import { FeedState } from '../../../redux/states/feed-state';
+import { UserState } from '../../../redux/states/user-state';
+import { WarningButton } from '../../atoms/Button/index';
+import ScrollView from '../../atoms/ScrollView/index';
 import Spinner from '../../atoms/Spinner/index';
 import Wrapper from '../../atoms/Wrapper/index';
 import * as properties from '../../properties';
-import ScrollView from '../../atoms/ScrollView/index';
-import { UserState } from '../../../redux/states/user-state';
+import PageLayout from '../../templates/PageLayout/index';
 
 type StateProps = {
   feedState: FeedState;
@@ -49,24 +49,34 @@ class SettingPage extends React.PureComponent<Props, {}> {
 
   deleteBlog() {
     const blogURL = decodeURIComponent(this.props.match.params.blogURL);
-    this.props.deleteBlog(firebase.auth(), blogURL)
+    this.props.deleteBlog(firebase.auth(), blogURL);
   }
 
   render() {
     const { history, feedState, deleteBlogState, userState } = this.props;
     console.log(deleteBlogState);
     if (deleteBlogState.finished) {
-      return (<Redirect to={'/settings'} />)
+      return <Redirect to={'/settings'} />;
     } else {
       return (
-        <PageLayout header={{
-          title: `${feedState && feedState.title || 'ブログ'}の設定`,
-          backButtonLink: '/settings/',
-        }}>
+        <PageLayout
+          header={{
+            title: `${(feedState && feedState.title) || 'ブログ'}の設定`,
+            backButtonLink: '/settings/',
+          }}
+        >
           <StyledScrollView>
             <DeleteWrapper>
-              <StyledWarningButton onClick={this.deleteBlog}>{`${feedState && feedState.title || 'ブログ'}`}を削除</StyledWarningButton>
-            {deleteBlogState.loading ? <SpinnerWrapper><Spinner /></SpinnerWrapper> : undefined}
+              <StyledWarningButton onClick={this.deleteBlog}>
+                {`${(feedState && feedState.title) || 'ブログ'}`}を削除
+              </StyledWarningButton>
+              {deleteBlogState.loading ? (
+                <SpinnerWrapper>
+                  <Spinner />
+                </SpinnerWrapper>
+              ) : (
+                undefined
+              )}
             </DeleteWrapper>
           </StyledScrollView>
         </PageLayout>
@@ -108,6 +118,11 @@ const mapDispatchToProps = (dispatch: TD | Dispatch<DeleteBlogActions>): Dispatc
   fetchFirebaseBlog: (auth, blogURL) => (dispatch as TD)(fetchFirebaseBlog(auth, blogURL)),
   deleteBlog: (auth, blogURL) => (dispatch as TD)(deleteBlog(auth, blogURL)),
   deleteBlogReset: () => dispatch(deleteBlogReset()),
-})
+});
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SettingPage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(SettingPage)
+);

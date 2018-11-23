@@ -1,6 +1,5 @@
-
 import { createGlobalStyle } from 'styled-components';
-import { fontFamily, colors } from './properties';
+import { colors, fontFamily } from './properties';
 
 export const GlobalStyle = createGlobalStyle`
   html {

@@ -1,11 +1,11 @@
 import * as React from 'react';
+import { FiPlus } from 'react-icons/fi';
+import { MdAdd, MdArrowBack, MdSettings } from 'react-icons/md';
 import styled from 'styled-components';
 import * as properties from '../../properties';
-import { MdArrowBack, MdAdd, MdSettings } from 'react-icons/md';
-import { FiPlus } from 'react-icons/fi';
 
-import HeaderLoadingIndicator from '../../molecules/HeaderLoadingIndicator/index';
 import { Link } from 'react-router-dom';
+import HeaderLoadingIndicator from '../../molecules/HeaderLoadingIndicator/index';
 
 export type HeaderProps = {
   title: string;
@@ -17,18 +17,40 @@ export type HeaderProps = {
   settingButtonLink?: string;
 };
 
-const Header = ({ backButtonLink, addButtonLink, settingButtonLink, loadingRatio, loadingLabel, loading, title, ...props }: HeaderProps) => (
+const Header = ({
+  backButtonLink,
+  addButtonLink,
+  settingButtonLink,
+  loadingRatio,
+  loadingLabel,
+  loading,
+  title,
+  ...props
+}: HeaderProps) => (
   <HeaderLayout {...props}>
-    <HeaderLoadingIndicator
-      ratio={loadingRatio}
-      label={loadingLabel}
-      loading={!!loading}
-    />
+    <HeaderLoadingIndicator ratio={loadingRatio} label={loadingLabel} loading={!!loading} />
     <HeaderContent>
-      {backButtonLink ? <StyledLink to={backButtonLink}><BackButton size={24} /></StyledLink> :
-        settingButtonLink ? <StyledLink to={settingButtonLink}><SettingsButton size={22} /></StyledLink> : <Spacer />}
-      <TitleLayout><Title>{title}</Title></TitleLayout>
-      {addButtonLink ? <StyledLink to={addButtonLink}><AddButton size={24} /></StyledLink> : <Spacer />}
+      {backButtonLink ? (
+        <StyledLink to={backButtonLink}>
+          <BackButton size={24} />
+        </StyledLink>
+      ) : settingButtonLink ? (
+        <StyledLink to={settingButtonLink}>
+          <SettingsButton size={22} />
+        </StyledLink>
+      ) : (
+        <Spacer />
+      )}
+      <TitleLayout>
+        <Title>{title}</Title>
+      </TitleLayout>
+      {addButtonLink ? (
+        <StyledLink to={addButtonLink}>
+          <AddButton size={24} />
+        </StyledLink>
+      ) : (
+        <Spacer />
+      )}
     </HeaderContent>
     <UnderLine />
   </HeaderLayout>
@@ -80,10 +102,10 @@ const StyledLink = styled(Link)`
   color: white;
   align-items: center;
   &:link {
-      color: white;
+    color: white;
   }
   &:visited {
-      color: white;
+    color: white;
   }
 `;
 
@@ -114,5 +136,5 @@ const UnderLine = styled.div`
   background-color: rgba(0, 0, 0, 0.298039);
   display: flex;
   height: ${properties.lineWidth};
-  flex-basis: ${properties.lineWidth};;
+  flex-basis: ${properties.lineWidth};
 `;

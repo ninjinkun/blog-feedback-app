@@ -1,25 +1,25 @@
-import * as React from 'react';
-import styled from 'styled-components';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
+import * as React from 'react';
+import styled from 'styled-components';
 
 import { StyledFirebaseAuth } from 'react-firebaseui';
-import { Redirect, withRouter, RouteComponentProps } from 'react-router-dom';
-import { AppState } from '../../../redux/states/app-state';
 import { connect } from 'react-redux';
-import { UserState } from '../../../redux/states/user-state';
-import { Dispatch, bindActionCreators } from 'redux';
+import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
+import { bindActionCreators, Dispatch } from 'redux';
 import { fetchUser } from '../../../redux/actions/user-action';
+import { AppState } from '../../../redux/states/app-state';
+import { UserState } from '../../../redux/states/user-state';
 import LoadingView from '../../molecules/LoadingView/index';
 import PageLayout from '../../templates/PageLayout/index';
 
 type StateProps = {
-  user: UserState
-}
+  user: UserState;
+};
 
 type DispatchProps = {
-  fetchUser: (auth: firebase.auth.Auth) => any,
-}
+  fetchUser: (auth: firebase.auth.Auth) => any;
+};
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
 class AuthPage extends React.PureComponent<Props> {
@@ -29,24 +29,19 @@ class AuthPage extends React.PureComponent<Props> {
   render() {
     const { loading, user } = this.props.user;
     if (user) {
-      return (<Redirect to="/blogs" />);
+      return <Redirect to="/blogs" />;
     } else {
       return (
-        <PageLayout header={{
-          title: 'ログイン',
-        }}>
+        <PageLayout
+          header={{
+            title: 'ログイン',
+          }}
+        >
           {(() => {
             if (loading && !user) {
-              return (
-                <LoadingView />
-              );
+              return <LoadingView />;
             } else {
-              return (
-                <StyledFirebaseAuth
-                  uiConfig={uiConfig}
-                  firebaseAuth={firebase.auth()}
-                />
-              );
+              return <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />;
             }
           })()}
         </PageLayout>
@@ -65,17 +60,25 @@ const uiConfig = {
   signInOptions: [
     firebase.auth.TwitterAuthProvider.PROVIDER_ID,
     firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID
-  ]
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+  ],
 };
 
 const mapStateToProps = (state: AppState): StateProps => ({
-  user: state.user
+  user: state.user,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
-  bindActionCreators({
-    fetchUser: fetchUser,
-  }, dispatch);
+  bindActionCreators(
+    {
+      fetchUser,
+    },
+    dispatch
+  );
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AuthPage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(AuthPage)
+);

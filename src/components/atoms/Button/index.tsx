@@ -32,13 +32,17 @@ const primaryButtonStyle = `
   color: ${properties.colors.white};
 `;
 
-export const PrimaryButton = styled(ButtonBase)`${primaryButtonStyle}`;
+export const PrimaryButton = styled(ButtonBase)`
+  ${primaryButtonStyle}
+`;
 
 const warningButtonStyle = `
   background-color: ${properties.colors.warning};
   color: ${properties.colors.white};
 `;
 
-export const WarningButton = styled(ButtonBase)`${warningButtonStyle}`;
+export const WarningButton = styled(ButtonBase)`
+  ${warningButtonStyle}
+`;
 
 export default Button;

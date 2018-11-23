@@ -1,25 +1,25 @@
-import * as React from 'react';
-import styled from 'styled-components';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
+import * as React from 'react';
+import styled from 'styled-components';
 
-import BlogCell from '../../organisms/BlogCell/index';
-import ScrollView from '../../atoms/ScrollView/index';
+import { connect } from 'react-redux';
+import { Redirect, RouteComponentProps } from 'react-router';
+import { Link } from 'react-router-dom';
+import { ThunkDispatch } from 'redux-thunk';
+import { BlogActions, fetchBlogs } from '../../../redux/actions/blog-action';
+import { signOut } from '../../../redux/actions/user-action';
 import { AppState } from '../../../redux/states/app-state';
 import { BlogState } from '../../../redux/states/blog-state';
-import { connect } from 'react-redux';
-import { fetchBlogs, BlogActions } from '../../../redux/actions/blog-action';
-import { Button } from '../../atoms/Button/index';
-import LoadingView from '../../molecules/LoadingView/index';
-import Wrapper from '../../atoms/Wrapper/index';
-import { ThunkDispatch } from 'redux-thunk';
-import PageLayout from '../../templates/PageLayout/index';
-import { RouteComponentProps, Redirect } from 'react-router';
-import { Link } from 'react-router-dom';
-import { signOut } from '../../../redux/actions/user-action';
-import * as properties from '../../properties';
-import SectionHeader from '../../organisms/SettingSectionHeader/index';
 import { UserState } from '../../../redux/states/user-state';
+import { Button } from '../../atoms/Button/index';
+import ScrollView from '../../atoms/ScrollView/index';
+import Wrapper from '../../atoms/Wrapper/index';
+import LoadingView from '../../molecules/LoadingView/index';
+import BlogCell from '../../organisms/BlogCell/index';
+import SectionHeader from '../../organisms/SettingSectionHeader/index';
+import * as properties from '../../properties';
+import PageLayout from '../../templates/PageLayout/index';
 
 type StateProps = {
   blogState: BlogState;
@@ -47,7 +47,7 @@ class SettingsPage extends React.PureComponent<Props, {}> {
   }
 
   signOut() {
-    this.props.signOut(firebase.auth())
+    this.props.signOut(firebase.auth());
   }
 
   render() {
@@ -55,7 +55,7 @@ class SettingsPage extends React.PureComponent<Props, {}> {
 
     const { blogs, loading } = blogState;
     if (!userState.user && !userState.loading) {
-      return (<Redirect to="/" />);
+      return <Redirect to="/" />;
     }
 
     const content = () => {
@@ -63,31 +63,32 @@ class SettingsPage extends React.PureComponent<Props, {}> {
         return (
           <StyledScrollView>
             <SectionHeader>ブログの設定</SectionHeader>
-            {blogs.map((blog) => (
+            {blogs.map(blog => (
               <Link to={`/settings/${encodeURIComponent(blog.url)}`} key={blog.url}>
-                <BlogCell
-                  title={blog.title}
-                  favicon={`https://www.google.com/s2/favicons?domain=${blog.url}`}
-                />
+                <BlogCell title={blog.title} favicon={`https://www.google.com/s2/favicons?domain=${blog.url}`} />
               </Link>
             ))}
             <SectionHeader>ユーザーの設定</SectionHeader>
-            <SignOutButtonWrapper><SignOutButton onClick={this.signOut}>ログアウト</SignOutButton></SignOutButtonWrapper>
+            <SignOutButtonWrapper>
+              <SignOutButton onClick={this.signOut}>ログアウト</SignOutButton>
+            </SignOutButtonWrapper>
           </StyledScrollView>
         );
       } else if (loading) {
-        return (<LoadingView />);
+        return <LoadingView />;
       }
     };
 
     return (
-      <PageLayout header={{
-        title: '設定',
-        backButtonLink: '/',
-      }}>
+      <PageLayout
+        header={{
+          title: '設定',
+          backButtonLink: '/',
+        }}
+      >
         {content()}
       </PageLayout>
-    )
+    );
   }
 }
 
@@ -97,11 +98,14 @@ const mapStateToProps = (state: AppState): StateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, BlogActions>): DispatchProps => ({
-  fetchBlogs: (auth) => dispatch(fetchBlogs(auth)),
-  signOut: (auth) => dispatch(signOut(auth)),
-})
+  fetchBlogs: auth => dispatch(fetchBlogs(auth)),
+  signOut: auth => dispatch(signOut(auth)),
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingsPage);
 
 const SignOutButtonWrapper = styled(Wrapper)`
   padding: 16px;

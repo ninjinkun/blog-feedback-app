@@ -1,6 +1,6 @@
+import { storiesOf, Story } from '@storybook/react';
 import React from 'react';
 import Button, { PrimaryButton, WarningButton } from './index';
-import { storiesOf, Story } from '@storybook/react';
 
 storiesOf('atoms/Button', module)
   .add('デフォルト', () => <Button>デフォルト</Button>)
