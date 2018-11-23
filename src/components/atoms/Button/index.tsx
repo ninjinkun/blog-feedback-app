@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import * as properties from '../../properties';
 
-const baseStyle = `
+const ButtonBase = styled.button`
   border-radius: 4px;
   border-width: 0;
   display: flex;
@@ -13,27 +13,19 @@ const baseStyle = `
   text-decoration: none;
   align-items: center;
   cursor: pointer;
-  border-radius; 4px;
+  border-radius: 4px;
   text-align: center;
   transition: ${properties.fadeAnimation}};
   &:hover {
     opacity: ${properties.hoverFeedbackOpacity};
-  }  
+  }
 `;
 
-const ButtonBase = styled.button`${baseStyle}`;
-const InputBase = styled.input`${baseStyle}`;
-const AnkerBase = styled.a`${baseStyle}`;
-
-const buttonStyle = `
+export const Button = styled(ButtonBase)`
   background-color: inherit;
   border: ${properties.border};
   color: ${properties.colors.gray};
 `;
-
-export const Button = styled(ButtonBase)`${buttonStyle}`;
-export const Input = styled(InputBase)`${buttonStyle}`;
-export const Anker = styled(AnkerBase)`${buttonStyle}`;
 
 const primaryButtonStyle = `
   background-color: ${properties.colors.primary};
@@ -41,7 +33,6 @@ const primaryButtonStyle = `
 `;
 
 export const PrimaryButton = styled(ButtonBase)`${primaryButtonStyle}`;
-export const PrimaryInput = styled(InputBase)`${primaryButtonStyle}`;
 
 const warningButtonStyle = `
   background-color: ${properties.colors.warning};
@@ -49,6 +40,5 @@ const warningButtonStyle = `
 `;
 
 export const WarningButton = styled(ButtonBase)`${warningButtonStyle}`;
-export const WarningInput = styled(InputBase)`${warningButtonStyle}`;
 
 export default Button;

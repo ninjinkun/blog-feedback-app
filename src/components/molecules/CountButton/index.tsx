@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled, { keyframes, SimpleInterpolation } from 'styled-components';
 import * as properties from '../../properties';
-import Button, { Anker } from '../../atoms/Button';
+import Button from '../../atoms/Button';
 import ServiceIcon from '../../atoms/ServiceIcon';
 import { CountType } from '../../../consts/count-type';
 
@@ -12,7 +12,7 @@ type Props = {
 };
 
 const CountButton: React.SFC<Props> = ({count, type, children, href, ...props}) => (
-    <StyledButton href={href} {...props}>
+    <StyledButton href={href} {...props} as="a">
         <ServiceIcon type={type} />
         <CuontLabel>{count}</CuontLabel>
         {children}
@@ -21,7 +21,7 @@ const CountButton: React.SFC<Props> = ({count, type, children, href, ...props}) 
 
 export default CountButton;
 
-const StyledButton = styled(Anker)`
+const StyledButton = styled(Button)`
     padding: 0.2rem;
     font-size: ${properties.fontSizes.s};
     background: linear-gradient(${properties.colorsValue.grayPale}, #eee);

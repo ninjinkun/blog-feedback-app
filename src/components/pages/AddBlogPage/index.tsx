@@ -37,8 +37,8 @@ class AddBlogView extends React.PureComponent<Props> {
     } else {
       return (
         <PageLayout header={{
-          title: 'Add Blog',
-          onAddButtonClick: () => history.push(`/blogs/`)
+          title: 'ブログを追加する',
+          backButtonLink: '/blogs/',
         }}>
           <FormWrapper>
             <AddBlogForm
