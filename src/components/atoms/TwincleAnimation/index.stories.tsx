@@ -1,11 +1,19 @@
-import React from 'react';
-import Twincle from './index';
 import { storiesOf } from '@storybook/react';
+import React from 'react';
 import styled from 'styled-components';
+import Twincle from './index';
 
 storiesOf('atoms/TwincleAnimation', module)
-  .add('animate', () => (<Twincle animate={true}><Content /></Twincle>))
-  .add('no animate', () => (<Twincle animate={false}><Content /></Twincle>));
+  .add('animate', () => (
+    <Twincle animate={true}>
+      <Content />
+    </Twincle>
+  ))
+  .add('no animate', () => (
+    <Twincle animate={false}>
+      <Content />
+    </Twincle>
+  ));
 
 const Content = styled.div`
   width: 200px;
