@@ -59,18 +59,6 @@ export function userResponse(blogURL: string, user: firebase.User): FeedUserResp
   };
 }
 
-export interface FeedFirebaseBlogRequestAction extends Action {
-  type: 'FeedFirebaseBlogRequestAction';
-  blogURL: string;
-}
-
-export function feedFirebaseBlogRequest(blogURL: string): FeedFirebaseBlogRequestAction {
-  return {
-    type: 'FeedFirebaseBlogRequestAction',
-    blogURL,
-  }
-}
-
 export interface FeedFirebaseFeedItemsResponseAction extends Action {
   type: 'FeedFirebaseFeedItemsResponseAction';
   blogURL: string;
@@ -85,6 +73,18 @@ export function feedFirebaseFeedItemsResponse(blogURL: string, items: ItemEntity
   };
 }
 
+export interface FeedFirebaseBlogRequestAction extends Action {
+  type: 'FeedFirebaseBlogRequestAction';
+  blogURL: string;
+}
+
+export function feedFirebaseBlogRequest(blogURL: string): FeedFirebaseBlogRequestAction {
+  return {
+    type: 'FeedFirebaseBlogRequestAction',
+    blogURL,
+  }
+}
+
 export interface FeedFirebaseBlogResponseAction extends Action {
   type: 'FeedFirebaseBlogResponseAction';
   blogURL: string;
@@ -92,7 +92,7 @@ export interface FeedFirebaseBlogResponseAction extends Action {
   user: firebase.User;
 }
 
-export function feedFirebaseBlogResponse(blogURL: string, blogEntity: BlogEntity, user: firebase.User) : FeedFirebaseBlogResponseAction {
+export function feedFirebaseBlogResponse(blogURL: string, blogEntity: BlogEntity, user: firebase.User): FeedFirebaseBlogResponseAction {
   return {
     type: 'FeedFirebaseBlogResponseAction',
     blogURL,
@@ -107,7 +107,7 @@ export interface FeedFirebaseBlogErrorAction extends Action {
   error: Error;
 }
 
-export function feedFirebaseBlogError(blogURL: string, error: Error) : FeedFirebaseBlogErrorAction {
+export function feedFirebaseBlogError(blogURL: string, error: Error): FeedFirebaseBlogErrorAction {
   return {
     type: 'FeedFirebaseBlogErrorAction',
     blogURL,
@@ -143,31 +143,41 @@ export function feedFirebaseUserResponse(blogURL: string, user: firebase.User): 
   };
 }
 
-export interface FeedCrowlerTitleResponseAction extends Action {
-  type: 'FeedCrowlerTitleResponseAction';
+export interface FeedFetchRSSRequestAction extends Action {
+  type: 'FeedFetchRSSRequestAction',
   blogURL: string;
-  title: string;
 }
 
-export function feedCrowlerTitleResponseAction(blogURL: string, title: string): FeedCrowlerTitleResponseAction {
+export function feedFetchRSSRequest(blogURL: string): FeedFetchRSSRequestAction {
   return {
-    type: 'FeedCrowlerTitleResponseAction',
+    type: 'FeedFetchRSSRequestAction',
     blogURL,
-    title,
-  };
+  }
 }
 
-export interface FeedFetchFeedItemsResponseAction extends Action {
-  type: 'FeedFetchFeedItemsResponseAction';
+export interface FeedFetchRSSResponseAction extends Action {
+  type: 'FeedFetchRSSResponseAction';
   blogURL: string;
   items: ItemResponse[];
 }
 
-export function feedCrowlerItemsResponse(blogURL: string, items: ItemResponse[]): FeedFetchFeedItemsResponseAction {
+export function feedFetchRSSResponse(blogURL: string, items: ItemResponse[]): FeedFetchRSSResponseAction {
   return {
-    type: 'FeedFetchFeedItemsResponseAction',
+    type: 'FeedFetchRSSResponseAction',
     blogURL,
     items,
+  };
+}
+
+export interface FeedFetchHatenaBookmarkCountsRequestAction extends Action {
+  type: 'FeedFetchHatenaBookmarkCountsRequestAction';
+  blogURL: string;
+}
+
+export function feedFetchHatenaBookmarkCountsRequest(blogURL: string): FeedFetchHatenaBookmarkCountsRequestAction {
+  return {
+    type: 'FeedFetchHatenaBookmarkCountsRequestAction',
+    blogURL,
   };
 }
 
@@ -185,6 +195,17 @@ export function feedFetchHatenaBookmarkCountsResponse(blogURL: string, counts: C
   };
 }
 
+export interface FeedFetchFacebookCountRequestAction extends Action {
+  type: 'FeedFetchFacebookCountRequestAction';
+  blogURL: string;
+}
+
+export function feedFetchFacebookCountRequest(blogURL: string): FeedFetchFacebookCountRequestAction {
+  return {
+    type: 'FeedFetchFacebookCountRequestAction',
+    blogURL,
+  };
+}
 
 export interface FeedFetchFacebookCountResponseAction extends Action {
   type: 'FeedFetchFacebookCountResponseAction';
@@ -200,14 +221,26 @@ export function feedFetchFacebookCountResponse(blogURL: string, counts: CountRes
   };
 }
 
-export interface FeedSaveFeedsResponseAction extends Action {
-  type: 'FeedSaveFeedsResponseAction';
+export interface FeedSaveFeedFirebaseRequestAction extends Action {
+  type: 'FeedSaveFeedFirebaseRequestAction';
   blogURL: string;
 }
 
-export function feedSaveFeedsResponseAction(blogURL: string) {
+export function feedSaveFeedRequest(blogURL: string): FeedSaveFeedFirebaseRequestAction {
   return {
-    type: 'FeedSaveFeedsResponseAction',
+    type: 'FeedSaveFeedFirebaseRequestAction',
+    blogURL,
+  }
+}
+
+export interface FeedSaveFeedFirebaseResponseAction extends Action {
+  type: 'FeedSaveFeedFirebaseResponseAction';
+  blogURL: string;
+}
+
+export function feedSaveFeedFirebaseResponse(blogURL: string): FeedSaveFeedFirebaseResponseAction {
+  return {
+    type: 'FeedSaveFeedFirebaseResponseAction',
     blogURL,
   }
 }
@@ -228,11 +261,11 @@ export function feedCrowlerErrorResponse(blogURL: string, error: Error): FeedCro
 
 export type ItemEntitiesFunction = () => ItemEntity[];
 
-type FeedCrowlerActions = FeedCrowlerRequestAction | FeedBlogURLClearAction | FeedCrowlerTitleResponseAction | FeedFetchFeedItemsResponseAction | FeedFetchHatenaBookmarkCountsResponseAction | FeedFetchFacebookCountResponseAction | FeedCrowlerErrorAction | FeedSaveFeedsResponseAction;
+type FeedCrowlerActions = FeedCrowlerRequestAction | FeedBlogURLClearAction | FeedFetchRSSResponseAction | FeedFetchHatenaBookmarkCountsRequestAction | FeedFetchHatenaBookmarkCountsResponseAction | FeedFetchFacebookCountRequestAction | FeedFetchFacebookCountResponseAction | FeedCrowlerErrorAction | FeedSaveFeedFirebaseResponseAction | FeedSaveFeedFirebaseRequestAction | FeedFetchRSSRequestAction;
 
 export type FeedActions = FeedBlogURLChangeAction | FeedFirebaseActions | FeedCrowlerActions;
 
-export function fetchFirebaseBlog (auth: firebase.auth.Auth, blogURL: string): ThunkAction<void, AppState, undefined, FeedFirebaseActions> {
+export function fetchFirebaseBlog(auth: firebase.auth.Auth, blogURL: string): ThunkAction<void, AppState, undefined, FeedFirebaseActions> {
   return async (dispatch) => {
     let user;
     try {

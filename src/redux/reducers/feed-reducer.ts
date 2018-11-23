@@ -24,22 +24,38 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
     }
     case 'FeedFirebaseBlogResponseAction': {
       const { blogURL, blogEntity } = action;
-      return updateFeed(blogURL, state, { title: blogEntity.title, crowlingLabel: 'Loading RSS...', crowlingRatio: 30 });
-    }    
+      return updateFeed(blogURL, state, { title: blogEntity.title });
+    }
     case 'FeedFirebaseFeedItemsResponseAction': {
       const { blogURL, items } = action;
       return updateFeed(
         blogURL,
         state,
-        { firebaseEntities: items, loading: false }
+        { firebaseEntities: items }
       );
     }
-    case 'FeedFetchFeedItemsResponseAction': {
+    case 'FeedFetchRSSRequestAction': {
+      const { blogURL } = action;
+      return updateFeed(blogURL, state, { crowlingLabel: 'Loading RSS...', crowlingRatio: 30 });
+    }
+    case 'FeedFetchRSSRequestAction': {
+      const { blogURL } = action;
+      return updateFeed(blogURL, state, { crowlingLabel: 'Loading RSS...', crowlingRatio: 30 });
+    }
+    case 'FeedFetchRSSResponseAction': {
       const { blogURL, items } = action;
       return updateFeed(
         blogURL,
         state,
-        { fethcedEntities: items, loading: false, crowlingLabel: 'Loading Hatena Bookmark...', crowlingRatio: 60 }
+        { fethcedEntities: items }
+      );
+    }
+    case 'FeedFetchHatenaBookmarkCountsRequestAction': {
+      const { blogURL } = action;
+      return updateFeed(
+        blogURL,
+        state,
+        { crowlingLabel: 'Loading Hatena Bookmark...', crowlingRatio: 50 }
       );
     }
     case 'FeedFetchHatenaBookmarkCountsResponseAction': {
@@ -48,7 +64,15 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
       return updateFeed(
         blogURL,
         state,
-        { fetchedHatenaBookmarkCounts: flattenCount, loading: false, crowlingLabel: 'Loading Facebook Shares...', crowlingRatio: 80 }
+        { fetchedHatenaBookmarkCounts: flattenCount }
+      );
+    }
+    case 'FeedFetchFacebookCountRequestAction': {
+      const { blogURL } = action;
+      return updateFeed(
+        blogURL,
+        state,
+        { crowlingLabel: 'Loading Facebook Shares...', crowlingRatio: 60 }
       );
     }
     case 'FeedFetchFacebookCountResponseAction': {
@@ -57,28 +81,33 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
       return updateFeed(
         blogURL,
         state,
-        { fetchedFacebookCounts: flattenCount, loading: false, crowlingLabel: 'Saving data...', crowlingRatio: 90 }
+        { fetchedFacebookCounts: flattenCount }
       );
     }
-    case 'FeedSaveFeedsResponseAction': {
+    case 'FeedSaveFeedFirebaseRequestAction': {
+      const { blogURL } = action;
+      return updateFeed(blogURL, state, { crowlingLabel: 'Saving data...', crowlingRatio: 80 });
+    }
+    case 'FeedSaveFeedFirebaseResponseAction': {
       const { blogURL } = action;
       return updateFeed(blogURL, state, { loading: false, crowlingLabel: undefined, crowlingRatio: 100 });
     }
     case 'FeedCrowlerErrorAction': {
       const { blogURL } = action;
-      return updateFeed(blogURL, state, { crowlingLabel: undefined, crowlingRatio: 0 });   
+      return updateFeed(blogURL, state, { loading: false, crowlingLabel: undefined, crowlingRatio: 0 });
     }
-    case 'AddBlogResponseAction':
+    case 'AddBlogResponseAction': {
       const { title, url, feedURL } = action.response;
-      return updateFeed(url, state, { title, feedURL });   
-
-    case 'BlogFirebaseResponseAction':
-      const { blogs } = action;      
+      return updateFeed(url, state, { title, feedURL });
+    }
+    case 'BlogFirebaseResponseAction': {
+      const { blogs } = action;
       for (let blog of blogs) {
         const { title, url, feedURL } = blog;
         state = updateFeed(url, state, { title, feedURL });
       }
       return state;
+    }
     default:
       return state;
   }
@@ -90,7 +119,7 @@ const updateFeed = (blogURL: string, state: FeedsState, newFeed: Partial<FeedSta
   }
   const feedState = state.feeds[blogURL] || initialState;
   const newFeedState = { ...feedState, ...newFeed };
-  const newFeeds = { ...state.feeds };
+  const newFeeds = state.feeds;
   newFeeds[blogURL] = newFeedState;
   return { ...state, feeds: newFeeds };
 };

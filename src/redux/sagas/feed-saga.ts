@@ -4,7 +4,7 @@ import { findBlog } from '../../models/repositories/blog-repository';
 import { findAllItems } from '../../models/repositories/item-repository';
 import { fetchFeed as fetchFeedAction } from '../../models/feed-fetcher';
 import { ItemResponse, CountResponse } from '../../models/responses';
-import { FeedFirebaseBlogResponseAction, feedCrowlerItemsResponse, feedCrowlerErrorResponse, FeedFetchFeedItemsResponseAction, feedFetchHatenaBookmarkCountsResponse, feedFetchFacebookCountResponse, FeedFetchFacebookCountResponseAction, FeedFetchHatenaBookmarkCountsResponseAction, FeedFirebaseFeedItemsResponseAction, feedSaveFeedsResponseAction, FeedFetchFeedAction, feedFirebaseUserResponse, FeedFirebaseUserResponseAction, feedFirebaseBlogResponse, feedFirebaseFeedItemsResponse, feedFirebaseBlogRequest } from '../actions/feed-action';
+import { FeedFirebaseBlogResponseAction, feedFetchRSSResponse, feedCrowlerErrorResponse, FeedFetchRSSResponseAction, feedFetchHatenaBookmarkCountsResponse, feedFetchFacebookCountResponse, FeedFetchFacebookCountResponseAction, FeedFetchHatenaBookmarkCountsResponseAction, FeedFirebaseFeedItemsResponseAction, feedSaveFeedFirebaseResponse, FeedFetchFeedAction, feedFirebaseUserResponse, FeedFirebaseUserResponseAction, feedFirebaseBlogResponse, feedFirebaseFeedItemsResponse, feedFirebaseBlogRequest, feedFetchRSSRequest, feedFetchHatenaBookmarkCountsRequest, feedSaveFeedRequest, feedFetchFacebookCountRequest } from '../actions/feed-action';
 import { fetchHatenaBookmarkCounts as fetchHatenaBookmarkCountsAction, fetchFacebookCount } from '../../models/count-fetcher';
 import { saveFeedsAndCounts } from '../../models/save-count-response';
 import { BlogEntity, ItemEntity } from '../../models/entities';
@@ -30,8 +30,9 @@ function* firebaseBlog(action: FeedFirebaseUserResponseAction) {
 }
 
 function* firebaseFeed(action: FeedFirebaseBlogResponseAction) {
-  const { blogURL, user } = action;
+  const { blogURL, user } = action;  
   try {
+    yield put(feedFirebaseBlogRequest(blogURL));
     const items: ItemEntity[] = yield call(findAllItems, user.uid, blogURL);
     yield put(feedFirebaseFeedItemsResponse(blogURL, items));
   } catch (e) {
@@ -40,29 +41,32 @@ function* firebaseFeed(action: FeedFirebaseBlogResponseAction) {
 }
 
 function* fetchFeed(action: FeedFirebaseBlogResponseAction) {
-  const { url, feedType, feedURL } = action.blogEntity;
+  const { url: blogURL, feedType, feedURL } = action.blogEntity;
   try {
+    yield put(feedFetchRSSRequest(blogURL));
     const items: ItemResponse[] = yield call(fetchFeedAction, feedType, feedURL);
-    yield put(feedCrowlerItemsResponse(url, items));
+    yield put(feedFetchRSSResponse(blogURL, items));
   } catch (e) {
-    yield put(feedCrowlerErrorResponse(url, e));
+    yield put(feedCrowlerErrorResponse(blogURL, e));
   }
 }
 
-function* fetchHatenaBookmarkCounts(action: FeedFetchFeedItemsResponseAction) {
+function* fetchHatenaBookmarkCounts(action: FeedFetchRSSResponseAction) {
   const { blogURL, items } = action;
   try {
+    yield put(feedFetchHatenaBookmarkCountsRequest(blogURL));
     const counts: CountResponse[] = yield call(fetchHatenaBookmarkCountsAction, items.map(i => i.url));
     yield put(feedFetchHatenaBookmarkCountsResponse(blogURL, counts))
   } catch (e) {
     yield put(feedFetchHatenaBookmarkCountsResponse(blogURL, []))
-//    yield put(feedCrowlerErrorResponse(blogURL, e));
+    //    yield put(feedCrowlerErrorResponse(blogURL, e));
   }
 }
 
-function* fetchFacebookCounts(action: FeedFetchFeedItemsResponseAction) {
+function* fetchFacebookCounts(action: FeedFetchRSSResponseAction) {
   const { blogURL, items } = action;
   try {
+    yield put(feedFetchFacebookCountRequest(blogURL));
     const counts: CountResponse[] = yield all(
       items.map(i => {
         call(delay, 100);
@@ -72,7 +76,7 @@ function* fetchFacebookCounts(action: FeedFetchFeedItemsResponseAction) {
     yield put(feedFetchFacebookCountResponse(blogURL, counts))
   } catch (e) {
     yield put(feedFetchFacebookCountResponse(blogURL, []))
-//    yield put(feedCrowlerErrorResponse(blogURL, e));
+    //    yield put(feedCrowlerErrorResponse(blogURL, e));
   }
 }
 
@@ -80,13 +84,14 @@ function* saveBlogFeedItemsAndCounts() {
   while (true) {
     const { user }: FeedFirebaseUserResponseAction = yield take('FeedFirebaseUserResponseAction');
     const { items: firebaseItems }: FeedFirebaseFeedItemsResponseAction = yield take('FeedFirebaseFeedItemsResponseAction');
-    const { blogURL, items: fetchedItems }: FeedFetchFeedItemsResponseAction = yield take('FeedFetchFeedItemsResponseAction');
+    const { blogURL, items: fetchedItems }: FeedFetchRSSResponseAction = yield take('FeedFetchRSSResponseAction');
     const { counts: hatenaBookmarkCounts }: FeedFetchHatenaBookmarkCountsResponseAction = yield take('FeedFetchHatenaBookmarkCountsResponseAction');
     const { counts: facebookCounts }: FeedFetchFacebookCountResponseAction = yield take('FeedFetchFacebookCountResponseAction');
     const counts: CountResponse[] = [].concat.apply([], [hatenaBookmarkCounts, facebookCounts])
     try {
+      yield put(feedSaveFeedRequest(blogURL));
       yield call(saveFeedsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts);
-      yield put(feedSaveFeedsResponseAction(blogURL));
+      yield put(feedSaveFeedFirebaseResponse(blogURL));
     } catch (e) {
       yield put(feedCrowlerErrorResponse(blogURL, e));
     }
@@ -98,8 +103,8 @@ export default function* rootSaga() {
   yield takeEvery('FeedFetchFeedAction', fetchFiresbaseUser);
   yield takeEvery('FeedFirebaseUserResponseAction', firebaseBlog);
   yield takeEvery('FeedFirebaseBlogResponseAction', firebaseFeed);
-  yield takeEvery('FeedFirebaseBlogResponseAction', fetchFeed);  
-  yield takeEvery('FeedFetchFeedItemsResponseAction', fetchHatenaBookmarkCounts);
-  yield takeEvery('FeedFetchFeedItemsResponseAction', fetchFacebookCounts);
+  yield takeEvery('FeedFirebaseBlogResponseAction', fetchFeed);
+  yield takeEvery('FeedFetchRSSResponseAction', fetchHatenaBookmarkCounts);
+  yield takeEvery('FeedFetchRSSResponseAction', fetchFacebookCounts);
   yield fork(saveBlogFeedItemsAndCounts);
 }
