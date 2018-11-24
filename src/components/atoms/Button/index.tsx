@@ -27,22 +27,14 @@ export const Button = styled(ButtonBase)`
   color: ${properties.colors.gray};
 `;
 
-const primaryButtonStyle = `
+export const PrimaryButton = styled(ButtonBase)`
   background-color: ${properties.colors.primary};
   color: ${properties.colors.white};
 `;
 
-export const PrimaryButton = styled(ButtonBase)`
-  ${primaryButtonStyle}
-`;
-
-const warningButtonStyle = `
+export const WarningButton = styled(ButtonBase)`
   background-color: ${properties.colors.warning};
   color: ${properties.colors.white};
-`;
-
-export const WarningButton = styled(ButtonBase)`
-  ${warningButtonStyle}
 `;
 
 export default Button;
