@@ -2,21 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import * as properties from '../../properties';
 
-type Props = {
-  title?: string;
-};
-
-const SettingCell: React.FunctionComponent<Props> = ({ title, children, ...props }) => (
-  <CellWrapper>
-    <ContentWrapper>
-      <Title>{title}</Title>
-      {children}
-    </ContentWrapper>
+const BlogCell: React.StatelessComponent = ({ children, ...props }) => (
+  <CellWrapper {...props}>
+    <ContentWrapper>{children}</ContentWrapper>
     <Underline />
   </CellWrapper>
 );
 
-export default SettingCell;
+export default BlogCell;
 
 const CellWrapper = styled.div`
   display: flex;
@@ -35,11 +28,6 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: baseline;
-`;
-
-const Title = styled.h3`
-  font-size: ${properties.fontSizes.m};
-  margin: 0 8px 8px 8px;
 `;
 
 const Underline = styled.span`
