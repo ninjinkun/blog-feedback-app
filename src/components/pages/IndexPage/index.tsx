@@ -11,6 +11,7 @@ import { AppState } from '../../../redux/states/app-state';
 import { UserState } from '../../../redux/states/user-state';
 import LoadingView from '../../molecules/LoadingView/index';
 import PageLayout from '../../templates/PageLayout/index';
+import WelcomePage from '../WelcomePage/index';
 
 type StateProps = {
   user: UserState;
@@ -40,7 +41,7 @@ class IndexPage extends React.PureComponent<Props> {
     } else if (user) {
       return <Redirect to="/blogs" />;
     } else {
-      return <Redirect to="/signin" />;
+      return <WelcomePage />;
     }
   }
 }

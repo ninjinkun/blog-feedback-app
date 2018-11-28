@@ -4,7 +4,7 @@ import { MdAdd, MdArrowBack, MdSettings } from 'react-icons/md';
 import styled from 'styled-components';
 import * as properties from '../../properties';
 
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import HeaderLoadingIndicator from '../../molecules/HeaderLoadingIndicator/index';
 
 export type HeaderProps = {
@@ -89,14 +89,14 @@ const TitleLayout = styled.div`
   overflow: hidden;
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   font-size: 1.25rem;
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled(NavLink)`
   display: flex;
   width: 40px;
   color: white;
