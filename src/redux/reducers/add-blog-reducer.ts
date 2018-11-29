@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
-import { AddBlogState, initialState } from '../states/add-blog-state';
 import { AddBlogActions } from '../actions/add-blog-action';
+import { AddBlogState, initialState } from '../states/add-blog-state';
 
 export const addBlogReducer: Reducer<AddBlogState, AddBlogActions> = (state = initialState, action) => {
   switch (action.type) {
