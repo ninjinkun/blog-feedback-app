@@ -1,6 +1,6 @@
 {
   "projects": {
-    "development": "feedback-5e26f"
+    "development": "feedback-5e26f",
     "production": "blog-feedback"
   }
 }
