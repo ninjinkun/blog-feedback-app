@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import * as properties from '../../properties';
 
-const BlogCell: React.StatelessComponent = ({ children, ...props }) => (
+const BlogCell: React.FunctionComponent = ({ children, ...props }) => (
   <CellWrapper {...props}>
     <ContentWrapper>{children}</ContentWrapper>
     <Underline />
