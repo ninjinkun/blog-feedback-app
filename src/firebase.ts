@@ -1,7 +1,7 @@
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 
-export function initializeFirebase() {
+export async function initializeFirebase() {
   validateDotEnv();
 
   const config = {
@@ -17,7 +17,7 @@ export function initializeFirebase() {
   const db: firebase.firestore.Firestore = firebase.firestore();
   const settings = { timestampsInSnapshots: true };
   db.settings(settings);
-  db.enablePersistence();
+  await db.enablePersistence();
 }
 
 const DotEnvKeys = [
@@ -25,7 +25,7 @@ const DotEnvKeys = [
   'REACT_APP_FIREBASE_AUTH_DOMAIN',
   'REACT_APP_FIREBASE_DATABASE_URL',
   'REACT_APP_FIREBASE_STORAGE_BUCKET',
-  'REACT_APP_FIREBASE_MESSAGING_SENDER_ID'
+  'REACT_APP_FIREBASE_MESSAGING_SENDER_ID',
 ];
 
 function validateDotEnv() {

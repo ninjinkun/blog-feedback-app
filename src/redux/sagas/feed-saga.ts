@@ -1,14 +1,38 @@
-import { call, put, takeEvery, all, take, fork } from 'redux-saga/effects';
-import { delay } from 'redux-saga';
 import flatten from 'lodash/flatten';
+import { delay } from 'redux-saga';
+import { all, call, fork, put, take, takeEvery } from 'redux-saga/effects';
+import { BlogEntity, ItemEntity } from '../../models/entities';
+import {
+  fetchFacebookCount,
+  fetchHatenaBookmarkCounts as fetchHatenaBookmarkCountsAction,
+} from '../../models/fetchers/count-fetcher';
+import { fetchFeed as fetchFeedAction } from '../../models/fetchers/feed-fetcher';
 import { findBlog } from '../../models/repositories/blog-repository';
 import { findAllItems } from '../../models/repositories/item-repository';
-import { fetchFeed as fetchFeedAction } from '../../models/fetchers/feed-fetcher';
-import { ItemResponse, CountResponse } from '../../models/responses';
-import { FeedFirebaseBlogResponseAction, feedFetchRSSResponse, feedCrowlerErrorResponse, FeedFetchRSSResponseAction, feedFetchHatenaBookmarkCountsResponse, feedFetchFacebookCountResponse, FeedFetchFacebookCountResponseAction, FeedFetchHatenaBookmarkCountsResponseAction, FeedFirebaseFeedItemsResponseAction, feedSaveFeedFirebaseResponse, FeedFetchFeedAction, feedFirebaseUserResponse, FeedFirebaseUserResponseAction, feedFirebaseBlogResponse, feedFirebaseFeedItemsResponse, feedFirebaseBlogRequest, feedFetchRSSRequest, feedFetchHatenaBookmarkCountsRequest, feedSaveFeedRequest, feedFetchFacebookCountRequest } from '../actions/feed-action';
-import { fetchHatenaBookmarkCounts as fetchHatenaBookmarkCountsAction, fetchFacebookCount } from '../../models/fetchers/count-fetcher';
+import { CountResponse, ItemResponse } from '../../models/responses';
 import { saveFeedsAndCounts } from '../../models/save-count-response';
-import { BlogEntity, ItemEntity } from '../../models/entities';
+import {
+  feedCrowlerErrorResponse,
+  feedFetchFacebookCountRequest,
+  feedFetchFacebookCountResponse,
+  FeedFetchFacebookCountResponseAction,
+  FeedFetchFeedAction,
+  feedFetchHatenaBookmarkCountsRequest,
+  feedFetchHatenaBookmarkCountsResponse,
+  FeedFetchHatenaBookmarkCountsResponseAction,
+  feedFetchRSSRequest,
+  feedFetchRSSResponse,
+  FeedFetchRSSResponseAction,
+  feedFirebaseBlogRequest,
+  feedFirebaseBlogResponse,
+  FeedFirebaseBlogResponseAction,
+  feedFirebaseFeedItemsResponse,
+  FeedFirebaseFeedItemsResponseAction,
+  feedFirebaseUserResponse,
+  FeedFirebaseUserResponseAction,
+  feedSaveFeedFirebaseResponse,
+  feedSaveFeedRequest,
+} from '../actions/feed-action';
 import { fetchFiresbaseUser } from './user-saga';
 
 function* handleFetchAction() {
@@ -84,10 +108,16 @@ function* fetchFacebookCounts(action: FeedFetchRSSResponseAction) {
 function* saveBlogFeedItemsAndCounts() {
   while (true) {
     const { user }: FeedFirebaseUserResponseAction = yield take('FeedFirebaseUserResponseAction');
-    const { items: firebaseItems }: FeedFirebaseFeedItemsResponseAction = yield take('FeedFirebaseFeedItemsResponseAction');
+    const { items: firebaseItems }: FeedFirebaseFeedItemsResponseAction = yield take(
+      'FeedFirebaseFeedItemsResponseAction'
+    );
     const { blogURL, items: fetchedItems }: FeedFetchRSSResponseAction = yield take('FeedFetchRSSResponseAction');
-    const { counts: hatenaBookmarkCounts }: FeedFetchHatenaBookmarkCountsResponseAction = yield take('FeedFetchHatenaBookmarkCountsResponseAction');
-    const { counts: facebookCounts }: FeedFetchFacebookCountResponseAction = yield take('FeedFetchFacebookCountResponseAction');
+    const { counts: hatenaBookmarkCounts }: FeedFetchHatenaBookmarkCountsResponseAction = yield take(
+      'FeedFetchHatenaBookmarkCountsResponseAction'
+    );
+    const { counts: facebookCounts }: FeedFetchFacebookCountResponseAction = yield take(
+      'FeedFetchFacebookCountResponseAction'
+    );
     const counts: CountResponse[] = flatten([hatenaBookmarkCounts, facebookCounts]);
     try {
       yield put(feedSaveFeedRequest(blogURL));

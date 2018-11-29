@@ -1,5 +1,11 @@
-import { call, put, takeEvery, all, take, fork } from 'redux-saga/effects'
-import { currenUserOronAuthStateChanged, userFirebaseUserResponse, UserFetchFirebaseUserAction, userFetchFirebaseUser, userFirebaseFetchError } from '../actions/user-action';
+import { call, put } from 'redux-saga/effects';
+import {
+  currenUserOronAuthStateChanged,
+  userFetchFirebaseUser,
+  UserFetchFirebaseUserAction,
+  userFirebaseFetchError,
+  userFirebaseUserResponse,
+} from '../actions/user-action';
 
 export function* fetchFiresbaseUser(action: UserFetchFirebaseUserAction) {
   const { auth } = action;

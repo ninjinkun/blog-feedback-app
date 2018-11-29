@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
-import { UserState, initialState } from '../states/user-state';
 import { UserActions } from '../actions/user-action';
+import { initialState, UserState } from '../states/user-state';
 
 export const userReducer: Reducer<UserState, UserActions> = (state = initialState, action) => {
   switch (action.type) {

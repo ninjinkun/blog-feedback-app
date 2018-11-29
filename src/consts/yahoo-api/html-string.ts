@@ -12,4 +12,3 @@ type Query = {
 type Results = {
   result: string;
 };
-  

@@ -4,7 +4,7 @@ export type RSSResponse = {
   count: number;
   lang: string;
 };
-  
+
 type Query = {
   results: Results | null;
 };
