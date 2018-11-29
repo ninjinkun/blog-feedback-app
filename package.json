@@ -37,8 +37,10 @@
     "storybook:visual": "start-storybook -p 9001 -s ./build",
     "test:compile": "tsc --noEmit",
     "tslint:prettier-check": "tslint-config-prettier-check ./tslint.json",
-    "tslint": "tslint --fix --force --format stylish --project ./tsconfig.json ./{src,__tests__}/**/*.{ts,tsx}",
-    "prettier": "prettier --write ./{src,__tests__}/**/*.{ts,tsx}"
+    "tslint": "tslint --project ./tsconfig.json ./{src,__tests__}/**/*.{ts,tsx}",
+    "tslint:fix": "tslint --fix --force --format stylish --project ./tsconfig.json ./{src,__tests__}/**/*.{ts,tsx}",
+    "prettier": "prettier --write ./{src,__tests__}/**/*.{ts,tsx}",
+    "precommit": "lint-staged"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^4.0.7",
@@ -62,7 +64,9 @@
     "babel-loader": "^8.0.4",
     "babel-runtime": "^6.26.0",
     "html-webpack-plugin": "^3.2.0",
+    "husky": "^1.2.0",
     "jest": "^23.6.0",
+    "lint-staged": "^8.1.0",
     "prettier": "^1.15.2",
     "react-docgen-typescript-webpack-plugin": "^1.1.0",
     "ts-jest": "^23.10.4",
@@ -81,5 +85,11 @@
     "singleQuote": true,
     "printWidth": 120,
     "trailingComma": "es5"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "tslint --fix",
+      "git add"
+    ]
   }
 }
