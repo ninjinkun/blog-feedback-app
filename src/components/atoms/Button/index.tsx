@@ -30,6 +30,12 @@ export const Button = styled(ButtonBase)`
 export const PrimaryButton = styled(ButtonBase)`
   background-color: ${properties.colors.primary};
   color: ${properties.colors.white};
+  &:link {
+    color: white;
+  }
+  &:visited {
+    color: white;
+  }
 `;
 
 export const WarningButton = styled(ButtonBase)`

@@ -35,7 +35,7 @@ class AuthPage extends React.PureComponent<Props> {
       return (
         <PageLayout
           header={{
-            title: 'ログイン',
+            title: 'ユーザー登録 / ログイン',
           }}
         >
           {(() => {
