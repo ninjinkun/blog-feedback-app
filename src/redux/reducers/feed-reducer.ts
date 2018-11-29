@@ -1,12 +1,15 @@
-import { Reducer, Action, AnyAction } from 'redux';
 import flatten from 'lodash/flatten';
-import { FeedsState, initialState as feedsIniticalState, FeedStates } from '../states/feeds-state';
-import { FeedState, initialState } from '../states/feed-state';
-import { FeedActions } from '../actions/feed-action';
+import { Reducer } from 'redux';
 import { AddBlogResponseAction } from '../actions/add-blog-action';
 import { BlogFirebaseResponseAction } from '../actions/blog-action';
+import { FeedActions } from '../actions/feed-action';
+import { FeedState, initialState } from '../states/feed-state';
+import { FeedsState, initialState as feedsIniticalState } from '../states/feeds-state';
 
-export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseAction | BlogFirebaseResponseAction> = (state = feedsIniticalState, action): FeedsState => {
+export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseAction | BlogFirebaseResponseAction> = (
+  state = feedsIniticalState,
+  action
+): FeedsState => {
   switch (action.type) {
     case 'FeedBlogURLChangeAction': {
       const { blogURL } = action;
@@ -29,11 +32,7 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
     }
     case 'FeedFirebaseFeedItemsResponseAction': {
       const { blogURL, items } = action;
-      return updateFeed(
-        blogURL,
-        state,
-        { firebaseEntities: items }
-      );
+      return updateFeed(blogURL, state, { firebaseEntities: items });
     }
     case 'FeedFetchRSSRequestAction': {
       const { blogURL } = action;
@@ -41,43 +40,23 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
     }
     case 'FeedFetchRSSResponseAction': {
       const { blogURL, items } = action;
-      return updateFeed(
-        blogURL,
-        state,
-        { fethcedEntities: items }
-      );
+      return updateFeed(blogURL, state, { fethcedEntities: items });
     }
     case 'FeedFetchHatenaBookmarkCountsRequestAction': {
       const { blogURL } = action;
-      return updateFeed(
-        blogURL,
-        state,
-        { loadingLabel: 'はてなブックマークを読み込んでいます', loadingRatio: 50 }
-      );
+      return updateFeed(blogURL, state, { loadingLabel: 'はてなブックマークを読み込んでいます', loadingRatio: 50 });
     }
     case 'FeedFetchHatenaBookmarkCountsResponseAction': {
       const { blogURL, counts } = action;
-      return updateFeed(
-        blogURL,
-        state,
-        { fetchedHatenaBookmarkCounts: flatten(counts) }
-      );
+      return updateFeed(blogURL, state, { fetchedHatenaBookmarkCounts: flatten(counts) });
     }
     case 'FeedFetchFacebookCountRequestAction': {
       const { blogURL } = action;
-      return updateFeed(
-        blogURL,
-        state,
-        { loadingLabel: 'Facebookシェアを読み込んでいます', loadingRatio: 60 }
-      );
+      return updateFeed(blogURL, state, { loadingLabel: 'Facebookシェアを読み込んでいます', loadingRatio: 60 });
     }
     case 'FeedFetchFacebookCountResponseAction': {
       const { blogURL, counts } = action;
-      return updateFeed(
-        blogURL,
-        state,
-        { fetchedFacebookCounts: flatten(counts) }
-      );
+      return updateFeed(blogURL, state, { fetchedFacebookCounts: flatten(counts) });
     }
     case 'FeedSaveFeedFirebaseRequestAction': {
       const { blogURL } = action;
@@ -118,8 +97,3 @@ const updateFeed = (blogURL: string, state: FeedsState, newFeed: Partial<FeedSta
   newFeeds[blogURL] = newFeedState;
   return { ...state, feeds: newFeeds };
 };
-
-// surpress type checking
-interface Dummy extends Action {
-  type: 'Dummy';
-}

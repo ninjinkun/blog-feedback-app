@@ -1,5 +1,5 @@
-import { ItemEntity, CountEntity } from '../../models/entities';
-import { ItemResponse, CountResponse } from '../../models/responses';
+import { ItemEntity } from '../../models/entities';
+import { CountResponse, ItemResponse } from '../../models/responses';
 
 export type FeedState = {
   firebaseEntities?: ItemEntity[];
