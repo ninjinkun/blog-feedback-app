@@ -1,9 +1,9 @@
 import * as firebase from 'firebase';
 import xmljs from 'xml-js';
-import { Atom } from '../../consts/xml-js/atom';
-import { Feed } from '../../consts/xml-js/index';
-import { RSS1 } from '../../consts/xml-js/rss1';
-import { RSS2 } from '../../consts/xml-js/rss2';
+import { Atom } from '../../consts/feeds/atom';
+import { Feed } from '../../consts/feeds/feed';
+import { RSS1 } from '../../consts/feeds/rss1';
+import { RSS2 } from '../../consts/feeds/rss2';
 import { ItemResponse } from '../responses';
 
 export async function fetchFeed(feedURL: string): Promise<ItemResponse[]> {
