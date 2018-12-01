@@ -48,6 +48,7 @@ class EntriesPage extends React.PureComponent<Props> {
   }
 
   render() {
+    const { blogURL } = this.props.match.params;
     const { feed, history } = this.props;
     return (
       <PageLayout
@@ -88,7 +89,7 @@ class EntriesPage extends React.PureComponent<Props> {
                   <EntryCell
                     key={item.url}
                     title={item.title}
-                    favicon={`https://www.google.com/s2/favicons?domain=${item.url}`}
+                    favicon={`https://www.google.com/s2/favicons?domain=${blogURL}`}
                     counts={[
                       { type: CountType.Twitter, count: 0, animate: false },
                       {
