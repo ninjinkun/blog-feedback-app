@@ -12514,6 +12514,13 @@ ws@^6.1.0:
   dependencies:
     async-limiter "~1.0.0"
 
+xml-js@^1.6.8:
+  version "1.6.8"
+  resolved "https://registry.yarnpkg.com/xml-js/-/xml-js-1.6.8.tgz#e06419c54235f18f4c2cdda824cbd65a782330de"
+  integrity sha512-kUv/geyN80d+s1T68uBfjoz+PjNUjwwf5AWWRwKRqqQaGozpMVsFsKYnenPsxlbN/VL7f0ia8NfLLPCDwX+95Q==
+  dependencies:
+    sax "^1.2.4"
+
 xml-name-validator@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/xml-name-validator/-/xml-name-validator-3.0.0.tgz#6ae73e06de4d8c6e47f9fb181f78d648ad457c6a"
