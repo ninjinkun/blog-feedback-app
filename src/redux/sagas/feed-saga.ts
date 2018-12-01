@@ -66,10 +66,10 @@ function* firebaseFeed(action: FeedFirebaseBlogResponseAction) {
 }
 
 function* fetchFeed(action: FeedFirebaseBlogResponseAction) {
-  const { url: blogURL, feedType, feedURL } = action.blogEntity;
+  const { url: blogURL, feedURL } = action.blogEntity;
   try {
     yield put(feedFetchRSSRequest(blogURL));
-    const items: ItemResponse[] = yield call(fetchFeedAction, feedType, feedURL);
+    const items: ItemResponse[] = yield call(fetchFeedAction, feedURL);
     yield put(feedFetchRSSResponse(blogURL, items));
   } catch (e) {
     yield put(feedCrowlerErrorResponse(blogURL, e));

@@ -1,40 +1,20 @@
 import * as firebase from 'firebase';
 import xmljs from 'xml-js';
-import { FeedType } from '../../consts/feed-type';
-import { Atom } from '../../consts/xml-js/atom';
-import { RSS } from '../../consts/xml-js/rss';
+import { Atom } from '../../consts/feeds/atom';
+import { Feed } from '../../consts/feeds/feed';
+import { RSS1 } from '../../consts/feeds/rss1';
+import { RSS2 } from '../../consts/feeds/rss2';
 import { ItemResponse } from '../responses';
 
-export async function fetchFeed(feedType: FeedType, feedURL: string): Promise<ItemResponse[]> {
-  switch (feedType) {
-    case FeedType.Atom:
-      return fetchAtom(feedURL);
-    case FeedType.RSS:
-      return fetchRss(feedURL);
-    default:
-      throw new Error(`Unknown feed type: ${feedType}`);
-  }
-}
-
-export async function fetchUncertainnFeed(feedURL: string): Promise<ItemResponse[]> {
-  try {
-    return await fetchAtom(feedURL);
-  } catch (e) {
-    try {
-      return await fetchRss(feedURL);
-    } catch (e) {
-      throw new Error('Invalid feed');
-    }
-  }
-}
-
-export async function fetchAtom(atomURL: string): Promise<ItemResponse[]> {
+export async function fetchFeed(feedURL: string): Promise<ItemResponse[]> {
   const fetchFeed = firebase.functions().httpsCallable('crossOriginFetch');
-  const response = await fetchFeed({ url: atomURL });
+  const response = await fetchFeed({ url: feedURL });
   const xml = response.data.body;
-  const json = xmljs.xml2js(xml, { compact: true }) as Atom;
-  if (json) {
-    return json.feed.entry.map(
+  const json = xmljs.xml2js(xml, { compact: true }) as Feed;
+
+  if ('feed' in json) {
+    const atom: Atom = json;
+    return atom.feed.entry.map(
       (entry): ItemResponse => {
         const { title, link, published, updated } = entry;
         const url = link instanceof Array ? link[0] : link;
@@ -45,24 +25,23 @@ export async function fetchAtom(atomURL: string): Promise<ItemResponse[]> {
         };
       }
     );
-  } else {
-    throw new Error('Invalid Atom feed');
-  }
-}
-
-export async function fetchRss(rssURL: string): Promise<ItemResponse[]> {
-  const fetchFeed = firebase.functions().httpsCallable('crossOriginFetch');
-  const response = await fetchFeed({ url: rssURL });
-  const xml = response.data.body;
-  const json = xmljs.xml2js(xml, { compact: true }) as RSS;
-  if (json) {
-    return json.rss.channel.item.map(
+  } else if ('rdf:RDF' in json) {
+    const rss1: RSS1 = json;
+    return rss1['rdf:RDF'].item.map(
+      (item): ItemResponse => {
+        const { title, link, 'dc:date': date } = item;
+        return { title: title._text, url: link._text, published: new Date(date._text) };
+      }
+    );
+  } else if ('rss' in json) {
+    const rss2: RSS2 = json;
+    return rss2.rss.channel.item.map(
       (item): ItemResponse => {
         const { title, link, pubDate } = item;
         return { title: title._text, url: link._text, published: new Date(pubDate._text) };
       }
     );
   } else {
-    throw new Error('Invalid RSS feed');
+    throw new Error('Invalid Atom feed');
   }
 }

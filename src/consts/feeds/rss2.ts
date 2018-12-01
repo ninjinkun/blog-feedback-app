@@ -1,7 +1,9 @@
-export type RSS = {
-  rss: {
-    channel: Channel;
-  };
+export type RSS2 = {
+  rss: RSS;
+};
+
+type RSS = {
+  channel: Channel;
 };
 
 type Channel = {
