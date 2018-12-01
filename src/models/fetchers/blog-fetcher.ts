@@ -1,23 +1,16 @@
+import * as firebase from 'firebase';
 import unescape from 'lodash/unescape';
 import { FeedType } from '../../consts/feed-type';
-import { HTMLStringResponse } from '../../consts/yahoo-api/html-string';
 import { BlogResponse } from '../responses';
 
 export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
-  const q = `select * from htmlstring where url = '${blogURL}'`;
-  const response = await fetch(
-    `https://query.yahooapis.com/v1/public/yql?format=json&q=${encodeURIComponent(q)}&env=${encodeURIComponent(
-      'store://datatables.org/alltableswithkeys'
-    )}`
-  );
-  const json: HTMLStringResponse = await response.json();
-  const results = json.query.results;
+  const fetchBlog = firebase.functions().httpsCallable('crossOriginFetch');
+  const result = await fetchBlog({ url: blogURL });
+  const htmlText = result.data.body;
 
-  if (!results) {
+  if (!htmlText) {
     throw new Error('Blog not found');
   } else {
-    const htmlText = results.result;
-
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlText, 'text/html');
     const snapshots = doc.evaluate(

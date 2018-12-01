@@ -1,6 +1,8 @@
+import * as firebase from 'firebase';
+import xmljs from 'xml-js';
 import { FeedType } from '../../consts/feed-type';
-import { AtomResponse } from '../../consts/yahoo-api/atom';
-import { RSSResponse } from '../../consts/yahoo-api/rss';
+import { Atom } from '../../consts/xml-js/atom';
+import { RSS } from '../../consts/xml-js/rss';
 import { ItemResponse } from '../responses';
 
 export async function fetchFeed(feedType: FeedType, feedURL: string): Promise<ItemResponse[]> {
@@ -26,20 +28,21 @@ export async function fetchUncertainnFeed(feedURL: string): Promise<ItemResponse
   }
 }
 
-export async function fetchAtom(atomUrl: string): Promise<ItemResponse[]> {
-  const response = await fetch(
-    `https://query.yahooapis.com/v1/public/yql?format=json&q=${encodeURIComponent(
-      `select * from atom(100) where url = '${atomUrl}'`
-    )}`
-  );
-  const json: AtomResponse = await response.json();
-  const results = json.query.results;
-  if (results) {
-    return results.entry.map(
+export async function fetchAtom(atomURL: string): Promise<ItemResponse[]> {
+  const fetchFeed = firebase.functions().httpsCallable('crossOriginFetch');
+  const response = await fetchFeed({ url: atomURL });
+  const xml = response.data.body;
+  const json = xmljs.xml2js(xml, { compact: true }) as Atom;
+  if (json) {
+    return json.feed.entry.map(
       (entry): ItemResponse => {
         const { title, link, published, updated } = entry;
         const url = link instanceof Array ? link[0] : link;
-        return { title, url: url.href, published: new Date(published || updated) };
+        return {
+          title: title._text,
+          url: url._attributes.href,
+          published: new Date((published && published._text) || updated._text),
+        };
       }
     );
   } else {
@@ -47,19 +50,16 @@ export async function fetchAtom(atomUrl: string): Promise<ItemResponse[]> {
   }
 }
 
-export async function fetchRss(rssUrl: string): Promise<ItemResponse[]> {
-  const response = await fetch(
-    `https://query.yahooapis.com/v1/public/yql?format=json&q=${encodeURIComponent(
-      `select * from rss(100) where url = '${rssUrl}'`
-    )}`
-  );
-  const json: RSSResponse = await response.json();
-  const results = json.query.results;
-  if (results) {
-    return results.item.map(
+export async function fetchRss(rssURL: string): Promise<ItemResponse[]> {
+  const fetchFeed = firebase.functions().httpsCallable('crossOriginFetch');
+  const response = await fetchFeed({ url: rssURL });
+  const xml = response.data.body;
+  const json = xmljs.xml2js(xml, { compact: true }) as RSS;
+  if (json) {
+    return json.rss.channel.item.map(
       (item): ItemResponse => {
         const { title, link, pubDate } = item;
-        return { title, url: link, published: new Date(pubDate) };
+        return { title: title._text, url: link._text, published: new Date(pubDate._text) };
       }
     );
   } else {
