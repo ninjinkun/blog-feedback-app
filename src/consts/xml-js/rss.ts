@@ -1,15 +1,28 @@
 export type RSS = {
-  rss: {
-    channel: Channel;
-  };
+  'rdf:RDF'?: RSS1;
+  rss?: RSS2;
+};
+
+type RSS1 = {
+  item: RSS1Item[];
+};
+
+type RSS1Item = {
+  title: Text;
+  link: Text;
+  'dc:date': Text;
+};
+
+type RSS2 = {
+  channel: Channel;
 };
 
 type Channel = {
   title: Text;
-  item: Item[];
+  item: RSS2Item[];
 };
 
-type Item = {
+type RSS2Item = {
   title: Text;
   link: Text;
   pubDate: Text;

@@ -55,8 +55,18 @@ export async function fetchRss(rssURL: string): Promise<ItemResponse[]> {
   const response = await fetchFeed({ url: rssURL });
   const xml = response.data.body;
   const json = xmljs.xml2js(xml, { compact: true }) as RSS;
-  if (json) {
-    return json.rss.channel.item.map(
+
+  const rss1 = json['rdf:RDF'];
+  const rss2 = json.rss;
+  if (rss1) {
+    return rss1.item.map(
+      (item): ItemResponse => {
+        const { title, link, 'dc:date': date } = item;
+        return { title: title._text, url: link._text, published: new Date(date._text) };
+      }
+    );
+  } else if (rss2) {
+    return rss2.channel.item.map(
       (item): ItemResponse => {
         const { title, link, pubDate } = item;
         return { title: title._text, url: link._text, published: new Date(pubDate._text) };
