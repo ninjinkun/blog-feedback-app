@@ -1,6 +1,7 @@
 {
   "projects": {
     "development": "feedback-5e26f",
-    "production": "blog-feedback"
+    "production": "blog-feedback",
+    "default": "feedback-5e26f"
   }
 }
