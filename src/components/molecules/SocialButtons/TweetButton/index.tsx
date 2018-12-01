@@ -1,5 +1,4 @@
 import React from 'react';
-import { MdTransferWithinAStation } from 'react-icons/md';
 
 interface Window {
   twttr: any;
@@ -12,8 +11,19 @@ type Props = {
 };
 
 export default class TweetButton extends React.PureComponent<Props> {
+  tweetButtonRef: any = null;
+
+  constructor(props: any) {
+    super(props);
+    this.setTeetButtonRef = this.setTeetButtonRef.bind(this);
+  }
+
+  setTeetButtonRef(element: HTMLAnchorElement) {
+    this.tweetButtonRef = element;
+  }
+
   componentDidMount() {
-    window.twttr.widgets.load(this.refs.tweetButton);
+    window.twttr.widgets.load(this.tweetButtonRef);
   }
 
   render() {
@@ -21,7 +31,7 @@ export default class TweetButton extends React.PureComponent<Props> {
     return (
       <a
         // tslint:disable-next-line:jsx-no-string-ref
-        ref="tweetButton"
+        ref={this.setTeetButtonRef}
         href="https://twitter.com/share"
         className="twitter-share-button"
         data-text={text}

@@ -5,7 +5,7 @@ type Props = {
   url: string;
 };
 
-const HatenaBookmarkButton: React.FunctionComponent<Props> = ({url}) => (
+const HatenaBookmarkButton: React.FunctionComponent<Props> = ({ url }) => (
   <a
     href={`${toServiceURL(CountType.HatenaBookmark, url)}`}
     className="hatena-bookmark-button"
