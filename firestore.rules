@@ -1,9 +1,9 @@
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /users/{userId} {
-      allow read, write: if request.auth.uid == userId;
-      match /{document=**} {
-	    	allow read, write: if request.auth.uid == userId;      
+    match /users/{userId}/blogs/{blogId} {
+      allow read, write: if request.auth.uid == userId && request.resource.data.timestamp == request.time;
+      match /items/{itemId} {
+	    	allow read, write: if request.auth.uid == userId && request.resource.data.timestamp == request.time;
 	    }
     }
   }
