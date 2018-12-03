@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 import { CountType } from '../consts/count-type';
 import { CountEntity, ItemEntity } from './entities';
-import { writeBatch } from './repositories/app-repository';
+import { serverTimestamp, writeBatch } from './repositories/app-repository';
 import { CountSaveEntities, saveItemBatch } from './repositories/item-repository';
 import { CountResponse, ItemResponse } from './responses';
 
@@ -52,7 +52,7 @@ export async function saveFeedsAndCounts(
       const { count } = facebookCount;
       itemCounts.facebook = {
         count,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        timestamp: serverTimestamp(),
       };
     } else if (firebaseFacebookCount) {
       itemCounts.facebook = firebaseFacebookCount;
@@ -64,7 +64,7 @@ export async function saveFeedsAndCounts(
       const { count } = hatenaBookmarkCount;
       itemCounts.hatenabookmark = {
         count,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        timestamp: serverTimestamp(),
       };
     } else if (firebaseHatenaBookmarkCount) {
       itemCounts.hatenabookmark = firebaseHatenaBookmarkCount;
