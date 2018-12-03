@@ -28,16 +28,16 @@ serverTimestamp.mockReturnValue(firebase.firestore.FieldValue.serverTimestamp())
 
 const rules = fs.readFileSync('firestore.rules', 'utf8');
 
-beforeEach(async () => {
+beforeEach(() => {
   testNumber++;
-  await firebase.loadFirestoreRules({
+  return firebase.loadFirestoreRules({
     projectId: getProjectId(),
     rules,
   });
 });
 
-afterEach(async () => {
-  await Promise.all(firebase.apps().map(app => app.delete()));
+afterEach(() => {
+  return Promise.all(firebase.apps().map(app => app.delete()));
 });
 
 it('require users to log in before creating a blog', async () => {
