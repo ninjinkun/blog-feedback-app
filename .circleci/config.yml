@@ -31,3 +31,4 @@ jobs:
       # run tests!
       - run: yarn tslint
       - run: yarn test:compile
+      - run: yarn firebase setup:emulators:firestore && yarn firebase serve --only firestore & yarn test:ci
