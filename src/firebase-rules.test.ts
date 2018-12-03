@@ -40,11 +40,16 @@ afterEach(() => {
   return Promise.all(firebase.apps().map(app => app.delete()));
 });
 
-it('require users to log in before creating a blog', async () => {
+it('save unauthorized user', async () => {
   const db = authedApp(undefined);
   firebaseDB.mockReturnValue(db);
   const user = userRef('ninjinkun');
   await firebase.assertFails(user.set({ birthday: 'January 1' }));
+});
+
+it('save to invalid collection', async () => {
+  const db = authedApp({ uid: 'ninjinkun' });
+  await firebase.assertFails(db.doc('test/ninjinkun').set({ hoge: 'fuga' }));
 });
 
 it('save exepct blogs field', async () => {
@@ -52,9 +57,7 @@ it('save exepct blogs field', async () => {
   firebaseDB.mockReturnValue(db);
   const user = userRef('ninjinkun');
 
-  await firebase.assertFails(
-    user.set({ birthday: 'January 1', timestamp: firebase.firestore.FieldValue.serverTimestamp() })
-  );
+  await firebase.assertFails(user.set({ hoge: 'fuga' }));
 });
 
 it('save blog', async () => {
@@ -62,6 +65,21 @@ it('save blog', async () => {
   firebaseDB.mockReturnValue(db);
 
   await firebase.assertSucceeds(
+    saveBlog(
+      'ninjinkun',
+      'https://ninjinkun.hatenablog.com/',
+      "ninjinkun's diary",
+      'https://ninjinkun.hatenablog.com/feed',
+      'atom'
+    )
+  );
+});
+
+it('save other users blog', async () => {
+  const db = authedApp({ uid: 'daikonkun' });
+  firebaseDB.mockReturnValue(db);
+
+  await firebase.assertFails(
     saveBlog(
       'ninjinkun',
       'https://ninjinkun.hatenablog.com/',
