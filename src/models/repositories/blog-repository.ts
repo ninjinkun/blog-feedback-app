@@ -1,6 +1,7 @@
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { BlogEntity } from './../entities';
+import { serverTimestamp } from './app-repository';
 import { userRef } from './user-repository';
 
 export async function findAllBlogs(userId: string): Promise<BlogEntity[]> {
@@ -38,7 +39,7 @@ export function saveBlog(
     url: blogUrl,
     feedURL,
     feedType,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    timestamp: serverTimestamp(),
   });
 }
 

@@ -23,7 +23,9 @@ export default class TweetButton extends React.PureComponent<Props> {
   }
 
   componentDidMount() {
-    window.twttr.widgets.load(this.tweetButtonRef);
+    if (window && window.twttr) {
+      window.twttr.widgets.load(this.tweetButtonRef);
+    }
   }
 
   render() {

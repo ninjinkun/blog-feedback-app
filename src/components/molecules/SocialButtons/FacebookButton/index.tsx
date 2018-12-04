@@ -1,4 +1,5 @@
 import React from 'react';
+import { MdWbIncandescent } from 'react-icons/md';
 
 interface Window {
   FB: any;
@@ -11,7 +12,9 @@ type Props = {
 
 export default class FacebookButton extends React.PureComponent<Props> {
   componentDidMount() {
-    window.FB.XFBML.parse();
+    if (window && window.FB) {
+      window.FB.XFBML.parse();
+    }
   }
 
   render() {

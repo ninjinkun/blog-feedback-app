@@ -1,7 +1,7 @@
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { CountEntities, CountEntity, ItemEntity } from '../entities';
-import { writeBatch } from './app-repository';
+import { serverTimestamp, writeBatch } from './app-repository';
 import { blogRef } from './blog-repository';
 
 export function itemRef(userId: string, blogUrl: string, itemUrl: string): firebase.firestore.DocumentReference {
@@ -40,6 +40,25 @@ export type CountSaveEntities =
       facebook?: CountSaveEntity;
     };
 
+export function saveItem(
+  userId: string,
+  blogUrl: string,
+  url: string,
+  title: string,
+  published: Date,
+  counts: CountSaveEntities,
+  prevCounts: CountSaveEntities
+) {
+  return itemRef(userId, blogUrl, url).set({
+    title,
+    url,
+    published,
+    counts,
+    prevCounts,
+    timestamp: serverTimestamp(),
+  });
+}
+
 export function saveItemBatch(
   batch: firebase.firestore.WriteBatch,
   userId: string,
@@ -56,7 +75,7 @@ export function saveItemBatch(
     published,
     counts,
     prevCounts,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    timestamp: serverTimestamp(),
   });
 }
 
