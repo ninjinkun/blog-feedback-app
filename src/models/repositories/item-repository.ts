@@ -40,6 +40,25 @@ export type CountSaveEntities =
       facebook?: CountSaveEntity;
     };
 
+export function saveItem(
+  userId: string,
+  blogUrl: string,
+  url: string,
+  title: string,
+  published: Date,
+  counts: CountSaveEntities,
+  prevCounts: CountSaveEntities
+) {
+  return itemRef(userId, blogUrl, url).set({
+    title,
+    url,
+    published,
+    counts,
+    prevCounts,
+    timestamp: serverTimestamp(),
+  });
+}
+
 export function saveItemBatch(
   batch: firebase.firestore.WriteBatch,
   userId: string,

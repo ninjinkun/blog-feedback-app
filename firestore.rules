@@ -1,11 +1,43 @@
-service cloud.firestore {
+service cloud.firestore {  
   match /databases/{database}/documents {
     match /users/{userId}/blogs/{blogId} {
+      function isUndefined(data, field) {
+        return !data.keys().hasAll([field])
+      }
+
       allow read: if request.auth.uid == userId;
-      allow write: if request.auth.uid == userId;
+      allow delete: if request.auth.uid == userId;
+      allow create, update: if request.auth.uid == userId
+          && request.resource.data.keys().hasAll(["title", "url", "feedURL", "feedType", "timestamp"])
+          && request.resource.data.title is string
+          && request.resource.data.url is string
+          && request.resource.data.feedURL is string;
+
+
       match /items/{itemId} {
+        function checkCountFields(data, countType) {
+          return isUndefined(data, countType) 
+            || (data[countType] is map
+              && data[countType].hasAll(["count", "timestamp"]) 
+              && data[countType].count is number 
+              && data[countType].timestamp is timestamp);
+        }
+
         allow read: if request.auth.uid == userId;
-        allow write: if request.auth.uid == userId;
+        allow delete: if request.auth.uid == userId;
+        allow create, update: if request.auth.uid == userId
+          && request.resource.data.keys().hasAll(["title", "url", "published"])
+          && request.resource.data.title is string
+          && request.resource.data.url is string
+          && request.resource.data.published is timestamp
+          && (isUndefined(request.resource.data, "count") 
+            || (request.resource.data.count is map 
+              && checkCountFields(request.resource.data.count, "facebook")
+              && checkCountFields(request.resource.data.count, "hatenabookmark")))
+          && (isUndefined(request.resource.data, "prevCount") 
+            || (request.resource.data.prevCount is map
+              && checkCountFields(request.resource.data.prevCount, "facebook")
+              && checkCountFields(request.resource.data.prevCount, "hatenabookmark")));
 	    }
     }
   }

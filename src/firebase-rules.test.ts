@@ -3,7 +3,7 @@ import { auth } from 'firebase';
 import fs from 'fs';
 import { db as firebaseDB, serverTimestamp, writeBatch } from './models/repositories/app-repository';
 import { blogRef, saveBlog } from './models/repositories/blog-repository';
-import { saveItemBatch } from './models/repositories/item-repository';
+import { itemRef, saveItem, saveItemBatch } from './models/repositories/item-repository';
 import { userRef } from './models/repositories/user-repository';
 
 const projectIdBase = 'firestore-emulator-example-' + Date.now();
@@ -97,20 +97,55 @@ describe('/users/:user_id/blogs/:blog_id/items', () => {
   it('save items', async () => {
     const db = authedApp({ uid: 'ninjinkun' });
     firebaseDB.mockReturnValue(db);
-    writeBatch.mockReturnValue(db.batch());
 
-    const batch = writeBatch();
-    saveItemBatch(
-      batch,
+    await firebase.assertSucceeds(
+      saveItem(
+        'ninjinkun',
+        'https://ninjinkun.hatenablog.com/',
+        'https://ninjinkun.hatenablog.com/entry/123456',
+        'Developing blog-feedback-app',
+        new Date(),
+        { facebook: { count: 10, timestamp: firebase.firestore.Timestamp.now() } },
+        {}
+      )
+    );
+  });
+
+  it('save invalid items', async () => {
+    const db = authedApp({ uid: 'ninjinkun' });
+    firebaseDB.mockReturnValue(db);
+
+    const item = itemRef(
       'ninjinkun',
       'https://ninjinkun.hatenablog.com/',
-      'https://ninjinkun.hatenablog.com/entry/12345',
-      'Developing blog-feedback-app',
-      new Date(),
-      {},
-      {}
+      'https://ninjinkun.hatenablog.com/entry/123457'
+    );
+    await firebase.assertFails(
+      item.set({
+        title: 'Developing blog-feedback-app',
+        url: 'https://ninjinkun.hatenablog.com/entry/123457',
+        published: 'hoge',
+      })
+    );
+  });
+
+  it('save invalid count items', async () => {
+    const db = authedApp({ uid: 'ninjinkun' });
+    firebaseDB.mockReturnValue(db);
+
+    const item = itemRef(
+      'ninjinkun',
+      'https://ninjinkun.hatenablog.com/',
+      'https://ninjinkun.hatenablog.com/entry/123458'
     );
 
-    await firebase.assertSucceeds(batch.commit());
+    await firebase.assertFails(
+      item.set({
+        title: 'Developing blog-feedback-app',
+        url: 'https://ninjinkun.hatenablog.com/entry/123458',
+        published: new Date(),
+        count: { facebook: { count: 'fuga', timestamp: serverTimestamp() } },
+      })
+    );
   });
 });
