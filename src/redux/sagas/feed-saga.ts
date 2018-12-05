@@ -1,6 +1,6 @@
 import flatten from 'lodash/flatten';
 import { delay } from 'redux-saga';
-import { all, call, fork, put, take, takeEvery } from 'redux-saga/effects';
+import { all, call, fork, put, take, takeEvery, takeLatest } from 'redux-saga/effects';
 import { BlogEntity, ItemEntity } from '../../models/entities';
 import {
   fetchFacebookCount,
@@ -35,107 +35,106 @@ import {
 } from '../actions/feed-action';
 import { fetchFiresbaseUser } from './user-saga';
 
-function* handleFetchAction() {
-  while (true) {
-    const { blogURL }: FeedFetchFeedAction = yield take('FeedFetchFeedAction');
-    const { user }: FeedFirebaseUserResponseAction = yield take('UserFirebaseResponseAction');
-    yield put(feedFirebaseUserResponse(blogURL, user));
-  }
+export default function* rootSaga() {
+  yield takeLatest('FeedFetchFeedAction', handleFetchAction);
 }
 
-function* firebaseBlog(action: FeedFirebaseUserResponseAction) {
-  const { blogURL, user } = action;
+// main
+function* handleFetchAction(action: FeedFetchFeedAction) {
+  const { blogURL, auth } = action;
+
+  const user: firebase.User = yield call(fetchFiresbaseUser, auth);
+
+  const blogEntity: BlogEntity = yield call(firebaseBlog, user, blogURL);
+
+  const [firebaseItems, fetchedItems]: [ItemEntity[], ItemResponse[]] = yield all([
+    call(firebaseFeed, user, blogURL),
+    call(fetchFeed, blogURL, blogEntity.feedURL),
+  ]);
+
+  const urls = fetchedItems.map(i => i.url);
+  const [hatenaBookmarkCounts, facebookCounts]: [CountResponse[], CountResponse[]] = yield all([
+    call(fetchHatenaBookmarkCounts, blogURL, urls),
+    call(fetchFacebookCounts, blogURL, urls),
+  ]);
+
+  const counts: CountResponse[] = flatten([hatenaBookmarkCounts, facebookCounts]);
+
+  yield call(saveBlogFeedItemsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts);
+}
+
+function* firebaseBlog(user: firebase.User, blogURL: string) {
   try {
     yield put(feedFirebaseBlogRequest(blogURL));
     const blogData: BlogEntity = yield call(findBlog, user.uid, blogURL);
     yield put(feedFirebaseBlogResponse(blogURL, blogData, user));
+    return blogData;
   } catch (e) {
     yield put(feedCrowlerErrorResponse(blogURL, e));
   }
 }
 
-function* firebaseFeed(action: FeedFirebaseBlogResponseAction) {
-  const { blogURL, user } = action;
+function* firebaseFeed(user: firebase.User, blogURL: string) {
   try {
     yield put(feedFirebaseBlogRequest(blogURL));
     const items: ItemEntity[] = yield call(findAllItems, user.uid, blogURL);
     yield put(feedFirebaseFeedItemsResponse(blogURL, items));
+    return items;
   } catch (e) {
     yield put(feedCrowlerErrorResponse(blogURL, e));
   }
 }
 
-function* fetchFeed(action: FeedFirebaseBlogResponseAction) {
-  const { url: blogURL, feedURL } = action.blogEntity;
+function* fetchFeed(blogURL: string, feedURL: string) {
   try {
     yield put(feedFetchRSSRequest(blogURL));
     const items: ItemResponse[] = yield call(fetchFeedAction, feedURL);
     yield put(feedFetchRSSResponse(blogURL, items));
+    return items;
   } catch (e) {
     yield put(feedCrowlerErrorResponse(blogURL, e));
   }
 }
 
-function* fetchHatenaBookmarkCounts(action: FeedFetchRSSResponseAction) {
-  const { blogURL, items } = action;
+function* fetchHatenaBookmarkCounts(blogURL: string, urls: string[]) {
   try {
     yield put(feedFetchHatenaBookmarkCountsRequest(blogURL));
-    const counts: CountResponse[] = yield call(fetchHatenaBookmarkCountsAction, items.map(i => i.url));
+    const counts: CountResponse[] = yield call(fetchHatenaBookmarkCountsAction, urls);
     yield put(feedFetchHatenaBookmarkCountsResponse(blogURL, counts));
+    return counts;
   } catch (e) {
-    yield put(feedFetchHatenaBookmarkCountsResponse(blogURL, []));
     //    yield put(feedCrowlerErrorResponse(blogURL, e));
   }
 }
 
-function* fetchFacebookCounts(action: FeedFetchRSSResponseAction) {
-  const { blogURL, items } = action;
+function* fetchFacebookCounts(blogURL: string, urls: string[]) {
   try {
     yield put(feedFetchFacebookCountRequest(blogURL));
     const counts: CountResponse[] = yield all(
-      items.map(i => {
+      urls.map(url => {
         call(delay, 100);
-        return call(fetchFacebookCount, i.url);
+        return call(fetchFacebookCount, url);
       })
     );
     yield put(feedFetchFacebookCountResponse(blogURL, counts));
+    return counts;
   } catch (e) {
-    yield put(feedFetchFacebookCountResponse(blogURL, []));
     //    yield put(feedCrowlerErrorResponse(blogURL, e));
   }
 }
 
-function* saveBlogFeedItemsAndCounts() {
-  while (true) {
-    const { user }: FeedFirebaseUserResponseAction = yield take('FeedFirebaseUserResponseAction');
-    const { items: firebaseItems }: FeedFirebaseFeedItemsResponseAction = yield take(
-      'FeedFirebaseFeedItemsResponseAction'
-    );
-    const { blogURL, items: fetchedItems }: FeedFetchRSSResponseAction = yield take('FeedFetchRSSResponseAction');
-    const { counts: hatenaBookmarkCounts }: FeedFetchHatenaBookmarkCountsResponseAction = yield take(
-      'FeedFetchHatenaBookmarkCountsResponseAction'
-    );
-    const { counts: facebookCounts }: FeedFetchFacebookCountResponseAction = yield take(
-      'FeedFetchFacebookCountResponseAction'
-    );
-    const counts: CountResponse[] = flatten([hatenaBookmarkCounts, facebookCounts]);
-    try {
-      yield put(feedSaveFeedRequest(blogURL));
-      yield call(saveFeedsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts);
-      yield put(feedSaveFeedFirebaseResponse(blogURL));
-    } catch (e) {
-      yield put(feedCrowlerErrorResponse(blogURL, e));
-    }
+function* saveBlogFeedItemsAndCounts(
+  user: firebase.User,
+  blogURL: string,
+  firebaseItems: ItemEntity[],
+  fetchedItems: ItemResponse[],
+  counts: CountResponse[]
+) {
+  try {
+    yield put(feedSaveFeedRequest(blogURL));
+    yield call(saveFeedsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts);
+    yield put(feedSaveFeedFirebaseResponse(blogURL));
+  } catch (e) {
+    yield put(feedCrowlerErrorResponse(blogURL, e));
   }
-}
-
-export default function* rootSaga() {
-  yield fork(handleFetchAction);
-  yield takeEvery('FeedFetchFeedAction', fetchFiresbaseUser);
-  yield takeEvery('FeedFirebaseUserResponseAction', firebaseBlog);
-  yield takeEvery('FeedFirebaseBlogResponseAction', firebaseFeed);
-  yield takeEvery('FeedFirebaseBlogResponseAction', fetchFeed);
-  yield takeEvery('FeedFetchRSSResponseAction', fetchHatenaBookmarkCounts);
-  yield takeEvery('FeedFetchRSSResponseAction', fetchFacebookCounts);
-  yield fork(saveBlogFeedItemsAndCounts);
 }
