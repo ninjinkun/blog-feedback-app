@@ -1,14 +1,14 @@
 service cloud.firestore {  
   match /databases/{database}/documents {
     match /users/{userId}/blogs/{blogId} {
-      function isUndefined(data, field) {
-        return !data.keys().hasAll([field])
+      function isUndefined(resource, field) {
+        return !resource.keys().hasAny([field])
       }
 
       allow read: if request.auth.uid == userId;
       allow delete: if request.auth.uid == userId;
       allow create, update: if request.auth.uid == userId
-          && request.resource.data.keys().hasAll(["title", "url", "feedURL", "feedType", "timestamp"])
+          && request.resource.data.keys().hasOnly(["title", "url", "feedURL", "feedType", "timestamp"])
           && request.resource.data.title is string
           && request.resource.data.url is string
           && request.resource.data.feedURL is string;
@@ -18,7 +18,7 @@ service cloud.firestore {
         function checkCountFields(data, countType) {
           return isUndefined(data, countType) 
             || (data[countType] is map
-              && data[countType].hasAll(["count", "timestamp"]) 
+              && data[countType].hasOnly(["count", "timestamp"]) 
               && data[countType].count is number 
               && data[countType].timestamp is timestamp);
         }
