@@ -11,16 +11,18 @@ service cloud.firestore {
           && request.resource.data.keys().hasOnly(["title", "url", "feedURL", "feedType", "timestamp"])
           && request.resource.data.title is string
           && request.resource.data.url is string
-          && request.resource.data.feedURL is string;
+          && request.resource.data.feedURL is string
+          && request.resource.data.feedType is string
+          && request.resource.data.timestamp is timestamp;
 
 
       match /items/{itemId} {
-        function checkCountFields(data, countType) {
-          return isUndefined(data, countType) 
-            || (data[countType] is map
-              && data[countType].hasOnly(["count", "timestamp"]) 
-              && data[countType].count is number 
-              && data[countType].timestamp is timestamp);
+        function checkCountFields(resource, countType) {
+          return isUndefined(resource, countType)
+            || (resource[countType] is map
+              && resource[countType].hasOnly(["count", "timestamp"])
+              && resource[countType].count is number
+              && resource[countType].timestamp is timestamp);
         }
 
         allow read: if request.auth.uid == userId;
