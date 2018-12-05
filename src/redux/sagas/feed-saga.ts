@@ -1,3 +1,4 @@
+import chunk from 'lodash/chunk';
 import flatten from 'lodash/flatten';
 import { delay } from 'redux-saga';
 import { all, call, fork, put, take, takeEvery, takeLatest } from 'redux-saga/effects';
@@ -96,10 +97,11 @@ function* fetchFeed(blogURL: string, feedURL: string) {
   }
 }
 
-function* fetchHatenaBookmarkCounts(blogURL: string, urls: string[]) {
+function* fetchHatenaBookmarkCounts(blogURL: string, urls: string[], maxFetchCount: number = 50) {
   try {
     yield put(feedFetchHatenaBookmarkCountsRequest(blogURL));
-    const counts: CountResponse[] = yield call(fetchHatenaBookmarkCountsAction, urls);
+    const slicedURLs = urls.slice(0, maxFetchCount - 1);
+    const counts: CountResponse[] = yield call(fetchHatenaBookmarkCountsAction, slicedURLs);
     yield put(feedFetchHatenaBookmarkCountsResponse(blogURL, counts));
     return counts;
   } catch (e) {
@@ -107,20 +109,26 @@ function* fetchHatenaBookmarkCounts(blogURL: string, urls: string[]) {
   }
 }
 
-function* fetchFacebookCounts(blogURL: string, urls: string[]) {
+function* fetchFacebookCounts(blogURL: string, urls: string[], maxFetchCount: number = 20) {
   try {
     yield put(feedFetchFacebookCountRequest(blogURL));
-    const counts: CountResponse[] = yield all(
-      urls.map(url => {
-        call(delay, 100);
-        return call(fetchFacebookCount, url);
-      })
-    );
-    yield put(feedFetchFacebookCountResponse(blogURL, counts));
+    const slicedURLs = urls.slice(0, maxFetchCount - 1);
+    const chunkedURLs = chunk(slicedURLs, 4);
+    const counts: CountResponse[][] = [];
+    for (const urls of chunkedURLs) {
+      counts.push(yield call(fetchFacebookCountChunk, urls));
+    }
+    yield put(feedFetchFacebookCountResponse(blogURL, flatten(counts)));
     return counts;
   } catch (e) {
     //    yield put(feedCrowlerErrorResponse(blogURL, e));
   }
+}
+
+function* fetchFacebookCountChunk(urls: string[]) {
+  const count: CountResponse[] = yield all(urls.map(url => call(fetchFacebookCount, url)));
+  yield call(delay, 800);
+  return count;
 }
 
 function* saveBlogFeedItemsAndCounts(
