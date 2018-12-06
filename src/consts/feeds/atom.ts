@@ -18,6 +18,7 @@ type Entry = {
 type Link = {
   _attributes: {
     href: string;
+    rel?: string;
   };
 };
 
