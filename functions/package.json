@@ -15,8 +15,7 @@
     "charset": "^1.0.1",
     "firebase-admin": "~6.3.0",
     "firebase-functions": "^2.1.0",
-    "iconv-lite": "^0.4.24",
-    "jschardet": "^1.6.0"
+    "iconv-lite": "^0.4.24"
   },
   "devDependencies": {
     "@types/charset": "^1.0.1",
