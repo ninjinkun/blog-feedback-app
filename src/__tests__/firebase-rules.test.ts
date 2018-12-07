@@ -22,7 +22,7 @@ function authedApp(auth?: object) {
 }
 
 // mock app's firestore initalizer
-jest.mock('./models/repositories/app-repository');
+jest.mock('../models/repositories/app-repository');
 // firebase/testing mocks serverTimestamp. We need to replace it.
 serverTimestamp.mockReturnValue(firebase.firestore.FieldValue.serverTimestamp());
 
