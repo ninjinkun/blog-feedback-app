@@ -1,10 +1,9 @@
 import * as firebase from '@firebase/testing';
-import { auth } from 'firebase';
 import fs from 'fs';
-import { db as firebaseDB, serverTimestamp, writeBatch } from './models/repositories/app-repository';
-import { blogRef, saveBlog } from './models/repositories/blog-repository';
-import { itemRef, saveItem, saveItemBatch } from './models/repositories/item-repository';
-import { userRef } from './models/repositories/user-repository';
+import { db as firebaseDB, serverTimestamp } from '../models/repositories/app-repository';
+import { saveBlog } from '../models/repositories/blog-repository';
+import { itemRef, saveItem } from '../models/repositories/item-repository';
+import { userRef } from '../models/repositories/user-repository';
 
 const projectIdBase = 'firestore-emulator-example-' + Date.now();
 let testNumber = 0;
