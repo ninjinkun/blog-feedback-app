@@ -6,7 +6,6 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
       - image: circleci/openjdk:11.0.1-node
 
     working_directory: ~/repo
@@ -36,3 +35,29 @@ jobs:
           command: yarn firebase serve --only firestore
           background: true
       - run: yarn test:ci
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  deploy_development:
+    docker:
+      - image: circleci/openjdk:11.0.1-node
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+        at: .
+      - run: yarn build
+      - run: firebase deploy --project development --token "$FIREBASE_DEVLOPMENT_TOKEN"
+
+workflows:
+  version: 2
+  test_and_deploy:
+    jobs:
+      - build
+      - deploy_development:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
