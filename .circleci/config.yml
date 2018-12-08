@@ -48,7 +48,7 @@ jobs:
       - attach_workspace:
           at: .
       - run: yarn build
-      - run: yarn firebase deploy --project development --token "$FIREBASE_DEVLOPMENT_TOKEN"
+      - run: yarn firebase deploy --project development --token "$FIREBASE_TOKEN_DEVELOPMENT"
 
 workflows:
   version: 2
