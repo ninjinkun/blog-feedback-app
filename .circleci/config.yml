@@ -21,10 +21,12 @@ jobs:
           - v1-dependencies-
 
       - run: yarn install
+      - run: cd functions && yarn install && cd ..
 
       - save_cache:
           paths:
             - node_modules
+            - functions/node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
