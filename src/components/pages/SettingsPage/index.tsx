@@ -16,6 +16,7 @@ import { Button } from '../../atoms/Button/index';
 import ScrollView from '../../atoms/ScrollView/index';
 import Wrapper from '../../atoms/Wrapper/index';
 import LoadingView from '../../molecules/LoadingView/index';
+import PlainCell from '../../molecules/PlainCell/index';
 import BlogCell from '../../organisms/BlogCell/index';
 import SectionHeader from '../../organisms/SettingSectionHeader/index';
 import * as properties from '../../properties';
@@ -72,6 +73,13 @@ class SettingsPage extends React.PureComponent<Props, {}> {
             <SignOutButtonWrapper>
               <SignOutButton onClick={this.signOut}>ログアウト</SignOutButton>
             </SignOutButtonWrapper>
+            <SectionHeader>アプリケーションの情報</SectionHeader>
+            <Link to="/term" target="_blank">
+              <PlainCell>サービス利用規約</PlainCell>
+            </Link>
+            <Link to="/privacy" target="_blank">
+              <PlainCell>プライバシーポリシー</PlainCell>
+            </Link>
           </StyledScrollView>
         );
       } else if (loading) {

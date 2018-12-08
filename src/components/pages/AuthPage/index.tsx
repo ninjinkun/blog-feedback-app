@@ -11,7 +11,9 @@ import { ThunkDispatch } from 'redux-thunk';
 import { fetchUser, UserActions } from '../../../redux/actions/user-action';
 import { AppState } from '../../../redux/states/app-state';
 import { UserState } from '../../../redux/states/user-state';
+import Wrapper from '../../atoms/Wrapper/index';
 import LoadingView from '../../molecules/LoadingView/index';
+import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
 type StateProps = {
@@ -23,6 +25,7 @@ type DispatchProps = {
 };
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
+
 class AuthPage extends React.PureComponent<Props> {
   componentDidMount() {
     this.props.fetchUser(firebase.auth());
@@ -36,13 +39,32 @@ class AuthPage extends React.PureComponent<Props> {
         <PageLayout
           header={{
             title: 'ユーザー登録 / ログイン',
+            backButtonLink: '/',
           }}
         >
           {(() => {
             if (loading && !user) {
               return <LoadingView />;
             } else {
-              return <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />;
+              return (
+                <StyledWrapper>
+                  <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+                  <TextWrapper>
+                    <Text>
+                      続行すると、
+                      <Anker href="/term" target="_blank">
+                        利用規約
+                      </Anker>
+                      および
+                      <Anker href="/privacy" target="_blank">
+                        プライバシーポリシー
+                      </Anker>
+                      に同意したことになります。
+                    </Text>
+                    <Text>SNSログインの情報は認証のみに使用されます。無断でSNSに投稿されることはありません。</Text>
+                  </TextWrapper>
+                </StyledWrapper>
+              );
             }
           })()}
         </PageLayout>
@@ -50,6 +72,13 @@ class AuthPage extends React.PureComponent<Props> {
     }
   }
 }
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(AuthPage)
+);
 
 // Configure FirebaseUI.
 const uiConfig = {
@@ -65,6 +94,36 @@ const uiConfig = {
   ],
 };
 
+const StyledWrapper = styled(Wrapper)`
+  align-items: center;
+  margin-top: 16px;
+`;
+
+const TextWrapper = styled(Wrapper)`
+  max-width: 360px;
+  padding: 16px 24px 0 24px;
+`;
+
+const Text = styled.p`
+  font-size: ${properties.fontSizes.s};
+  color: ${properties.colors.grayDark};
+  line-height: 1.14em;
+  margin: 0.5em 0;
+`;
+
+const Anker = styled.a`
+  color: ${properties.colors.link};
+  font-weight: ${properties.fontWeights.bold};
+  &:link {
+    color: ${properties.colors.link};
+    font-weight: ${properties.fontWeights.bold};
+  }
+  &:visited {
+    color: ${properties.colors.link};
+    font-weight: ${properties.fontWeights.bold};
+  }
+`;
+
 function mapStateToProps(state: AppState): StateProps {
   return {
     user: state.user,
@@ -77,10 +136,3 @@ function mapDispatchToProps(dispatch: TD): DispatchProps {
     fetchUser: (auth: firebase.auth.Auth) => dispatch(fetchUser(auth)),
   };
 }
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(AuthPage)
-);

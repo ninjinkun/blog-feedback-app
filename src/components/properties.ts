@@ -11,7 +11,7 @@ export const colorsValue = {
 
 export const colorsBlanding = {
   base: colorsValue.white,
-  link: colorsValue.black,
+  link: '#365899',
   linkVisited: 'none',
   linkHover: 'none',
   linkActive: 'none',

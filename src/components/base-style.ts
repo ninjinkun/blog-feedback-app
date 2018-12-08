@@ -23,9 +23,9 @@ export const GlobalStyle = createGlobalStyle`
     text-decoration: none;
   }
   a:link {
-    color: ${colors.link};
+    color: ${colors.black};
   }
   a:visited {
-    color: ${colors.link};
+    color: ${colors.black};
   }
 `;

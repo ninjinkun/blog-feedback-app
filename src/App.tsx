@@ -15,6 +15,7 @@ import EntriesPage from './components/pages/EntriesPage/index';
 import IndexPage from './components/pages/IndexPage/index';
 import SettingPage from './components/pages/SettingPage/index';
 import SettingsPage from './components/pages/SettingsPage/index';
+import TermPage from './components/pages/TermPage/index';
 
 initializeFirebase();
 
@@ -32,6 +33,7 @@ const App = () => (
             <Route exact={true} path="/settings" component={SettingsPage} />
             <Route exact={true} path="/settings/:blogURL" component={SettingPage} />
             <Route exact={true} path="/blogs/:blogURL" component={EntriesPage} />
+            <Route exact={true} path="/term" component={TermPage} />
           </ScrollToTop>
         </Router>
       </SmartphoneLayout>
