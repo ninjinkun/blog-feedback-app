@@ -21,12 +21,10 @@ jobs:
           - v1-dependencies-
 
       - run: yarn install
-      - run: cd functions && yarn install && cd ..
 
       - save_cache:
           paths:
             - node_modules
-            - functions/node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
@@ -44,11 +42,24 @@ jobs:
 
   deploy_development:
     docker:
-      - image: circleci/openjdk:11-jdk-sid-node
+      - image: circleci/node:8.14
     working_directory: ~/repo
     steps:
       - attach_workspace:
           at: .
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-functions-{{ checksum "functions/package.json" }}
+          - v1-dependencies-functions-
+
+      - run: cd functions && yarn install && cd ..
+
+      - save_cache:
+          paths:
+            - functions/node_modules
+          key: v1-dependencies-functions-{{ checksum "functions/package.json" }}
+
       - run: yarn build
       - run: yarn firebase deploy --project development --token "$FIREBASE_TOKEN_DEVELOPMENT"
 
