@@ -97,10 +97,16 @@ workflows:
           filters:
             branches:
               only: master
-      - deploy_production:
+      - request_manual_testing:
           type: approval
           requires:
             - build
+          filters:
+            branches:
+              only: master
+      - deploy_production:
+          requires:
+            - request_manual_testing
           filters:
             branches:
               only: master
