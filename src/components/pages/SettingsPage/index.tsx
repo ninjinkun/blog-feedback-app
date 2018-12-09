@@ -100,6 +100,11 @@ class SettingsPage extends React.PureComponent<Props, {}> {
               <Title>投げ銭 (Patreon)</Title>
             </PlainCell>
           </a>
+          <a href="https://github.com/ninjinkun/blog-feedback-app">
+            <PlainCell>
+              <Title>要望・PullRequest (Github)</Title>
+            </PlainCell>
+          </a>
           <StyledSocialButtons />
         </StyledScrollView>
       );
