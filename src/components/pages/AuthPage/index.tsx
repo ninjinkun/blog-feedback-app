@@ -11,6 +11,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { fetchUser, UserActions } from '../../../redux/actions/user-action';
 import { AppState } from '../../../redux/states/app-state';
 import { UserState } from '../../../redux/states/user-state';
+import Anker from '../../atoms/Anker/index';
 import Wrapper from '../../atoms/Wrapper/index';
 import LoadingView from '../../molecules/LoadingView/index';
 import * as properties from '../../properties';
@@ -82,8 +83,6 @@ export default withRouter(
 
 // Configure FirebaseUI.
 const uiConfig = {
-  // Popup signin flow rather than redirect flow.
-  signInFlow: 'popup',
   // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
   signInSuccessUrl: '/blogs/',
   // We will display Google and Facebook as auth providers.
@@ -109,19 +108,6 @@ const Text = styled.p`
   color: ${properties.colors.grayDark};
   line-height: 1.14em;
   margin: 0.5em 0;
-`;
-
-const Anker = styled.a`
-  color: ${properties.colors.link};
-  font-weight: ${properties.fontWeights.bold};
-  &:link {
-    color: ${properties.colors.link};
-    font-weight: ${properties.fontWeights.bold};
-  }
-  &:visited {
-    color: ${properties.colors.link};
-    font-weight: ${properties.fontWeights.bold};
-  }
 `;
 
 function mapStateToProps(state: AppState): StateProps {
