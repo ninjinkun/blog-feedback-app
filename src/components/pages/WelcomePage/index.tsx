@@ -17,7 +17,6 @@ const WelcomePage = () => (
     <StyledScrollView>
       <BodyWrapper>
         <StyledSocialButtons />
-
         <Title>BlogFeedbackへようこそ！</Title>
         <MessageWrapper>
           BlogFeedbackはブログのソーシャルボタンの数を集計し、反響を確認できるサービスです。
@@ -70,6 +69,7 @@ const MessageWrapper = styled(Wrapper)`
 
 const ImageWrapper = styled(Wrapper)`
   margin: 24px 16px 16px 16px;
+  height: 693px;
 `;
 
 const SigninButtonWrapper = styled(Wrapper)`

@@ -24,6 +24,7 @@ export default SocialButtons;
 const SocialButtonsWrapper = styled(Wrapper)`
   flex-direction: row;
   justify-content: center;
+  height: 20px;
 `;
 
 const ButtonWrapper = styled(Wrapper)`
