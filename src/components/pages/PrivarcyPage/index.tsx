@@ -27,6 +27,7 @@ const PrivacyPage: React.FunctionComponent = () => (
               <Paragraph>ユーザーが、本サービスを利用するにあたり、ソーシャルネットワークサービス等の外部サービスとの連携を許可した場合には、その許可の際にご同意いただいた内容に基づき、以下の情報を当該外部サービスから収集します。
                 <UnorderedList>
                   <List>当該外部サービスでユーザーが利用するID</List>
+                  <List>当該外部サービスでユーザーが利用するメールアドレス</List>
                   <List>その他当該外部サービスのプライバシー設定によりユーザーが連携先に開示を認めた情報</List>
                 </UnorderedList>
               </Paragraph>
