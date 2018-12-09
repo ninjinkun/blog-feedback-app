@@ -4,7 +4,10 @@ import { FeedType } from '../../consts/feed-type';
 import { BlogResponse } from '../responses';
 
 export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
-  const fetchBlog = firebase.functions().httpsCallable('crossOriginFetch');
+  const fetchBlog = firebase
+    .app()
+    .functions('asia-northeast1')
+    .httpsCallable('crossOriginFetch');
   const result = await fetchBlog({ url: blogURL });
   const htmlText = result.data.body;
 

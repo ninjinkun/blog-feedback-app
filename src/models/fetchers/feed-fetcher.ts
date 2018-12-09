@@ -7,7 +7,10 @@ import { RSS2 } from '../../consts/feeds/rss2';
 import { ItemResponse } from '../responses';
 
 export async function fetchFeed(feedURL: string): Promise<ItemResponse[]> {
-  const fetchFeed = firebase.functions().httpsCallable('crossOriginFetch');
+  const fetchFeed = firebase
+    .app()
+    .functions('asia-northeast1')
+    .httpsCallable('crossOriginFetch');
   const response = await fetchFeed({ url: feedURL });
   const xml = response.data.body;
   const json = xmljs.xml2js(xml, { compact: true }) as Feed;
