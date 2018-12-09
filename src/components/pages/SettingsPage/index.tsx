@@ -95,7 +95,7 @@ class SettingsPage extends React.PureComponent<Props, {}> {
               <Title>プライバシーポリシー</Title>
             </PlainCell>
           </Link>
-          <a href="patreon.com/">
+          <a href="https://patreon.com/ninjinkun">
             <PlainCell>
               <Title>投げ銭 (Patreon)</Title>
             </PlainCell>
