@@ -27,8 +27,12 @@ $ yarn start
 $ yarn storybook
 ```
 
-## Production Build
+## Development Build
 ```
 $ yarn build
 ```
 
+## Production Build
+```
+$ yarn build:production
+```
