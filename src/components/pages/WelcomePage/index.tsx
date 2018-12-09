@@ -1,11 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import Anker from '../../atoms/Anker/index';
 import { PrimaryButton } from '../../atoms/Button/index';
 import ScrollView from '../../atoms/ScrollView/index';
 import Wrapper from '../../atoms/Wrapper/index';
-import FacebookButton from '../../molecules/SocialButtons/FacebookButton/index';
-import HatenaBookmarkButton from '../../molecules/SocialButtons/HatenaBookmarkButton/index';
-import TweetButton from '../../molecules/SocialButtons/TweetButton/index';
 import SocialButtons from '../../organisms/SocialButtons/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
@@ -18,6 +16,8 @@ const WelcomePage = () => (
   >
     <StyledScrollView>
       <BodyWrapper>
+        <StyledSocialButtons />
+
         <Title>BlogFeedbackへようこそ！</Title>
         <MessageWrapper>
           BlogFeedbackはブログのソーシャルボタンの数を集計し、反響を確認できるサービスです。
@@ -30,8 +30,16 @@ const WelcomePage = () => (
             ユーザー登録 / ログインへ進む
           </PrimaryButton>
         </SigninButtonWrapper>
+        <TermAndPrivacyWrapper>
+          <Anker href="/term" target="_blank">
+            利用規約
+          </Anker>
+          <Slash>/</Slash>
+          <Anker href="/privacy" target="_blank">
+            プライバシーポリシー
+          </Anker>
+        </TermAndPrivacyWrapper>
       </BodyWrapper>
-      <SocialButtons />
     </StyledScrollView>
   </PageLayout>
 );
@@ -66,9 +74,19 @@ const ImageWrapper = styled(Wrapper)`
 
 const SigninButtonWrapper = styled(Wrapper)`
   justify-content: center;
-  margin: 24px;
+  margin: 24px 16px 12px 16px;
+`;
+
+const TermAndPrivacyWrapper = styled(Wrapper)`
+  flex-direction: row;
+  margin: 8px 0 16px 0;
+  font-size: ${properties.fontSizes.s};
+`;
+
+const Slash = styled.p`
+  margin: 0 0.3em 0 0.3em;
 `;
 
 const StyledSocialButtons = styled(SocialButtons)`
-  margin: 16px;
+  margin: 16px 0 16px 0;
 `;
