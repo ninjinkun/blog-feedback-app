@@ -108,7 +108,7 @@ const StyledLabel = styled.label`
 
 const URLField = styled.input`
   margin: 16px;
-  padding: 4px;
+  padding: 8px;
   width: 100%;
   display: inline-block;
   box-sizing: border-box;

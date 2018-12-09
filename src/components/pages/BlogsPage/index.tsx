@@ -10,7 +10,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { BlogActions, fetchBlogs } from '../../../redux/actions/blog-action';
 import { AppState } from '../../../redux/states/app-state';
 import { BlogState } from '../../../redux/states/blog-state';
-import { Button } from '../../atoms/Button/index';
+import { PrimaryButton } from '../../atoms/Button/index';
 import ScrollView from '../../atoms/ScrollView/index';
 import Wrapper from '../../atoms/Wrapper/index';
 import LoadingView from '../../molecules/LoadingView/index';
@@ -37,7 +37,7 @@ class BlogsPage extends React.PureComponent<Props, {}> {
   }
 
   render() {
-    const { history, blog } = this.props;
+    const { blog } = this.props;
     const { blogs, loading } = blog;
     return (
       <PageLayout
@@ -60,12 +60,15 @@ class BlogsPage extends React.PureComponent<Props, {}> {
             );
           } else if (!loading && blogs && blogs.length === 0) {
             return (
-              <Wrapper>
-                <Button>ブログを追加する</Button>
-              </Wrapper>
+              <AddBlogWrapper>
+                <h2>ご登録ありがとうございます</h2>
+                <WelcomeImage src={require('../../../assets/images/welcome-image.png')} />
+                <p>ブログを追加して利用を開始しましょう</p>
+                <StyledPrimaryButton href="/add" as="a">
+                  ブログを追加する
+                </StyledPrimaryButton>
+              </AddBlogWrapper>
             );
-          } else if (loading) {
-            return <LoadingView />;
           } else {
             return <LoadingView />;
           }
@@ -97,4 +100,21 @@ export default withRouter(
 const StyledScrollView = styled(ScrollView)`
   background-color: white;
   min-height: 100%;
+`;
+
+const AddBlogWrapper = styled(Wrapper)`
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+  padding: 16px;
+`;
+
+const StyledPrimaryButton = styled(PrimaryButton)`
+  justify-content: center;
+`;
+
+const WelcomeImage = styled.img`
+  width: 235px;
+  height: 185px;
+  margin: 16px;
 `;
