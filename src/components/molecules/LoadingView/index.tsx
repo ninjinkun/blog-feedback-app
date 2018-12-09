@@ -15,5 +15,5 @@ const SpinnerContainer = styled(Wrapper)`
   width: 100%;
   height: 100%;
   align-items: center;
-  padding-top: 16px;
+  padding: 16px 0;
 `;

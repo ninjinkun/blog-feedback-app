@@ -19,6 +19,7 @@ import LoadingView from '../../molecules/LoadingView/index';
 import PlainCell from '../../molecules/PlainCell/index';
 import BlogCell from '../../organisms/BlogCell/index';
 import SectionHeader from '../../organisms/SettingSectionHeader/index';
+import SocialButtons from '../../organisms/SocialButtons/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
@@ -59,32 +60,49 @@ class SettingsPage extends React.PureComponent<Props, {}> {
       return <Redirect to="/" />;
     }
 
-    const content = () => {
-      if (blogs && blogs.length) {
-        return (
-          <StyledScrollView>
-            <SectionHeader>ブログの設定</SectionHeader>
-            {blogs.map(blog => (
+    const blogCells = (
+      <React.Fragment>
+        {(blogs && blogs.length) || loading ? <SectionHeader>ブログの設定</SectionHeader> : undefined}
+        {(() => {
+          if (blogs && blogs.length) {
+            return blogs.map(blog => (
               <Link to={`/settings/${encodeURIComponent(blog.url)}`} key={blog.url}>
                 <BlogCell title={blog.title} favicon={`https://www.google.com/s2/favicons?domain=${blog.url}`} />
               </Link>
-            ))}
-            <SectionHeader>ユーザーの設定</SectionHeader>
-            <SignOutButtonWrapper>
-              <SignOutButton onClick={this.signOut}>ログアウト</SignOutButton>
-            </SignOutButtonWrapper>
-            <SectionHeader>アプリケーションの情報</SectionHeader>
-            <Link to="/term" target="_blank">
-              <PlainCell>サービス利用規約</PlainCell>
-            </Link>
-            <Link to="/privacy" target="_blank">
-              <PlainCell>プライバシーポリシー</PlainCell>
-            </Link>
-          </StyledScrollView>
-        );
-      } else if (loading) {
-        return <LoadingView />;
-      }
+            ));
+          } else if (loading) {
+            return <LoadingView />;
+          }
+        })()}
+      </React.Fragment>
+    );
+    const content = () => {
+      return (
+        <StyledScrollView>
+          {blogCells}
+          <SectionHeader>ユーザーの設定</SectionHeader>
+          <SignOutButtonWrapper>
+            <SignOutButton onClick={this.signOut}>ログアウト</SignOutButton>
+          </SignOutButtonWrapper>
+          <SectionHeader>サービスの情報</SectionHeader>
+          <Link to="/term" target="_blank">
+            <PlainCell>
+              <Title>サービス利用規約</Title>
+            </PlainCell>
+          </Link>
+          <Link to="/privacy" target="_blank">
+            <PlainCell>
+              <Title>プライバシーポリシー</Title>
+            </PlainCell>
+          </Link>
+          <a href="patreon.com/">
+            <PlainCell>
+              <Title>投げ銭 (Patreon)</Title>
+            </PlainCell>
+          </a>
+          <StyledSocialButtons />
+        </StyledScrollView>
+      );
     };
 
     return (
@@ -128,7 +146,16 @@ const SignOutButton = styled(Button)`
   justify-content: center;
 `;
 
+const Title = styled.h3`
+  font-size: ${properties.fontSizes.m};
+  margin: 0 8px 8px 24px;
+`;
+
 const StyledScrollView = styled(ScrollView)`
   background-color: ${properties.colors.white};
   min-height: 100%;
+`;
+
+const StyledSocialButtons = styled(SocialButtons)`
+  margin: 16px 16px 24px 16px;
 `;

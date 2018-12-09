@@ -212,7 +212,7 @@ margin: 0;
   
 const List = styled.li`
 font-size: ${properties.fontSizes.s};
-margin: 1em 0;
+margin: 0.5em 0;
 `;
 
 const DecimalList = styled(List)`

@@ -6,6 +6,7 @@ import Wrapper from '../../atoms/Wrapper/index';
 import FacebookButton from '../../molecules/SocialButtons/FacebookButton/index';
 import HatenaBookmarkButton from '../../molecules/SocialButtons/HatenaBookmarkButton/index';
 import TweetButton from '../../molecules/SocialButtons/TweetButton/index';
+import SocialButtons from '../../organisms/SocialButtons/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
@@ -30,17 +31,7 @@ const WelcomePage = () => (
           </PrimaryButton>
         </SigninButtonWrapper>
       </BodyWrapper>
-      <SocialButtonsWrapper>
-        <ButtonWrapper>
-          <TweetButton url="https://blog-feedback.app/" />
-        </ButtonWrapper>
-        <ButtonWrapper>
-          <FacebookButton url="https://blog-feedback.app/" />
-        </ButtonWrapper>
-        <ButtonWrapper>
-          <HatenaBookmarkButton url="https://blog-feedback.app/" />
-        </ButtonWrapper>
-      </SocialButtonsWrapper>
+      <SocialButtons />
     </StyledScrollView>
   </PageLayout>
 );
@@ -78,12 +69,6 @@ const SigninButtonWrapper = styled(Wrapper)`
   margin: 24px;
 `;
 
-const SocialButtonsWrapper = styled(Wrapper)`
-  flex-direction: row;
-  justify-content: center;
+const StyledSocialButtons = styled(SocialButtons)`
   margin: 16px;
-`;
-
-const ButtonWrapper = styled(Wrapper)`
-  margin: 0 4px;
 `;
