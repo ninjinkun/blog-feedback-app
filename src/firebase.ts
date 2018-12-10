@@ -17,8 +17,6 @@ export function initializeFirebase() {
   const db: firebase.firestore.Firestore = firebase.firestore();
   const settings = { timestampsInSnapshots: true };
   db.settings(settings);
-  // tslint:disable-next-line:no-floating-promises
-  db.enablePersistence();
 }
 
 const DotEnvKeys = [
