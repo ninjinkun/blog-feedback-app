@@ -14,6 +14,7 @@
     "react-art": "16.6.3",
     "react-dom": "16.6.3",
     "react-firebaseui": "^3.1.2",
+    "react-ga": "^2.5.6",
     "react-icons": "^3.2.2",
     "react-md-spinner": "^0.3.0",
     "react-redux": "^5.0.7",
