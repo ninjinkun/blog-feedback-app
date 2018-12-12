@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
-import { bindActionCreators, Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { fetchUser, UserActions } from '../../../redux/actions/user-action';
 import { AppState } from '../../../redux/states/app-state';
@@ -50,6 +49,7 @@ class AuthPage extends React.PureComponent<Props> {
               return (
                 <StyledWrapper>
                   <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+
                   <TextWrapper>
                     <Text>
                       続行すると、
@@ -63,6 +63,9 @@ class AuthPage extends React.PureComponent<Props> {
                       に同意したことになります。
                     </Text>
                     <Text>SNSログインの情報は認証のみに使用されます。無断でSNSに投稿されることはありません。</Text>
+                    <Text>
+                      登録いただいたデータはプライベートになり、ユーザー本人以外に参照されることはありません。
+                    </Text>
                   </TextWrapper>
                 </StyledWrapper>
               );
@@ -107,7 +110,7 @@ const TextWrapper = styled(Wrapper)`
 const Text = styled.p`
   font-size: ${properties.fontSizes.s};
   color: ${properties.colors.grayDark};
-  line-height: 1.14em;
+  line-height: 1.4em;
   margin: 0.5em 0;
 `;
 

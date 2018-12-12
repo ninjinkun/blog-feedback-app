@@ -19,7 +19,7 @@ const WelcomePage = () => (
         <StyledSocialButtons />
         <Title>BlogFeedbackへようこそ！</Title>
         <MessageWrapper>
-          BlogFeedbackはブログのソーシャルボタンの数を集計し、反響を確認できるサービスです。
+          <Text>BlogFeedbackはブログのソーシャルボタンの数を集計し、反響を確認できるサービスです。</Text>
         </MessageWrapper>
         <ImageWrapper>
           <img src="https://user-images.githubusercontent.com/113420/48974171-d4738780-f093-11e8-9ec0-061c1707adba.gif" />
@@ -89,4 +89,11 @@ const Slash = styled.p`
 
 const StyledSocialButtons = styled(SocialButtons)`
   margin: 16px 0 16px 0;
+`;
+
+const Text = styled.p`
+  font-size: ${properties.fontSizes.s};
+  color: ${properties.colors.grayDark};
+  line-height: 1.4em;
+  margin: 0.5em 0;
 `;
