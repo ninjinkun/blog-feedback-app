@@ -15,6 +15,22 @@ export async function saveFeedsAndCounts(
   countsResponse: CountResponse[]
 ): Promise<void> {
   const batch = writeBatch();
+  const saveEntities = createSaveEntities(firebaseEntities, feedItemsResponse, countsResponse);
+  for (const item of saveEntities) {
+    saveItemBatch(batch, user.uid, blogURL, item.url, item.title, item.published, item.itemCounts, item.prevCounts);
+  }
+  if (saveEntities.length) {
+    return batch.commit();
+  } else {
+    return;
+  }
+}
+
+export function createSaveEntities(
+  firebaseEntities: ItemEntity[],
+  feedItemsResponse: ItemResponse[],
+  countsResponse: CountResponse[]
+): ItemSaveEntity[] {
   const counts = countsResponse.filter((count: CountResponse) => count && count.count > 0);
   const facebookMap = new Map<string, CountResponse>(
     counts.filter(c => c.type === CountType.Facebook).map(c => [c.url, c] as [string, CountResponse])
@@ -45,7 +61,8 @@ export async function saveFeedsAndCounts(
       .map(e => [e.url, e.counts && e.prevCounts[CountType.HatenaBookmark]] as [string, CountEntity])
   );
 
-  let shouldCommit = false;
+  const result: ItemSaveEntity[] = [];
+
   for (const item of feedItemsResponse) {
     const itemCounts: CountSaveEntities = {};
     const facebookCount = facebookMap.get(item.url);
@@ -127,13 +144,22 @@ export async function saveFeedsAndCounts(
       isPrevHatenaBookmarkCountChanged ||
       isPrevFacebookCountChanged;
     if (shouldSave) {
-      saveItemBatch(batch, user.uid, blogURL, item.url, item.title, item.published, itemCounts, prevCounts);
-      shouldCommit = true;
+      result.push({
+        url: item.url,
+        title: item.title,
+        published: item.published,
+        itemCounts,
+        prevCounts,
+      });
     }
   }
-  if (shouldCommit) {
-    return batch.commit();
-  } else {
-    return;
-  }
+  return result;
 }
+
+type ItemSaveEntity = {
+  url: string;
+  title: string;
+  published: Date;
+  itemCounts: CountSaveEntities;
+  prevCounts: CountSaveEntities;
+};
