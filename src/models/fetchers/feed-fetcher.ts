@@ -1,4 +1,5 @@
-import * as firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/functions';
 import xmljs from 'xml-js';
 import { Atom } from '../../consts/feeds/atom';
 import { Feed } from '../../consts/feeds/feed';

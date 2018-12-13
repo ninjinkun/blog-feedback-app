@@ -1,7 +1,7 @@
 import chunk from 'lodash/chunk';
 import flatten from 'lodash/flatten';
 import { delay } from 'redux-saga';
-import { all, call, fork, put, take, takeEvery, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { BlogEntity, ItemEntity } from '../../models/entities';
 import {
   fetchFacebookCount,
@@ -16,27 +16,20 @@ import {
   feedCrowlerErrorResponse,
   feedFetchFacebookCountRequest,
   feedFetchFacebookCountResponse,
-  FeedFetchFacebookCountResponseAction,
   FeedFetchFeedAction,
   feedFetchHatenaBookmarkCountsRequest,
   feedFetchHatenaBookmarkCountsResponse,
-  FeedFetchHatenaBookmarkCountsResponseAction,
   feedFetchRSSRequest,
   feedFetchRSSResponse,
-  FeedFetchRSSResponseAction,
   feedFirebaseBlogRequest,
   feedFirebaseBlogResponse,
-  FeedFirebaseBlogResponseAction,
   feedFirebaseFeedItemsResponse,
-  FeedFirebaseFeedItemsResponseAction,
-  feedFirebaseUserResponse,
-  FeedFirebaseUserResponseAction,
   feedSaveFeedFirebaseResponse,
   feedSaveFeedRequest,
 } from '../actions/feed-action';
 import { fetchFiresbaseUser } from './user-saga';
 
-export default function* rootSaga() {
+export default function* feedSaga() {
   yield takeLatest('FeedFetchFeedAction', handleFetchAction);
 }
 

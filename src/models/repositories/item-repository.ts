@@ -1,4 +1,4 @@
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { CountEntities, CountEntity, ItemEntity } from '../entities';
 import { serverTimestamp, writeBatch } from './app-repository';

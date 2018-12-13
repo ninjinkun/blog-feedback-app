@@ -1,4 +1,5 @@
-import * as firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/functions';
 import unescape from 'lodash/unescape';
 import { FeedType } from '../../consts/feed-type';
 import { BlogResponse } from '../responses';
