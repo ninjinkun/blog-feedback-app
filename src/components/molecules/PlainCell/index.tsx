@@ -2,14 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import * as properties from '../../properties';
 
-const BlogCell: React.FunctionComponent = ({ children, ...props }) => (
+const PlainCell: React.FunctionComponent = ({ children, ...props }) => (
   <CellWrapper {...props}>
     <ContentWrapper>{children}</ContentWrapper>
     <Underline />
   </CellWrapper>
 );
 
-export default BlogCell;
+export default PlainCell;
 
 const CellWrapper = styled.div`
   display: flex;
@@ -27,7 +27,7 @@ const CellWrapper = styled.div`
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: baseline;
+  align-items: unset;
 `;
 
 const Underline = styled.span`

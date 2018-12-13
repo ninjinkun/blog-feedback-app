@@ -3,6 +3,9 @@ import 'firebase/auth';
 import React from 'react';
 import styled from 'styled-components';
 
+import { FaDonate, FaGithub, FaHeart, FaSignOutAlt } from 'react-icons/fa';
+import { FiGithub, FiHeart } from 'react-icons/fi';
+import { MdAssignment, MdAssignmentInd, MdLaunch, MdOpenInBrowser } from 'react-icons/md';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -18,6 +21,7 @@ import Wrapper from '../../atoms/Wrapper/index';
 import LoadingView from '../../molecules/LoadingView/index';
 import PlainCell from '../../molecules/PlainCell/index';
 import BlogCell from '../../organisms/BlogCell/index';
+import SettingCell from '../../organisms/SettingCell/index';
 import SectionHeader from '../../organisms/SettingSectionHeader/index';
 import SocialButtons from '../../organisms/SocialButtons/index';
 import * as properties from '../../properties';
@@ -86,24 +90,24 @@ class SettingsPage extends React.PureComponent<Props, {}> {
           </SignOutButtonWrapper>
           <SectionHeader>サービスの情報</SectionHeader>
           <Link to="/term" target="_blank">
-            <PlainCell>
-              <Title>サービス利用規約</Title>
-            </PlainCell>
+            <SettingCell title="サービス利用規約" LeftIcon={<MdAssignment size="16" />} />
           </Link>
           <Link to="/privacy" target="_blank">
-            <PlainCell>
-              <Title>プライバシーポリシー</Title>
-            </PlainCell>
+            <SettingCell title="プライバシーポリシー" LeftIcon={<MdAssignmentInd size="16" />} />
           </Link>
-          <a href="https://patreon.com/ninjinkun">
-            <PlainCell>
-              <Title>投げ銭 (Patreon)</Title>
-            </PlainCell>
+          <a href="https://patreon.com/ninjinkun" target="_blank">
+            <SettingCell
+              title="投げ銭 (Patreon)"
+              LeftIcon={<FiHeart size="16" />}
+              RightIcon={<MdLaunch size="24" color={properties.colors.gray} />}
+            />
           </a>
-          <a href="https://github.com/ninjinkun/blog-feedback-app">
-            <PlainCell>
-              <Title>要望・PullRequest (Github)</Title>
-            </PlainCell>
+          <a href="https://github.com/ninjinkun/blog-feedback-app" target="_blank">
+            <SettingCell
+              title="要望・PullRequest (Github)"
+              LeftIcon={<FiGithub size="16" />}
+              RightIcon={<MdLaunch size="24" color={properties.colors.gray} />}
+            />
           </a>
           <StyledSocialButtons />
         </StyledScrollView>
@@ -149,11 +153,6 @@ const SignOutButtonWrapper = styled(Wrapper)`
 const SignOutButton = styled(Button)`
   width: 100%;
   justify-content: center;
-`;
-
-const Title = styled.h3`
-  font-size: ${properties.fontSizes.m};
-  margin: 0 8px 8px 24px;
 `;
 
 const StyledScrollView = styled(ScrollView)`
