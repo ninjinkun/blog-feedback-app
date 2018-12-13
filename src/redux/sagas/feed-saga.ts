@@ -118,8 +118,9 @@ function* fetchFacebookCounts(blogURL: string, urls: string[], maxFetchCount: nu
     for (const urls of chunkedURLs) {
       counts.push(yield call(fetchFacebookCountChunk, urls));
     }
-    yield put(feedFetchFacebookCountResponse(blogURL, flatten(counts)));
-    return counts;
+    const flattenedCounts = flatten(counts);
+    yield put(feedFetchFacebookCountResponse(blogURL, flattenedCounts));
+    return flattenedCounts;
   } catch (e) {
     //    yield put(feedCrowlerErrorResponse(blogURL, e));
   }
@@ -139,7 +140,7 @@ function* saveBlogFeedItemsAndCounts(
   counts: CountResponse[]
 ) {
   try {
-    yield put(feedSaveFeedRequest(blogURL));
+    yield put(feedSaveFeedRequest(blogURL, firebaseItems, fetchedItems, counts));
     yield call(saveFeedsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts);
     yield put(feedSaveFeedFirebaseResponse(blogURL));
   } catch (e) {
