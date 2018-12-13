@@ -139,7 +139,7 @@ function* saveBlogFeedItemsAndCounts(
   counts: CountResponse[]
 ) {
   try {
-    yield put(feedSaveFeedRequest(blogURL));
+    yield put(feedSaveFeedRequest(blogURL, firebaseItems, fetchedItems, counts));
     yield call(saveFeedsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts);
     yield put(feedSaveFeedFirebaseResponse(blogURL));
   } catch (e) {

@@ -242,12 +242,23 @@ export function feedFetchFacebookCountResponse(
 export interface FeedSaveFeedFirebaseRequestAction extends Action {
   type: 'FeedSaveFeedFirebaseRequestAction';
   blogURL: string;
+  firebaseItems: ItemEntity[];
+  fetchedItems: ItemResponse[];
+  counts: CountResponse[];
 }
 
-export function feedSaveFeedRequest(blogURL: string): FeedSaveFeedFirebaseRequestAction {
+export function feedSaveFeedRequest(
+  blogURL: string,
+  firebaseItems: ItemEntity[],
+  fetchedItems: ItemResponse[],
+  counts: CountResponse[]
+): FeedSaveFeedFirebaseRequestAction {
   return {
     type: 'FeedSaveFeedFirebaseRequestAction',
     blogURL,
+    firebaseItems,
+    fetchedItems,
+    counts,
   };
 }
 
