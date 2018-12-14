@@ -22,7 +22,7 @@ const WelcomePage = () => (
           <Text>BlogFeedbackはブログのソーシャルボタンの数を集計し、反響を確認できるサービスです。</Text>
         </MessageWrapper>
         <ImageWrapper>
-          <img src="https://user-images.githubusercontent.com/113420/48974171-d4738780-f093-11e8-9ec0-061c1707adba.gif" />
+          <img src="https://user-images.githubusercontent.com/113420/50003891-97424b80-ffe8-11e8-949f-def709c14aa5.gif" />
         </ImageWrapper>
         <SigninButtonWrapper>
           <PrimaryButton as="a" href="/signin">
@@ -69,7 +69,8 @@ const MessageWrapper = styled(Wrapper)`
 
 const ImageWrapper = styled(Wrapper)`
   margin: 24px 16px 16px 16px;
-  height: 693px;
+  width: 400px;
+  height: 867px;
 `;
 
 const SigninButtonWrapper = styled(Wrapper)`
