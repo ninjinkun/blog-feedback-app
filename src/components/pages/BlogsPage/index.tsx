@@ -15,6 +15,7 @@ import ScrollView from '../../atoms/ScrollView/index';
 import Wrapper from '../../atoms/Wrapper/index';
 import LoadingView from '../../molecules/LoadingView/index';
 import BlogCell from '../../organisms/BlogCell/index';
+import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
 type StateProps = {
@@ -61,7 +62,7 @@ class BlogsPage extends React.PureComponent<Props, {}> {
           } else if (!loading && blogs && blogs.length === 0) {
             return (
               <AddBlogWrapper>
-                <h2>ご登録ありがとうございます</h2>
+                <Title>ご登録ありがとうございます</Title>
                 <WelcomeImage src={require('../../../assets/images/welcome-image.png')} />
                 <p>ブログを追加して利用を開始しましょう</p>
                 <StyledPrimaryButton href="/add" as="a">
@@ -104,8 +105,8 @@ const StyledScrollView = styled(ScrollView)`
 
 const AddBlogWrapper = styled(Wrapper)`
   justify-content: center;
-  width: 100%;
   align-items: center;
+  padding: 16px;
 `;
 
 const StyledPrimaryButton = styled(PrimaryButton)`
@@ -116,4 +117,9 @@ const WelcomeImage = styled.img`
   width: 235px;
   height: 185px;
   margin: 16px;
+`;
+
+const Title = styled.h2`
+  margin-top: 16px;
+  color: ${properties.colors.grayDark};
 `;
