@@ -54,7 +54,7 @@ class AddBlogView extends React.PureComponent<Props, States> {
         <PageLayout
           header={{
             title: 'ブログを追加する',
-            backButtonLink: '/blogs/',
+            backButtonLink: '/blogs',
           }}
         >
           <FormWrapper>

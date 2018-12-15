@@ -57,7 +57,7 @@ class FeedPage extends React.PureComponent<Props> {
           loading: feed && feed.loadingRatio > 0 && feed.loadingRatio < 100,
           loadingRatio: feed && feed.loadingRatio,
           loadingLabel: feed && feed.loadingLabel,
-          backButtonLink: '/blogs/',
+          backButtonLink: '/blogs',
         }}
       >
         {(() => {

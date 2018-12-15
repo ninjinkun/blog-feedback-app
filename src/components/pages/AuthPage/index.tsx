@@ -86,7 +86,7 @@ export default withRouter(
 const uiConfig = {
   signInFlow: 'popup',
   // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
-  signInSuccessUrl: '/blogs/',
+  signInSuccessUrl: '/blogs',
   // We will display Google and Facebook as auth providers.
   signInOptions: [
     firebase.auth.TwitterAuthProvider.PROVIDER_ID,
