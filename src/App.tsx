@@ -11,7 +11,7 @@ import { appStore } from './redux/create-store';
 import AddBlogPage from './components/pages/AddBlogPage/index';
 import AuthPage from './components/pages/AuthPage/index';
 import BlogsPage from './components/pages/BlogsPage/index';
-import EntriesPage from './components/pages/EntriesPage/index';
+import FeedPage from './components/pages/FeedPage/index';
 import IndexPage from './components/pages/IndexPage/index';
 import PrivacyPage from './components/pages/PrivarcyPage/index';
 import SettingPage from './components/pages/SettingPage/index';
@@ -32,11 +32,11 @@ const App = () => (
           <ScrollToTop>
             <Route exact={true} path="/" component={withTracker(IndexPage)} />
             <Route exact={true} path="/signin" component={withTracker(AuthPage)} />
-            <Route exact={true} path="/blogs" component={withTracker(BlogsPage)} />
             <Route exact={true} path="/add" component={withTracker(AddBlogPage)} />
+            <Route exact={true} path="/blogs" component={withTracker(BlogsPage)} />
+            <Route exact={true} path="/blogs/:blogURL" component={withTracker(FeedPage)} />
             <Route exact={true} path="/settings" component={withTracker(SettingsPage)} />
             <Route exact={true} path="/settings/:blogURL" component={withTracker(SettingPage)} />
-            <Route exact={true} path="/blogs/:blogURL" component={withTracker(EntriesPage)} />
             <Route exact={true} path="/term" component={withTracker(TermPage)} />
             <Route exact={true} path="/privacy" component={withTracker(PrivacyPage)} />
           </ScrollToTop>
