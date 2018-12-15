@@ -10,6 +10,8 @@ type Props = {
   handleSubmit: (url: string) => any;
   loading: boolean;
   errorMessage?: string;
+  url?: string;
+  clearURL?: () => void;
 };
 
 type States = {
@@ -23,12 +25,13 @@ export default class AddBlogForm extends React.PureComponent<Props, States> {
   }
 
   handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    const { url } = this.props;
     event.preventDefault();
-    this.props.handleSubmit(this.state.url);
+    this.props.handleSubmit(url || this.state.url);
   }
 
   render() {
-    const { loading, errorMessage } = this.props;
+    const { loading, errorMessage, url, clearURL } = this.props;
     return (
       <StyledWrapper>
         <StyledForm onSubmit={(e: React.FormEvent<HTMLFormElement>) => this.handleSubmit(e)}>
@@ -36,9 +39,12 @@ export default class AddBlogForm extends React.PureComponent<Props, States> {
             <Text>ブログのURLを入力してください</Text>
             <URLField
               type="url"
-              value={this.state.url}
+              value={url || this.state.url}
               placeholder={'https://exampleblog.com/'}
               onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                if (clearURL) {
+                  clearURL();
+                }
                 this.setState({ url: (e.target as HTMLInputElement).value });
               }}
             />
