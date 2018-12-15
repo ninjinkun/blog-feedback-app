@@ -86,30 +86,12 @@ jobs:
       - run: yarn build:production
       - run: yarn firebase deploy --project production --token "$FIREBASE_TOKEN_PRODUCTION"
 
-  deploy_storybook:
-    docker:
-      - image: circleci/node:8.14
-    working_directory: ~/repo
-    steps:
-      - attach_workspace:
-          at: .
-      - run: yarn storybook:deploy -- --ci
-
 workflows:
   version: 2
   test_and_deploy:
     jobs:
-      - build:
-          filters:
-            branches:
-              ignore: gh-pages
+      - build
       - deploy_development:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
-      - deploy_storybook:
           requires:
             - build
           filters:
