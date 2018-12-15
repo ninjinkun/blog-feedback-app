@@ -38,6 +38,11 @@ const WelcomePage = () => (
             プライバシーポリシー
           </Anker>
         </TermAndPrivacyWrapper>
+        <TermAndPrivacyWrapper>
+          <Anker href="https://github.com/ninjinkun/blog-feedback-app" target="_blank">
+            GitHub
+          </Anker>
+        </TermAndPrivacyWrapper>
       </BodyWrapper>
     </StyledScrollView>
   </PageLayout>
@@ -80,7 +85,7 @@ const SigninButtonWrapper = styled(Wrapper)`
 
 const TermAndPrivacyWrapper = styled(Wrapper)`
   flex-direction: row;
-  margin: 8px 0 16px 0;
+  margin: 8px 0 8px 0;
   font-size: ${properties.fontSizes.s};
 `;
 
