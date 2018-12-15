@@ -106,7 +106,6 @@ const AddBlogWrapper = styled(Wrapper)`
   justify-content: center;
   width: 100%;
   align-items: center;
-  padding: 16px;
 `;
 
 const StyledPrimaryButton = styled(PrimaryButton)`
