@@ -18,8 +18,8 @@ export type ItemEntity = {
 };
 
 export type CountEntities = {
-  facebook?: CountEntity[];
-  hatenabookmark?: CountEntity[];
+  facebook?: CountEntity;
+  hatenabookmark?: CountEntity;
 };
 
 export type CountEntity = {
