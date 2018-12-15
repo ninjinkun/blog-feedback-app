@@ -14,7 +14,7 @@ type Props = {
 const CountButton: React.FunctionComponent<Props> = ({ count, type, children, href, ...props }) => (
   <StyledButton href={href} {...props} as="a">
     <ServiceIcon type={type} />
-    <CuontLabel>{count}</CuontLabel>
+    {count !== undefined ? <CuontLabel>{count}</CuontLabel> : <UndefinedCuontLabel>-</UndefinedCuontLabel>}
     {children}
   </StyledButton>
 );
@@ -33,4 +33,8 @@ const CuontLabel = styled.span`
   margin-left: 0.2rem;
   border-radius: 8px;
   width: 100%;
+`;
+
+const UndefinedCuontLabel = styled(CuontLabel)`
+  color: ${properties.colors.gray};
 `;

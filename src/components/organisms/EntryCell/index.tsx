@@ -29,7 +29,7 @@ const EntryCell: React.FunctionComponent<Props> = ({ favicon, title, counts, url
             animate={count.animate}
             key={count.type}
             type={count.type}
-            count={count.count || 0}
+            count={count.count}
             href={toServiceURL(count.type, url) || ''}
             target={'_blank'}
           />

@@ -36,7 +36,7 @@ type Props = OwnProps & StateProps & DispatchProps;
 type CountMap = Map<string, number>;
 type AnimateMap = Map<string, boolean>;
 
-class EntriesPage extends React.PureComponent<Props> {
+class FeedPage extends React.PureComponent<Props> {
   componentDidMount() {
     const blogURL = decodeURIComponent(this.props.match.params.blogURL);
     this.props.feedBlogURLChange(blogURL);
@@ -91,7 +91,7 @@ class EntriesPage extends React.PureComponent<Props> {
                     title={item.title}
                     favicon={`https://www.google.com/s2/favicons?domain=${blogURL}`}
                     counts={[
-                      { type: CountType.Twitter, count: 0, animate: false },
+                      { type: CountType.Twitter, count: undefined, animate: false },
                       {
                         type: CountType.Facebook,
                         count: facebookMap.get(item.url) || 0,
@@ -171,5 +171,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(EntriesPage)
+  )(FeedPage)
 );

@@ -9,7 +9,7 @@ import CountButton from '../../molecules/CountButton/index';
 type Props = {
   animate: boolean;
   type: CountType;
-  count: number;
+  count?: number;
   href?: string;
   target?: string;
 };
@@ -19,15 +19,19 @@ export default class AnimatedCountButton extends React.PureComponent<Props> {
 
   render() {
     const { animate, type, count, href, target } = this.props;
-    const res = (
-      <StyledTwincleAnimation animate={animate} key={type}>
-        <CountUpAnimation start={animate && this.prevCount ? this.prevCount : count} end={count}>
-          {value => <StyledCountButton type={type} count={value} href={href} target={target} />}
-        </CountUpAnimation>
-      </StyledTwincleAnimation>
-    );
-    this.prevCount = count;
-    return res;
+    if (count !== undefined) {
+      const res = (
+        <StyledTwincleAnimation animate={animate} key={type}>
+          <CountUpAnimation start={animate && this.prevCount ? this.prevCount : count} end={count}>
+            {value => <StyledCountButton type={type} count={value} href={href} target={target} />}
+          </CountUpAnimation>
+        </StyledTwincleAnimation>
+      );
+      this.prevCount = count;
+      return res;
+    } else {
+      return <StyledCountButton type={type} href={href} target={target} />;
+    }
   }
 }
 

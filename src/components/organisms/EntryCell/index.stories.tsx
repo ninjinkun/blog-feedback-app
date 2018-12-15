@@ -6,7 +6,7 @@ import { CountType } from '../../../consts/count-type';
 import EntryCell from './index';
 
 const counts = [
-  { type: CountType.Twitter, count: 0, animate: false },
+  { type: CountType.Twitter, count: undefined, animate: false },
   { type: CountType.Facebook, count: 100, animate: true },
   { type: CountType.HatenaBookmark, count: 1000, animate: false },
 ];
