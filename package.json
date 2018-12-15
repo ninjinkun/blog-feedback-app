@@ -1,5 +1,5 @@
 {
-  "name": "feedback",
+  "name": "blog-feedback-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -99,5 +99,6 @@
       "tslint --fix",
       "git add"
     ]
-  }
+  },
+  "license": "MIT"
 }
