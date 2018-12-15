@@ -111,7 +111,7 @@ const SuggestionContentWrapper = styled(Wrapper)`
   padding: 16px;
   border: 1px dashed ${properties.colors.gray};
   border-radius: 4px;
-  width: max-content;
+  width: fit-content;
 `;
 
 const SuggestionText = styled.p`
