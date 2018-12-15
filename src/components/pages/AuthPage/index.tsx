@@ -63,7 +63,7 @@ class AuthPage extends React.PureComponent<Props> {
                       に同意したことになります。
                     </Text>
                     <Text>SNSログインの情報は認証のみに使用されます。無断でSNSに投稿されることはありません。</Text>
-                    <Text>登録したデータはプライベートになり、他のユーザーから参照されることはありません。</Text>
+                    <Text>登録したデータはプライベートになり、他のユーザーから閲覧されることはありません。</Text>
                   </TextWrapper>
                 </StyledWrapper>
               );
