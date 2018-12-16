@@ -39,7 +39,7 @@ class AddBlogView extends React.PureComponent<Props, States> {
     this.state = {};
   }
 
-  componentDidMount() {
+  componentWillUnmount() {
     this.props.addBlogInitialize();
   }
 
