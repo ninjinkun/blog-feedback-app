@@ -22,9 +22,13 @@ const WelcomePage = () => (
           <Text>BlogFeedbackはブログのソーシャルボタンの数を集計し、反響を確認できるサービスです。</Text>
         </MessageWrapper>
         <ImageWrapper>
-          <DemoVideo autoPlay={true} loop={true} muted={true} playsInline={true}>
-            <source type="video/mp4" src="/demo-movie.mp4" />
-          </DemoVideo>
+          <DemoVideo
+            src="https://player.vimeo.com/video/306609900?autoplay=1&loop=1&muted=1"
+            width="270"
+            height="584"
+            frameBorder={0}
+            allowFullScreen={true}
+          />
         </ImageWrapper>
         <SigninButtonWrapper>
           <PrimaryButton as="a" href="/signin">
@@ -78,7 +82,7 @@ const ImageWrapper = styled(Wrapper)`
   margin: 24px 16px 16px 16px;
 `;
 
-const DemoVideo = styled.video`
+const DemoVideo = styled.iframe`
   width: 270px;
   height: 584px;
   box-shadow: 0 0 4px 0 ${properties.colors.grayLight};
