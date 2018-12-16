@@ -48,10 +48,10 @@ export async function fetchFeed(feedURL: string): Promise<FeedResponse> {
     );
 
     return {
-      title: atom.title._text,
-      url: atom.link._attributes.href,
-      items,
+      title: atom.feed.title._text,
+      url: atom.feed.link._attributes.href,
       feedType: FeedType.Atom,
+      items,
     };
   }
 
@@ -66,8 +66,8 @@ export async function fetchFeed(feedURL: string): Promise<FeedResponse> {
     return {
       title: rdf.channel.title._text,
       url: rdf.channel.link._text,
-      items,
       feedType: FeedType.RSS,
+      items,
     };
   }
 

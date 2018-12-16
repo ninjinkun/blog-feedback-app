@@ -74,14 +74,18 @@ export function addBlog(auth: firebase.auth.Auth, blogURL: string): AddBlogThunk
       try {
         const feed = await fetchFeed(blogURL);
         const { url, title, feedType } = feed;
-        await saveBlog(user.uid, url, title, blogURL, feedType);
-        const blogResponse: BlogResponse = {
-          url,
-          title,
-          feedURL: blogURL,
-          feedType,
-        };
-        dispatch(addBlogResponse(blogResponse));
+        if (user) {
+          await saveBlog(user.uid, url, title, blogURL, feedType);
+          const blogResponse: BlogResponse = {
+            url,
+            title,
+            feedURL: blogURL,
+            feedType,
+          };
+          dispatch(addBlogResponse(blogResponse));
+        } else {
+          dispatch(addBlogError(new Error('Blog missing')));
+        }
       } catch (e) {
         dispatch(addBlogError(e));
       }
