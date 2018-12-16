@@ -8,6 +8,13 @@ export type BlogResponse = {
   feedType: FeedType;
 };
 
+export type FeedResponse = {
+  title: string;
+  url: string;
+  items: ItemResponse[];
+  feedType: FeedType;
+};
+
 export type ItemResponse = {
   title: string;
   url: string;

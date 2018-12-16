@@ -4,6 +4,12 @@ export type RSS1 = {
 
 type RSS = {
   item: Item[];
+  channel: Channel;
+};
+
+type Channel = {
+  title: Text;
+  link: Text;
 };
 
 type Item = {

@@ -4,6 +4,7 @@ export type Atom = {
 
 type Feed = {
   title: Text;
+  link: Link;
   entry: Entry[];
 };
 

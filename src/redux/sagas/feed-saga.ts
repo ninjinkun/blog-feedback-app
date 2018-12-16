@@ -10,7 +10,7 @@ import {
 import { fetchFeed as fetchFeedAction } from '../../models/fetchers/feed-fetcher';
 import { findBlog } from '../../models/repositories/blog-repository';
 import { findAllItems } from '../../models/repositories/item-repository';
-import { CountResponse, ItemResponse } from '../../models/responses';
+import { CountResponse, FeedResponse, ItemResponse } from '../../models/responses';
 import { saveFeedsAndCounts } from '../../models/save-count-response';
 import {
   feedCrowlerErrorResponse,
@@ -82,9 +82,9 @@ function* firebaseFeed(user: firebase.User, blogURL: string) {
 function* fetchFeed(blogURL: string, feedURL: string) {
   try {
     yield put(feedFetchRSSRequest(blogURL));
-    const items: ItemResponse[] = yield call(fetchFeedAction, feedURL);
-    yield put(feedFetchRSSResponse(blogURL, items));
-    return items;
+    const feed: FeedResponse = yield call(fetchFeedAction, feedURL);
+    yield put(feedFetchRSSResponse(blogURL, feed.items));
+    return feed.items;
   } catch (e) {
     yield put(feedCrowlerErrorResponse(blogURL, e));
   }
