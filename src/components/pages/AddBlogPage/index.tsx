@@ -61,7 +61,8 @@ class AddBlogView extends React.PureComponent<Props, States> {
             <AddBlogForm
               handleSubmit={e => this.handleSubmit(e)}
               loading={loading}
-              errorMessage={error && error.message}
+              errorMessage={`${error &&
+                error.message}（エラーが続く場合はRSSのURLを直接入力するとうまくいくことがあります）`}
               url={this.state.fillInURL}
               clearURL={() => this.clearURL()}
             />

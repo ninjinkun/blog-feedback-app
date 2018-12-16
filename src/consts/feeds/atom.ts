@@ -1,5 +1,7 @@
 export type Atom = {
   feed: Feed;
+  title: Text;
+  link: Link;
 };
 
 type Feed = {

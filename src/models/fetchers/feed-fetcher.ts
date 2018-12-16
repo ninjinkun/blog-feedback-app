@@ -1,13 +1,14 @@
 import firebase from 'firebase/app';
 import 'firebase/functions';
 import xmljs from 'xml-js';
+import { FeedType } from '../../consts/feed-type';
 import { Atom } from '../../consts/feeds/atom';
 import { Feed } from '../../consts/feeds/feed';
 import { RSS1 } from '../../consts/feeds/rss1';
 import { RSS2 } from '../../consts/feeds/rss2';
-import { ItemResponse } from '../responses';
+import { FeedResponse, ItemResponse } from '../responses';
 
-export async function fetchFeed(feedURL: string): Promise<ItemResponse[]> {
+export async function fetchFeed(feedURL: string): Promise<FeedResponse> {
   const fetchFeed = firebase
     .app()
     .functions('asia-northeast1')
@@ -26,8 +27,8 @@ export async function fetchFeed(feedURL: string): Promise<ItemResponse[]> {
     throw new Error('Invalid Atom feed');
   }
 
-  function handleAtom(atom: Atom) {
-    return atom.feed.entry.map(
+  function handleAtom(atom: Atom): FeedResponse {
+    const items = atom.feed.entry.map(
       (entry): ItemResponse => {
         const { title, link, published, updated } = entry;
         const url = (() => {
@@ -45,23 +46,51 @@ export async function fetchFeed(feedURL: string): Promise<ItemResponse[]> {
         };
       }
     );
+
+    return {
+      title: atom.title._text,
+      url: atom.link._attributes.href,
+      items,
+      feedType: FeedType.Atom,
+    };
   }
 
-  function handleRSS1(rss1: RSS1) {
-    return rss1['rdf:RDF'].item.map(
+  function handleRSS1(rss1: RSS1): FeedResponse {
+    const { 'rdf:RDF': rdf } = rss1;
+    const items = rdf.item.map(
       (item): ItemResponse => {
         const { title, link, 'dc:date': date } = item;
         return { title: title._text, url: link._text, published: new Date(date._text) };
       }
     );
+    return {
+      title: rdf.channel.title._text,
+      url: rdf.channel.link._text,
+      items,
+      feedType: FeedType.RSS,
+    };
   }
 
-  function handleRSS2(rss2: RSS2) {
-    return rss2.rss.channel.item.map(
+  function handleRSS2(rss2: RSS2): FeedResponse {
+    const items = rss2.rss.channel.item.map(
       (item): ItemResponse => {
         const { title, link, pubDate } = item;
-        return { title: title._text, url: link._text, published: new Date(pubDate._text) };
+        return {
+          title: title._cdata || title._text,
+          url: normalizeMediumURL(link._text),
+          published: new Date(pubDate._text),
+        };
       }
     );
+    return {
+      title: rss2.rss.channel.title._cdata || rss2.rss.channel.title._text,
+      url: normalizeMediumURL(rss2.rss.channel.link._text),
+      items,
+      feedType: FeedType.RSS,
+    };
+  }
+
+  function normalizeMediumURL(url: string) {
+    return url.replace(/\?source=([^&]+)/, '');
   }
 }

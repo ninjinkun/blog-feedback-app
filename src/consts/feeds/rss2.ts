@@ -8,6 +8,7 @@ type RSS = {
 
 type Channel = {
   title: Text;
+  link: Text;
   item: Item[];
 };
 
@@ -19,4 +20,5 @@ type Item = {
 
 type Text = {
   _text: string;
+  _cdata?: string;
 };

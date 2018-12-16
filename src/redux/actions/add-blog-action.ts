@@ -4,6 +4,7 @@ import 'firebase/auth';
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { fetchBlog } from '../../models/fetchers/blog-fetcher';
+import { fetchFeed } from '../../models/fetchers/feed-fetcher';
 import { saveBlog } from '../../models/repositories/blog-repository';
 import { BlogResponse } from '../../models/responses';
 import { AppState } from '../states/app-state';
@@ -70,7 +71,20 @@ export function addBlog(auth: firebase.auth.Auth, blogURL: string): AddBlogThunk
         dispatch(addBlogError(new Error('Blog missing')));
       }
     } catch (e) {
-      dispatch(addBlogError(e));
+      try {
+        const feed = await fetchFeed(blogURL);
+        const { url, title, feedType } = feed;
+        await saveBlog(user.uid, url, title, blogURL, feedType);
+        const blogResponse: BlogResponse = {
+          url,
+          title,
+          feedURL: blogURL,
+          feedType,
+        };
+        dispatch(addBlogResponse(blogResponse));
+      } catch (e) {
+        dispatch(addBlogError(e));
+      }
     }
   };
 }
