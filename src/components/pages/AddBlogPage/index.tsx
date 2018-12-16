@@ -70,11 +70,11 @@ class AddBlogView extends React.PureComponent<Props, States> {
             <SuggestionWrapper>
               <SuggestionContentWrapper>
                 <SuggestionText>まず試してみたい場合は、以下からおすすめブログのURLを入力できます</SuggestionText>
-                <SeggestionButton onClick={() => this.fillIn('https://ninjinkun.hatenablog.com/')}>
-                  ninjinkun's diary
-                </SeggestionButton>
                 <SeggestionButton onClick={() => this.fillIn('https://user-first.ikyu.co.jp/')}>
                   一休.com Developers Blog
+                </SeggestionButton>
+                <SeggestionButton onClick={() => this.fillIn('https://ninjinkun.hatenablog.com/')}>
+                  ninjinkun's diary
                 </SeggestionButton>
               </SuggestionContentWrapper>
             </SuggestionWrapper>
