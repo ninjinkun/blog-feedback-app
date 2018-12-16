@@ -7,6 +7,8 @@ import { serverTimestamp, writeBatch } from './repositories/app-repository';
 import { CountSaveEntities, saveItemBatch } from './repositories/item-repository';
 import { CountResponse, ItemResponse } from './responses';
 
+// TODO: refactor!!
+
 export async function saveFeedsAndCounts(
   user: firebase.User,
   blogURL: string,
