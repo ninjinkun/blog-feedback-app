@@ -22,7 +22,7 @@ const WelcomePage = () => (
           <Text>BlogFeedbackはブログのソーシャルボタンの数を集計し、反響を確認できるサービスです。</Text>
         </MessageWrapper>
         <ImageWrapper>
-          <DemoVideo autoPlay={true} loop={true} muted={true} playsinline={true}>
+          <DemoVideo autoPlay={true} loop={true} muted="muted" playsinline="playsinline">
             <source type="video/mp4" src="/demo-movie.mp4" />
           </DemoVideo>
         </ImageWrapper>
