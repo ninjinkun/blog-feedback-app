@@ -60,7 +60,7 @@ class SettingPage extends React.PureComponent<Props, {}> {
         <PageLayout
           header={{
             title: `${(feedState && feedState.title) || 'ブログ'}の設定`,
-            backButtonLink: '/settings/',
+            backButtonLink: '/settings',
           }}
         >
           <StyledScrollView>
