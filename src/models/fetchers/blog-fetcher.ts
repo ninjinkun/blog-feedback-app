@@ -3,13 +3,10 @@ import 'firebase/functions';
 import unescape from 'lodash/unescape';
 import { FeedType } from '../../consts/feed-type';
 import { BlogResponse } from '../responses';
+import { crossOriginFetch } from './cross-origin-fetch';
 
 export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
-  const fetchBlog = firebase
-    .app()
-    .functions('asia-northeast1')
-    .httpsCallable('crossOriginFetch');
-  const result = await fetchBlog({ url: blogURL });
+  const result = await crossOriginFetch(blogURL);
   const htmlText = result.data.body;
 
   if (!htmlText) {

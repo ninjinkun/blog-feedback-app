@@ -36,10 +36,12 @@ service cloud.firestore {
             || (request.resource.data.count is map 
               && checkCountFields(request.resource.data.count, "facebook")
               && checkCountFields(request.resource.data.count, "hatenabookmark")))
+              && checkCountFields(request.resource.data.count, "hatenastar")))
           && (isUndefined(request.resource.data, "prevCount") 
             || (request.resource.data.prevCount is map
               && checkCountFields(request.resource.data.prevCount, "facebook")
               && checkCountFields(request.resource.data.prevCount, "hatenabookmark")));
+              && checkCountFields(request.resource.data.prevCount, "hatenastar")))
 	    }
     }
   }

@@ -50,6 +50,10 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
       const { blogURL, counts } = action;
       return updateFeed(blogURL, state, { fetchedHatenaBookmarkCounts: flatten(counts) });
     }
+    case 'FeedFetchHatenaStarCountsResponseAction': {
+      const { blogURL, counts } = action;
+      return updateFeed(blogURL, state, { fetchedHatenaStarCounts: flatten(counts) });
+    }
     case 'FeedFetchFacebookCountRequestAction': {
       const { blogURL } = action;
       return updateFeed(blogURL, state, { loadingLabel: 'Facebookシェアを読み込んでいます', loadingRatio: 60 });

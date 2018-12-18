@@ -210,6 +210,35 @@ export function feedFetchHatenaBookmarkCountsResponse(
   };
 }
 
+export interface FeedFetchHatenaStarCountsRequestAction extends Action {
+  type: 'FeedFetchHatenaStarCountsRequestAction';
+  blogURL: string;
+}
+
+export function feedFetchHatenaStarCountsRequest(blogURL: string): FeedFetchHatenaStarCountsRequestAction {
+  return {
+    type: 'FeedFetchHatenaStarCountsRequestAction',
+    blogURL,
+  };
+}
+
+export interface FeedFetchHatenaStarCountsResponseAction extends Action {
+  type: 'FeedFetchHatenaStarCountsResponseAction';
+  blogURL: string;
+  counts: CountResponse[];
+}
+
+export function feedFetchHatenaStarCountsResponse(
+  blogURL: string,
+  counts: CountResponse[]
+): FeedFetchHatenaStarCountsResponseAction {
+  return {
+    type: 'FeedFetchHatenaStarCountsResponseAction',
+    blogURL,
+    counts,
+  };
+}
+
 export interface FeedFetchFacebookCountRequestAction extends Action {
   type: 'FeedFetchFacebookCountRequestAction';
   blogURL: string;
@@ -296,6 +325,8 @@ type FeedCrowlerActions =
   | FeedFetchRSSResponseAction
   | FeedFetchHatenaBookmarkCountsRequestAction
   | FeedFetchHatenaBookmarkCountsResponseAction
+  | FeedFetchHatenaStarCountsRequestAction
+  | FeedFetchHatenaStarCountsResponseAction
   | FeedFetchFacebookCountRequestAction
   | FeedFetchFacebookCountResponseAction
   | FeedCrowlerErrorAction

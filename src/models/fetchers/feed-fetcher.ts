@@ -7,13 +7,10 @@ import { Feed } from '../../consts/feeds/feed';
 import { RSS1 } from '../../consts/feeds/rss1';
 import { RSS2 } from '../../consts/feeds/rss2';
 import { FeedResponse, ItemResponse } from '../responses';
+import { crossOriginFetch } from './cross-origin-fetch';
 
 export async function fetchFeed(feedURL: string): Promise<FeedResponse> {
-  const fetchFeed = firebase
-    .app()
-    .functions('asia-northeast1')
-    .httpsCallable('crossOriginFetch');
-  const response = await fetchFeed({ url: feedURL });
+  const response = await crossOriginFetch(feedURL);
   const xml = response.data.body;
   const json = xmljs.xml2js(xml, { compact: true }) as Feed;
 

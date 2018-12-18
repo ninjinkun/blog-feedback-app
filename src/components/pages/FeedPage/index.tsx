@@ -64,12 +64,23 @@ class FeedPage extends React.PureComponent<Props> {
           if ((!feed || feed.loading) && !((feed && feed.fethcedEntities) || (feed && feed.firebaseEntities))) {
             return <LoadingView />;
           } else {
-            const { firebaseEntities, fethcedEntities, fetchedHatenaBookmarkCounts, fetchedFacebookCounts } = feed;
+            const {
+              firebaseEntities,
+              fethcedEntities,
+              fetchedHatenaBookmarkCounts,
+              fetchedHatenaStarCounts,
+              fetchedFacebookCounts,
+            } = feed;
 
             const [hatenabookmarkMap, hatenabookmarkAnimateMap] = this.stateToViewData(
               fetchedHatenaBookmarkCounts,
               firebaseEntities,
               CountType.HatenaBookmark
+            );
+            const [hatenastarMap, hatenastarAnimateMap] = this.stateToViewData(
+              fetchedHatenaStarCounts,
+              firebaseEntities,
+              CountType.HatenaStar
             );
             const [facebookMap, facebookAnimateMap] = this.stateToViewData(
               fetchedFacebookCounts,
@@ -101,6 +112,11 @@ class FeedPage extends React.PureComponent<Props> {
                         type: CountType.HatenaBookmark,
                         count: hatenabookmarkMap.get(item.url) || 0,
                         animate: !!(hatenabookmarkAnimateMap && hatenabookmarkAnimateMap.get(item.url)),
+                      },
+                      {
+                        type: CountType.HatenaStar,
+                        count: hatenastarMap.get(item.url) || 0,
+                        animate: !!(hatenastarAnimateMap && hatenastarAnimateMap.get(item.url)),
                       },
                     ]}
                     url={item.url}

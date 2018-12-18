@@ -5,6 +5,7 @@ export type FeedState = {
   firebaseEntities?: ItemEntity[];
   fethcedEntities?: ItemResponse[];
   fetchedHatenaBookmarkCounts?: CountResponse[];
+  fetchedHatenaStarCounts?: CountResponse[];
   fetchedFacebookCounts?: CountResponse[];
   title?: string;
   loading: boolean;

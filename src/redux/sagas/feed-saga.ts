@@ -6,6 +6,7 @@ import { BlogEntity, ItemEntity } from '../../models/entities';
 import {
   fetchFacebookCount,
   fetchHatenaBookmarkCounts as fetchHatenaBookmarkCountsAction,
+  fetchHatenaStarCounts as fetchHatenaStarCountsAction,
 } from '../../models/fetchers/count-fetcher';
 import { fetchFeed as fetchFeedAction } from '../../models/fetchers/feed-fetcher';
 import { findBlog } from '../../models/repositories/blog-repository';
@@ -19,6 +20,8 @@ import {
   FeedFetchFeedAction,
   feedFetchHatenaBookmarkCountsRequest,
   feedFetchHatenaBookmarkCountsResponse,
+  feedFetchHatenaStarCountsRequest,
+  feedFetchHatenaStarCountsResponse,
   feedFetchRSSRequest,
   feedFetchRSSResponse,
   feedFirebaseBlogRequest,
@@ -49,6 +52,7 @@ function* handleFetchAction(action: FeedFetchFeedAction) {
   const urls = fetchedItems.map(i => i.url);
   const [hatenaBookmarkCounts, facebookCounts]: [CountResponse[], CountResponse[]] = yield all([
     call(fetchHatenaBookmarkCounts, blogURL, urls),
+    call(fetchHatenaStarCounts, blogURL, urls),
     call(fetchFacebookCounts, blogURL, urls),
   ]);
 
@@ -96,6 +100,18 @@ function* fetchHatenaBookmarkCounts(blogURL: string, urls: string[], maxFetchCou
     const slicedURLs = urls.slice(0, maxFetchCount - 1);
     const counts: CountResponse[] = yield call(fetchHatenaBookmarkCountsAction, slicedURLs);
     yield put(feedFetchHatenaBookmarkCountsResponse(blogURL, counts));
+    return counts;
+  } catch (e) {
+    //    yield put(feedCrowlerErrorResponse(blogURL, e));
+  }
+}
+
+function* fetchHatenaStarCounts(blogURL: string, urls: string[], maxFetchCount: number = 50) {
+  try {
+    yield put(feedFetchHatenaStarCountsRequest(blogURL));
+    const slicedURLs = urls.slice(0, maxFetchCount - 1);
+    const counts: CountResponse[] = yield call(fetchHatenaStarCountsAction, slicedURLs);
+    yield put(feedFetchHatenaStarCountsResponse(blogURL, counts));
     return counts;
   } catch (e) {
     //    yield put(feedCrowlerErrorResponse(blogURL, e));

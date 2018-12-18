@@ -20,6 +20,7 @@ export type ItemEntity = {
 export type CountEntities = {
   facebook?: CountEntity;
   hatenabookmark?: CountEntity;
+  hatenastar?: CountEntity;
 };
 
 export type CountEntity = {
