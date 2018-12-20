@@ -31,15 +31,16 @@ export async function saveFeedsAndCounts(
 export function createSaveEntities(
   firebaseEntities: ItemEntity[],
   feedItemsResponse: ItemResponse[],
-  countsResponse: CountResponse[]
+  countsResponse: CountResponse[],
+  countTypes: CountType[] = [CountType.Facebook, CountType.HatenaBookmark]
 ): ItemSaveEntity[] {
   const counts = countsResponse.filter((count: CountResponse) => count && count.count > 0);
-  const facebookMap = new Map<string, CountResponse>(
-    counts.filter(c => c.type === CountType.Facebook).map(c => [c.url, c] as [string, CountResponse])
-  );
-  const hatenaBookmarkMap = new Map<string, CountResponse>(
-    counts.filter(c => c.type === CountType.HatenaBookmark).map(c => [c.url, c] as [string, CountResponse])
-  );
+  const countTypeMaps: { [key: string]: Map<string, CountResponse> } = {};
+  for (const countType of countTypes) {
+    countTypeMaps[countType] = new Map(
+      counts.filter(count => count.type === countType).map(c => [c.url, c] as [string, CountResponse])
+    );
+  }
 
   const firebaseMap = new Map<string, ItemEntity>(firebaseEntities.map(i => [i.url, i] as [string, ItemEntity]));
 
@@ -47,103 +48,42 @@ export function createSaveEntities(
 
   for (const item of feedItemsResponse) {
     const itemCounts: CountSaveEntities = {};
-    const firebaseItem = firebaseMap.get(item.url);
-
-    const createItemCount = (fetchedCount: CountResponse | undefined, firebaseCount: CountEntity | undefined) => {
-      const isNewCount = fetchedCount && !firebaseCount;
-      const isUpdatedCount = fetchedCount && firebaseCount && fetchedCount.count > firebaseCount.count;
-      if ((isNewCount || isUpdatedCount) && fetchedCount) {
-        return {
-          count: fetchedCount.count,
-          timestamp: serverTimestamp(),
-        };
-      } else {
-        return firebaseCount;
-      }
-    };
-
-    const facebookCount = facebookMap.get(item.url);
-    const firebaseFacebookCount = firebaseItem && firebaseItem.counts[CountType.Facebook];
-    itemCounts.facebook = createItemCount(facebookCount, firebaseFacebookCount);
-    if (!itemCounts.facebook) {
-      delete itemCounts.facebook;
-    }
-
-    const hatenaBookmarkCount = hatenaBookmarkMap.get(item.url);
-    const firebaseHatenaBookmarkCount = firebaseItem && firebaseItem.counts[CountType.HatenaBookmark];
-    itemCounts.hatenabookmark = createItemCount(hatenaBookmarkCount, firebaseHatenaBookmarkCount);
-    if (!itemCounts.hatenabookmark) {
-      delete itemCounts.hatenabookmark;
-    }
-
-    const createPrevItemCount = (
-      prevCount: CountEntity | undefined,
-      firebaseCount: CountEntity | undefined,
-      newCount: any
-    ) => {
-      const isExistSavedPrevCount = !!prevCount;
-      const is10MunitesLaterUntilLastUpdate =
-        firebaseCount && firebaseCount.timestamp.seconds < firebase.firestore.Timestamp.now().seconds - 60 * 10;
-      if (is10MunitesLaterUntilLastUpdate) {
-        // move current count to prevCount
-        return firebaseCount;
-      } else if (isExistSavedPrevCount) {
-        // insert same prevCount last inserted
-        return prevCount;
-      } else if (!isExistSavedPrevCount && newCount) {
-        return newCount;
-      }
-    };
-
     const prevCounts: CountSaveEntities = {};
-
-    const prevFacebookCount = firebaseItem && firebaseItem.prevCounts[CountType.Facebook];
-    prevCounts.facebook = createPrevItemCount(prevFacebookCount, firebaseFacebookCount, itemCounts.facebook);
-    if (!prevCounts.facebook) {
-      delete prevCounts.facebook;
-    }
-
-    const prevHatenaBookmarkCount = firebaseItem && firebaseItem.prevCounts[CountType.HatenaBookmark];
-    prevCounts.hatenabookmark = createPrevItemCount(
-      prevHatenaBookmarkCount,
-      firebaseHatenaBookmarkCount,
-      itemCounts.hatenabookmark
-    );
-    if (!prevCounts.hatenabookmark) {
-      delete prevCounts.hatenabookmark;
-    }
-
+    const firebaseItem = firebaseMap.get(item.url);
     const isTitleChanged = !firebaseItem || (firebaseItem && item.title !== firebaseItem.title);
+    let shouldSave = isTitleChanged;
 
-    const { hatenabookmark: willSaveHatenaBookmarkCount } = itemCounts;
-    const isHatenaBookmarkCountChanged =
-      !firebaseHatenaBookmarkCount ||
-      (willSaveHatenaBookmarkCount &&
-        firebaseHatenaBookmarkCount &&
-        willSaveHatenaBookmarkCount.count !== firebaseHatenaBookmarkCount.count);
+    for (const countType of countTypes) {
+      const typeMap = countTypeMaps[countType];
 
-    const { facebook: willSaveFacebookCount } = itemCounts;
-    const isFacebookCountChanged =
-      !firebaseFacebookCount ||
-      (willSaveFacebookCount && firebaseFacebookCount && willSaveFacebookCount.count !== firebaseFacebookCount.count);
+      const typeCount = typeMap.get(item.url);
+      const firebaseTypeCount = firebaseItem && firebaseItem.counts[countType];
+      itemCounts[countType] = createItemCount(typeCount, firebaseTypeCount);
+      if (!itemCounts[countType]) {
+        delete itemCounts[countType];
+      }
 
-    const { hatenabookmark: willSavePrevHatenaBookmarkCount } = prevCounts;
-    const isPrevHatenaBookmarkCountChanged =
-      prevHatenaBookmarkCount &&
-      willSavePrevHatenaBookmarkCount &&
-      prevHatenaBookmarkCount.count !== willSavePrevHatenaBookmarkCount.count;
+      const prevTypeCount = firebaseItem && firebaseItem.prevCounts[countType];
+      prevCounts[countType] = createPrevItemCount(prevTypeCount, firebaseTypeCount, itemCounts[countType]);
+      if (!prevCounts[countType]) {
+        delete prevCounts[countType];
+      }
 
-    const willSaveFacebookPrevCount = prevCounts.facebook;
-    const isPrevFacebookCountChanged =
-      !firebaseFacebookCount ||
-      (prevFacebookCount && willSaveFacebookPrevCount && prevFacebookCount.count !== willSaveFacebookPrevCount.count);
+      const willSaveTypeCount = itemCounts[countType];
+      const isTypeCountChanged =
+        !firebaseTypeCount ||
+        !!(willSaveTypeCount && firebaseTypeCount && willSaveTypeCount.count !== firebaseTypeCount.count);
 
-    const shouldSave =
-      isTitleChanged ||
-      isHatenaBookmarkCountChanged ||
-      isFacebookCountChanged ||
-      isPrevHatenaBookmarkCountChanged ||
-      isPrevFacebookCountChanged;
+      const willSavePrevTypeCount = prevCounts[countType];
+      const isPrevTypeCountChanged = !!(
+        prevTypeCount &&
+        willSavePrevTypeCount &&
+        prevTypeCount.count !== willSavePrevTypeCount.count
+      );
+
+      shouldSave = shouldSave || isTypeCountChanged || isPrevTypeCountChanged;
+    }
+
     if (shouldSave) {
       result.push({
         url: item.url,
@@ -155,6 +95,38 @@ export function createSaveEntities(
     }
   }
   return result;
+}
+
+function createItemCount(fetchedCount: CountResponse | undefined, firebaseCount: CountEntity | undefined) {
+  const isNewCount = fetchedCount && !firebaseCount;
+  const isUpdatedCount = fetchedCount && firebaseCount && fetchedCount.count > firebaseCount.count;
+  if ((isNewCount || isUpdatedCount) && fetchedCount) {
+    return {
+      count: fetchedCount.count,
+      timestamp: serverTimestamp(),
+    };
+  } else {
+    return firebaseCount;
+  }
+}
+
+function createPrevItemCount(
+  prevCount: CountEntity | undefined,
+  firebaseCount: CountEntity | undefined,
+  newCount: any
+) {
+  const isExistSavedPrevCount = !!prevCount;
+  const is10MunitesLaterUntilLastUpdate =
+    firebaseCount && firebaseCount.timestamp.seconds < firebase.firestore.Timestamp.now().seconds - 60 * 10;
+  if (is10MunitesLaterUntilLastUpdate) {
+    // move current count to prevCount
+    return firebaseCount;
+  } else if (isExistSavedPrevCount) {
+    // insert same prevCount last inserted
+    return prevCount;
+  } else if (!isExistSavedPrevCount && newCount) {
+    return newCount;
+  }
 }
 
 type ItemSaveEntity = {

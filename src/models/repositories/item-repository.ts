@@ -26,19 +26,14 @@ export async function findAllItems(userId: string, blogUrl: string): Promise<Ite
   );
 }
 
-export type CountSaveEntity =
-  | CountEntity
-  | {
-      count: number;
-      timestamp: firebase.firestore.FieldValue;
-    };
+export type CountSaveEntity = {
+  count: number;
+  timestamp: firebase.firestore.FieldValue;
+};
 
-export type CountSaveEntities =
-  | CountEntities
-  | {
-      hatenabookmark?: CountSaveEntity;
-      facebook?: CountSaveEntity;
-    };
+export type CountSaveEntities = {
+  [key: string]: CountSaveEntity | undefined;
+};
 
 export function saveItem(
   userId: string,
