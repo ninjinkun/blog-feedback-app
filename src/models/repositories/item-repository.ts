@@ -26,19 +26,14 @@ export async function findAllItems(userId: string, blogUrl: string): Promise<Ite
   );
 }
 
-export type CountSaveEntity =
-  | CountEntity
-  | {
-      count: number;
-      timestamp: firebase.firestore.FieldValue;
-    };
+export type CountSaveEntity = {
+  count: number;
+  timestamp: firebase.firestore.FieldValue;
+};
 
-export type CountSaveEntities =
-  | CountEntities
-  | {
-      hatenabookmark?: CountSaveEntity;
-      facebook?: CountSaveEntity;
-    };
+export type CountSaveEntities = {
+  [key: string]: CountSaveEntity | undefined;
+};
 
 export function saveItem(
   userId: string,
@@ -87,9 +82,8 @@ export async function deleteItemsBatch(userId: string, blogUrl: string, batchSiz
   const promsies: Array<Promise<void>> = [];
   for (let i = 0; i <= docs.length; i += batchSize) {
     const batch = writeBatch();
-    for (let j = i; j < i + batchSize; j++) {
-      docs.forEach(d => batch.delete(d.ref));
-    }
+    const slicedDocs = docs.slice(i, i + batchSize);
+    slicedDocs.forEach(d => batch.delete(d.ref));
     promsies.push(batch.commit());
   }
   return Promise.all(promsies);
