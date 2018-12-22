@@ -1,5 +1,3 @@
-import firebase from 'firebase/app';
-import 'firebase/functions';
 import xmljs from 'xml-js';
 import { FeedType } from '../../consts/feed-type';
 import { Atom } from '../../consts/feeds/atom';
@@ -7,13 +5,10 @@ import { Feed } from '../../consts/feeds/feed';
 import { RSS1 } from '../../consts/feeds/rss1';
 import { RSS2 } from '../../consts/feeds/rss2';
 import { FeedResponse, ItemResponse } from '../responses';
+import { crossOriginFetch } from './functions';
 
 export async function fetchFeed(feedURL: string): Promise<FeedResponse> {
-  const fetchFeed = firebase
-    .app()
-    .functions('asia-northeast1')
-    .httpsCallable('crossOriginFetch');
-  const response = await fetchFeed({ url: feedURL });
+  const response = await crossOriginFetch(feedURL);
   const xml = response.data.body;
   const json = xmljs.xml2js(xml, { compact: true }) as Feed;
 
