@@ -30,9 +30,11 @@ export async function fetchFeed(feedURL: string): Promise<FeedResponse> {
   function handleAtom(atom: Atom): FeedResponse {
     const items = atom.feed.entry.map(
       (entry): ItemResponse => {
-        const { title, link, published, updated } = entry;
+        const { title, link, published, updated, 'feedburner:origLink': feedburnerLink } = entry;
         const url = (() => {
-          if (link instanceof Array) {
+          if (feedburnerLink) {
+            return feedburnerLink._text;
+          } else if (link instanceof Array) {
             const relLinks = link.filter(l => l._attributes.rel && l._attributes.rel === 'alternate');
             return (relLinks.length && relLinks[0]._attributes.href) || link[0]._attributes.href;
           } else {
@@ -40,7 +42,7 @@ export async function fetchFeed(feedURL: string): Promise<FeedResponse> {
           }
         })();
         return {
-          title: title._text,
+          title: ('_cdata' in title && title._cdata) || ('_text' in title && title._text) || '',
           url,
           published: new Date((published && published._text) || updated._text),
         };
