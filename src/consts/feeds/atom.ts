@@ -4,7 +4,7 @@ export type Atom = {
 
 type Feed = {
   title: Text;
-  link: Link;
+  link: Link | Link[];
   entry: Entry[];
 };
 
@@ -17,7 +17,7 @@ type Entry = {
   'feedburner:origLink'?: Text;
 };
 
-type Link = {
+export type Link = {
   _attributes: {
     href: string;
     rel?: string;

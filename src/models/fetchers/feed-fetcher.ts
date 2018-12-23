@@ -1,6 +1,6 @@
 import xmljs from 'xml-js';
 import { FeedType } from '../../consts/feed-type';
-import { Atom } from '../../consts/feeds/atom';
+import { Atom, Link } from '../../consts/feeds/atom';
 import { Feed } from '../../consts/feeds/feed';
 import { RSS1 } from '../../consts/feeds/rss1';
 import { RSS2 } from '../../consts/feeds/rss2';
@@ -29,24 +29,21 @@ export async function fetchFeed(feedURL: string): Promise<FeedResponse> {
         const url = (() => {
           if (feedburnerLink) {
             return feedburnerLink._text;
-          } else if (link instanceof Array) {
-            const relLinks = link.filter(l => l._attributes.rel && l._attributes.rel === 'alternate');
-            return (relLinks.length && relLinks[0]._attributes.href) || link[0]._attributes.href;
           } else {
-            return link._attributes.href;
+            return handleAtomLink(link);
           }
         })();
-        return {
+        const item = {
           title: ('_cdata' in title && title._cdata) || ('_text' in title && title._text) || '',
           url,
           published: new Date((published && published._text) || updated._text),
         };
+        return item;
       }
     );
-
     return {
       title: atom.feed.title._text,
-      url: atom.feed.link._attributes.href,
+      url: handleAtomLink(atom.feed.link),
       feedType: FeedType.Atom,
       items,
     };
@@ -89,5 +86,14 @@ export async function fetchFeed(feedURL: string): Promise<FeedResponse> {
 
   function normalizeMediumURL(url: string) {
     return url.replace(/\?source=([^&]+)/, '');
+  }
+
+  function handleAtomLink(link: Link | Link[]): string {
+    if (link instanceof Array) {
+      const relLinks = link.filter(l => l._attributes.rel && l._attributes.rel === 'alternate');
+      return (relLinks.length && relLinks[0]._attributes.href) || link[0]._attributes.href;
+    } else {
+      return link._attributes.href;
+    }
   }
 }
