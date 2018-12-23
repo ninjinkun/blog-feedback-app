@@ -11,9 +11,10 @@ type Feed = {
 type Entry = {
   id: Text;
   link: Link | Link[];
-  title: Text;
+  title: Text | FeedBurnerTitle;
   updated: Text;
   published?: Text;
+  'feedburner:origLink'?: Text;
 };
 
 type Link = {
@@ -25,4 +26,8 @@ type Link = {
 
 type Text = {
   _text: string;
+};
+
+type FeedBurnerTitle = {
+  _cdata: string;
 };
