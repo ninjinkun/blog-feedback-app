@@ -15,7 +15,7 @@ service cloud.firestore {
           && request.resource.data.feedType is string
           && request.resource.data.timestamp is timestamp
           && request.resource.data.services is map
-          && request.resource.data.services.hasOnly(["twitter", "facebook", "hatenabookmark", "hatenastar"])
+          && request.resource.data.services.keys().hasOnly(["twitter", "facebook", "hatenabookmark", "hatenastar"])
           && request.resource.data.services.twitter is bool
           && request.resource.data.services.facebook is bool
           && request.resource.data.services.hatenabookmark is bool

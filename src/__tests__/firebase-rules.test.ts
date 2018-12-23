@@ -71,7 +71,11 @@ describe('/users/:user_id/blogs', () => {
         'https://ninjinkun.hatenablog.com/',
         "ninjinkun's diary",
         'https://ninjinkun.hatenablog.com/feed',
-        'atom'
+        'atom',
+        true,
+        true,
+        true,
+        false
       )
     );
   });
@@ -86,7 +90,11 @@ describe('/users/:user_id/blogs', () => {
         'https://ninjinkun.hatenablog.com/',
         "ninjinkun's diary",
         'https://ninjinkun.hatenablog.com/feed',
-        'atom'
+        'atom',
+        true,
+        true,
+        true,
+        false
       )
     );
   });
