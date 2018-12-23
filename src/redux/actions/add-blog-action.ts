@@ -65,7 +65,18 @@ export function addBlog(auth: firebase.auth.Auth, blogURL: string): AddBlogThunk
     try {
       const blogResponse = await fetchBlog(blogURL);
       if (user) {
-        await saveBlog(user.uid, blogResponse.url, blogResponse.title, blogResponse.feedURL, blogResponse.feedType);
+        // default services are Twitter, Facebook and HatenaBookmark. (HatenaStar is only HatenaBlog)
+        await saveBlog(
+          user.uid,
+          blogResponse.url,
+          blogResponse.title,
+          blogResponse.feedURL,
+          blogResponse.feedType,
+          true,
+          true,
+          true,
+          blogResponse.isHatenaBlog
+        );
         dispatch(addBlogResponse(blogResponse));
       } else {
         dispatch(addBlogError(new Error('Blog missing')));
@@ -75,12 +86,13 @@ export function addBlog(auth: firebase.auth.Auth, blogURL: string): AddBlogThunk
         const feed = await fetchFeed(blogURL);
         const { url, title, feedType } = feed;
         if (user) {
-          await saveBlog(user.uid, url, title, blogURL, feedType);
+          await saveBlog(user.uid, url, title, blogURL, feedType, true, true, true, false);
           const blogResponse: BlogResponse = {
             url,
             title,
             feedURL: blogURL,
             feedType,
+            isHatenaBlog: false,
           };
           dispatch(addBlogResponse(blogResponse));
         } else {

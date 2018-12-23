@@ -29,18 +29,50 @@ export async function findBlog(userId: string, blogUrl: string): Promise<BlogEnt
 
 export function saveBlog(
   userId: string,
-  blogUrl: string,
+  blogURL: string,
   blogTitle: string,
   feedURL: string,
-  feedType: string
+  feedType: string,
+  twitterEnabled: boolean,
+  facebookEnabled: boolean,
+  hatenaBookmarkEnabled: boolean,
+  hatenaStarEnabled: boolean
 ): Promise<void> {
-  return blogRef(userId, blogUrl).set({
+  return blogRef(userId, blogURL).set({
     title: blogTitle,
-    url: blogUrl,
+    url: blogURL,
     feedURL,
     feedType,
     timestamp: serverTimestamp(),
+    services: {
+      twitter: twitterEnabled,
+      facebook: facebookEnabled,
+      hatenabookmark: hatenaBookmarkEnabled,
+      hatenastar: hatenaStarEnabled,
+    },
   });
+}
+
+export function saveBlogSetting(
+  userId: string,
+  blogURL: string,
+  twitterEnabled: boolean,
+  facebookEnabled: boolean,
+  hatenaBookmarkEnabled: boolean,
+  hatenaStarEnabled: boolean
+) {
+  return blogRef(userId, blogURL).set(
+    {
+      timestamp: serverTimestamp(),
+      services: {
+        twitter: twitterEnabled,
+        facebook: facebookEnabled,
+        hatenabookmark: hatenaBookmarkEnabled,
+        hatenastar: hatenaStarEnabled,
+      },
+    },
+    { merge: true }
+  );
 }
 
 export function deleteBlog(userId: string, blogURL: string): Promise<void> {

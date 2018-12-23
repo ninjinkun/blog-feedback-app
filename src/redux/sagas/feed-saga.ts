@@ -2,6 +2,7 @@ import chunk from 'lodash/chunk';
 import flatten from 'lodash/flatten';
 import { delay } from 'redux-saga';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { CountType } from '../../consts/count-type';
 import { BlogEntity, ItemEntity } from '../../models/entities';
 import {
   fetchFacebookCount,
@@ -43,22 +44,30 @@ function* handleFetchAction(action: FeedFetchFeedAction) {
   const user: firebase.User = yield call(fetchFiresbaseUser, auth);
 
   const blogEntity: BlogEntity = yield call(firebaseBlog, user, blogURL);
+  const { services, feedURL } = blogEntity;
 
   const [firebaseItems, fetchedItems]: [ItemEntity[], ItemResponse[]] = yield all([
     call(firebaseFeed, user, blogURL),
-    call(fetchFeed, blogURL, blogEntity.feedURL),
+    call(fetchFeed, blogURL, feedURL),
   ]);
 
   const urls = fetchedItems.map(i => i.url);
-  const [hatenaBookmarkCounts, facebookCounts]: [CountResponse[], CountResponse[]] = yield all([
-    call(fetchHatenaBookmarkCounts, blogURL, urls),
-    call(fetchHatenaStarCounts, blogURL, urls),
-    call(fetchFacebookCounts, blogURL, urls),
-  ]);
-
-  const counts: CountResponse[] = flatten([hatenaBookmarkCounts, facebookCounts]);
-
-  yield call(saveBlogFeedItemsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts);
+  const countServices = [call(fetchHatenaBookmarkCounts, blogURL, urls), call(fetchFacebookCounts, blogURL, urls)];
+  if (services && services.hatenastar) {
+    countServices.push(call(fetchHatenaStarCounts, blogURL, urls));
+  }
+  const counts: CountResponse[] = flatten(yield all(countServices));
+  const countTypes: CountType[] = [];
+  if (services && services.hatenabookmark) {
+    countTypes.push(CountType.HatenaBookmark);
+  }
+  if (services && services.hatenastar) {
+    countTypes.push(CountType.HatenaStar);
+  }
+  if (services && services.facebook) {
+    countTypes.push(CountType.Facebook);
+  }
+  yield call(saveBlogFeedItemsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts, countTypes);
 }
 
 function* firebaseBlog(user: firebase.User, blogURL: string) {
@@ -146,11 +155,12 @@ function* saveBlogFeedItemsAndCounts(
   blogURL: string,
   firebaseItems: ItemEntity[],
   fetchedItems: ItemResponse[],
-  counts: CountResponse[]
+  counts: CountResponse[],
+  countTypes: CountType[]
 ) {
   try {
     yield put(feedSaveFeedRequest(blogURL, firebaseItems, fetchedItems, counts));
-    yield call(saveFeedsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts);
+    yield call(saveFeedsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts, countTypes);
     yield put(feedSaveFeedFirebaseResponse(blogURL));
   } catch (e) {
     yield put(feedCrowlerErrorResponse(blogURL, e));

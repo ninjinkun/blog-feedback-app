@@ -2,7 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 
 import { CountType } from '../consts/count-type';
-import { CountEntity, ItemEntity } from './entities';
+import { CountEntity, ItemEntity, Services } from './entities';
 import { serverTimestamp, writeBatch } from './repositories/app-repository';
 import { CountSaveEntities, saveItemBatch } from './repositories/item-repository';
 import { CountResponse, ItemResponse } from './responses';
@@ -14,10 +14,11 @@ export async function saveFeedsAndCounts(
   blogURL: string,
   firebaseEntities: ItemEntity[],
   feedItemsResponse: ItemResponse[],
-  countsResponse: CountResponse[]
+  countsResponse: CountResponse[],
+  countTypes: CountType[] = [CountType.Facebook, CountType.HatenaBookmark]
 ): Promise<void> {
   const batch = writeBatch();
-  const saveEntities = createSaveEntities(firebaseEntities, feedItemsResponse, countsResponse);
+  const saveEntities = createSaveEntities(firebaseEntities, feedItemsResponse, countsResponse, countTypes);
   for (const item of saveEntities) {
     saveItemBatch(batch, user.uid, blogURL, item.url, item.title, item.published, item.itemCounts, item.prevCounts);
   }

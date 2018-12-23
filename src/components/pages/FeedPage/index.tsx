@@ -15,7 +15,7 @@ import { FeedState } from '../../../redux/states/feed-state';
 import ScrollView from '../../atoms/ScrollView/index';
 import Wrapper from '../../atoms/Wrapper/index';
 import LoadingView from '../../molecules/LoadingView/index';
-import EntryCell from '../../organisms/EntryCell/index';
+import EntryCell, { Count } from '../../organisms/EntryCell/index';
 import { colorsValue } from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
@@ -94,6 +94,7 @@ class FeedPage extends React.PureComponent<Props> {
                 : firebaseEntities && firebaseEntities.length
                 ? firebaseEntities
                 : [];
+
             return (
               <StyledScrollView>
                 {items.map(item => (
@@ -101,24 +102,34 @@ class FeedPage extends React.PureComponent<Props> {
                     key={item.url}
                     title={item.title}
                     favicon={`https://www.google.com/s2/favicons?domain=${blogURL}`}
-                    counts={[
-                      { type: CountType.Twitter, count: undefined, animate: false },
-                      {
-                        type: CountType.Facebook,
-                        count: facebookMap.get(item.url) || 0,
-                        animate: !!(facebookAnimateMap && facebookAnimateMap.get(item.url)),
-                      },
-                      {
-                        type: CountType.HatenaBookmark,
-                        count: hatenabookmarkMap.get(item.url) || 0,
-                        animate: !!(hatenabookmarkAnimateMap && hatenabookmarkAnimateMap.get(item.url)),
-                      },
-                      {
-                        type: CountType.HatenaStar,
-                        count: hatenastarMap.get(item.url) || 0,
-                        animate: !!(hatenastarAnimateMap && hatenastarAnimateMap.get(item.url)),
-                      },
-                    ]}
+                    counts={(() => {
+                      const counts: Count[] = [];
+                      if (feed.services && feed.services.twitter) {
+                        counts.push({ type: CountType.Twitter, count: undefined, animate: false });
+                      }
+                      if (feed.services && feed.services.facebook) {
+                        counts.push({
+                          type: CountType.Facebook,
+                          count: facebookMap.get(item.url) || 0,
+                          animate: !!(facebookAnimateMap && facebookAnimateMap.get(item.url)),
+                        });
+                      }
+                      if (feed.services && feed.services.hatenabookmark) {
+                        counts.push({
+                          type: CountType.HatenaBookmark,
+                          count: hatenabookmarkMap.get(item.url) || 0,
+                          animate: !!(hatenabookmarkAnimateMap && hatenabookmarkAnimateMap.get(item.url)),
+                        });
+                      }
+                      if (feed.services && feed.services.hatenastar) {
+                        counts.push({
+                          type: CountType.HatenaStar,
+                          count: hatenastarMap.get(item.url) || 0,
+                          animate: !!(hatenastarAnimateMap && hatenastarAnimateMap.get(item.url)),
+                        });
+                      }
+                      return counts;
+                    })()}
                     url={item.url}
                   />
                 ))}

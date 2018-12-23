@@ -1,4 +1,4 @@
-import { ItemEntity } from '../../models/entities';
+import { ItemEntity, Services } from '../../models/entities';
 import { CountResponse, ItemResponse } from '../../models/responses';
 
 export type FeedState = {
@@ -8,6 +8,7 @@ export type FeedState = {
   fetchedHatenaStarCounts?: CountResponse[];
   fetchedFacebookCounts?: CountResponse[];
   title?: string;
+  services?: Services;
   loading: boolean;
   error?: Error;
   feedURL?: string;

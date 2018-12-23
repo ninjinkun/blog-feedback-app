@@ -6,16 +6,24 @@ import { Redirect, RouteComponentProps, withRouter } from 'react-router';
 import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import styled from 'styled-components';
+import { CountType } from '../../../consts/count-type';
+import { BlogEntity } from '../../../models/entities';
+import { saveBlog } from '../../../models/repositories/blog-repository';
 import { deleteBlog, DeleteBlogActions, deleteBlogReset } from '../../../redux/actions/delete-blog-action';
 import { FeedActions, FeedFirebaseActions, fetchFirebaseBlog } from '../../../redux/actions/feed-action';
+import { saveSetting, SettingActions } from '../../../redux/actions/setting-action';
 import { AppState } from '../../../redux/states/app-state';
+import { BlogState } from '../../../redux/states/blog-state';
 import { DeleteBlogState } from '../../../redux/states/delete-blog-state';
 import { FeedState } from '../../../redux/states/feed-state';
 import { UserState } from '../../../redux/states/user-state';
 import { WarningButton } from '../../atoms/Button/index';
+import Favicon from '../../atoms/Favicon/index';
 import ScrollView from '../../atoms/ScrollView/index';
 import Spinner from '../../atoms/Spinner/index';
 import Wrapper from '../../atoms/Wrapper/index';
+import SettingCell from '../../organisms/SettingCell/index';
+import SectionHeader from '../../organisms/SettingSectionHeader/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
@@ -28,6 +36,14 @@ type DispatchProps = {
   fetchFirebaseBlog: (auth: firebase.auth.Auth, blogURL: string) => void;
   deleteBlog: (auth: firebase.auth.Auth, blogURL: string) => void;
   deleteBlogReset: () => void;
+  saveSetting: (
+    auth: firebase.auth.Auth,
+    blogURL: string,
+    twitterEnabled: boolean,
+    facebookEnabled: boolean,
+    hatenaBookmarkEnabled: boolean,
+    hatenaStarEnabled: boolean
+  ) => void;
 };
 
 type OwnProps = RouteComponentProps<{ blogURL: string }>;
@@ -51,8 +67,18 @@ class SettingPage extends React.PureComponent<Props, {}> {
     this.props.deleteBlog(firebase.auth(), blogURL);
   }
 
+  enableCountType(enabled: boolean, type: CountType) {
+    const blogURL = decodeURIComponent(this.props.match.params.blogURL);
+    const { feedState } = this.props;
+    if (feedState && feedState.title && feedState.services) {
+      feedState.services[type] = enabled;
+      const { twitter, facebook, hatenabookmark, hatenastar } = feedState.services;
+      this.props.saveSetting(firebase.auth(), blogURL, twitter, facebook, hatenabookmark, hatenastar);
+    }
+  }
+
   render() {
-    const { history, feedState, deleteBlogState } = this.props;
+    const { feedState, deleteBlogState } = this.props;
     if (deleteBlogState.finished) {
       return <Redirect to={'/settings'} />;
     } else {
@@ -64,6 +90,60 @@ class SettingPage extends React.PureComponent<Props, {}> {
           }}
         >
           <StyledScrollView>
+            <SectionHeader>集計するサービス</SectionHeader>
+            <SettingCell
+              title="Twitter（Twitterはシェア数を集計するAPIがないため、現在シェア数は表示されません）"
+              LeftIcon={<Favicon src={require('../../../assets/images/twitter-icon.png')} />}
+              RightIcon={
+                <CheckBox
+                  type="checkbox"
+                  defaultChecked={feedState && feedState.services && feedState.services.twitter}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                    this.enableCountType((e.target as HTMLInputElement).checked, CountType.Twitter)
+                  }
+                />
+              }
+            />
+            <SettingCell
+              title="Facebook"
+              LeftIcon={<Favicon src={require('../../../assets/images/facebook-icon.png')} />}
+              RightIcon={
+                <CheckBox
+                  type="checkbox"
+                  defaultChecked={feedState && feedState.services && feedState.services.facebook}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                    this.enableCountType((e.target as HTMLInputElement).checked, CountType.Facebook)
+                  }
+                />
+              }
+            />
+            <SettingCell
+              title="はてなブックマーク"
+              LeftIcon={<Favicon src={require('../../../assets/images/hatenabookmark-icon.png')} />}
+              RightIcon={
+                <CheckBox
+                  type="checkbox"
+                  defaultChecked={feedState && feedState.services && feedState.services.hatenabookmark}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                    this.enableCountType((e.target as HTMLInputElement).checked, CountType.HatenaBookmark)
+                  }
+                />
+              }
+            />
+            <SettingCell
+              title="はてなスター"
+              LeftIcon={<Favicon src={require('../../../assets/images/hatenastar-icon.png')} />}
+              RightIcon={
+                <CheckBox
+                  type="checkbox"
+                  defaultChecked={feedState && feedState.services && feedState.services.hatenastar}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                    this.enableCountType((e.target as HTMLInputElement).checked, CountType.HatenaStar)
+                  }
+                />
+              }
+            />
+            <SectionHeader />
             <DeleteWrapper>
               <StyledWarningButton onClick={this.deleteBlog}>
                 {`${(feedState && feedState.title) || 'ブログ'}`}を削除
@@ -83,16 +163,20 @@ class SettingPage extends React.PureComponent<Props, {}> {
   }
 }
 
+const CheckBox = styled.input`
+  width: 16px;
+  height: 16px;
+`;
+
 const StyledScrollView = styled(ScrollView)`
-  padding: 16px;
   background-color: ${properties.colors.white};
   min-height: 100%;
 `;
 
 const DeleteWrapper = styled(Wrapper)`
   justify-content: center;
-  width: 100%;
   align-items: center;
+  padding: 16px;
 `;
 
 const StyledWarningButton = styled(WarningButton)`
@@ -111,13 +195,17 @@ function mapStateToProps(state: AppState, ownProps: OwnProps): StateProps {
   };
 }
 
-type TD = ThunkDispatch<AppState, undefined, FeedFirebaseActions | DeleteBlogActions>;
+type TD = ThunkDispatch<AppState, undefined, FeedFirebaseActions | DeleteBlogActions | SettingActions>;
 
 function mapDispatchToProps(dispatch: TD | Dispatch<DeleteBlogActions>): DispatchProps {
   return {
     fetchFirebaseBlog: (auth, blogURL) => (dispatch as TD)(fetchFirebaseBlog(auth, blogURL)),
     deleteBlog: (auth, blogURL) => (dispatch as TD)(deleteBlog(auth, blogURL)),
     deleteBlogReset: () => dispatch(deleteBlogReset()),
+    saveSetting: (auth, blogURL, twitterEnabled, facebookEnabled, hatenaBookmarkEnabled, hatenaStarEnabled) =>
+      (dispatch as TD)(
+        saveSetting(auth, blogURL, twitterEnabled, facebookEnabled, hatenaBookmarkEnabled, hatenaStarEnabled)
+      ),
   };
 }
 
