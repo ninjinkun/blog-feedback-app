@@ -2,10 +2,12 @@ import chunk from 'lodash/chunk';
 import flatten from 'lodash/flatten';
 import { delay } from 'redux-saga';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { CountType } from '../../consts/count-type';
 import { BlogEntity, ItemEntity } from '../../models/entities';
 import {
   fetchFacebookCount,
   fetchHatenaBookmarkCounts as fetchHatenaBookmarkCountsAction,
+  fetchHatenaStarCounts as fetchHatenaStarCountsAction,
 } from '../../models/fetchers/count-fetcher';
 import { fetchFeed as fetchFeedAction } from '../../models/fetchers/feed-fetcher';
 import { findBlog } from '../../models/repositories/blog-repository';
@@ -19,6 +21,8 @@ import {
   FeedFetchFeedAction,
   feedFetchHatenaBookmarkCountsRequest,
   feedFetchHatenaBookmarkCountsResponse,
+  feedFetchHatenaStarCountsRequest,
+  feedFetchHatenaStarCountsResponse,
   feedFetchRSSRequest,
   feedFetchRSSResponse,
   feedFirebaseBlogRequest,
@@ -40,21 +44,30 @@ function* handleFetchAction(action: FeedFetchFeedAction) {
   const user: firebase.User = yield call(fetchFiresbaseUser, auth);
 
   const blogEntity: BlogEntity = yield call(firebaseBlog, user, blogURL);
+  const { services, feedURL } = blogEntity;
 
   const [firebaseItems, fetchedItems]: [ItemEntity[], ItemResponse[]] = yield all([
     call(firebaseFeed, user, blogURL),
-    call(fetchFeed, blogURL, blogEntity.feedURL),
+    call(fetchFeed, blogURL, feedURL),
   ]);
 
   const urls = fetchedItems.map(i => i.url);
-  const [hatenaBookmarkCounts, facebookCounts]: [CountResponse[], CountResponse[]] = yield all([
-    call(fetchHatenaBookmarkCounts, blogURL, urls),
-    call(fetchFacebookCounts, blogURL, urls),
-  ]);
-
-  const counts: CountResponse[] = flatten([hatenaBookmarkCounts, facebookCounts]);
-
-  yield call(saveBlogFeedItemsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts);
+  const countServices = [call(fetchHatenaBookmarkCounts, blogURL, urls), call(fetchFacebookCounts, blogURL, urls)];
+  if (services && services.hatenastar) {
+    countServices.push(call(fetchHatenaStarCounts, blogURL, urls));
+  }
+  const counts: CountResponse[] = flatten(yield all(countServices));
+  const countTypes: CountType[] = [];
+  if (services && services.hatenabookmark) {
+    countTypes.push(CountType.HatenaBookmark);
+  }
+  if (services && services.hatenastar) {
+    countTypes.push(CountType.HatenaStar);
+  }
+  if (services && services.facebook) {
+    countTypes.push(CountType.Facebook);
+  }
+  yield call(saveBlogFeedItemsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts, countTypes);
 }
 
 function* firebaseBlog(user: firebase.User, blogURL: string) {
@@ -102,6 +115,18 @@ function* fetchHatenaBookmarkCounts(blogURL: string, urls: string[], maxFetchCou
   }
 }
 
+function* fetchHatenaStarCounts(blogURL: string, urls: string[], maxFetchCount: number = 50) {
+  try {
+    yield put(feedFetchHatenaStarCountsRequest(blogURL));
+    const slicedURLs = urls.slice(0, maxFetchCount - 1);
+    const counts: CountResponse[] = yield call(fetchHatenaStarCountsAction, slicedURLs);
+    yield put(feedFetchHatenaStarCountsResponse(blogURL, counts));
+    return counts;
+  } catch (e) {
+    //    yield put(feedCrowlerErrorResponse(blogURL, e));
+  }
+}
+
 function* fetchFacebookCounts(blogURL: string, urls: string[], maxFetchCount: number = 20) {
   try {
     yield put(feedFetchFacebookCountRequest(blogURL));
@@ -130,11 +155,12 @@ function* saveBlogFeedItemsAndCounts(
   blogURL: string,
   firebaseItems: ItemEntity[],
   fetchedItems: ItemResponse[],
-  counts: CountResponse[]
+  counts: CountResponse[],
+  countTypes: CountType[]
 ) {
   try {
     yield put(feedSaveFeedRequest(blogURL, firebaseItems, fetchedItems, counts));
-    yield call(saveFeedsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts);
+    yield call(saveFeedsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts, countTypes);
     yield put(feedSaveFeedFirebaseResponse(blogURL));
   } catch (e) {
     yield put(feedCrowlerErrorResponse(blogURL, e));

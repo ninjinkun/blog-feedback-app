@@ -1,12 +1,14 @@
-import { ItemEntity } from '../../models/entities';
+import { ItemEntity, Services } from '../../models/entities';
 import { CountResponse, ItemResponse } from '../../models/responses';
 
 export type FeedState = {
   firebaseEntities?: ItemEntity[];
   fethcedEntities?: ItemResponse[];
   fetchedHatenaBookmarkCounts?: CountResponse[];
+  fetchedHatenaStarCounts?: CountResponse[];
   fetchedFacebookCounts?: CountResponse[];
   title?: string;
+  services?: Services;
   loading: boolean;
   error?: Error;
   feedURL?: string;

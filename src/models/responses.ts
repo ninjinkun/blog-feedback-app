@@ -6,6 +6,7 @@ export type BlogResponse = {
   url: string;
   feedURL: string;
   feedType: FeedType;
+  isHatenaBlog: boolean;
 };
 
 export type FeedResponse = {

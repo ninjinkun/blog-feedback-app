@@ -12,24 +12,40 @@ export async function fetchBlog(blogURL: string): Promise<BlogResponse> {
   } else {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlText, 'text/html');
-    const snapshots = doc.evaluate(
+    const linkTagSnapshots = doc.evaluate(
       `/html/head/link[@rel='alternate']`,
       doc,
       null,
       XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
       null
     );
+
     // prefer Atom than RSS
-    const feedURLType = detectFeedURLAndType(snapshots);
+    const feedURLType = detectFeedURLAndType(linkTagSnapshots);
     if (!feedURLType) {
       throw new Error('Feed not found: ' + blogURL);
     }
     const { feedURL: parsedFeedURL, type } = feedURLType;
+
+    // detect HatenaBlog
+    const dataBrandAttributeSnapshots = doc.evaluate(
+      '/html/@data-admin-domain',
+      doc,
+      null,
+      XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+      null
+    );
+    const isHatenaBlog = !!(
+      dataBrandAttributeSnapshots.snapshotLength &&
+      (dataBrandAttributeSnapshots.snapshotItem(0) as HTMLDataElement).value === '//blog.hatena.ne.jp'
+    );
+
     return {
       title: unescape(doc.title),
       url: blogURL,
       feedURL: feedURL(parsedFeedURL, blogURL),
       feedType: type,
+      isHatenaBlog,
     };
   }
 }

@@ -15,6 +15,8 @@ const ServiceIcon = ({ ...props }: Props) => {
       return <FacebookIcon {...props} />;
     case CountType.HatenaBookmark:
       return <HatenaBookmarkIcon {...props} />;
+    case CountType.HatenaStar:
+      return <HatenaStarIcon {...props} />;
     default:
       return null;
   }
@@ -30,6 +32,9 @@ export const FacebookIcon = ({ ...props }) => (
 );
 export const HatenaBookmarkIcon = ({ ...props }) => (
   <Img src={require('../../../assets/images/hatenabookmark-icon.png')} {...props} />
+);
+export const HatenaStarIcon = ({ ...props }) => (
+  <Img src={require('../../../assets/images/hatenastar-icon.png')} {...props} />
 );
 
 const Img = styled.img`

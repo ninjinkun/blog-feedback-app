@@ -28,7 +28,10 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
     }
     case 'FeedFirebaseBlogResponseAction': {
       const { blogURL, blogEntity } = action;
-      return updateFeed(blogURL, state, { title: blogEntity.title });
+      return updateFeed(blogURL, state, {
+        title: blogEntity.title,
+        services: blogEntity.services || { twitter: true, facebook: true, hatenabookmark: true, hatenastar: true },
+      });
     }
     case 'FeedFirebaseFeedItemsResponseAction': {
       const { blogURL, items } = action;
@@ -49,6 +52,10 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
     case 'FeedFetchHatenaBookmarkCountsResponseAction': {
       const { blogURL, counts } = action;
       return updateFeed(blogURL, state, { fetchedHatenaBookmarkCounts: flatten(counts) });
+    }
+    case 'FeedFetchHatenaStarCountsResponseAction': {
+      const { blogURL, counts } = action;
+      return updateFeed(blogURL, state, { fetchedHatenaStarCounts: flatten(counts) });
     }
     case 'FeedFetchFacebookCountRequestAction': {
       const { blogURL } = action;

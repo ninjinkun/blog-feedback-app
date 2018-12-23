@@ -5,7 +5,7 @@ import Favicon from '../../atoms/Favicon/index';
 import * as properties from '../../properties';
 import AnimatedCountButton from '../AnimatedCountButton/index';
 
-type Count = {
+export type Count = {
   type: CountType;
   count?: number;
   animate: boolean;
