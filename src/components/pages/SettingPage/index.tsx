@@ -7,21 +7,18 @@ import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import styled from 'styled-components';
 import { CountType } from '../../../consts/count-type';
-import { BlogEntity } from '../../../models/entities';
-import { saveBlog } from '../../../models/repositories/blog-repository';
 import { deleteBlog, DeleteBlogActions, deleteBlogReset } from '../../../redux/actions/delete-blog-action';
-import { FeedActions, FeedFirebaseActions, fetchFirebaseBlog } from '../../../redux/actions/feed-action';
+import { FeedFirebaseActions, fetchFirebaseBlog } from '../../../redux/actions/feed-action';
 import { saveSetting, SettingActions } from '../../../redux/actions/setting-action';
 import { AppState } from '../../../redux/states/app-state';
-import { BlogState } from '../../../redux/states/blog-state';
 import { DeleteBlogState } from '../../../redux/states/delete-blog-state';
 import { FeedState } from '../../../redux/states/feed-state';
-import { UserState } from '../../../redux/states/user-state';
 import { WarningButton } from '../../atoms/Button/index';
 import Favicon from '../../atoms/Favicon/index';
 import ScrollView from '../../atoms/ScrollView/index';
 import Spinner from '../../atoms/Spinner/index';
 import Wrapper from '../../atoms/Wrapper/index';
+import LoadingView from '../../molecules/LoadingView/index';
 import SettingCell from '../../organisms/SettingCell/index';
 import SectionHeader from '../../organisms/SettingSectionHeader/index';
 import * as properties from '../../properties';
@@ -89,74 +86,78 @@ class SettingPage extends React.PureComponent<Props, {}> {
             backButtonLink: '/settings',
           }}
         >
-          <StyledScrollView>
-            <SectionHeader>集計するサービス</SectionHeader>
-            <SettingCell
-              title="Twitter（Twitterはシェア数を集計するAPIがないため、現在シェア数は表示されません）"
-              LeftIcon={<Favicon src={require('../../../assets/images/twitter-icon.png')} />}
-              RightIcon={
-                <CheckBox
-                  type="checkbox"
-                  defaultChecked={feedState && feedState.services && feedState.services.twitter}
-                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                    this.enableCountType((e.target as HTMLInputElement).checked, CountType.Twitter)
-                  }
-                />
-              }
-            />
-            <SettingCell
-              title="Facebook"
-              LeftIcon={<Favicon src={require('../../../assets/images/facebook-icon.png')} />}
-              RightIcon={
-                <CheckBox
-                  type="checkbox"
-                  defaultChecked={feedState && feedState.services && feedState.services.facebook}
-                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                    this.enableCountType((e.target as HTMLInputElement).checked, CountType.Facebook)
-                  }
-                />
-              }
-            />
-            <SettingCell
-              title="はてなブックマーク"
-              LeftIcon={<Favicon src={require('../../../assets/images/hatenabookmark-icon.png')} />}
-              RightIcon={
-                <CheckBox
-                  type="checkbox"
-                  defaultChecked={feedState && feedState.services && feedState.services.hatenabookmark}
-                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                    this.enableCountType((e.target as HTMLInputElement).checked, CountType.HatenaBookmark)
-                  }
-                />
-              }
-            />
-            <SettingCell
-              title="はてなスター"
-              LeftIcon={<Favicon src={require('../../../assets/images/hatenastar-icon.png')} />}
-              RightIcon={
-                <CheckBox
-                  type="checkbox"
-                  defaultChecked={feedState && feedState.services && feedState.services.hatenastar}
-                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                    this.enableCountType((e.target as HTMLInputElement).checked, CountType.HatenaStar)
-                  }
-                />
-              }
-            />
-            <SectionHeader />
-            <DeleteWrapper>
-              <StyledWarningButton onClick={this.deleteBlog}>
-                {`${(feedState && feedState.title) || 'ブログ'}`}を削除
-              </StyledWarningButton>
-              {deleteBlogState.loading ? (
-                <SpinnerWrapper>
-                  <Spinner />
-                </SpinnerWrapper>
-              ) : (
-                undefined
-              )}
-            </DeleteWrapper>
-          </StyledScrollView>
+          {feedState && feedState.title && feedState.services ? (
+            <StyledScrollView>
+              <SectionHeader>集計するサービス</SectionHeader>
+              <SettingCell
+                title="Twitter（Twitterはシェア数を集計するAPIがないため、現在シェア数は表示されません）"
+                LeftIcon={<Favicon src={require('../../../assets/images/twitter-icon.png')} />}
+                RightIcon={
+                  <CheckBox
+                    type="checkbox"
+                    defaultChecked={feedState && feedState.services && feedState.services.twitter}
+                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                      this.enableCountType((e.target as HTMLInputElement).checked, CountType.Twitter)
+                    }
+                  />
+                }
+              />
+              <SettingCell
+                title="Facebook"
+                LeftIcon={<Favicon src={require('../../../assets/images/facebook-icon.png')} />}
+                RightIcon={
+                  <CheckBox
+                    type="checkbox"
+                    defaultChecked={feedState && feedState.services && feedState.services.facebook}
+                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                      this.enableCountType((e.target as HTMLInputElement).checked, CountType.Facebook)
+                    }
+                  />
+                }
+              />
+              <SettingCell
+                title="はてなブックマーク"
+                LeftIcon={<Favicon src={require('../../../assets/images/hatenabookmark-icon.png')} />}
+                RightIcon={
+                  <CheckBox
+                    type="checkbox"
+                    defaultChecked={feedState && feedState.services && feedState.services.hatenabookmark}
+                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                      this.enableCountType((e.target as HTMLInputElement).checked, CountType.HatenaBookmark)
+                    }
+                  />
+                }
+              />
+              <SettingCell
+                title="はてなスター"
+                LeftIcon={<Favicon src={require('../../../assets/images/hatenastar-icon.png')} />}
+                RightIcon={
+                  <CheckBox
+                    type="checkbox"
+                    defaultChecked={feedState && feedState.services && feedState.services.hatenastar}
+                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                      this.enableCountType((e.target as HTMLInputElement).checked, CountType.HatenaStar)
+                    }
+                  />
+                }
+              />
+              <SectionHeader />
+              <DeleteWrapper>
+                <StyledWarningButton onClick={this.deleteBlog}>
+                  {`${(feedState && feedState.title) || 'ブログ'}`}を削除
+                </StyledWarningButton>
+                {deleteBlogState.loading ? (
+                  <SpinnerWrapper>
+                    <Spinner />
+                  </SpinnerWrapper>
+                ) : (
+                  undefined
+                )}
+              </DeleteWrapper>
+            </StyledScrollView>
+          ) : (
+            <LoadingView />
+          )}
         </PageLayout>
       );
     }
