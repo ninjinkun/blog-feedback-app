@@ -52,9 +52,15 @@ function* handleFetchAction(action: FeedFetchFeedAction) {
   ]);
 
   const urls = fetchedItems.map(i => i.url);
-  const countServices = [call(fetchHatenaBookmarkCounts, blogURL, urls), call(fetchFacebookCounts, blogURL, urls)];
+  const countServices = [];
+  if (services && services.hatenabookmark) {
+    countServices.push(call(fetchHatenaBookmarkCounts, blogURL, urls));
+  }
   if (services && services.hatenastar) {
     countServices.push(call(fetchHatenaStarCounts, blogURL, urls));
+  }
+  if (services && services.facebook) {
+    countServices.push(call(fetchFacebookCounts, blogURL, urls));
   }
   const counts: CountResponse[] = flatten(yield all(countServices));
   const countTypes: CountType[] = [];
