@@ -30,7 +30,7 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
       const { blogURL, blogEntity } = action;
       return updateFeed(blogURL, state, {
         title: blogEntity.title,
-        services: blogEntity.services || { twitter: true, facebook: true, hatenabookmark: true, hatenastar: true },
+        services: blogEntity.services,
       });
     }
     case 'FeedFirebaseFeedItemsResponseAction': {
