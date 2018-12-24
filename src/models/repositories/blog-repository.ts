@@ -24,7 +24,12 @@ export function blogRef(userId: string, blogUrl: string): firebase.firestore.Doc
 
 export async function findBlog(userId: string, blogUrl: string): Promise<BlogEntity> {
   const snapshot = await blogRef(userId, blogUrl).get();
-  return snapshot.data() as BlogEntity;
+  const entity = snapshot.data() as BlogEntity;
+  const needsBackwardCompat = !entity.services;
+  if (needsBackwardCompat) {
+    entity.services = { twitter: true, facebook: true, hatenabookmark: true, hatenastar: true };
+  }
+  return entity;
 }
 
 export function saveBlog(

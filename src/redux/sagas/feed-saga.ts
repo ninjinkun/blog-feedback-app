@@ -64,14 +64,13 @@ function* handleFetchAction(action: FeedFetchFeedAction) {
   }
   const counts: CountResponse[] = flatten(yield all(countServices));
   const countTypes: CountType[] = [];
-  const needsBackwordCompat = !services;
-  if ((services && services.hatenabookmark) || needsBackwordCompat) {
+  if (services && services.hatenabookmark) {
     countTypes.push(CountType.HatenaBookmark);
   }
   if (services && services.hatenastar) {
     countTypes.push(CountType.HatenaStar);
   }
-  if ((services && services.facebook) || needsBackwordCompat) {
+  if (services && services.facebook) {
     countTypes.push(CountType.Facebook);
   }
   yield call(saveBlogFeedItemsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts, countTypes);

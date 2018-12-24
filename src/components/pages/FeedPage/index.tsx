@@ -104,18 +104,17 @@ class FeedPage extends React.PureComponent<Props> {
                     favicon={`https://www.google.com/s2/favicons?domain=${blogURL}`}
                     counts={(() => {
                       const counts: Count[] = [];
-                      const needsBackwordCompat = !feed.services;
-                      if ((feed.services && feed.services.twitter) || needsBackwordCompat) {
+                      if (feed.services && feed.services.twitter) {
                         counts.push({ type: CountType.Twitter, count: undefined, animate: false });
                       }
-                      if ((feed.services && feed.services.facebook) || needsBackwordCompat) {
+                      if (feed.services && feed.services.facebook) {
                         counts.push({
                           type: CountType.Facebook,
                           count: facebookMap.get(item.url) || 0,
                           animate: !!(facebookAnimateMap && facebookAnimateMap.get(item.url)),
                         });
                       }
-                      if ((feed.services && feed.services.hatenabookmark) || needsBackwordCompat) {
+                      if (feed.services && feed.services.hatenabookmark) {
                         counts.push({
                           type: CountType.HatenaBookmark,
                           count: hatenabookmarkMap.get(item.url) || 0,
