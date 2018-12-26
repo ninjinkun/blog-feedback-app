@@ -86,7 +86,8 @@
     "typescript": "^3.1.6"
   },
   "browserslist": [
-    "defaults"
+    "defaults",
+    "chrome >= 41"
   ],
   "prettier": {
     "semi": true,
