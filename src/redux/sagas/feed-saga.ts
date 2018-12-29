@@ -1,3 +1,4 @@
+import { clone } from 'lodash';
 import flatten from 'lodash/flatten';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { CountType } from '../../consts/count-type';
@@ -104,7 +105,7 @@ function* fetchFeed(blogURL: string, feedURL: string) {
     yield put(feedFetchRSSResponse(blogURL, feed.items));
     return feed.items;
   } catch (e) {
-    yield put(feedFetchRSSError(blogURL, e));
+    yield put(feedFetchRSSError(blogURL, clone(e)));
   }
 }
 
