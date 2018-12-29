@@ -60,11 +60,11 @@ function* handleFetchAction(action: FeedFetchFeedAction) {
   if (services && services.hatenastar) {
     countServices.push(call(fetchHatenaStarCounts, blogURL, urls));
   }
-  if (services && services.facebook) {
-    countServices.push(call(fetchFacebookCounts, blogURL, urls));
-  }
   if (services && services.pocket) {
     countServices.push(call(fetchPocketCounts, blogURL, urls));
+  }
+  if (services && services.facebook) {
+    countServices.push(call(fetchFacebookCounts, blogURL, urls));
   }
   const counts: CountResponse[] = flatten(yield all(countServices));
   const countTypes: CountType[] = [];
@@ -74,11 +74,11 @@ function* handleFetchAction(action: FeedFetchFeedAction) {
   if (services && services.hatenastar) {
     countTypes.push(CountType.HatenaStar);
   }
-  if (services && services.facebook) {
-    countTypes.push(CountType.Facebook);
-  }
   if (services && services.pocket) {
     countTypes.push(CountType.Pocket);
+  }
+  if (services && services.facebook) {
+    countTypes.push(CountType.Facebook);
   }
   yield call(saveBlogFeedItemsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts, countTypes);
 }
