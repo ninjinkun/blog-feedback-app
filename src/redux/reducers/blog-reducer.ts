@@ -1,21 +1,21 @@
 import { Reducer } from 'redux';
-import { BlogActions, FIREBASE_BLOG_REQUEST, FIREBASE_BLOG_RESPONSE } from '../actions/blog-action';
-import { DeleteBlogResponseAction } from '../actions/delete-blog-action';
+import { BlogActions, FIREBASE_BLOGS_REQUEST, FIREBASE_BLOGS_RESPONSE } from '../actions/blog-action';
+import { DELETE_RESPONSE, DeleteBlogActions } from '../actions/delete-blog-action';
 import { FIREBASE_SIGNOUT_RESPONSE, UserSignoutActions } from '../actions/user-action';
 import { BlogState, initialState } from '../states/blog-state';
 
-export const blogReducer: Reducer<BlogState, BlogActions | UserSignoutActions | DeleteBlogResponseAction> = (
+export const blogReducer: Reducer<BlogState, BlogActions | UserSignoutActions | DeleteBlogActions> = (
   state = initialState,
   action
 ) => {
   switch (action.type) {
-    case FIREBASE_BLOG_REQUEST:
+    case FIREBASE_BLOGS_REQUEST:
       return { ...state, loading: true };
-    case FIREBASE_BLOG_RESPONSE: {
+    case FIREBASE_BLOGS_RESPONSE: {
       const { blogs } = action;
       return { ...state, blogs, loading: false };
     }
-    case 'DeleteBlogResponseAction': {
+    case DELETE_RESPONSE: {
       const { blogURL } = action;
       let blogs;
       if (state.blogs) {

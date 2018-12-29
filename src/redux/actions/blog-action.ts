@@ -6,25 +6,25 @@ import { findAllBlogs } from '../../models/repositories/blog-repository';
 import { AppState } from '../states/app-state';
 import { currenUserOronAuthStateChanged } from './user-action';
 
-export const FIREBASE_BLOG_REQUEST = 'blog/FIREBASE_REQUEST';
+export const FIREBASE_BLOGS_REQUEST = 'blog/FIREBASE_REQUEST';
 export function blogFirebaseRequest() {
   return {
-    type: FIREBASE_BLOG_REQUEST as typeof FIREBASE_BLOG_REQUEST,
+    type: FIREBASE_BLOGS_REQUEST as typeof FIREBASE_BLOGS_REQUEST,
   };
 }
 
-export const FIREBASE_BLOG_RESPONSE = 'blog/FIREBASE_RESPONSE';
+export const FIREBASE_BLOGS_RESPONSE = 'blog/FIREBASE_RESPONSE';
 export function blogFirebaseResponse(blogs: BlogEntity[]) {
   return {
-    type: FIREBASE_BLOG_RESPONSE as typeof FIREBASE_BLOG_RESPONSE,
+    type: FIREBASE_BLOGS_RESPONSE as typeof FIREBASE_BLOGS_RESPONSE,
     blogs,
   };
 }
 
-export const FIREBASE_BLOG_ERROR = 'blog/FIREBASE_ERROR';
+export const FIREBASE_BLOGS_ERROR = 'blog/FIREBASE_ERROR';
 export function blogFirebaseError(error: Error) {
   return {
-    type: FIREBASE_BLOG_ERROR as typeof FIREBASE_BLOG_ERROR,
+    type: FIREBASE_BLOGS_ERROR as typeof FIREBASE_BLOGS_ERROR,
     error,
   };
 }

@@ -7,17 +7,18 @@ import { findBlog } from '../../models/repositories/blog-repository';
 import { findAllItems } from '../../models/repositories/item-repository';
 import { CountResponse, FeedResponse, ItemResponse } from '../../models/responses';
 import { saveFeedsAndCounts } from '../../models/save-count-response';
+import { feedFetchAndSaveError, FeedFetchFeedAction, FETCH_AND_SAVE_START } from '../actions/feed-action';
 import {
-  feedCrowlerErrorResponse,
-  FeedFetchFeedAction,
-  feedFetchRSSRequest,
-  feedFetchRSSResponse,
   feedFirebaseBlogRequest,
   feedFirebaseBlogResponse,
   feedFirebaseFeedItemsResponse,
+} from '../actions/feed-actions/feed-firebase-action';
+import {
+  feedFirebaseSaveError,
   feedSaveFeedFirebaseResponse,
   feedSaveFeedRequest,
-} from '../actions/feed-action';
+} from '../actions/feed-actions/feed-firebase-save-action';
+import { feedFetchRSSError, feedFetchRSSRequest, feedFetchRSSResponse } from '../actions/feed-actions/rss';
 import { fetchFacebookCounts } from './feed-sagas/facebook-saga';
 import { fetchHatenaBookmarkCounts } from './feed-sagas/hatenabookmark-saga';
 import { fetchHatenaStarCounts } from './feed-sagas/hatenastar-saga';
@@ -25,7 +26,7 @@ import { fetchPocketCounts } from './feed-sagas/pocket-saga';
 import { fetchFiresbaseUser } from './user-saga';
 
 export default function* feedSaga() {
-  yield takeLatest('FeedFetchFeedAction', handleFetchAction);
+  yield takeLatest(FETCH_AND_SAVE_START, handleFetchAction);
 }
 
 // main
@@ -76,7 +77,7 @@ function* firebaseBlog(user: firebase.User, blogURL: string) {
     yield put(feedFirebaseBlogResponse(blogURL, blogData, user));
     return blogData;
   } catch (e) {
-    yield put(feedCrowlerErrorResponse(blogURL, e));
+    yield put(feedFetchAndSaveError(blogURL, e));
   }
 }
 
@@ -87,7 +88,7 @@ function* firebaseFeed(user: firebase.User, blogURL: string) {
     yield put(feedFirebaseFeedItemsResponse(blogURL, items));
     return items;
   } catch (e) {
-    yield put(feedCrowlerErrorResponse(blogURL, e));
+    yield put(feedFetchAndSaveError(blogURL, e));
   }
 }
 
@@ -98,7 +99,7 @@ function* fetchFeed(blogURL: string, feedURL: string) {
     yield put(feedFetchRSSResponse(blogURL, feed.items));
     return feed.items;
   } catch (e) {
-    yield put(feedCrowlerErrorResponse(blogURL, e));
+    yield put(feedFetchRSSError(blogURL, e));
   }
 }
 
@@ -115,6 +116,6 @@ function* saveBlogFeedItemsAndCounts(
     yield call(saveFeedsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts, countTypes);
     yield put(feedSaveFeedFirebaseResponse(blogURL));
   } catch (e) {
-    yield put(feedCrowlerErrorResponse(blogURL, e));
+    yield put(feedFirebaseSaveError(blogURL, e));
   }
 }
