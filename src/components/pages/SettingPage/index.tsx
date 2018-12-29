@@ -13,6 +13,7 @@ import { saveSetting, SettingActions } from '../../../redux/actions/setting-acti
 import { AppState } from '../../../redux/states/app-state';
 import { DeleteBlogState } from '../../../redux/states/delete-blog-state';
 import { FeedState } from '../../../redux/states/feed-state';
+import Anker from '../../atoms/Anker/index';
 import { WarningButton } from '../../atoms/Button/index';
 import Favicon from '../../atoms/Favicon/index';
 import ScrollView from '../../atoms/ScrollView/index';
@@ -62,8 +63,17 @@ class SettingPage extends React.PureComponent<Props, {}> {
     const { feedState } = this.props;
     if (feedState && feedState.title && feedState.services) {
       feedState.services[type] = enabled;
-      const { twitter, facebook, hatenabookmark, hatenastar, pocket } = feedState.services;
-      this.props.saveSetting(firebase.auth(), blogURL, twitter, facebook, hatenabookmark, hatenastar, pocket || true);
+      const { twitter, countjsoon, facebook, hatenabookmark, hatenastar, pocket } = feedState.services;
+      this.props.saveSetting(
+        firebase.auth(),
+        blogURL,
+        twitter,
+        countjsoon,
+        facebook,
+        hatenabookmark,
+        hatenastar,
+        pocket || true
+      );
     }
   }
 
@@ -83,7 +93,10 @@ class SettingPage extends React.PureComponent<Props, {}> {
             <StyledScrollView>
               <SectionHeader>集計するサービス</SectionHeader>
               <SettingCell
-                title="Twitter（Twitterはシェア数を集計するAPIがないため、現在シェア数は表示されません）"
+                title="Twitter"
+                description={
+                  <Description>TwitterはCount APIが廃止されたため、現在シェア数は表示されません</Description>
+                }
                 LeftIcon={<Favicon src={require('../../../assets/images/twitter-icon.png')} />}
                 RightIcon={
                   <CheckBox
@@ -91,6 +104,31 @@ class SettingPage extends React.PureComponent<Props, {}> {
                     defaultChecked={feedState && feedState.services && feedState.services.twitter}
                     onChange={(e: React.FormEvent<HTMLInputElement>) =>
                       this.enableCountType((e.target as HTMLInputElement).checked, CountType.Twitter)
+                    }
+                  />
+                }
+              />
+              <SettingCell
+                title="count.jsoon"
+                description={
+                  <Description>
+                    <Anker href="https://jsoon.digitiminimi.com/" target="_blank">
+                      count.jsoon
+                    </Anker>
+                    は(株)ディジティ・ミニミが提供する廃止されたTwitter Count APIの互換APIです。
+                    <Anker href="https://jsoon.digitiminimi.com/" target="_blank">
+                      count.jsoon
+                    </Anker>
+                    のサイトからブログのURLを登録するとBlogFeedbackにもTwitterのシェア数が表示されるようになります
+                  </Description>
+                }
+                LeftIcon={<Favicon src={require('../../../assets/images/twitter-icon.png')} />}
+                RightIcon={
+                  <CheckBox
+                    type="checkbox"
+                    defaultChecked={feedState && feedState.services && feedState.services.countjsoon}
+                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                      this.enableCountType((e.target as HTMLInputElement).checked, CountType.CountJsoon)
                     }
                   />
                 }
@@ -193,6 +231,11 @@ const StyledWarningButton = styled(WarningButton)`
 
 const SpinnerWrapper = styled(Wrapper)`
   margin: 16px;
+`;
+
+const Description = styled.p`
+  margin: 0;
+  line-height: ${properties.fontSizes.l};
 `;
 
 function mapStateToProps(state: AppState, ownProps: OwnProps): StateProps {

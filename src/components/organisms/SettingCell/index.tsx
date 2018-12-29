@@ -8,14 +8,18 @@ type Props = {
   LeftIcon?: ReactElement<{}>;
   RightIcon?: ReactElement<{}>;
   title: string;
+  description?: ReactElement<{}>;
 };
 
-const SettingCell: React.FunctionComponent<Props> = ({ LeftIcon, RightIcon, title, ...props }) => (
+const SettingCell: React.FunctionComponent<Props> = ({ LeftIcon, RightIcon, title, description, ...props }) => (
   <PlainCell>
     <CountentWrapper>
       <Left>
         {LeftIcon}
-        <Title>{title}</Title>
+        <TitleWrapper>
+          <Title>{title}</Title>
+          <Description>{description}</Description>
+        </TitleWrapper>
       </Left>
       <Right>{RightIcon}</Right>
     </CountentWrapper>
@@ -26,7 +30,7 @@ export default SettingCell;
 
 const Title = styled.h3`
   font-size: ${properties.fontSizes.m};
-  margin: 0 8px 8px 8px;
+  margin: 0 8px 8px 0px;
 `;
 
 const CountentWrapper = styled(Wrapper)`
@@ -41,4 +45,14 @@ const Left = styled(Wrapper)`
 
 const Right = styled(Wrapper)`
   flex-direction: row;
+`;
+
+const TitleWrapper = styled.div`
+  flex-direction: row;
+  margin-left: 8px;
+`;
+
+const Description = styled.div`
+  font-size: ${properties.fontSizes.s};
+  margin: 0;
 `;

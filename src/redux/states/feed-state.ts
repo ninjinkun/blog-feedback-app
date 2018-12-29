@@ -4,6 +4,7 @@ import { CountResponse, ItemResponse } from '../../models/responses';
 export type FeedState = {
   firebaseEntities?: ItemEntity[];
   fethcedEntities?: ItemResponse[];
+  fetchedCountJsoonCounts?: CountResponse[];
   fetchedHatenaBookmarkCounts?: CountResponse[];
   fetchedHatenaStarCounts?: CountResponse[];
   fetchedFacebookCounts?: CountResponse[];
