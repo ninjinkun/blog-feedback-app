@@ -94,9 +94,7 @@ class SettingPage extends React.PureComponent<Props, {}> {
               <SectionHeader>集計するサービス</SectionHeader>
               <SettingCell
                 title="Twitter"
-                description={
-                  <Description>TwitterはCount APIが廃止されたため、現在シェア数は表示されません</Description>
-                }
+                description={<Description>Count APIが廃止されたため、現在シェア数は表示されません。</Description>}
                 LeftIcon={<Favicon src={require('../../../assets/images/twitter-icon.png')} />}
                 RightIcon={
                   <CheckBox
@@ -119,7 +117,7 @@ class SettingPage extends React.PureComponent<Props, {}> {
                     <Anker href="https://jsoon.digitiminimi.com/" target="_blank">
                       count.jsoon
                     </Anker>
-                    のサイトからブログのURLを登録するとBlogFeedbackにもTwitterのシェア数が表示されるようになります
+                    のサイトからブログのURLを登録するとBlogFeedbackにもTwitterのシェア数が表示されます。
                   </Description>
                 }
                 LeftIcon={<Favicon src={require('../../../assets/images/twitter-icon.png')} />}
