@@ -3,6 +3,12 @@ import { Reducer } from 'redux';
 import { AddBlogResponseAction } from '../actions/add-blog-action';
 import { BlogFirebaseResponseAction } from '../actions/blog-action';
 import { FeedActions } from '../actions/feed-action';
+import { FETCH_FACEBOOK_COUNT_REQUEST, FETCH_FACEBOOK_COUNT_RESPONSE } from '../actions/feed-actions/facebook-action';
+import {
+  FETCH_HATENA_BOOKMARK_COUNT_REQUEST,
+  FETCH_HATENA_BOOKMARK_COUNT_RESPONSE,
+} from '../actions/feed-actions/hatenabookmark-action';
+import { FETCH_HATENA_STAR_COUNT_RESPONSE } from '../actions/feed-actions/hatenastar-action';
 import { FETCH_POCKET_COUNT_RESPONSE } from '../actions/feed-actions/pocket-action';
 import { FeedState, initialState } from '../states/feed-state';
 import { FeedsState, initialState as feedsIniticalState } from '../states/feeds-state';
@@ -46,23 +52,23 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
       const { blogURL, items } = action;
       return updateFeed(blogURL, state, { fethcedEntities: items });
     }
-    case 'FeedFetchHatenaBookmarkCountsRequestAction': {
+    case FETCH_HATENA_BOOKMARK_COUNT_REQUEST: {
       const { blogURL } = action;
-      return updateFeed(blogURL, state, { loadingLabel: 'はてなブックマークを読み込んでいます', loadingRatio: 50 });
+      return updateFeed(blogURL, state, { loadingLabel: 'シェア数を読み込んでいます', loadingRatio: 60 });
     }
-    case 'FeedFetchHatenaBookmarkCountsResponseAction': {
+    case FETCH_HATENA_BOOKMARK_COUNT_RESPONSE: {
       const { blogURL, counts } = action;
       return updateFeed(blogURL, state, { fetchedHatenaBookmarkCounts: flatten(counts) });
     }
-    case 'FeedFetchHatenaStarCountsResponseAction': {
+    case FETCH_HATENA_STAR_COUNT_RESPONSE: {
       const { blogURL, counts } = action;
       return updateFeed(blogURL, state, { fetchedHatenaStarCounts: flatten(counts) });
     }
-    case 'FeedFetchFacebookCountRequestAction': {
+    case FETCH_FACEBOOK_COUNT_REQUEST: {
       const { blogURL } = action;
-      return updateFeed(blogURL, state, { loadingLabel: 'Facebookシェアを読み込んでいます', loadingRatio: 60 });
+      return updateFeed(blogURL, state, { loadingLabel: 'シェア数を読み込んでいます', loadingRatio: 60 });
     }
-    case 'FeedFetchFacebookCountResponseAction': {
+    case FETCH_FACEBOOK_COUNT_RESPONSE: {
       const { blogURL, counts } = action;
       return updateFeed(blogURL, state, { fetchedFacebookCounts: flatten(counts) });
     }

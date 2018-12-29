@@ -7,6 +7,9 @@ import { BlogEntity, ItemEntity } from '../../models/entities';
 import { findBlog } from '../../models/repositories/blog-repository';
 import { CountResponse, ItemResponse } from '../../models/responses';
 import { AppState } from '../states/app-state';
+import { FeedFetchFacebookCountActions } from './feed-actions/facebook-action';
+import { FeedFetchHatenaBookmarkCountActions } from './feed-actions/hatenabookmark-action';
+import { FeedFetchHatenaStarActions } from './feed-actions/hatenastar-action';
 import { FeedFetchPocketCountActions } from './feed-actions/pocket-action';
 import { currenUserOronAuthStateChanged } from './user-action';
 
@@ -182,93 +185,6 @@ export function feedFetchRSSResponse(blogURL: string, items: ItemResponse[]): Fe
   };
 }
 
-export interface FeedFetchHatenaBookmarkCountsRequestAction extends Action {
-  type: 'FeedFetchHatenaBookmarkCountsRequestAction';
-  blogURL: string;
-}
-
-export function feedFetchHatenaBookmarkCountsRequest(blogURL: string): FeedFetchHatenaBookmarkCountsRequestAction {
-  return {
-    type: 'FeedFetchHatenaBookmarkCountsRequestAction',
-    blogURL,
-  };
-}
-
-export interface FeedFetchHatenaBookmarkCountsResponseAction extends Action {
-  type: 'FeedFetchHatenaBookmarkCountsResponseAction';
-  blogURL: string;
-  counts: CountResponse[];
-}
-
-export function feedFetchHatenaBookmarkCountsResponse(
-  blogURL: string,
-  counts: CountResponse[]
-): FeedFetchHatenaBookmarkCountsResponseAction {
-  return {
-    type: 'FeedFetchHatenaBookmarkCountsResponseAction',
-    blogURL,
-    counts,
-  };
-}
-
-export interface FeedFetchHatenaStarCountsRequestAction extends Action {
-  type: 'FeedFetchHatenaStarCountsRequestAction';
-  blogURL: string;
-}
-
-export function feedFetchHatenaStarCountsRequest(blogURL: string): FeedFetchHatenaStarCountsRequestAction {
-  return {
-    type: 'FeedFetchHatenaStarCountsRequestAction',
-    blogURL,
-  };
-}
-
-export interface FeedFetchHatenaStarCountsResponseAction extends Action {
-  type: 'FeedFetchHatenaStarCountsResponseAction';
-  blogURL: string;
-  counts: CountResponse[];
-}
-
-export function feedFetchHatenaStarCountsResponse(
-  blogURL: string,
-  counts: CountResponse[]
-): FeedFetchHatenaStarCountsResponseAction {
-  return {
-    type: 'FeedFetchHatenaStarCountsResponseAction',
-    blogURL,
-    counts,
-  };
-}
-
-export interface FeedFetchFacebookCountRequestAction extends Action {
-  type: 'FeedFetchFacebookCountRequestAction';
-  blogURL: string;
-}
-
-export function feedFetchFacebookCountRequest(blogURL: string): FeedFetchFacebookCountRequestAction {
-  return {
-    type: 'FeedFetchFacebookCountRequestAction',
-    blogURL,
-  };
-}
-
-export interface FeedFetchFacebookCountResponseAction extends Action {
-  type: 'FeedFetchFacebookCountResponseAction';
-  blogURL: string;
-  counts: CountResponse[];
-}
-
-export function feedFetchFacebookCountResponse(
-  blogURL: string,
-  counts: CountResponse[]
-): FeedFetchFacebookCountResponseAction {
-  return {
-    type: 'FeedFetchFacebookCountResponseAction',
-    blogURL,
-    counts,
-  };
-}
-
 export interface FeedSaveFeedFirebaseRequestAction extends Action {
   type: 'FeedSaveFeedFirebaseRequestAction';
   blogURL: string;
@@ -324,12 +240,9 @@ type FeedCrowlerActions =
   | FeedCrowlerRequestAction
   | FeedBlogURLClearAction
   | FeedFetchRSSResponseAction
-  | FeedFetchHatenaBookmarkCountsRequestAction
-  | FeedFetchHatenaBookmarkCountsResponseAction
-  | FeedFetchHatenaStarCountsRequestAction
-  | FeedFetchHatenaStarCountsResponseAction
-  | FeedFetchFacebookCountRequestAction
-  | FeedFetchFacebookCountResponseAction
+  | FeedFetchHatenaBookmarkCountActions
+  | FeedFetchHatenaStarActions
+  | FeedFetchFacebookCountActions
   | FeedCrowlerErrorAction
   | FeedSaveFeedFirebaseResponseAction
   | FeedSaveFeedFirebaseRequestAction
