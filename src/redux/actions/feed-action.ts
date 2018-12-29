@@ -3,6 +3,7 @@ import 'firebase/auth';
 
 import { ItemEntity } from '../../models/entities';
 import { CountResponse, ItemResponse } from '../../models/responses';
+import { FeedFetchCountJsoonCountActions } from './feed-actions/count-jsoon-action';
 import { FeedFetchFacebookCountActions } from './feed-actions/facebook-action';
 import { FeedFirebaseActions } from './feed-actions/feed-firebase-action';
 import { FeedFirebaseSaveActions } from './feed-actions/feed-firebase-save-action';
@@ -49,6 +50,7 @@ export function feedFetchAndSaveError(blogURL: string, error: Error) {
 export type ItemEntitiesFunction = () => ItemEntity[];
 
 type FeedFetchCountsActions =
+  | FeedFetchCountJsoonCountActions
   | FeedFetchHatenaBookmarkCountActions
   | FeedFetchHatenaStarActions
   | FeedFetchFacebookCountActions

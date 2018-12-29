@@ -27,7 +27,14 @@ export async function findBlog(userId: string, blogUrl: string): Promise<BlogEnt
   const entity = snapshot.data() as BlogEntity;
   const needsServicesBackwardCompat = !entity.services;
   if (needsServicesBackwardCompat) {
-    entity.services = { twitter: true, facebook: true, hatenabookmark: true, hatenastar: true, pocket: true };
+    entity.services = {
+      twitter: true,
+      countjsoon: false,
+      facebook: true,
+      hatenabookmark: true,
+      hatenastar: true,
+      pocket: true,
+    };
   }
   if (entity.services && entity.services.pocket === undefined) {
     entity.services.pocket = true;
@@ -42,6 +49,7 @@ export function saveBlog(
   feedURL: string,
   feedType: string,
   twitterEnabled: boolean,
+  countJsonnEnabled: boolean,
   facebookEnabled: boolean,
   hatenaBookmarkEnabled: boolean,
   hatenaStarEnabled: boolean,
@@ -55,6 +63,7 @@ export function saveBlog(
     timestamp: serverTimestamp(),
     services: {
       twitter: twitterEnabled,
+      countjsoon: countJsonnEnabled,
       facebook: facebookEnabled,
       hatenabookmark: hatenaBookmarkEnabled,
       hatenastar: hatenaStarEnabled,
@@ -67,6 +76,7 @@ export function saveBlogSetting(
   userId: string,
   blogURL: string,
   twitterEnabled: boolean,
+  countJsonnEnabled: boolean,
   facebookEnabled: boolean,
   hatenaBookmarkEnabled: boolean,
   hatenaStarEnabled: boolean,
@@ -77,6 +87,7 @@ export function saveBlogSetting(
       timestamp: serverTimestamp(),
       services: {
         twitter: twitterEnabled,
+        countjsoon: countJsonnEnabled,
         facebook: facebookEnabled,
         hatenabookmark: hatenaBookmarkEnabled,
         hatenastar: hatenaStarEnabled,

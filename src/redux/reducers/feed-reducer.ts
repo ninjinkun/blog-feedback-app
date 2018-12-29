@@ -9,6 +9,10 @@ import {
   FeedActions,
   FETCH_AND_SAVE_START,
 } from '../actions/feed-action';
+import {
+  FETCH_COUNT_JSOON_COUNT_REQUEST,
+  FETCH_COUNT_JSOON_COUNT_RESPONSE,
+} from '../actions/feed-actions/count-jsoon-action';
 import { FETCH_FACEBOOK_COUNT_REQUEST, FETCH_FACEBOOK_COUNT_RESPONSE } from '../actions/feed-actions/facebook-action';
 import {
   FIREBASE_BLOG_REQUEST,
@@ -68,6 +72,14 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogActions | Bl
     case FETCH_RSS_RESPONSE: {
       const { blogURL, items } = action;
       return updateFeed(blogURL, state, { fethcedEntities: items });
+    }
+    case FETCH_COUNT_JSOON_COUNT_REQUEST: {
+      const { blogURL } = action;
+      return updateFeed(blogURL, state, { loadingLabel: 'シェア数を読み込んでいます', loadingRatio: 60 });
+    }
+    case FETCH_COUNT_JSOON_COUNT_RESPONSE: {
+      const { blogURL, counts } = action;
+      return updateFeed(blogURL, state, { fetchedCountJsoonCounts: flatten(counts) });
     }
     case FETCH_HATENA_BOOKMARK_COUNT_REQUEST: {
       const { blogURL } = action;

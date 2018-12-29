@@ -49,7 +49,7 @@ class FeedPage extends React.PureComponent<Props> {
 
   render() {
     const { blogURL } = this.props.match.params;
-    const { feed, history } = this.props;
+    const { feed } = this.props;
     return (
       <PageLayout
         header={{
@@ -67,12 +67,18 @@ class FeedPage extends React.PureComponent<Props> {
             const {
               firebaseEntities,
               fethcedEntities,
+              fetchedCountJsoonCounts,
               fetchedHatenaBookmarkCounts,
               fetchedHatenaStarCounts,
               fetchedFacebookCounts,
               fetchedPocketCounts,
             } = feed;
 
+            const [countjsoonMap, countjoonAnimateMap] = this.stateToViewData(
+              fetchedCountJsoonCounts,
+              firebaseEntities,
+              CountType.CountJsoon
+            );
             const [hatenabookmarkMap, hatenabookmarkAnimateMap] = this.stateToViewData(
               fetchedHatenaBookmarkCounts,
               firebaseEntities,
@@ -110,8 +116,15 @@ class FeedPage extends React.PureComponent<Props> {
                     favicon={`https://www.google.com/s2/favicons?domain=${blogURL}`}
                     counts={(() => {
                       const counts: Count[] = [];
-                      if (feed.services && feed.services.twitter) {
+                      if (feed.services && feed.services.twitter && !feed.services.countjsoon) {
                         counts.push({ type: CountType.Twitter, count: undefined, animate: false });
+                      }
+                      if (feed.services && feed.services.countjsoon) {
+                        counts.push({
+                          type: CountType.CountJsoon,
+                          count: countjsoonMap.get(item.url) || 0,
+                          animate: !!(countjoonAnimateMap && countjoonAnimateMap.get(item.url)),
+                        });
                       }
                       if (feed.services && feed.services.facebook) {
                         counts.push({

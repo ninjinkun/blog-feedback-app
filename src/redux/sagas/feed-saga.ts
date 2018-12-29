@@ -19,6 +19,7 @@ import {
   feedSaveFeedRequest,
 } from '../actions/feed-actions/feed-firebase-save-action';
 import { feedFetchRSSError, feedFetchRSSRequest, feedFetchRSSResponse } from '../actions/feed-actions/rss';
+import { fetchCountJsoonCounts } from './feed-sagas/count-jsoon-saga';
 import { fetchFacebookCounts } from './feed-sagas/facebook-saga';
 import { fetchHatenaBookmarkCounts } from './feed-sagas/hatenabookmark-saga';
 import { fetchHatenaStarCounts } from './feed-sagas/hatenastar-saga';
@@ -47,7 +48,11 @@ function* handleFetchAction(action: FeedFetchFeedAction) {
   const countServices = [];
   const countTypes: CountType[] = [];
   if (services) {
-    const { hatenabookmark, hatenastar, pocket, facebook } = services;
+    const { countjsoon, hatenabookmark, hatenastar, pocket, facebook } = services;
+    if (countjsoon) {
+      countServices.push(call(fetchCountJsoonCounts, blogURL, urls));
+      countTypes.push(CountType.CountJsoon);
+    }
     if (hatenabookmark) {
       countServices.push(call(fetchHatenaBookmarkCounts, blogURL, urls));
       countTypes.push(CountType.HatenaBookmark);

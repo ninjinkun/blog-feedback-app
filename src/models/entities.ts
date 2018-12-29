@@ -12,6 +12,7 @@ export type BlogEntity = {
 
 export type Services = {
   twitter: boolean;
+  countjsoon: boolean;
   facebook: boolean;
   hatenabookmark: boolean;
   hatenastar: boolean;
@@ -24,12 +25,6 @@ export type ItemEntity = {
   published: firebase.firestore.Timestamp;
   counts: { [key: string]: CountEntity }; // key is CountType
   prevCounts: { [key: string]: CountEntity }; // 10 minutes before
-};
-
-export type CountEntities = {
-  facebook?: CountEntity;
-  hatenabookmark?: CountEntity;
-  hatenastar?: CountEntity;
 };
 
 export type CountEntity = {

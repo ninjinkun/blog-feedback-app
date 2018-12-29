@@ -1,5 +1,6 @@
 export enum CountType {
   Twitter = 'twitter',
+  CountJsoon = 'countjsoon',
   Facebook = 'facebook',
   HatenaBookmark = 'hatenabookmark',
   HatenaStar = 'hatenastar',
@@ -9,6 +10,8 @@ export enum CountType {
 export function toServiceURL(type: CountType, url: string): string | null {
   switch (type) {
     case CountType.Twitter:
+      return `https://mobile.twitter.com/search?q=${encodeURIComponent(url)}&f=live`;
+    case CountType.CountJsoon:
       return `https://mobile.twitter.com/search?q=${encodeURIComponent(url)}&f=live`;
     case CountType.HatenaBookmark:
       if (url.match(/^https/)) {

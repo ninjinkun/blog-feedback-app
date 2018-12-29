@@ -1,9 +1,9 @@
 import { CountResponse } from '../../../models/responses';
 
-export const FeedFetchHatenaStarCountsRequestAction = 'FeedFetchHatenaStarCountsRequestAction';
+export const FETCH_HATENA_STAR_COUNT_REQUEST = 'feed/hatenastar/FETCH_COUNT_REQUEST';
 export function feedFetchHatenaStarCountsRequest(blogURL: string) {
   return {
-    type: FeedFetchHatenaStarCountsRequestAction as typeof FeedFetchHatenaStarCountsRequestAction,
+    type: FETCH_HATENA_STAR_COUNT_REQUEST as typeof FETCH_HATENA_STAR_COUNT_REQUEST,
     blogURL,
   };
 }

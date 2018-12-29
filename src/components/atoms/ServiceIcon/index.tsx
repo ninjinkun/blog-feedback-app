@@ -11,6 +11,8 @@ const ServiceIcon = ({ ...props }: Props) => {
   switch (props.type) {
     case CountType.Twitter:
       return <TwitterIcon {...props} />;
+    case CountType.CountJsoon:
+      return <TwitterIcon {...props} />;
     case CountType.Facebook:
       return <FacebookIcon {...props} />;
     case CountType.HatenaBookmark:
