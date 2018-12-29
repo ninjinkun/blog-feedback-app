@@ -37,15 +37,15 @@ export function feedBlogURLClear(): FeedBlogURLClearAction {
 
 export interface FeedFetchFeedAction extends Action {
   type: 'FeedFetchFeedAction';
-  blogURL: string;
   auth: firebase.auth.Auth;
+  blogURL: string;
 }
 
-export function fetchFeed(blogURL: string, auth: firebase.auth.Auth): FeedFetchFeedAction {
+export function fetchFeed(auth: firebase.auth.Auth, blogURL: string): FeedFetchFeedAction {
   return {
     type: 'FeedFetchFeedAction',
-    blogURL,
     auth,
+    blogURL,
   };
 }
 

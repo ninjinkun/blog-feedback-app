@@ -25,8 +25,8 @@ type StateProps = {
 
 type DispatchProps = {
   feedBlogURLClear: () => void;
-  feedBlogURLChange: (blogURL: string) => void;
-  fetchFeed: (auth: firebase.auth.Auth, blogURL: string) => void;
+  feedBlogURLChange: (...props: Parameters<typeof feedBlogURLChange>) => void;
+  fetchFeed: (...props: Parameters<typeof fetchFeed>) => void;
 };
 
 type OwnProps = RouteComponentProps<{ blogURL: string }>;
@@ -202,8 +202,8 @@ function mapStateToProps(state: AppState, ownProps: OwnProps): StateProps {
 function mapDispatchToProps(dispatch: Dispatch<FeedActions>): DispatchProps {
   return {
     feedBlogURLClear: () => dispatch(feedBlogURLClear()),
-    feedBlogURLChange: url => dispatch(feedBlogURLChange(url)),
-    fetchFeed: (auth, blogURL) => dispatch(fetchFeed(blogURL, auth)),
+    feedBlogURLChange: (...props) => dispatch(feedBlogURLChange(...props)),
+    fetchFeed: (...props) => dispatch(fetchFeed(...props)),
   };
 }
 

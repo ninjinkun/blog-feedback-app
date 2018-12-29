@@ -22,7 +22,7 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  addBlog: (auth: firebase.auth.Auth, blogURL: string) => void;
+  addBlog: (...props: Parameters<typeof addBlog>) => void;
   addBlogInitialize: () => void;
 };
 
@@ -133,10 +133,10 @@ function mapStateToProps(state: AppState): StateProps {
 }
 
 type TD = ThunkDispatch<AppState, undefined, AddBlogActions>;
-function mapDispatchToProps(dispatch: TD | Dispatch<AddBlogActions>): DispatchProps {
+function mapDispatchToProps(dispatch: TD & Dispatch<AddBlogActions>): DispatchProps {
   return {
-    addBlog: (auth: firebase.auth.Auth, blogURL: string) => (dispatch as TD)(addBlog(auth, blogURL)),
-    addBlogInitialize: () => (dispatch as Dispatch<AddBlogActions>)(addBlogInitialize()),
+    addBlog: (...props) => dispatch(addBlog(...props)),
+    addBlogInitialize: () => dispatch(addBlogInitialize()),
   };
 }
 
