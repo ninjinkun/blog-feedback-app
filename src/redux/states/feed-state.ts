@@ -7,6 +7,7 @@ export type FeedState = {
   fetchedHatenaBookmarkCounts?: CountResponse[];
   fetchedHatenaStarCounts?: CountResponse[];
   fetchedFacebookCounts?: CountResponse[];
+  fetchedPocketCounts?: CountResponse[];
   title?: string;
   services?: Services;
   loading: boolean;

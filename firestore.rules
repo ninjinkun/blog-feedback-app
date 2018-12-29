@@ -15,12 +15,12 @@ service cloud.firestore {
           && request.resource.data.feedType is string
           && request.resource.data.timestamp is timestamp
           && request.resource.data.services is map
-          && request.resource.data.services.keys().hasOnly(["twitter", "facebook", "hatenabookmark", "hatenastar"])
+          && request.resource.data.services.keys().hasOnly(["twitter", "facebook", "hatenabookmark", "hatenastar", "pocket"])
           && request.resource.data.services.twitter is bool
           && request.resource.data.services.facebook is bool
           && request.resource.data.services.hatenabookmark is bool
-          && request.resource.data.services.hatenastar is bool;
-
+          && request.resource.data.services.hatenastar is bool
+          && request.resource.data.services.pocket is bool;
 
       match /items/{itemId} {
         function checkCountFields(resource, countType) {
@@ -42,12 +42,14 @@ service cloud.firestore {
             || (request.resource.data.count is map 
               && checkCountFields(request.resource.data.count, "facebook")
               && checkCountFields(request.resource.data.count, "hatenabookmark")
-              && checkCountFields(request.resource.data.count, "hatenastar")))
+              && checkCountFields(request.resource.data.count, "hatenastar")
+              && checkCountFields(request.resource.data.count, "pocket")))
           && (isUndefined(request.resource.data, "prevCount") 
             || (request.resource.data.prevCount is map
               && checkCountFields(request.resource.data.prevCount, "facebook")
               && checkCountFields(request.resource.data.prevCount, "hatenabookmark")
-              && checkCountFields(request.resource.data.prevCount, "hatenastar")));
+              && checkCountFields(request.resource.data.prevCount, "hatenastar")
+              && checkCountFields(request.resource.data.prevCount, "pocket")));
 	    }
     }
   }

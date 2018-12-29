@@ -3,6 +3,7 @@ export enum CountType {
   Facebook = 'facebook',
   HatenaBookmark = 'hatenabookmark',
   HatenaStar = 'hatenastar',
+  Pocket = 'pocket',
 }
 
 export function toServiceURL(type: CountType, url: string): string | null {

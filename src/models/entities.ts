@@ -15,6 +15,7 @@ export type Services = {
   facebook: boolean;
   hatenabookmark: boolean;
   hatenastar: boolean;
+  pocket?: boolean;
 };
 
 export type ItemEntity = {

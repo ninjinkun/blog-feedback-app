@@ -31,6 +31,7 @@ import {
   feedSaveFeedFirebaseResponse,
   feedSaveFeedRequest,
 } from '../actions/feed-action';
+import { fetchPocketCounts } from './feed-sagas/pocket-saga';
 import { fetchFiresbaseUser } from './user-saga';
 
 export default function* feedSaga() {
@@ -62,6 +63,9 @@ function* handleFetchAction(action: FeedFetchFeedAction) {
   if (services && services.facebook) {
     countServices.push(call(fetchFacebookCounts, blogURL, urls));
   }
+  if (services && services.pocket) {
+    countServices.push(call(fetchPocketCounts, blogURL, urls));
+  }
   const counts: CountResponse[] = flatten(yield all(countServices));
   const countTypes: CountType[] = [];
   if (services && services.hatenabookmark) {
@@ -72,6 +76,9 @@ function* handleFetchAction(action: FeedFetchFeedAction) {
   }
   if (services && services.facebook) {
     countTypes.push(CountType.Facebook);
+  }
+  if (services && services.pocket) {
+    countTypes.push(CountType.Pocket);
   }
   yield call(saveBlogFeedItemsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts, countTypes);
 }
@@ -150,9 +157,9 @@ function* fetchFacebookCounts(blogURL: string, urls: string[], maxFetchCount: nu
   }
 }
 
-function* fetchFacebookCountChunk(urls: string[]) {
+function* fetchFacebookCountChunk(urls: string[], delayMsec: number = 800) {
   const count: CountResponse[] = yield all(urls.map(url => call(fetchFacebookCount, url)));
-  yield call(delay, 800);
+  yield call(delay, delayMsec);
   return count;
 }
 

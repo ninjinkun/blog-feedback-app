@@ -55,7 +55,8 @@ export function saveSetting(
   twitterEnabled: boolean,
   facebookEnabled: boolean,
   hatenaBookmarkEnabled: boolean,
-  hatenaStarEnabled: boolean
+  hatenaStarEnabled: boolean,
+  pocketEnabled: boolean
 ): TA {
   return async dispatch => {
     dispatch(settingSaveSettingRequest(blogURL));
@@ -67,7 +68,8 @@ export function saveSetting(
         twitterEnabled,
         facebookEnabled,
         hatenaBookmarkEnabled,
-        hatenaStarEnabled
+        hatenaStarEnabled,
+        pocketEnabled
       );
       dispatch(settingSaveSettingResponse(blogURL));
     } catch (e) {

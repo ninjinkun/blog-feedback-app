@@ -30,17 +30,10 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  fetchFirebaseBlog: (auth: firebase.auth.Auth, blogURL: string) => void;
-  deleteBlog: (auth: firebase.auth.Auth, blogURL: string) => void;
+  fetchFirebaseBlog: (...props: Parameters<typeof fetchFirebaseBlog>) => void;
+  deleteBlog: (...props: Parameters<typeof deleteBlog>) => void;
   deleteBlogReset: () => void;
-  saveSetting: (
-    auth: firebase.auth.Auth,
-    blogURL: string,
-    twitterEnabled: boolean,
-    facebookEnabled: boolean,
-    hatenaBookmarkEnabled: boolean,
-    hatenaStarEnabled: boolean
-  ) => void;
+  saveSetting: (...props: Parameters<typeof saveSetting>) => void;
 };
 
 type OwnProps = RouteComponentProps<{ blogURL: string }>;
@@ -69,8 +62,8 @@ class SettingPage extends React.PureComponent<Props, {}> {
     const { feedState } = this.props;
     if (feedState && feedState.title && feedState.services) {
       feedState.services[type] = enabled;
-      const { twitter, facebook, hatenabookmark, hatenastar } = feedState.services;
-      this.props.saveSetting(firebase.auth(), blogURL, twitter, facebook, hatenabookmark, hatenastar);
+      const { twitter, facebook, hatenabookmark, hatenastar, pocket } = feedState.services;
+      this.props.saveSetting(firebase.auth(), blogURL, twitter, facebook, hatenabookmark, hatenastar, pocket || true);
     }
   }
 
@@ -141,6 +134,19 @@ class SettingPage extends React.PureComponent<Props, {}> {
                   />
                 }
               />
+              <SettingCell
+                title="Pocket"
+                LeftIcon={<Favicon src={require('../../../assets/images/pocket-icon.png')} />}
+                RightIcon={
+                  <CheckBox
+                    type="checkbox"
+                    defaultChecked={feedState && feedState.services && feedState.services.pocket}
+                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                      this.enableCountType((e.target as HTMLInputElement).checked, CountType.Pocket)
+                    }
+                  />
+                }
+              />
               <SectionHeader />
               <DeleteWrapper>
                 <StyledWarningButton onClick={this.deleteBlog}>
@@ -197,16 +203,12 @@ function mapStateToProps(state: AppState, ownProps: OwnProps): StateProps {
 }
 
 type TD = ThunkDispatch<AppState, undefined, FeedFirebaseActions | DeleteBlogActions | SettingActions>;
-
-function mapDispatchToProps(dispatch: TD | Dispatch<DeleteBlogActions>): DispatchProps {
+function mapDispatchToProps(dispatch: TD & Dispatch<DeleteBlogActions>): DispatchProps {
   return {
-    fetchFirebaseBlog: (auth, blogURL) => (dispatch as TD)(fetchFirebaseBlog(auth, blogURL)),
-    deleteBlog: (auth, blogURL) => (dispatch as TD)(deleteBlog(auth, blogURL)),
+    fetchFirebaseBlog: (...props) => dispatch(fetchFirebaseBlog(...props)),
+    deleteBlog: (...props) => dispatch(deleteBlog(...props)),
     deleteBlogReset: () => dispatch(deleteBlogReset()),
-    saveSetting: (auth, blogURL, twitterEnabled, facebookEnabled, hatenaBookmarkEnabled, hatenaStarEnabled) =>
-      (dispatch as TD)(
-        saveSetting(auth, blogURL, twitterEnabled, facebookEnabled, hatenaBookmarkEnabled, hatenaStarEnabled)
-      ),
+    saveSetting: (...props) => dispatch(saveSetting(...props)),
   };
 }
 
