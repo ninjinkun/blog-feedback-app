@@ -1,105 +1,71 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { AppState } from '../states/app-state';
 
-export interface UserFetchFirebaseUserAction extends Action {
-  type: 'UserFetchFirebaseUserAction';
-  auth: firebase.auth.Auth;
-}
-
-export function userFetchFirebaseUser(auth: firebase.auth.Auth): UserFetchFirebaseUserAction {
+export const FIREBASE_USER_REQUEST = 'user/FIREBASE_REQUEST';
+export function userFirebaseUserRequest() {
   return {
-    type: 'UserFetchFirebaseUserAction',
-    auth,
+    type: FIREBASE_USER_REQUEST as typeof FIREBASE_USER_REQUEST,
   };
 }
 
-export interface UserFirebaseRequestAction extends Action {
-  type: 'UserFirebaseRequestAction';
-}
-
-function userFirebaseUserRequest(): UserFirebaseRequestAction {
+export const FIREBASE_USER_RESPONSE = 'user/FIREBASE_RESPONSE';
+export function userFirebaseUserResponse(user: firebase.User) {
   return {
-    type: 'UserFirebaseRequestAction',
-  };
-}
-
-export interface UserFirebaseResponseAction extends Action {
-  type: 'UserFirebaseResponseAction';
-  user: firebase.User;
-}
-
-export function userFirebaseUserResponse(user: firebase.User): UserFirebaseResponseAction {
-  return {
-    type: 'UserFirebaseResponseAction',
+    type: FIREBASE_USER_RESPONSE as typeof FIREBASE_USER_RESPONSE,
     user,
   };
 }
+export type UserFirebaseUserResponseAction = ReturnType<typeof userFirebaseUserResponse>;
 
-export interface UserFirebaseUnauthorizedResponseAction extends Action {
-  type: 'UserFirebaseUnauthorizedResponseAction';
-}
-
-function unauthorizedReponse(): UserFirebaseUnauthorizedResponseAction {
+export const FIREBASE_USER_UNAUTHORIZED_ERROR = 'user/FIREBASE_UNAUTHORIZED_ERROR';
+function userFirebaseUserUnauthorizedError() {
   return {
-    type: 'UserFirebaseUnauthorizedResponseAction',
+    type: FIREBASE_USER_UNAUTHORIZED_ERROR as typeof FIREBASE_USER_UNAUTHORIZED_ERROR,
   };
 }
 
-export interface UserFirebaseFetchErrorActionction extends Action {
-  type: 'UserFirebaseFetchErrorActionction';
-  error: Error;
-}
-
-export function userFirebaseFetchError(error: Error): UserFirebaseFetchErrorActionction {
+export const FIREBASE_USER_ERROR = 'user/FIREBASE_ERROR';
+export function userFirebaseUserError(error: Error) {
   return {
-    type: 'UserFirebaseFetchErrorActionction',
-    error,
-  };
-}
-
-export interface UserFirebaseSignoutRequestAction extends Action {
-  type: 'UserFirebaseSignoutRequestAction';
-}
-
-function userFirebaseSignoutRequest(): UserFirebaseSignoutRequestAction {
-  return {
-    type: 'UserFirebaseSignoutRequestAction',
-  };
-}
-
-export interface UserFirebaseSignoutResponseAction extends Action {
-  type: 'UserFirebaseSignoutResponseAction';
-}
-
-export function userFirebaseSignoutResponse(): UserFirebaseSignoutResponseAction {
-  return {
-    type: 'UserFirebaseSignoutResponseAction',
-  };
-}
-
-export interface UserFirebaseSignoutErrorAction extends Action {
-  type: 'UserFirebaseSignoutErrorAction';
-  error: Error;
-}
-
-export function userFirebaseSignoutError(error: Error): UserFirebaseSignoutErrorAction {
-  return {
-    type: 'UserFirebaseSignoutErrorAction',
+    type: FIREBASE_USER_ERROR as typeof FIREBASE_USER_ERROR,
     error,
   };
 }
 
 export type UserFetchActions =
-  | UserFirebaseRequestAction
-  | UserFirebaseResponseAction
-  | UserFirebaseUnauthorizedResponseAction;
+  | ReturnType<typeof userFirebaseUserRequest>
+  | ReturnType<typeof userFirebaseUserResponse>
+  | ReturnType<typeof userFirebaseUserError>
+  | ReturnType<typeof userFirebaseUserUnauthorizedError>;
+
+export const FIREBASE_SIGNOUT_REQUEST = 'user/signout/FIREBASE_REQUEST';
+function userFirebaseSignoutRequest() {
+  return {
+    type: FIREBASE_SIGNOUT_REQUEST as typeof FIREBASE_SIGNOUT_REQUEST,
+  };
+}
+
+export const FIREBASE_SIGNOUT_RESPONSE = 'user/signout/FIREBASE_RESPONSE';
+export function userFirebaseSignoutResponse() {
+  return {
+    type: FIREBASE_SIGNOUT_RESPONSE as typeof FIREBASE_SIGNOUT_RESPONSE,
+  };
+}
+
+export const FIREBASE_SIGNOUT_ERROR = 'user/signout/FIREBASE_ERROR';
+export function userFirebaseSignoutError(error: Error) {
+  return {
+    type: FIREBASE_SIGNOUT_ERROR as typeof FIREBASE_SIGNOUT_ERROR,
+    error,
+  };
+}
+
 export type UserSignoutActions =
-  | UserFirebaseSignoutRequestAction
-  | UserFirebaseSignoutResponseAction
-  | UserFirebaseSignoutErrorAction;
+  | ReturnType<typeof userFirebaseSignoutRequest>
+  | ReturnType<typeof userFirebaseSignoutResponse>
+  | ReturnType<typeof userFirebaseSignoutError>;
 
 export type UserActions = UserFetchActions | UserSignoutActions;
 
@@ -110,7 +76,7 @@ export function fetchUser(auth: firebase.auth.Auth): ThunkAction<void, AppState,
       const user = await currenUserOronAuthStateChanged(auth);
       dispatch(userFirebaseUserResponse(user));
     } catch (e) {
-      dispatch(unauthorizedReponse());
+      dispatch(userFirebaseUserUnauthorizedError());
     }
   };
 }

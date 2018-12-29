@@ -1,51 +1,36 @@
-import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { saveBlogSetting } from '../../models/repositories/blog-repository';
 import { AppState } from '../states/app-state';
 import { currenUserOronAuthStateChanged } from './user-action';
 
-export interface SettingSaveSettingRequestAction extends Action {
-  type: 'SettingSaveSettingRequestAction';
-  blogURL: string;
-}
-
-export function settingSaveSettingRequest(blogURL: string): SettingSaveSettingRequestAction {
+export const FIREBASE_SAVE_SETTING_REQUEST = 'setting/FIREBASE_SAVE_REQUEST';
+export function settingSaveSettingRequest(blogURL: string) {
   return {
-    type: 'SettingSaveSettingRequestAction',
+    type: FIREBASE_SAVE_SETTING_REQUEST as typeof FIREBASE_SAVE_SETTING_REQUEST,
+    blogURL,
+  };
+}
+export const FIREBASE_SAVE_SETTING_RESPONSE = 'setting/FIREBASE_SAVE_RESPONSE';
+export function settingSaveSettingResponse(blogURL: string) {
+  return {
+    type: FIREBASE_SAVE_SETTING_RESPONSE as typeof FIREBASE_SAVE_SETTING_RESPONSE,
     blogURL,
   };
 }
 
-export interface SettingSaveSettingResponseAction extends Action {
-  type: 'SettingSaveSettinResponseAction';
-  blogURL: string;
-}
-
-export function settingSaveSettingResponse(blogURL: string): SettingSaveSettingResponseAction {
+export const FIREBASE_SAVE_SETTING_ERROR = 'setting/FIREBASE_SAVE_ERROR';
+export function settingSaveSettingError(blogURL: string, error: Error) {
   return {
-    type: 'SettingSaveSettinResponseAction',
-    blogURL,
-  };
-}
-
-export interface SettingSaveSettingErrorAction extends Action {
-  type: 'SettingSaveSettingErrorAction';
-  blogURL: string;
-  error: Error;
-}
-
-export function settingSaveSettingError(blogURL: string, error: Error): SettingSaveSettingErrorAction {
-  return {
-    type: 'SettingSaveSettingErrorAction',
+    type: FIREBASE_SAVE_SETTING_ERROR as typeof FIREBASE_SAVE_SETTING_ERROR,
     blogURL,
     error,
   };
 }
 
 export type SettingActions =
-  | SettingSaveSettingRequestAction
-  | SettingSaveSettingResponseAction
-  | SettingSaveSettingErrorAction;
+  | ReturnType<typeof settingSaveSettingRequest>
+  | ReturnType<typeof settingSaveSettingResponse>
+  | ReturnType<typeof settingSaveSettingError>;
 
 type TA = ThunkAction<void, AppState, undefined, SettingActions>;
 

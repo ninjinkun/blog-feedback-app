@@ -33,8 +33,8 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  fetchBlogs: (auth: firebase.auth.Auth) => any;
-  signOut: (auth: firebase.auth.Auth) => any;
+  fetchBlogs: (...props: Parameters<typeof fetchBlogs>) => void;
+  signOut: (...props: Parameters<typeof signOut>) => void;
 };
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
@@ -129,8 +129,8 @@ function mapStateToProps(state: AppState): StateProps {
 
 function mapDispatchToProps(dispatch: ThunkDispatch<AppState, undefined, BlogActions>): DispatchProps {
   return {
-    fetchBlogs: auth => dispatch(fetchBlogs(auth)),
-    signOut: auth => dispatch(signOut(auth)),
+    fetchBlogs: (...props) => dispatch(fetchBlogs(...props)),
+    signOut: (...props) => dispatch(signOut(...props)),
   };
 }
 

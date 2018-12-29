@@ -1,65 +1,48 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import * as BlogRepo from '../../models/repositories/blog-repository';
 import * as ItemsRepo from '../../models/repositories/item-repository';
 import { AppState } from '../states/app-state';
 import { currenUserOronAuthStateChanged } from './user-action';
 
-export interface DeleteBlogRequestAction extends Action {
-  type: 'DeleteBlogRequestAction';
-  blogURL: string;
-}
-
-function deleteBlogRequest(blogURL: string): DeleteBlogRequestAction {
+export const DELETE_REQUEST = 'deleteblog/DELETE_REQUEST';
+function deleteBlogRequest(blogURL: string) {
   return {
-    type: 'DeleteBlogRequestAction',
+    type: DELETE_REQUEST as typeof DELETE_REQUEST,
     blogURL,
   };
 }
 
-export interface DeleteBlogResponseAction extends Action {
-  type: 'DeleteBlogResponseAction';
-  blogURL: string;
-}
-
-function deleteBlogResponse(blogURL: string): DeleteBlogResponseAction {
+export const DELETE_RESPONSE = 'deleteblog/DELETE_RESPONSE';
+function deleteBlogResponse(blogURL: string) {
   return {
-    type: 'DeleteBlogResponseAction',
+    type: DELETE_RESPONSE as typeof DELETE_RESPONSE,
     blogURL,
   };
 }
 
-export interface DeleteBlogErrorAction extends Action {
-  type: 'DeleteBlogErrorAction';
-  blogURL: string;
-  error: Error;
-}
-
-function deleteBlogError(blogURL: string, error: Error): DeleteBlogErrorAction {
+export const DELETE_ERROR = 'deleteblog/DELETE_ERROR';
+function deleteBlogError(blogURL: string, error: Error) {
   return {
-    type: 'DeleteBlogErrorAction',
+    type: DELETE_ERROR as typeof DELETE_ERROR,
     blogURL,
     error,
   };
 }
 
-export interface DeleteBlogResetAction extends Action {
-  type: 'DeleteBlogResetAction';
-}
-
-export function deleteBlogReset(): DeleteBlogResetAction {
+export const RESET = 'deleteblog/RESET';
+export function deleteBlogReset() {
   return {
-    type: 'DeleteBlogResetAction',
+    type: RESET as typeof RESET,
   };
 }
 
 export type DeleteBlogActions =
-  | DeleteBlogRequestAction
-  | DeleteBlogResponseAction
-  | DeleteBlogErrorAction
-  | DeleteBlogResetAction;
+  | ReturnType<typeof deleteBlogRequest>
+  | ReturnType<typeof deleteBlogResponse>
+  | ReturnType<typeof deleteBlogError>
+  | ReturnType<typeof deleteBlogReset>;
 
 type TA = ThunkAction<void, AppState, undefined, DeleteBlogActions>;
 export function deleteBlog(auth: firebase.auth.Auth, blogURL: string): TA {

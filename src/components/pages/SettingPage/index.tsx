@@ -8,7 +8,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import styled from 'styled-components';
 import { CountType } from '../../../consts/count-type';
 import { deleteBlog, DeleteBlogActions, deleteBlogReset } from '../../../redux/actions/delete-blog-action';
-import { FeedFirebaseActions, fetchFirebaseBlog } from '../../../redux/actions/feed-action';
+import { FeedFirebaseActions, fetchFirebaseBlog } from '../../../redux/actions/feed-actions/feed-firebase-action';
 import { saveSetting, SettingActions } from '../../../redux/actions/setting-action';
 import { AppState } from '../../../redux/states/app-state';
 import { DeleteBlogState } from '../../../redux/states/delete-blog-state';

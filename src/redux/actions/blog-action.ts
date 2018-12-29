@@ -6,41 +6,33 @@ import { findAllBlogs } from '../../models/repositories/blog-repository';
 import { AppState } from '../states/app-state';
 import { currenUserOronAuthStateChanged } from './user-action';
 
-export interface BlogFirebaseRequestAction extends Action {
-  type: 'BlogFirebaseRequestAction';
-}
-
-function blogRequest(): BlogFirebaseRequestAction {
+export const FIREBASE_BLOGS_REQUEST = 'blog/FIREBASE_REQUEST';
+export function blogFirebaseRequest() {
   return {
-    type: 'BlogFirebaseRequestAction',
+    type: FIREBASE_BLOGS_REQUEST as typeof FIREBASE_BLOGS_REQUEST,
   };
 }
 
-export interface BlogFirebaseResponseAction extends Action {
-  type: 'BlogFirebaseResponseAction';
-  blogs: BlogEntity[];
-}
-
-export function blogResponse(blogs: BlogEntity[]): BlogFirebaseResponseAction {
+export const FIREBASE_BLOGS_RESPONSE = 'blog/FIREBASE_RESPONSE';
+export function blogFirebaseResponse(blogs: BlogEntity[]) {
   return {
-    type: 'BlogFirebaseResponseAction',
+    type: FIREBASE_BLOGS_RESPONSE as typeof FIREBASE_BLOGS_RESPONSE,
     blogs,
   };
 }
 
-export interface BlogFirebaseErrorAction extends Action {
-  type: 'BlogFirebaseErrorAction';
-  error: Error;
-}
-
-export function blogFirebaseError(error: Error): BlogFirebaseErrorAction {
+export const FIREBASE_BLOGS_ERROR = 'blog/FIREBASE_ERROR';
+export function blogFirebaseError(error: Error) {
   return {
-    type: 'BlogFirebaseErrorAction',
+    type: FIREBASE_BLOGS_ERROR as typeof FIREBASE_BLOGS_ERROR,
     error,
   };
 }
 
-type BlogFirebaseFetchActions = BlogFirebaseRequestAction | BlogFirebaseResponseAction | BlogFirebaseErrorAction;
+type BlogFirebaseFetchActions =
+  | ReturnType<typeof blogFirebaseRequest>
+  | ReturnType<typeof blogFirebaseResponse>
+  | ReturnType<typeof blogFirebaseError>;
 
 export function fetchBlogs(auth: firebase.auth.Auth): ThunkAction<void, AppState, undefined, BlogFirebaseFetchActions> {
   return async dispatch => {
@@ -51,9 +43,9 @@ export function fetchBlogs(auth: firebase.auth.Auth): ThunkAction<void, AppState
       throw e;
     }
     try {
-      dispatch(blogRequest());
+      dispatch(blogFirebaseRequest());
       const blogs = await findAllBlogs(user.uid);
-      dispatch(blogResponse(blogs));
+      dispatch(blogFirebaseResponse(blogs));
     } catch (e) {
       dispatch(blogFirebaseError(e));
     }

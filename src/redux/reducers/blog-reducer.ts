@@ -1,21 +1,21 @@
 import { Reducer } from 'redux';
-import { BlogActions } from '../actions/blog-action';
-import { DeleteBlogResponseAction } from '../actions/delete-blog-action';
-import { UserFirebaseSignoutResponseAction } from '../actions/user-action';
+import { BlogActions, FIREBASE_BLOGS_REQUEST, FIREBASE_BLOGS_RESPONSE } from '../actions/blog-action';
+import { DELETE_RESPONSE, DeleteBlogActions } from '../actions/delete-blog-action';
+import { FIREBASE_SIGNOUT_RESPONSE, UserSignoutActions } from '../actions/user-action';
 import { BlogState, initialState } from '../states/blog-state';
 
-export const blogReducer: Reducer<
-  BlogState,
-  BlogActions | UserFirebaseSignoutResponseAction | DeleteBlogResponseAction
-> = (state = initialState, action) => {
+export const blogReducer: Reducer<BlogState, BlogActions | UserSignoutActions | DeleteBlogActions> = (
+  state = initialState,
+  action
+) => {
   switch (action.type) {
-    case 'BlogFirebaseRequestAction':
+    case FIREBASE_BLOGS_REQUEST:
       return { ...state, loading: true };
-    case 'BlogFirebaseResponseAction': {
+    case FIREBASE_BLOGS_RESPONSE: {
       const { blogs } = action;
       return { ...state, blogs, loading: false };
     }
-    case 'DeleteBlogResponseAction': {
+    case DELETE_RESPONSE: {
       const { blogURL } = action;
       let blogs;
       if (state.blogs) {
@@ -23,7 +23,7 @@ export const blogReducer: Reducer<
       }
       return { ...state, blogs };
     }
-    case 'UserFirebaseSignoutResponseAction':
+    case FIREBASE_SIGNOUT_RESPONSE:
       return initialState;
     default:
       return state;
