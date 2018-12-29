@@ -3,6 +3,7 @@ import { Reducer } from 'redux';
 import { AddBlogResponseAction } from '../actions/add-blog-action';
 import { BlogFirebaseResponseAction } from '../actions/blog-action';
 import { FeedActions } from '../actions/feed-action';
+import { FETCH_POCKET_COUNT_RESPONSE } from '../actions/feed-actions/pocket-action';
 import { FeedState, initialState } from '../states/feed-state';
 import { FeedsState, initialState as feedsIniticalState } from '../states/feeds-state';
 
@@ -64,6 +65,10 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
     case 'FeedFetchFacebookCountResponseAction': {
       const { blogURL, counts } = action;
       return updateFeed(blogURL, state, { fetchedFacebookCounts: flatten(counts) });
+    }
+    case FETCH_POCKET_COUNT_RESPONSE: {
+      const { blogURL, counts } = action;
+      return updateFeed(blogURL, state, { fetchedPocketCounts: flatten(counts) });
     }
     case 'FeedSaveFeedFirebaseRequestAction': {
       const { blogURL } = action;

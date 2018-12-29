@@ -75,6 +75,7 @@ describe('/users/:user_id/blogs', () => {
         true,
         true,
         true,
+        false,
         false
       )
     );
@@ -94,6 +95,7 @@ describe('/users/:user_id/blogs', () => {
         true,
         true,
         true,
+        false,
         false
       )
     );

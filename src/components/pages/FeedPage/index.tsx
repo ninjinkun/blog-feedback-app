@@ -70,6 +70,7 @@ class FeedPage extends React.PureComponent<Props> {
               fetchedHatenaBookmarkCounts,
               fetchedHatenaStarCounts,
               fetchedFacebookCounts,
+              fetchedPocketCounts,
             } = feed;
 
             const [hatenabookmarkMap, hatenabookmarkAnimateMap] = this.stateToViewData(
@@ -86,6 +87,11 @@ class FeedPage extends React.PureComponent<Props> {
               fetchedFacebookCounts,
               firebaseEntities,
               CountType.Facebook
+            );
+            const [pocketMap, pocketAnimateMap] = this.stateToViewData(
+              fetchedPocketCounts,
+              firebaseEntities,
+              CountType.Pocket
             );
 
             const items: Array<ItemResponse | ItemEntity> =
@@ -126,6 +132,13 @@ class FeedPage extends React.PureComponent<Props> {
                           type: CountType.HatenaStar,
                           count: hatenastarMap.get(item.url) || 0,
                           animate: !!(hatenastarAnimateMap && hatenastarAnimateMap.get(item.url)),
+                        });
+                      }
+                      if (feed.services && feed.services.pocket) {
+                        counts.push({
+                          type: CountType.Pocket,
+                          count: pocketMap.get(item.url) || 0,
+                          animate: !!(pocketAnimateMap && pocketAnimateMap.get(item.url)),
                         });
                       }
                       return counts;

@@ -75,7 +75,8 @@ export function addBlog(auth: firebase.auth.Auth, blogURL: string): AddBlogThunk
           true,
           true,
           true,
-          blogResponse.isHatenaBlog
+          blogResponse.isHatenaBlog,
+          true
         );
         dispatch(addBlogResponse(blogResponse));
       } else {
@@ -86,7 +87,7 @@ export function addBlog(auth: firebase.auth.Auth, blogURL: string): AddBlogThunk
         const feed = await fetchFeed(blogURL);
         const { url, title, feedType } = feed;
         if (user) {
-          await saveBlog(user.uid, url, title, blogURL, feedType, true, true, true, false);
+          await saveBlog(user.uid, url, title, blogURL, feedType, true, true, true, false, true);
           const blogResponse: BlogResponse = {
             url,
             title,

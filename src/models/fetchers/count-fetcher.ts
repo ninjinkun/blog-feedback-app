@@ -41,3 +41,18 @@ export async function fetchHatenaStarCounts(urls: string[]): Promise<CountRespon
     type: CountType.HatenaStar,
   }));
 }
+
+export async function fetchPocketCount(url: string): Promise<CountResponse> {
+  const apiURL = `https://widgets.getpocket.com/v1/button?label=pocket&count=vertical&v=1&url=${encodeURIComponent(
+    url
+  )}`;
+  const response = await fetch(apiURL);
+  const htmlText = await response.text();
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlText, 'text/html');
+  const result = doc.evaluate(`'//em[@id="cnt"]/text()`, doc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+  const count = (result.singleNodeValue as CharacterData).data;
+
+  return { url, count: parseInt(count, 10), type: CountType.Pocket };
+}

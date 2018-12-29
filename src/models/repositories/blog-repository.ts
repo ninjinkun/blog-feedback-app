@@ -25,9 +25,12 @@ export function blogRef(userId: string, blogUrl: string): firebase.firestore.Doc
 export async function findBlog(userId: string, blogUrl: string): Promise<BlogEntity> {
   const snapshot = await blogRef(userId, blogUrl).get();
   const entity = snapshot.data() as BlogEntity;
-  const needsBackwardCompat = !entity.services;
-  if (needsBackwardCompat) {
-    entity.services = { twitter: true, facebook: true, hatenabookmark: true, hatenastar: true };
+  const needsServicesBackwardCompat = !entity.services;
+  if (needsServicesBackwardCompat) {
+    entity.services = { twitter: true, facebook: true, hatenabookmark: true, hatenastar: true, pocket: true };
+  }
+  if (entity.services && entity.services.pocket === undefined) {
+    entity.services.pocket = true;
   }
   return entity;
 }
@@ -41,7 +44,8 @@ export function saveBlog(
   twitterEnabled: boolean,
   facebookEnabled: boolean,
   hatenaBookmarkEnabled: boolean,
-  hatenaStarEnabled: boolean
+  hatenaStarEnabled: boolean,
+  pocketEnabled: boolean
 ): Promise<void> {
   return blogRef(userId, blogURL).set({
     title: blogTitle,
@@ -54,6 +58,7 @@ export function saveBlog(
       facebook: facebookEnabled,
       hatenabookmark: hatenaBookmarkEnabled,
       hatenastar: hatenaStarEnabled,
+      pocket: pocketEnabled,
     },
   });
 }
@@ -64,7 +69,8 @@ export function saveBlogSetting(
   twitterEnabled: boolean,
   facebookEnabled: boolean,
   hatenaBookmarkEnabled: boolean,
-  hatenaStarEnabled: boolean
+  hatenaStarEnabled: boolean,
+  pocketEnabled: boolean
 ) {
   return blogRef(userId, blogURL).set(
     {
@@ -74,6 +80,7 @@ export function saveBlogSetting(
         facebook: facebookEnabled,
         hatenabookmark: hatenaBookmarkEnabled,
         hatenastar: hatenaStarEnabled,
+        pocket: pocketEnabled,
       },
     },
     { merge: true }

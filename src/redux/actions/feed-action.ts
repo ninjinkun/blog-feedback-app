@@ -7,6 +7,7 @@ import { BlogEntity, ItemEntity } from '../../models/entities';
 import { findBlog } from '../../models/repositories/blog-repository';
 import { CountResponse, ItemResponse } from '../../models/responses';
 import { AppState } from '../states/app-state';
+import { FeedFetchPocketCountActions } from './feed-actions/pocket-action';
 import { currenUserOronAuthStateChanged } from './user-action';
 
 export interface FeedBlogURLChangeAction extends Action {
@@ -332,7 +333,8 @@ type FeedCrowlerActions =
   | FeedCrowlerErrorAction
   | FeedSaveFeedFirebaseResponseAction
   | FeedSaveFeedFirebaseRequestAction
-  | FeedFetchRSSRequestAction;
+  | FeedFetchRSSRequestAction
+  | FeedFetchPocketCountActions;
 
 export type FeedActions = FeedBlogURLChangeAction | FeedFirebaseActions | FeedCrowlerActions;
 

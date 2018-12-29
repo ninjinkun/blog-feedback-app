@@ -17,6 +17,8 @@ const ServiceIcon = ({ ...props }: Props) => {
       return <HatenaBookmarkIcon {...props} />;
     case CountType.HatenaStar:
       return <HatenaStarIcon {...props} />;
+    case CountType.Pocket:
+      return <PocketIcon {...props} />;
     default:
       return null;
   }
@@ -36,6 +38,7 @@ export const HatenaBookmarkIcon = ({ ...props }) => (
 export const HatenaStarIcon = ({ ...props }) => (
   <Img src={require('../../../assets/images/hatenastar-icon.png')} {...props} />
 );
+export const PocketIcon = ({ ...props }) => <Img src={require('../../../assets/images/pocket-icon.png')} {...props} />;
 
 const Img = styled.img`
   width: 24px;
