@@ -1,6 +1,6 @@
 import flatten from 'lodash/flatten';
 import { Reducer } from 'redux';
-import { AddBlogResponseAction } from '../actions/add-blog-action';
+import { AddBlogActions, FIREBASE_ADD_BLOG_RESPONSE } from '../actions/add-blog-action';
 import { BlogActions, FIREBASE_BLOG_RESPONSE } from '../actions/blog-action';
 import { FeedActions } from '../actions/feed-action';
 import { FETCH_FACEBOOK_COUNT_REQUEST, FETCH_FACEBOOK_COUNT_RESPONSE } from '../actions/feed-actions/facebook-action';
@@ -13,7 +13,7 @@ import { FETCH_POCKET_COUNT_RESPONSE } from '../actions/feed-actions/pocket-acti
 import { FeedState, initialState } from '../states/feed-state';
 import { FeedsState, initialState as feedsIniticalState } from '../states/feeds-state';
 
-export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseAction | BlogActions> = (
+export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogActions | BlogActions> = (
   state = feedsIniticalState,
   action
 ): FeedsState => {
@@ -88,7 +88,7 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogResponseActi
       const { blogURL } = action;
       return updateFeed(blogURL, state, { loading: false, loadingLabel: undefined, loadingRatio: 0 });
     }
-    case 'AddBlogResponseAction': {
+    case FIREBASE_ADD_BLOG_RESPONSE: {
       const { title, url, feedURL } = action.response;
       return updateFeed(url, state, { title, feedURL });
     }
