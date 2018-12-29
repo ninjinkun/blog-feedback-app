@@ -119,7 +119,7 @@ class SettingPage extends React.PureComponent<Props, {}> {
                     <Anker href="https://jsoon.digitiminimi.com/" target="_blank">
                       count.jsoon
                     </Anker>
-                    のサイトからブログのURLを登録するとBlogFeedbackでも利用できます
+                    のサイトからブログのURLを登録するとBlogFeedbackにもTwitterのシェア数が表示されるようになります
                   </Description>
                 }
                 LeftIcon={<Favicon src={require('../../../assets/images/twitter-icon.png')} />}
