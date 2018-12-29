@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { BlogActions } from '../actions/blog-action';
+import { BlogActions, FIREBASE_BLOG_REQUEST, FIREBASE_BLOG_RESPONSE } from '../actions/blog-action';
 import { DeleteBlogResponseAction } from '../actions/delete-blog-action';
 import { UserFirebaseSignoutResponseAction } from '../actions/user-action';
 import { BlogState, initialState } from '../states/blog-state';
@@ -9,9 +9,9 @@ export const blogReducer: Reducer<
   BlogActions | UserFirebaseSignoutResponseAction | DeleteBlogResponseAction
 > = (state = initialState, action) => {
   switch (action.type) {
-    case 'BlogFirebaseRequestAction':
+    case FIREBASE_BLOG_REQUEST:
       return { ...state, loading: true };
-    case 'BlogFirebaseResponseAction': {
+    case FIREBASE_BLOG_RESPONSE: {
       const { blogs } = action;
       return { ...state, blogs, loading: false };
     }

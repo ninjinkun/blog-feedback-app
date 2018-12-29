@@ -21,7 +21,7 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  fetchUser: (auth: firebase.auth.Auth) => any;
+  fetchUser: (...props: Parameters<typeof fetchUser>) => void;
 };
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
