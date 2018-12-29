@@ -1,6 +1,5 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import { CountEntities, CountEntity, ItemEntity } from '../entities';
 import { serverTimestamp, writeBatch } from './app-repository';
 import { blogRef } from './blog-repository';
 

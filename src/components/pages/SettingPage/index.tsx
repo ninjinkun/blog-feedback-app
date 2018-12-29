@@ -63,7 +63,7 @@ class SettingPage extends React.PureComponent<Props, {}> {
     if (feedState && feedState.title && feedState.services) {
       feedState.services[type] = enabled;
       const { twitter, facebook, hatenabookmark, hatenastar, pocket } = feedState.services;
-      this.props.saveSetting(firebase.auth(), blogURL, twitter, facebook, hatenabookmark, hatenastar, pocket);
+      this.props.saveSetting(firebase.auth(), blogURL, twitter, facebook, hatenabookmark, hatenastar, pocket || true);
     }
   }
 
