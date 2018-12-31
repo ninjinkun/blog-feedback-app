@@ -23,6 +23,10 @@ $ yarn start
 ```
 
 ## Storybook
+You can access Storybook [here](https://ninjinkun.github.io/blog-feedback-app/).
+
+or
+
 ```
 $ yarn storybook
 ```
