@@ -62,6 +62,7 @@ jobs:
 
       - run: yarn build
       - run: yarn firebase deploy --project development --token "$FIREBASE_TOKEN_DEVELOPMENT"
+      - run: yarn deploy-storybook -- --ci
 
   deploy_production:
     docker:
