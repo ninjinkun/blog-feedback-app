@@ -1,5 +1,5 @@
 import { call, put } from 'redux-saga/effects';
-import { fetchHatenaBookmarkCounts as fetchHatenaBookmarkCountsAction } from '../../../models/fetchers/count-fetcher';
+import { fetchHatenaBookmarkCounts as fetchHatenaBookmarkCountsAction } from '../../../models/fetchers/count-fetchers/hatenabookmark-fetcher';
 import { CountResponse } from '../../../models/responses';
 import {
   feedFetchHatenaBookmarkCountError,
