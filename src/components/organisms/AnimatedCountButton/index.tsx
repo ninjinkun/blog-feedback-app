@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { CountType } from '../../../consts/count-type';
+import { CountType } from '../../../models/consts/count-type';
 import CountUpAnimation from '../../atoms/CountUpAnimation/index';
 import TwincleAnimation from '../../atoms/TwincleAnimation/index';
 import CountButton from '../../molecules/CountButton/index';

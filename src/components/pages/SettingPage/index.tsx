@@ -6,7 +6,7 @@ import { Redirect, RouteComponentProps, withRouter } from 'react-router';
 import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import styled from 'styled-components';
-import { CountType } from '../../../consts/count-type';
+import { CountType } from '../../../models/consts/count-type';
 import { deleteBlog, DeleteBlogActions, deleteBlogReset } from '../../../redux/actions/delete-blog-action';
 import { FeedFirebaseActions, fetchFirebaseBlog } from '../../../redux/actions/feed-actions/feed-firebase-action';
 import { saveSetting, SettingActions } from '../../../redux/actions/setting-action';

@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import { FeedType } from '../consts/feed-type';
+import { FeedType } from './consts/feed-type';
 
 export type BlogEntity = {
   title: string;

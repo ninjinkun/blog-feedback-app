@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CountType } from '../../../consts/count-type';
-import * as properties from '../../properties';
+import { CountType } from './../../../models/consts/count-type';
 
 type Props = {
   type: CountType;

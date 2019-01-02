@@ -6,7 +6,7 @@ import { Dispatch } from 'redux';
 import styled from 'styled-components';
 
 import { RouteComponentProps, withRouter } from 'react-router';
-import { CountType } from '../../../consts/count-type';
+import { CountType } from '../../../models/consts/count-type';
 import { CountEntity, ItemEntity } from '../../../models/entities';
 import { CountResponse, ItemResponse } from '../../../models/responses';
 import { FeedActions, feedBlogURLChange, feedBlogURLClear, fetchFeed } from '../../../redux/actions/feed-action';

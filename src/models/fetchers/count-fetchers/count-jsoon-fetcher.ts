@@ -1,5 +1,5 @@
 import fetchJsonp from 'fetch-jsonp';
-import { CountType } from '../../../consts/count-type';
+import { CountType } from '../../consts/count-type';
 import { CountResponse } from '../../responses';
 
 export async function fetchCountJsoonCount(url: string): Promise<CountResponse> {

@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
-import { CountType } from '../../../consts/count-type';
-import ServiceIcon, { FacebookIcon } from './index';
+import { CountType } from '../../../models/consts/count-type';
+import ServiceIcon from './index';
 
 storiesOf('atoms/ServiceIcon', module)
   .add('Twitter', () => <ServiceIcon type={CountType.Twitter} />)

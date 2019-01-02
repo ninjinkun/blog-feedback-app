@@ -1,9 +1,9 @@
 import xmljs from 'xml-js';
-import { FeedType } from '../../consts/feed-type';
-import { Atom, Link } from '../../consts/feeds/atom';
-import { Feed } from '../../consts/feeds/feed';
-import { RSS1 } from '../../consts/feeds/rss1';
-import { RSS2 } from '../../consts/feeds/rss2';
+import { FeedType } from '../consts/feed-type';
+import { Atom, Link } from '../consts/feeds/atom';
+import { Feed } from '../consts/feeds/feed';
+import { RSS1 } from '../consts/feeds/rss1';
+import { RSS2 } from '../consts/feeds/rss2';
 import { FeedResponse, ItemResponse } from '../responses';
 import { crossOriginFetch } from './functions';
 

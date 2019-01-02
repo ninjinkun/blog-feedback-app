@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CountType, toServiceURL } from '../../../consts/count-type';
+import { CountType, toServiceURL } from '../../../models/consts/count-type';
 import Favicon from '../../atoms/Favicon/index';
 import * as properties from '../../properties';
 import AnimatedCountButton from '../AnimatedCountButton/index';

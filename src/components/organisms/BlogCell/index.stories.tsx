@@ -1,8 +1,6 @@
-import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 import styled from 'styled-components';
-import { CountType } from '../../../consts/count-type';
 import BlogCell from './index';
 
 const favicon: string =

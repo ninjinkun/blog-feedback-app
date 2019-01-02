@@ -1,7 +1,7 @@
 import { clone } from 'lodash';
 import flatten from 'lodash/flatten';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
-import { CountType } from '../../consts/count-type';
+import { CountType } from '../../models/consts/count-type';
 import { BlogEntity, ItemEntity } from '../../models/entities';
 import { fetchFeed as fetchFeedAction } from '../../models/fetchers/feed-fetcher';
 import { findBlog } from '../../models/repositories/blog-repository';

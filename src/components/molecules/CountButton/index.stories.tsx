@@ -1,6 +1,6 @@
 import { storiesOf, Story } from '@storybook/react';
 import React from 'react';
-import { CountType } from '../../../consts/count-type';
+import { CountType } from '../../../models/consts/count-type';
 import CountButton from './index';
 
 storiesOf('molecules/CountButton', module)

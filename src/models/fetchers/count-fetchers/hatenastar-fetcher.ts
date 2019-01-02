@@ -1,6 +1,6 @@
 import { sum } from 'lodash';
-import { CountType } from '../../../consts/count-type';
-import { HatenaStarReponse } from '../../../consts/fetch-response/hatena-star';
+import { CountType } from '../../consts/count-type';
+import { HatenaStarReponse } from '../../consts/fetch-response/hatena-star';
 import { CountResponse } from '../../responses';
 import { crossOriginFetch } from '../functions';
 

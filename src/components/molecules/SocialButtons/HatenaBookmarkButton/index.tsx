@@ -1,5 +1,5 @@
 import React from 'react';
-import { CountType, toServiceURL } from '../../../../consts/count-type';
+import { CountType, toServiceURL } from '../../../../models/consts/count-type';
 
 type Props = {
   url: string;

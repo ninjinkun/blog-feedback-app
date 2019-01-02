@@ -1,5 +1,5 @@
 import unescape from 'lodash/unescape';
-import { FeedType } from '../../consts/feed-type';
+import { FeedType } from '../consts/feed-type';
 import { BlogResponse } from '../responses';
 import { crossOriginFetch } from './functions';
 

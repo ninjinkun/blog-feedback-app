@@ -1,7 +1,6 @@
 import { action } from '@storybook/addon-actions';
-import { storiesOf, Story } from '@storybook/react';
+import { storiesOf } from '@storybook/react';
 import React from 'react';
-import { CountType } from '../../../consts/count-type';
 import AddBlogForm from './index';
 
 const handleSubmit = (url: string) => action(`submit ${url}`)();

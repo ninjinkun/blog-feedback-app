@@ -1,4 +1,4 @@
-import { CountType } from '../../../consts/count-type';
+import { CountType } from '../../consts/count-type';
 import { CountResponse } from '../../responses';
 
 export function fetchFacebookCounts(urls: string[]): Array<Promise<CountResponse>> {

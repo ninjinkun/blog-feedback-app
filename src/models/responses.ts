@@ -1,5 +1,5 @@
-import { CountType } from '../consts/count-type';
-import { FeedType } from '../consts/feed-type';
+import { CountType } from './consts/count-type';
+import { FeedType } from './consts/feed-type';
 
 export type BlogResponse = {
   title: string;

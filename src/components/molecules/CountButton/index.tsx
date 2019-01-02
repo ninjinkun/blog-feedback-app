@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CountType } from '../../../consts/count-type';
+import { CountType } from '../../../models/consts/count-type';
 import Button from '../../atoms/Button';
 import ServiceIcon from '../../atoms/ServiceIcon';
 import * as properties from '../../properties';
