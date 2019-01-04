@@ -15,7 +15,7 @@ const ButtonBase = styled.button`
   cursor: pointer;
   border-radius: 4px;
   text-align: center;
-  transition: ${properties.fadeAnimation}};
+  transition: ${properties.fadeAnimation};
   &:hover {
     opacity: ${properties.hoverFeedbackOpacity};
   }
