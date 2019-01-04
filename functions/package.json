@@ -9,16 +9,27 @@
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
-  "main": "lib/index.js",
+  "main": "build/index.js",
   "dependencies": {
     "axios": "^0.18.0",
     "charset": "^1.0.1",
+    "cheerio": "^1.0.0-rc.2",
+    "email-templates": "^5.0.2",
     "firebase-admin": "~6.3.0",
     "firebase-functions": "^2.1.0",
-    "iconv-lite": "^0.4.24"
+    "iconv-lite": "^0.4.24",
+    "lodash": "^4.17.11",
+    "nodemailer": "^5.0.0",
+    "xml-js": "^1.6.8",
+    "xmldom": "^0.1.27"
   },
   "devDependencies": {
     "@types/charset": "^1.0.1",
+    "@types/cheerio": "^0.22.10",
+    "@types/email-templates": "^3.5.0",
+    "@types/lodash": "^4.14.119",
+    "@types/nodemailer": "^4.6.5",
+    "@types/xmldom": "^0.1.29",
     "tslint": "~5.11.0",
     "typescript": "~3.2.1"
   },

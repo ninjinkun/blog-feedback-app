@@ -3,7 +3,7 @@
     "lib": ["es6"],
     "module": "commonjs",
     "noImplicitReturns": true,
-    "outDir": "lib",
+    "outDir": "build",
     "sourceMap": true,
     "target": "es6",
     "skipLibCheck": true
