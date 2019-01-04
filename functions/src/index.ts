@@ -14,11 +14,6 @@ export const crossOriginFetch = functions.region('asia-northeast1').https.onCall
   return { body: res };
 });
 
-export const sendWelcomeMailLocal = functions.region('asia-northeast1').https.onCall(async (data, context) => {
-  await sendWelcomeMailAction('ninjinkun@gmail.com');
-  return true;
-});
-
 export const sendWelcomeMail = functions.region('asia-northeast1').auth.user().onCreate(async (user, context) => {
   await sendWelcomeMailAction(user.email);
   return true;

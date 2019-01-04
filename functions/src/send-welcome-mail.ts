@@ -6,7 +6,7 @@ export function sendWelcomeMail(to: string) {
     message: {
       from: 'info@blog-feedback.app'
     }, 
-    transport: { jsonTransport: true },
+    transport: transport(),
   });
 
   return email.send({
