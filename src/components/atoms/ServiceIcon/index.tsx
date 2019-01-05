@@ -27,19 +27,11 @@ const ServiceIcon = ({ ...props }: Props) => {
 
 export default ServiceIcon;
 
-export const TwitterIcon = ({ ...props }) => (
-  <Img src={require('../../../assets/images/twitter-icon.png')} {...props} />
-);
-export const FacebookIcon = ({ ...props }) => (
-  <Img src={require('../../../assets/images/facebook-icon.png')} {...props} />
-);
-export const HatenaBookmarkIcon = ({ ...props }) => (
-  <Img src={require('../../../assets/images/hatenabookmark-icon.png')} {...props} />
-);
-export const HatenaStarIcon = ({ ...props }) => (
-  <Img src={require('../../../assets/images/hatenastar-icon.png')} {...props} />
-);
-export const PocketIcon = ({ ...props }) => <Img src={require('../../../assets/images/pocket-icon.png')} {...props} />;
+export const TwitterIcon = ({ ...props }) => <Img src="/images/twitter-icon.png" {...props} />;
+export const FacebookIcon = ({ ...props }) => <Img src="/images/facebook-icon.png" {...props} />;
+export const HatenaBookmarkIcon = ({ ...props }) => <Img src="/images/hatenabookmark-icon.png" {...props} />;
+export const HatenaStarIcon = ({ ...props }) => <Img src="/images/hatenastar-icon.png" {...props} />;
+export const PocketIcon = ({ ...props }) => <Img src="/images/pocket-icon.png" {...props} />;
 
 const Img = styled.img`
   width: 24px;

@@ -60,7 +60,7 @@ function randomFloat(min: number, max: number) {
   return Math.random() * (max - min + 1) + min;
 }
 
-const Spark = (props: any) => <img src={require('../../../assets/images/twincle-perticle.svg')} {...props} />;
+const Spark = (props: any) => <img src="/images/twincle-perticle.svg" {...props} />;
 
 const Wrapper = styled.div`
   position: relative;

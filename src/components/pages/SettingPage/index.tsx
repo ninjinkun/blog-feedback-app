@@ -120,7 +120,7 @@ class SettingPage extends React.PureComponent<Props, {}> {
                     のサイトからブログのURLを登録するとBlogFeedbackにもTwitterのシェア数が表示されます。
                   </Description>
                 }
-                LeftIcon={<Favicon src={require('../../../assets/images/twitter-icon.png')} />}
+                LeftIcon={<Favicon src="/images/twitter-icon.png" />}
                 RightIcon={
                   <CheckBox
                     type="checkbox"
@@ -133,7 +133,7 @@ class SettingPage extends React.PureComponent<Props, {}> {
               />
               <SettingCell
                 title="Facebook"
-                LeftIcon={<Favicon src={require('../../../assets/images/facebook-icon.png')} />}
+                LeftIcon={<Favicon src="/images/facebook-icon.png" />}
                 RightIcon={
                   <CheckBox
                     type="checkbox"
@@ -146,7 +146,7 @@ class SettingPage extends React.PureComponent<Props, {}> {
               />
               <SettingCell
                 title="はてなブックマーク"
-                LeftIcon={<Favicon src={require('../../../assets/images/hatenabookmark-icon.png')} />}
+                LeftIcon={<Favicon src="/images/hatenabookmark-icon.png" />}
                 RightIcon={
                   <CheckBox
                     type="checkbox"
@@ -159,7 +159,7 @@ class SettingPage extends React.PureComponent<Props, {}> {
               />
               <SettingCell
                 title="はてなスター"
-                LeftIcon={<Favicon src={require('../../../assets/images/hatenastar-icon.png')} />}
+                LeftIcon={<Favicon src="/images/hatenastar-icon.png" />}
                 RightIcon={
                   <CheckBox
                     type="checkbox"
@@ -172,7 +172,7 @@ class SettingPage extends React.PureComponent<Props, {}> {
               />
               <SettingCell
                 title="Pocket"
-                LeftIcon={<Favicon src={require('../../../assets/images/pocket-icon.png')} />}
+                LeftIcon={<Favicon src="/images/pocket-icon.png" />}
                 RightIcon={
                   <CheckBox
                     type="checkbox"
