@@ -1,5 +1,4 @@
-import firebase from 'firebase/app';
-import 'firebase/firestore';
+import { firestore } from 'firebase-admin';
 import { FeedType } from './consts/feed-type';
 
 export type BlogEntity = {
@@ -23,7 +22,7 @@ export type Services = {
 export type ItemEntity = {
   title: string;
   url: string;
-  published: firebase.firestore.Timestamp;
+  published: firestore.Timestamp;
   counts: { [key: string]: CountEntity }; // key is CountType
   prevCounts: { [key: string]: CountEntity }; // 10 minutes before
   yesterdayCounts?: { [key: string]: CountEntity };
@@ -31,5 +30,5 @@ export type ItemEntity = {
 
 export type CountEntity = {
   count: number;
-  timestamp: firebase.firestore.Timestamp;
+  timestamp: firestore.Timestamp;
 };

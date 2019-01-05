@@ -1,0 +1,30 @@
+head
+  link(rel="stylesheet", href="/css/mail.css", data-inline)
+body  
+  header
+  div.content
+    each item in items
+      - const show = item.counts.some(count => count.updatedCount > 0)
+      if show
+        a(href=`${item.url}`)
+          div.cell
+            img.favicon(src=`https://www.google.com/s2/favicons?domain=${blog.url}`)
+            | !{item.title}
+            each count in item.counts
+              span !{count.count} (昨日から +!{count.updatedCount})
+
+    div.buttons
+      - const blogId = encodeURIComponent(blog.url)
+      a.primary-button(href=`https://blog-feedback.app/blogs/${blogId}`)
+        span BlogFeedbackで開く
+
+    hr.line
+    ul.signature
+      li BlogFeedback運営 
+        a(href="https://twitter.com/ninjinkun") @ninjinkun
+      li 改善等のご要望は、上記の Twittter アカウントまたは 
+        a(href="https://github.com/ninjinkun/blog-feedback-app") GitHub
+        |  の Issues までお寄せください。
+      li このメールの停止はBlogFeedbackの
+        a(href="https://blog-feedback.app/settings") 設定
+        | より行うことができます
