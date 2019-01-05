@@ -77,4 +77,5 @@ const ButtonWrapper = styled.div`
   display: flex;
   width: 100%;
   justify-content: stretch;
+  flex-wrap: wrap;
 `;
