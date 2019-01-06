@@ -8,12 +8,13 @@ service cloud.firestore {
       allow read: if request.auth.uid == userId;
       allow delete: if request.auth.uid == userId;
       allow create, update: if request.auth.uid == userId
-          && request.resource.data.keys().hasOnly(["title", "url", "feedURL", "feedType", "timestamp", "services"])
+          && request.resource.data.keys().hasOnly(["title", "url", "feedURL", "feedType", "timestamp", "services", "sendReport"])
           && request.resource.data.title is string
           && request.resource.data.url is string
           && request.resource.data.feedURL is string
           && request.resource.data.feedType is string
           && request.resource.data.timestamp is timestamp
+          && request.resource.data.sendReport is bool
           && request.resource.data.services is map
           && request.resource.data.services.keys().hasOnly(["twitter", "countjsoon", "facebook", "hatenabookmark", "hatenastar", "pocket"])
           && request.resource.data.services.twitter is bool

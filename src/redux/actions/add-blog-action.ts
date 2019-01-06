@@ -135,6 +135,7 @@ export function addBlog(auth: firebase.auth.Auth, blogURL: string): AddBlogThunk
         blogResponse.title,
         blogResponse.feedURL,
         blogResponse.feedType,
+        false,
         true,
         false,
         true,
