@@ -3,14 +3,18 @@ import EmailTemplate = require('email-templates');
 import { transport } from './mail-transport';
 import { fetchFeed } from "./fetchers/feed-fetcher";
 import { fetchHatenaBookmarkCounts } from "./fetchers/count-fetchers/hatenabookmark-fetcher";
-import { CountType } from './consts/count-type';
+import { CountType, toServiceURL } from './consts/count-type';
 import { BlogEntity, ItemEntity, CountEntity } from './entities';
 import { db } from './firebase';
 import { ItemResponse } from './responses';
+import { fetchHatenaStarCounts } from './fetchers/count-fetchers/hatenastar-fetcher';
+import { fetchCountJsoonCount } from './fetchers/count-fetchers/count-jsoon-fetcher';
+import { fetchFacebookCount } from './fetchers/count-fetchers/facebook-fetcher';
+import { fetchPocketCount } from './fetchers/count-fetchers/pocket-fetcher';
 
 type Item = {
   title: string;
-  url: string;  
+  url: string;
   published: Date;
   counts: Count[];
 };
@@ -19,9 +23,10 @@ type Count = {
   type: CountType;
   count: number;
   updatedCount: number;
+  link?: string;
 };
 
-export async function crowlAndSendMail(to: string, userId: string, blogId: string) {  
+export async function crowlAndSendMail(to: string, userId: string, blogId: string) {
   const blogSnapshot = await db.collection('users').doc(userId).collection('blogs').doc(blogId).get();
   const blogEntity = blogSnapshot.data() as BlogEntity;
   const feed = await fetchFeed(blogEntity.feedURL);
@@ -30,17 +35,61 @@ export async function crowlAndSendMail(to: string, userId: string, blogId: strin
   const itemEntitiesMap = new Map(itemEntities.map(i => [i.url, i] as [string, ItemEntity]));
 
   const urls = feed.items.map(i => i.url);
-  const types: CountType[] = [CountType.HatenaBookmark];
-  const countMaps: { [key: string]:  Map<string, number> } = {};
+  const types: CountType[] = [];
+  const countMaps: { [key: string]: Map<string, number> } = {};
+  if (blogEntity.services) {
+    if (blogEntity.services.countjsoon) {
+      types.push(CountType.CountJsoon);
+      try {
+        const countJsoonCounts = await Promise.all(urls.map(url => fetchCountJsoonCount(url)));
+        countMaps[CountType.CountJsoon] = new Map(countJsoonCounts.map(c => [c.url, c.count] as [string, number]));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    if (blogEntity.services.facebook) {
+      types.push(CountType.Facebook);
+      try {
+        const countJsoonCounts = await Promise.all(urls.map(url => fetchFacebookCount(url)));
+        countMaps[CountType.Facebook] = new Map(countJsoonCounts.map(c => [c.url, c.count] as [string, number]));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    if (blogEntity.services.hatenabookmark) {
+      types.push(CountType.HatenaBookmark);
+      try {
+        const hatenaBookmarkCounts = await fetchHatenaBookmarkCounts(urls);
+        countMaps[CountType.HatenaBookmark] = new Map(hatenaBookmarkCounts.map(c => [c.url, c.count] as [string, number]));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    if (blogEntity.services.hatenastar) {
+      types.push(CountType.HatenaStar);
+      try {
+        const hatenaStarCounts = await fetchHatenaStarCounts(urls);
+        countMaps[CountType.HatenaStar] = new Map(hatenaStarCounts.map(c => [c.url, c.count] as [string, number]));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    if (blogEntity.services.pocket) {
+      types.push(CountType.Pocket);
+      try {
+        const pocketCounts = await Promise.all(urls.map(url => fetchPocketCount(url)));
+        countMaps[CountType.Pocket] = new Map(pocketCounts.map(c => [c.url, c.count] as [string, number]));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
 
-  const hatenaBookmarkCounts = await fetchHatenaBookmarkCounts(urls);  
-  countMaps[CountType.HatenaBookmark] = new Map(hatenaBookmarkCounts.map(c => [c.url, c.count] as [string, number]));
-
-  const items: Item[] = feed.items.map((itemReponse) => ({ 
-    title: itemReponse.title, 
-    url: itemReponse.url, 
-    published: itemReponse.published,
-    counts: types.map(type => createCount(type, itemEntitiesMap.get(itemReponse.url), countMaps[type].get(itemReponse.url))),
+  const items: Item[] = feed.items.map((itemResponse) => ({
+    title: itemResponse.title,
+    url: itemResponse.url,
+    published: itemResponse.published,
+    counts: types.map(type => createCount(type, itemResponse, itemEntitiesMap.get(itemResponse.url), countMaps[type] && countMaps[type].get(itemResponse.url))),
   }));
   const shouldSendMail = items.some(i => i.counts.some(c => c.updatedCount > 0));
   if (shouldSendMail) {
@@ -49,12 +98,15 @@ export async function crowlAndSendMail(to: string, userId: string, blogId: strin
   return saveYestardayCounts(userId, blogId, items);
 }
 
-function createCount(countType: CountType, itemEntitry?: ItemEntity, todayCount?: number): Count {
+function createCount(countType: CountType, itemResponse: ItemResponse, itemEntitry?: ItemEntity, todayCount?: number): Count {
   const yesterDayCount = itemEntitry && itemEntitry.yesterdayCounts && itemEntitry.yesterdayCounts[countType];
-  return { 
-    count: todayCount,
-    updatedCount: todayCount - (yesterDayCount && yesterDayCount.count || 0),
+  const prevCount = itemEntitry && itemEntitry.counts && itemEntitry.counts[countType];
+  const link = toServiceURL(countType, itemResponse.url);
+  return {
+    count: todayCount || prevCount && prevCount.count || 0,
+    updatedCount: todayCount - (yesterDayCount && yesterDayCount.count || prevCount && prevCount.count || 0),
     type: countType,
+    link,
   };
 }
 
@@ -73,22 +125,22 @@ function saveYestardayCounts(userId: string, blogId: string, items: Item[]) {
         };
       }
     }
-    batch.set(itemRef, { 
+    batch.set(itemRef, {
       title,
       url,
       published,
       yesterdayCounts,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    }, {  merge: true });
+    }, { merge: true });
   }
-//  return batch.commit();
+  //  return batch.commit();
 }
 
 function sendDailyReportMail(to: string, blog: BlogEntity, items: Item[]) {
   const email = new EmailTemplate({
     message: {
       from: 'report@blog-feedback.app'
-    }, 
+    },
     transport: { jsonTransport: true },
   });
 
