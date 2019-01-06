@@ -134,8 +134,7 @@ function saveYestardayCounts(userId: string, blogId: string, items: Item[]) {
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     }, { merge: true });
   }
-  //  return batch.commit();
-  return true;
+  return batch.commit();
 }
 
 function sendDailyReportMail(to: string, blog: BlogEntity, items: Item[]) {

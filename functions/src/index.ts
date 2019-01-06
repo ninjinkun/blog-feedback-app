@@ -26,7 +26,7 @@ export const sendWelcomeMail = functions.region('asia-northeast1').auth.user().o
   return true;
 });
 
-export const sendReportMailTest = functions.region('asia-northeast1').https.onCall(async (data, context) => {
+export const dailyReportMail = functions.region('asia-northeast1').pubsub.topic('daily-report-mail').onPublish(async () => {
   const users = await auth().listUsers(1000);
   const blogSnapshots = await Promise.all(users.users.map(async user => {
     return [user.uid, user.email, await db
@@ -51,7 +51,7 @@ export const sendReportMailTest = functions.region('asia-northeast1').https.onCa
       blogId,
     };
     await publisher.publish(Buffer.from(JSON.stringify(message)));
-    console.warn(`${email}, ${uid}, ${blogId}`);
+    console.log(`${email}, ${uid}, ${blogId}`);
   }
   return true;
 });
