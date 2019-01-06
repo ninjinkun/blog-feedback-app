@@ -4,8 +4,9 @@ import { HatenaStarReponse } from '../../consts/fetch-response/hatena-star';
 import { CountResponse } from '../../responses';
 import axios from 'axios';
 
-export async function fetchHatenaStarCounts(urls: string[]): Promise<CountResponse[]> {
-  const apiURL = 'https://s.hatena.com/entry.json?' + urls.map(url => `uri=${encodeURIComponent(url)}`).join('&');
+export async function fetchHatenaStarCounts(urls: string[], maxFetchCount: number = 50): Promise<CountResponse[]> {
+  const slicedURLs = urls.slice(0, maxFetchCount - 1);
+  const apiURL = 'https://s.hatena.com/entry.json?' + slicedURLs.map(url => `uri=${encodeURIComponent(url)}`).join('&');
   const response = await axios.get(apiURL);
   const json: HatenaStarReponse = response.data;
   return json.entries.map(({ uri, stars, colored_stars }) => ({

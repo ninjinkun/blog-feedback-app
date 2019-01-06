@@ -2,9 +2,10 @@ import axios from 'axios';
 import { CountType } from '../../consts/count-type';
 import { CountResponse } from '../../responses';
 
-export async function fetchHatenaBookmarkCounts(urls: string[]): Promise<CountResponse[]> {
+export async function fetchHatenaBookmarkCounts(urls: string[], maxFetchCount: number = 50): Promise<CountResponse[]> {
+  const slicedURLs = urls.slice(0, maxFetchCount - 1);
   const apiUrl: string =
-    'https://b.hatena.ne.jp/entry.counts?' + urls.map((i: string) => `url=${encodeURIComponent(i)}`).join('&');
+    'https://b.hatena.ne.jp/entry.counts?' + slicedURLs.map((i: string) => `url=${encodeURIComponent(i)}`).join('&');
   const response = await axios.get(apiUrl);
   const json = response.data;
   return Object.keys(json).map(

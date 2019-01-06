@@ -2,9 +2,21 @@ import axios from 'axios';
 import { CountType } from '../../consts/count-type';
 import { CountResponse } from '../../responses';
 import * as functions from 'firebase-functions';
+import { chunk, flatten } from 'lodash';
 
-export function fetchFacebookCounts(urls: string[]): Array<Promise<CountResponse>> {
-  return urls.map(url => fetchFacebookCount(url));
+const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
+
+export async function fetchFacebookCounts(urls: string[], maxFetchCount = 40, chunkNum = 4): Promise<CountResponse[]> {
+  const slicedURLs = urls.slice(0, maxFetchCount - 1);
+  const chunkedURLs = chunk(slicedURLs, chunkNum);
+  const counts = await Promise.all(chunkedURLs.map(chunkedURL => fetchFacebookCountChunk(chunkedURL)));
+  return flatten(counts);
+}
+
+async function fetchFacebookCountChunk(urls: string[], delayMsec: number = 800) {
+  const counts = await Promise.all(urls.map(url => fetchFacebookCount(url)));
+  sleep(delayMsec);
+  return counts;
 }
 
 export async function fetchFacebookCount(url: string): Promise<CountResponse> {

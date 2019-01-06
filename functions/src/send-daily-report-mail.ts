@@ -8,9 +8,9 @@ import { BlogEntity, ItemEntity, CountEntity } from './entities';
 import { db } from './firebase';
 import { ItemResponse } from './responses';
 import { fetchHatenaStarCounts } from './fetchers/count-fetchers/hatenastar-fetcher';
-import { fetchCountJsoonCount } from './fetchers/count-fetchers/count-jsoon-fetcher';
-import { fetchFacebookCount } from './fetchers/count-fetchers/facebook-fetcher';
-import { fetchPocketCount } from './fetchers/count-fetchers/pocket-fetcher';
+import { fetchCountJsoonCount, fetchCountJsoonCounts } from './fetchers/count-fetchers/count-jsoon-fetcher';
+import { fetchFacebookCount, fetchFacebookCounts } from './fetchers/count-fetchers/facebook-fetcher';
+import { fetchPocketCount, fetchPocketCounts } from './fetchers/count-fetchers/pocket-fetcher';
 
 type Item = {
   title: string;
@@ -41,7 +41,7 @@ export async function crowlAndSendMail(to: string, userId: string, blogId: strin
     if (blogEntity.services.countjsoon) {
       types.push(CountType.CountJsoon);
       try {
-        const countJsoonCounts = await Promise.all(urls.map(url => fetchCountJsoonCount(url)));
+        const countJsoonCounts = await fetchCountJsoonCounts(urls);
         countMaps[CountType.CountJsoon] = new Map(countJsoonCounts.map(c => [c.url, c.count] as [string, number]));
       } catch (e) {
         console.error(e);
@@ -50,8 +50,8 @@ export async function crowlAndSendMail(to: string, userId: string, blogId: strin
     if (blogEntity.services.facebook) {
       types.push(CountType.Facebook);
       try {
-        const countJsoonCounts = await Promise.all(urls.map(url => fetchFacebookCount(url)));
-        countMaps[CountType.Facebook] = new Map(countJsoonCounts.map(c => [c.url, c.count] as [string, number]));
+        const facebookCounts = await fetchFacebookCounts(urls);
+        countMaps[CountType.Facebook] = new Map(facebookCounts.map(c => [c.url, c.count] as [string, number]));
       } catch (e) {
         console.error(e);
       }
@@ -77,7 +77,7 @@ export async function crowlAndSendMail(to: string, userId: string, blogId: strin
     if (blogEntity.services.pocket) {
       types.push(CountType.Pocket);
       try {
-        const pocketCounts = await Promise.all(urls.map(url => fetchPocketCount(url)));
+        const pocketCounts = await fetchPocketCounts(urls);
         countMaps[CountType.Pocket] = new Map(pocketCounts.map(c => [c.url, c.count] as [string, number]));
       } catch (e) {
         console.error(e);
