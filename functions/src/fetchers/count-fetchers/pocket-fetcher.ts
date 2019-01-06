@@ -15,7 +15,7 @@ export async function fetchPocketCounts(urls: string[], maxFetchCount: number = 
 
 async function fetchPocketCountChunk(urls: string[], delayMsec: number = 400) {
   const counts = await Promise.all(urls.map(url => fetchPocketCount(url)));
-  sleep(delayMsec);
+  await sleep(delayMsec);
   return counts;
 }
 

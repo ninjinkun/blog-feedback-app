@@ -14,7 +14,7 @@ export async function fetchCountJsoonCounts(urls: string[], maxFetchCount: numbe
 
 async function fetchCountJsoonCountChunk(urls: string[], delayMsec: number = 200) {
   const counts = await Promise.all(urls.map(url => fetchCountJsoonCount(url)));
-  sleep(delayMsec);
+  await sleep(delayMsec);
   return counts;
 }
 

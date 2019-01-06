@@ -15,7 +15,7 @@ export async function fetchFacebookCounts(urls: string[], maxFetchCount = 40, ch
 
 async function fetchFacebookCountChunk(urls: string[], delayMsec: number = 800) {
   const counts = await Promise.all(urls.map(url => fetchFacebookCount(url)));
-  sleep(delayMsec);
+  await sleep(delayMsec);
   return counts;
 }
 
