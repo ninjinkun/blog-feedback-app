@@ -12,6 +12,7 @@ import { CountType } from '../../../models/consts/count-type';
 import { deleteBlog, DeleteBlogActions, deleteBlogReset } from '../../../redux/actions/delete-blog-action';
 import { FeedFirebaseActions, fetchFirebaseBlog } from '../../../redux/actions/feed-actions/feed-firebase-action';
 import { saveSetting, SettingActions } from '../../../redux/actions/setting-action';
+import { fetchUser } from '../../../redux/actions/user-action';
 import { AppState } from '../../../redux/states/app-state';
 import { DeleteBlogState } from '../../../redux/states/delete-blog-state';
 import { FeedState } from '../../../redux/states/feed-state';
@@ -39,6 +40,7 @@ type DispatchProps = {
   deleteBlog: (...props: Parameters<typeof deleteBlog>) => void;
   deleteBlogReset: () => void;
   saveSetting: (...props: Parameters<typeof saveSetting>) => void;
+  fetchUser: (...props: Parameters<typeof fetchUser>) => void;
 };
 
 type OwnProps = RouteComponentProps<{ blogURL: string }>;
@@ -55,6 +57,7 @@ class SettingPage extends React.PureComponent<Props, {}> {
     const blogURL = decodeURIComponent(this.props.match.params.blogURL);
     this.props.deleteBlogReset();
     this.props.fetchFirebaseBlog(firebase.auth(), blogURL);
+    this.props.fetchUser(firebase.auth());
   }
 
   deleteBlog() {
@@ -128,26 +131,6 @@ class SettingPage extends React.PureComponent<Props, {}> {
         >
           {feedState && feedState.title && feedState.services ? (
             <StyledScrollView>
-              <SectionHeader />
-              <SettingCell
-                title="デイリーレポートメールを送る"
-                description={
-                  <Description>
-                    この機能はα版です。毎朝更新レポートが{(userState.user && userState.user.email) || 'メールアドレス'}
-                    に送られます
-                  </Description>
-                }
-                LeftIcon={<MdMailOutline size="16" />}
-                RightIcon={
-                  <CheckBox
-                    type="checkbox"
-                    defaultChecked={feedState && feedState.sendReport}
-                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                      this.enableSendReport((e.target as HTMLInputElement).checked)
-                    }
-                  />
-                }
-              />
               <SectionHeader>集計するサービス</SectionHeader>
               <SettingCell
                 title="Twitter"
@@ -241,6 +224,26 @@ class SettingPage extends React.PureComponent<Props, {}> {
                 }
               />
               <SectionHeader />
+              <SettingCell
+                title="デイリーレポートメールを送る"
+                description={
+                  <Description>
+                    この機能はα版です。毎朝更新レポートが{(userState.user && userState.user.email) || 'メールアドレス'}
+                    に送られます
+                  </Description>
+                }
+                LeftIcon={<MdMailOutline size="16" />}
+                RightIcon={
+                  <CheckBox
+                    type="checkbox"
+                    defaultChecked={feedState && feedState.sendReport}
+                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                      this.enableSendReport((e.target as HTMLInputElement).checked)
+                    }
+                  />
+                }
+              />
+              <SectionHeader />
               <DeleteWrapper>
                 <StyledWarningButton onClick={this.deleteBlog}>
                   {`${(feedState && feedState.title) || 'ブログ'}`}を削除
@@ -308,6 +311,7 @@ function mapDispatchToProps(dispatch: TD & Dispatch<DeleteBlogActions>): Dispatc
     deleteBlog: (...props) => dispatch(deleteBlog(...props)),
     deleteBlogReset: () => dispatch(deleteBlogReset()),
     saveSetting: (...props) => dispatch(saveSetting(...props)),
+    fetchUser: (...props) => dispatch(fetchUser(...props)),
   };
 }
 
