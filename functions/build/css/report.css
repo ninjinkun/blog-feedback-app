@@ -12,6 +12,10 @@
   background-color: rgb(246, 246, 246);
 }
 
+.entry-cells {
+  padding-right: 24px;
+}
+
 .entry-cells-notice {
   font-size: 0.9em;
   margin: 6px 12px;
