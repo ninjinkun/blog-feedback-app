@@ -53,6 +53,7 @@ export const sendReportMailTest = functions.region('asia-northeast1').https.onCa
     await publisher.publish(Buffer.from(JSON.stringify(message)));
     console.warn(`${email}, ${uid}, ${blogId}`);
   }
+  return true;
 });
 
 export const sendReportMail = functions.region('asia-northeast1').pubsub.topic('send-report-mail').onPublish(async (message) => {

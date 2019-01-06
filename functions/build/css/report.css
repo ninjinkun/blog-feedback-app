@@ -13,20 +13,19 @@
 }
 
 .entry-cells-notice {
-  font-size: 0.8em;
+  font-size: 0.9em;
   margin: 6px 12px;
   padding: 4px;
 }
 
 .entry-cell {
-  display: flex;
-  flex-direction: row;
   margin: 6px 12px;
   padding: 8px;
   border: 1px solid rgb(221, 221, 221);
   background-color: white;
   box-shadow: rgb(225, 225, 225) 0px 0px 1px 0px;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .entry-cell:first-child {
@@ -45,54 +44,44 @@ a.entry-cell-link:visited {
   color: rgb(20, 23, 26);
 }
 
+.entry-cell-favicon-wrapper {
+  vertical-align: top;
+}
+
 .entry-cell-favicon {
   width: 16px;
   height: 16px;
+  margin-top: 4px;
 }
 
 .entry-cell-content {
-  display: flex;
-  flex-direction: column;
   width: 100%;
 }
 
 .entry-cell-content-title {
   font-size: 1rem;
-  margin: 0px 8px 8px;
+  margin: 0 0 0 8px;
 }
 
 .entry-cell-content-buttons {
-  display: flex;
   width: 100%;
-  justify-content: stretch;
-  flex-wrap: wrap;
+  margin-left: 2px;
 }
 
 .entry-cell-content-buttons-button-wrapper {
-  display: flex;
   position: relative;
-  -webkit-box-flex: 1;
-  flex-grow: 1;
 }
 
 .entry-cell-content-buttons-button-link {
-  display: flex;
   position: relative;
-  -webkit-box-flex: 1;
-  flex-grow: 1;
 }
 
 .entry-cell-content-buttons-button-wrapper-button {
   position: relative;
-  -webkit-box-flex: 1;
-  flex-grow: 1;
   margin: 0.2rem;
 
-  display: flex;
   font-weight: 700;
   line-height: 1;
-  -webkit-box-align: center;
-  align-items: center;
   text-align: center;
   font-size: 0.8rem;
   color: rgb(26, 26, 26);
@@ -105,10 +94,18 @@ a.entry-cell-link:visited {
   border-style: solid;
   border-color: rgb(204, 204, 204);
   border-image: initial;
+  vertical-align: middle;
+  width: 100%;
+  padding: 0;
 }
 
 .entry-cell-content-buttons-button-wrapper-button:hover {
   opacity: 0.7;
+}
+
+.entry-cell-content-buttons-button-wrapper-button-icon-wrapper {
+  width: 24px;
+  height: 24px;
 }
 
 .entry-cell-content-buttons-button-wrapper-button-icon {
