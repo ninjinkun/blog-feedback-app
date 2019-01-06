@@ -4,13 +4,13 @@ import { transport } from './mail-transport';
 import { fetchFeed } from "./fetchers/feed-fetcher";
 import { fetchHatenaBookmarkCounts } from "./fetchers/count-fetchers/hatenabookmark-fetcher";
 import { CountType, toServiceURL } from './consts/count-type';
-import { BlogEntity, ItemEntity, CountEntity } from './entities';
+import { BlogEntity, ItemEntity } from './entities';
 import { db } from './firebase';
 import { ItemResponse } from './responses';
 import { fetchHatenaStarCounts } from './fetchers/count-fetchers/hatenastar-fetcher';
-import { fetchCountJsoonCount, fetchCountJsoonCounts } from './fetchers/count-fetchers/count-jsoon-fetcher';
-import { fetchFacebookCount, fetchFacebookCounts } from './fetchers/count-fetchers/facebook-fetcher';
-import { fetchPocketCount, fetchPocketCounts } from './fetchers/count-fetchers/pocket-fetcher';
+import { fetchCountJsoonCounts } from './fetchers/count-fetchers/count-jsoon-fetcher';
+import { fetchFacebookCounts } from './fetchers/count-fetchers/facebook-fetcher';
+import { fetchPocketCounts } from './fetchers/count-fetchers/pocket-fetcher';
 
 type Item = {
   title: string;
@@ -95,7 +95,8 @@ export async function crowlAndSendMail(to: string, userId: string, blogId: strin
   if (shouldSendMail) {
     await sendDailyReportMail(to, blogEntity, items);
   }
-  return saveYestardayCounts(userId, blogId, items);
+  await saveYestardayCounts(userId, blogId, items);
+  return true;
 }
 
 function createCount(countType: CountType, itemResponse: ItemResponse, itemEntitry?: ItemEntity, todayCount?: number): Count {
@@ -134,6 +135,7 @@ function saveYestardayCounts(userId: string, blogId: string, items: Item[]) {
     }, { merge: true });
   }
   //  return batch.commit();
+  return true;
 }
 
 function sendDailyReportMail(to: string, blog: BlogEntity, items: Item[]) {
@@ -141,7 +143,7 @@ function sendDailyReportMail(to: string, blog: BlogEntity, items: Item[]) {
     message: {
       from: 'report@blog-feedback.app'
     },
-    transport: { jsonTransport: true },
+    transport: transport(),
   });
 
   return email.send({
