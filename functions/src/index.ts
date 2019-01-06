@@ -29,7 +29,9 @@ export const sendReportMail = functions.region('asia-northeast1').https.onCall(a
     return [user.uid, user.email, await db
       .collection('users')
       .doc(user.uid)
-      .collection('blogs').get()] as [string, string, firestore.QuerySnapshot];
+      .collection('blogs')
+      .where('sendReport', '==', true)
+      .get()] as [string, string, firestore.QuerySnapshot];
   }));
 
   const uidBlogIds = flatten(blogSnapshots.map(([uid, email, blogSnapshot]) => {
@@ -40,4 +42,3 @@ export const sendReportMail = functions.region('asia-northeast1').https.onCall(a
     await crowlAndSendMail(email, uid, blogId);
   }
 }); 
-//.where('sendReport', '==', true)
