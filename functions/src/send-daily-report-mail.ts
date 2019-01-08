@@ -140,7 +140,7 @@ function saveYestardayCounts(userId: string, blogId: string, items: Item[]) {
 function sendDailyReportMail(to: string, blog: BlogEntity, items: Item[]) {
   const email = new EmailTemplate({
     message: {
-      from: 'report@blog-feedback.app'
+      from: '"BlogFeedback" <report@blog-feedback.app>'
     },
     transport: transport(),
   });
