@@ -2,30 +2,44 @@ import axios from 'axios';
 import { CountType } from '../../consts/count-type';
 import { CountResponse } from '../../responses';
 import * as functions from 'firebase-functions';
-import { chunk, flatten } from 'lodash';
+import * as qs from 'qs';
 
-const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
+type FacebookBatchResponse = {
+  body: string;
+  code: number;
+  headers: {
+    name: string;
+    value: string;
+  };
+};
 
-export async function fetchFacebookCounts(urls: string[], maxFetchCount = 40, chunkNum = 4): Promise<CountResponse[]> {
-  const slicedURLs = urls.slice(0, maxFetchCount - 1);
-  const chunkedURLs = chunk(slicedURLs, chunkNum);
-  const counts = await Promise.all(chunkedURLs.map(chunkedURL => fetchFacebookCountChunk(chunkedURL)));
-  return flatten(counts);
-}
+type FacebookResponse = {
+  id: string;
+  share: {
+    share_count: number;
+    comment_count: number;
+  };
+};
 
-async function fetchFacebookCountChunk(urls: string[], delayMsec: number = 800) {
-  const counts = await Promise.all(urls.map(url => fetchFacebookCount(url)));
-  await sleep(delayMsec);
-  return counts;
-}
-
-export async function fetchFacebookCount(url: string): Promise<CountResponse> {
+export async function fetchFacebookCounts(urls: string[]): Promise<CountResponse[]> {
+  const batch = urls.map(url => ({
+    method: 'GET',
+    relative_url: `?id=${encodeURIComponent(url)}`,
+  }));
   const accessToken = functions.config().facebook.access_token;
-  const response = await axios.get(`https://graph.facebook.com/v3.2/?id=${encodeURIComponent(url)}&fields=engagement&access_token=${accessToken}`);
-  const json = response.data;
-  if (json.hasOwnProperty('engagement')) {
-    return { url: json.id, count: json.engagement.share_count, type: CountType.Facebook };
-  } else {
-    throw new Error('Facebook count fetch failed: ' + url);
-  }
+  const response = await axios.post(
+    'https://graph.facebook.com/',
+    qs.stringify({
+      access_token: accessToken,
+      batch: JSON.stringify(batch),
+    })
+  );
+  return response.data
+    .map((json: FacebookBatchResponse) => JSON.parse(json.body))
+    .filter((json: FacebookResponse) => json.hasOwnProperty('share'))
+    .map((json: FacebookResponse) => ({
+      url: json.id,
+      count: json.share.share_count,
+      type: CountType.Facebook,
+    }));
 }
