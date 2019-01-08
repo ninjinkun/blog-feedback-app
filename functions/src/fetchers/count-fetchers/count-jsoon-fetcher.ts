@@ -13,18 +13,24 @@ export async function fetchCountJsoonCounts(urls: string[], maxFetchCount: numbe
 }
 
 async function fetchCountJsoonCountChunk(urls: string[], delayMsec: number = 200) {
-  const counts = await Promise.all(urls.map(url => fetchCountJsoonCount(url)));
   await sleep(delayMsec);
-  return counts;
+  const counts = await Promise.all(urls.map(url => fetchCountJsoonCount(url)));
+  return counts.filter(c => c !== undefined);
 }
 
-export async function fetchCountJsoonCount(url: string): Promise<CountResponse> {
-  const response = await axios.get(`https://jsoon.digitiminimi.com/twitter/count.json?url=${encodeURIComponent(url)}`);
-  const json = response.data;
-  const { count } = json;
-  if (count !== undefined) {
-    return { url, count, type: CountType.CountJsoon };
-  } else {
-    throw new Error('maybe you must register count.jsoon: ' + url);
+export async function fetchCountJsoonCount(url: string): Promise<CountResponse | undefined> {
+  try {
+    const response = await axios.get(`https://jsoon.digitiminimi.com/twitter/count.json?url=${encodeURIComponent(url)}`);
+    const json = response.data;
+    const { count } = json;
+    if (count !== undefined) {
+      return { url, count, type: CountType.CountJsoon };
+    } else {
+      return undefined;
+      throw new Error('maybe you must register count.jsoon: ' + url);
+    }
+  } catch (e) {
+    console.warn(e);
+    return undefined;
   }
 }

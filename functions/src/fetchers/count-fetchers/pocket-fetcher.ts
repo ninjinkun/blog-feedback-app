@@ -14,19 +14,24 @@ export async function fetchPocketCounts(urls: string[], maxFetchCount: number = 
 }
 
 async function fetchPocketCountChunk(urls: string[], delayMsec: number = 400) {
-  const counts = await Promise.all(urls.map(url => fetchPocketCount(url)));
   await sleep(delayMsec);
-  return counts;
+  const counts = await Promise.all(urls.map(url => fetchPocketCount(url)));
+  return counts.filter(c => c !== undefined);
 }
 
-export async function fetchPocketCount(url: string): Promise<CountResponse> {
-  const apiURL = `https://widgets.getpocket.com/v1/button?label=pocket&count=vertical&v=1&url=${encodeURIComponent(
-    url
-  )}&src=${encodeURIComponent(url)}`;
-  const response = await axios.get(apiURL);
-  const htmlText = response.data;
-  const $ = cheerio.load(htmlText);
-  const countString = $('em#cnt').text();
-  const count = countString ? parseInt(countString.replace(/,/, ''), 10) : 0;
-  return { url, count, type: CountType.Pocket };
+export async function fetchPocketCount(url: string): Promise<CountResponse | undefined> {
+  try {
+    const apiURL = `https://widgets.getpocket.com/v1/button?label=pocket&count=vertical&v=1&url=${encodeURIComponent(
+      url
+    )}&src=${encodeURIComponent(url)}`;
+    const response = await axios.get(apiURL);
+    const htmlText = response.data;
+    const $ = cheerio.load(htmlText);
+    const countString = $('em#cnt').text();
+    const count = countString ? parseInt(countString.replace(/,/, ''), 10) : 0;
+    return { url, count, type: CountType.Pocket };
+  } catch (e) {
+    console.warn(e);
+    return undefined;
+  }
 }
