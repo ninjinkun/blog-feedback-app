@@ -19,19 +19,37 @@ body.body
               td
                 a.entry-cell-link(href=`${item.url}`)
                   h3.entry-cell-content-title #{item.title}
-            tr.entry-cell-content
-              td
-                table.entry-cell-content-buttons
-                  - const counts = chunk(item.counts, 4)
-                  tr
-                    each count, index in counts
-                        td.entry-cell-content-buttons-button-wrapper
-                          - const iconType = count.type !== 'countjsoon' ? count.type : 'twitter'
-                          if count.link
-                            a.entry-cell-link.entry-cell-content-buttons-button-link(href=`${count.link}`)
-                              include includes/button.pug
-                          else
-                            include includes/button.pug
+              tr.entry-cell-content
+                td
+                td
+                  .entry-cell-content-buttons
+                    each count in item.counts
+                      .entry-cell-content-buttons-button-wrapper
+                        - const iconType = count.type !== 'countjsoon' ? count.type : 'twitter'
+                        if count.link
+                          a.entry-cell-link.entry-cell-content-buttons-button-link(href=`${count.link}`)
+                            table.entry-cell-content-buttons-button-wrapper-button                                
+                              tr
+                                td.entry-cell-content-buttons-button-wrapper-button-icon-wrapper
+                                    img.entry-cell-content-buttons-button-wrapper-button-icon(src=`https://feedback-5e26f.firebaseapp.com/images/${iconType}-icon.png`)
+                                td.entry-cell-content-buttons-button-wrapper-button-count
+                                    | #{count.count}
+                                    if count.updatedCount > 0
+                                      span.entry-cell-content-buttons-button-wrapper-button-count-text (
+                                          span.entry-cell-content-buttons-button-wrapper-button-count-update +#{count.updatedCount}
+                                          | )
+                        else
+                          table.entry-cell-content-buttons-button-wrapper-button
+                            tr
+                              td.entry-cell-content-buttons-button-wrapper-button-icon-wrapper
+                                  img.entry-cell-content-buttons-button-wrapper-button-icon(src=`https://feedback-5e26f.firebaseapp.com/images/${iconType}-icon.png`)
+                              td.entry-cell-content-buttons-button-wrapper-button-count
+                                  | #{count.count}
+                                  if count.updatedCount > 0
+                                    span.entry-cell-content-buttons-button-wrapper-button-count-text (
+                                        span.entry-cell-content-buttons-button-wrapper-button-count-update +#{count.updatedCount}
+                                        | )
+
     .buttons
       - const blogId = encodeURIComponent(blog.url)
       a.primary-button(href=`https://blog-feedback.app/blogs/${blogId}`)

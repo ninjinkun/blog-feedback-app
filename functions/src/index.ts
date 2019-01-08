@@ -51,7 +51,7 @@ export const dailyReportMail = functions.region('asia-northeast1').pubsub.topic(
       blogId,
     };
     await publisher.publish(Buffer.from(JSON.stringify(message)));
-    console.log(`${email}, ${uid}, ${blogId}`);
+    console.log(`${uid}, ${blogId}`);
   }
   return true;
 });
@@ -59,6 +59,5 @@ export const dailyReportMail = functions.region('asia-northeast1').pubsub.topic(
 export const sendReportMail = functions.region('asia-northeast1').pubsub.topic('send-report-mail').onPublish(async (message) => {
   const { email, uid, blogId } = message.json;
   await crowlAndSendMail(email, uid, blogId);
-  console.log('mail sent');
   return true;
 });

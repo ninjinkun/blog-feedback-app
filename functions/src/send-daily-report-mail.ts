@@ -1,6 +1,5 @@
 import * as firebase from 'firebase-admin';
 import EmailTemplate = require('email-templates');
-import { chunk } from 'lodash';
 
 import { transport } from './mail-transport';
 import { fetchFeed } from "./fetchers/feed-fetcher";
@@ -96,6 +95,7 @@ export async function crowlAndSendMail(to: string, userId: string, blogId: strin
   const shouldSendMail = items.some(i => i.counts.some(c => c.updatedCount > 0));
   if (shouldSendMail) {
     await sendDailyReportMail(to, blogEntity, items);
+    console.log('mail sent');
   }
   await saveYestardayCounts(userId, blogId, items);
   return true;
@@ -155,7 +155,6 @@ function sendDailyReportMail(to: string, blog: BlogEntity, items: Item[]) {
     locals: {
       blog,
       items,
-      chunk,
     },
   });
 }

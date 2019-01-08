@@ -70,6 +70,7 @@ a.entry-cell-link:visited {
 .entry-cell-content-buttons {
   width: 100%;
   margin-left: 2px;
+  overflow: auto;
 }
 
 .entry-cell-content-buttons-button-wrapper {
@@ -98,9 +99,13 @@ a.entry-cell-link:visited {
   border-style: solid;
   border-color: rgb(204, 204, 204);
   border-image: initial;
-  vertical-align: middle;
-  width: 100%;
   padding: 0;
+  float: left;
+  display: block;
+  min-width: 58px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 
 .entry-cell-content-buttons-button-wrapper-button:hover {
