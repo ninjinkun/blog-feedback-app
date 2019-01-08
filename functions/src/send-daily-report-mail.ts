@@ -1,5 +1,7 @@
 import * as firebase from 'firebase-admin';
 import EmailTemplate = require('email-templates');
+import { chunk } from 'lodash';
+
 import { transport } from './mail-transport';
 import { fetchFeed } from "./fetchers/feed-fetcher";
 import { fetchHatenaBookmarkCounts } from "./fetchers/count-fetchers/hatenabookmark-fetcher";
@@ -153,6 +155,7 @@ function sendDailyReportMail(to: string, blog: BlogEntity, items: Item[]) {
     locals: {
       blog,
       items,
+      chunk,
     },
   });
 }
