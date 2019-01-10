@@ -8,12 +8,13 @@ import { fetchHatenaBookmarkCounts } from "./fetchers/count-fetchers/hatenabookm
 import { CountType, toServiceURL } from './consts/count-type';
 import { BlogEntity, ItemEntity } from './entities';
 import { db } from './firebase';
-import { ItemResponse } from './responses';
+import { ItemResponse, CountResponse } from './responses';
 import { fetchHatenaStarCounts } from './fetchers/count-fetchers/hatenastar-fetcher';
 import { fetchCountJsoonCounts } from './fetchers/count-fetchers/count-jsoon-fetcher';
 import { fetchFacebookCounts } from './fetchers/count-fetchers/facebook-fetcher';
 import { fetchPocketCounts } from './fetchers/count-fetchers/pocket-fetcher';
 import { getMailLock, createMailLock } from './repositories/mail-lock-repository';
+import { resolve } from 'path';
 
 type Item = {
   title: string;
@@ -67,61 +68,40 @@ async function crawl(userId: string, blogURL: string) {
   const itemEntitiesMap = new Map(itemEntities.map(i => [i.url, i] as [string, ItemEntity]));
 
   const urls = feed.items.map(i => i.url);
-  const types: CountType[] = [];
   const countMaps: { [key: string]: Map<string, number> } = {};
+  const countTasks: [CountType, Promise<CountResponse[]>][] = [];
   if (blogEntity.services) {
-    if (blogEntity.services.countjsoon) {
-      types.push(CountType.CountJsoon);
-      try {
-        const countJsoonCounts = await fetchCountJsoonCounts(urls);
-        countMaps[CountType.CountJsoon] = new Map(countJsoonCounts.map(c => [c.url, c.count] as [string, number]));
-      } catch (e) {
-        console.error(e);
-      }
+    if (blogEntity.services.countjsoon) {            
+      countTasks.push([CountType.CountJsoon, fetchCountJsoonCounts(urls)]);
     }
     if (blogEntity.services.facebook) {
-      types.push(CountType.Facebook);
-      try {
-        const facebookCounts = await fetchFacebookCounts(urls);
-        countMaps[CountType.Facebook] = new Map(facebookCounts.map(c => [c.url, c.count] as [string, number]));
-      } catch (e) {
-        console.error(e);
-      }
+      countTasks.push([CountType.Facebook, fetchFacebookCounts(urls)]);
     }
     if (blogEntity.services.hatenabookmark) {
-      types.push(CountType.HatenaBookmark);
-      try {
-        const hatenaBookmarkCounts = await fetchHatenaBookmarkCounts(urls);
-        countMaps[CountType.HatenaBookmark] = new Map(hatenaBookmarkCounts.map(c => [c.url, c.count] as [string, number]));
-      } catch (e) {
-        console.error(e);
-      }
+      countTasks.push([CountType.HatenaBookmark, fetchHatenaBookmarkCounts(urls)]);
     }
     if (blogEntity.services.hatenastar) {
-      types.push(CountType.HatenaStar);
-      try {
-        const hatenaStarCounts = await fetchHatenaStarCounts(urls);
-        countMaps[CountType.HatenaStar] = new Map(hatenaStarCounts.map(c => [c.url, c.count] as [string, number]));
-      } catch (e) {
-        console.error(e);
-      }
+      countTasks.push([CountType.HatenaStar, fetchHatenaStarCounts(urls)]);
     }
     if (blogEntity.services.pocket) {
-      types.push(CountType.Pocket);
-      try {
-        const pocketCounts = await fetchPocketCounts(urls);
-        countMaps[CountType.Pocket] = new Map(pocketCounts.map(c => [c.url, c.count] as [string, number]));
-      } catch (e) {
-        console.error(e);
-      }
+      countTasks.push([CountType.Pocket, fetchPocketCounts(urls)]);
     }
   }
+  const promises = countTasks.map((([type, task]) => (async () => {
+    try {
+      const counts = await task;
+      countMaps[type] = new Map(counts.map((c) => [c.url, c.count] as [string, number]));
+    } catch (e) {
+      console.warn(e);
+    }
+  })()))
+  await Promise.all(promises);
 
   const items: Item[] = feed.items.map((itemResponse) => ({
     title: itemResponse.title,
     url: itemResponse.url,
     published: itemResponse.published,
-    counts: types.map(type => createCount(type, itemResponse, itemEntitiesMap.get(itemResponse.url), countMaps[type] && countMaps[type].get(itemResponse.url))),
+    counts: countTasks.map(([type, _]) => createCount(type, itemResponse, itemEntitiesMap.get(itemResponse.url), countMaps[type] && countMaps[type].get(itemResponse.url))),
   }));
   return [blogEntity, items] as [BlogEntity, Item[]];  
 }
