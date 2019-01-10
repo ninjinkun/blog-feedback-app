@@ -10,7 +10,7 @@ body.body
         | ( ) 内の数字は昨日の同時刻からのアップデート分です。
       each item in items
         - const show = item.counts.some(count => count.updatedCount > 0)
-        if show
+        if show || sendForce
           table.entry-cell
             tr
               td.entry-cell-favicon-wrapper

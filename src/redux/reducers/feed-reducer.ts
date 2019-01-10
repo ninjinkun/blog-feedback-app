@@ -32,11 +32,11 @@ import {
 import { FETCH_HATENA_STAR_COUNT_RESPONSE } from '../actions/feed-actions/hatenastar-action';
 import { FETCH_POCKET_COUNT_RESPONSE } from '../actions/feed-actions/pocket-action';
 import { FETCH_RSS_REQUEST, FETCH_RSS_RESPONSE } from '../actions/feed-actions/rss';
-import { FIREBASE_SAVE_SETTING_RESPONSE, SettingActions } from '../actions/setting-action';
+import { FIREBASE_SAVE_SETTING_RESPONSE, SettingSaveActions } from '../actions/setting-action';
 import { FeedState, initialState } from '../states/feed-state';
 import { FeedsState, initialState as feedsIniticalState } from '../states/feeds-state';
 
-export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogActions | BlogActions | SettingActions> = (
+export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogActions | BlogActions | SettingSaveActions> = (
   state = feedsIniticalState,
   action
 ): FeedsState => {

@@ -1,3 +1,4 @@
+import { app } from 'firebase/app';
 import { ThunkAction } from 'redux-thunk';
 import { saveBlogSetting } from '../../models/repositories/blog-repository';
 import { AppState } from '../states/app-state';
@@ -43,12 +44,12 @@ export function settingSaveSettingError(blogURL: string, error: Error) {
   };
 }
 
-export type SettingActions =
+export type SettingSaveActions =
   | ReturnType<typeof settingSaveSettingRequest>
   | ReturnType<typeof settingSaveSettingResponse>
   | ReturnType<typeof settingSaveSettingError>;
 
-type TA = ThunkAction<void, AppState, undefined, SettingActions>;
+type STA = ThunkAction<void, AppState, undefined, SettingSaveActions>;
 
 export function saveSetting(
   auth: firebase.auth.Auth,
@@ -60,7 +61,7 @@ export function saveSetting(
   hatenaBookmarkEnabled: boolean,
   hatenaStarEnabled: boolean,
   pocketEnabled: boolean
-): TA {
+): STA {
   return async dispatch => {
     dispatch(settingSaveSettingRequest(blogURL));
     try {
@@ -93,3 +94,50 @@ export function saveSetting(
     }
   };
 }
+
+export const FIREBASE_CALL_SEND_TEST_REPORT_MAIL_REQUEST = 'setting/FIREBASE_CALL_SEND_TEST_REPORT_MAIL_REQUEST';
+export function settingCallSendTestReportMailRequest(blogURL: string) {
+  return {
+    type: FIREBASE_CALL_SEND_TEST_REPORT_MAIL_REQUEST as typeof FIREBASE_CALL_SEND_TEST_REPORT_MAIL_REQUEST,
+    blogURL,
+  };
+}
+
+export const FIREBASE_CALL_SEND_TEST_REPORT_MAIL_RESPONSE = 'setting/FIREBASE_CALL_SEND_TEST_REPORT_MAIL_RESPONSE';
+export function settingCallSendTestReportMailResponse(blogURL: string) {
+  return {
+    type: FIREBASE_CALL_SEND_TEST_REPORT_MAIL_RESPONSE as typeof FIREBASE_CALL_SEND_TEST_REPORT_MAIL_RESPONSE,
+    blogURL,
+  };
+}
+
+export const FIREBASE_CALL_SEND_TEST_REPORT_MAIL_ERROR = 'setting/FIREBASE_CALL_SEND_TEST_REPORT_MAIL_ERROR';
+export function settingCallSendTestReportMailError(blogURL: string, error: Error) {
+  return {
+    type: FIREBASE_CALL_SEND_TEST_REPORT_MAIL_ERROR as typeof FIREBASE_CALL_SEND_TEST_REPORT_MAIL_ERROR,
+    blogURL,
+    error,
+  };
+}
+
+export type SettingSendTestReportMailActions =
+  | ReturnType<typeof settingCallSendTestReportMailRequest>
+  | ReturnType<typeof settingCallSendTestReportMailResponse>
+  | ReturnType<typeof settingCallSendTestReportMailError>;
+
+type MTA = ThunkAction<void, AppState, undefined, SettingSendTestReportMailActions>;
+export function sendTestReportMail(blogURL: string): MTA {
+  return async dispatch => {
+    dispatch(settingCallSendTestReportMailRequest(blogURL));
+    try {
+      await app()
+        .functions('asia-northeast1')
+        .httpsCallable('sendTestReportMail')({ blogURL });
+      dispatch(settingCallSendTestReportMailResponse(blogURL));
+    } catch (e) {
+      dispatch(settingCallSendTestReportMailError(blogURL, e));
+    }
+  };
+}
+
+export type SettingActions = SettingSaveActions | SettingSendTestReportMailActions;

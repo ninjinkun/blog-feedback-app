@@ -31,6 +31,7 @@ type MailMessage = {
   email: string;
   blogURL: string;  
   uuid: string;
+  forceSend: boolean;
 }
 
 export const dailyReportMail = functions.region('asia-northeast1').pubsub.topic('daily-report-mail').onPublish(async () => {
@@ -53,7 +54,7 @@ export const dailyReportMail = functions.region('asia-northeast1').pubsub.topic(
 
   for (const [uid, email, blogURL] of uidBlogIds) {
     const uuid = uuidv1();
-    const message: MailMessage = { email, uid, blogURL, uuid };
+    const message: MailMessage = { email, uid, blogURL, uuid, forceSend: false };
     await publisher.publish(Buffer.from(JSON.stringify(message)));
     console.log(`${uid}, ${blogURL}`);
   }
@@ -61,12 +62,12 @@ export const dailyReportMail = functions.region('asia-northeast1').pubsub.topic(
 });
 
 export const subscribeSendReportMail = functions.region('asia-northeast1').pubsub.topic('send-report-mail').onPublish(async (message) => {
-  const { email, uid, blogURL, uuid }: MailMessage = message.json;
-  await crowlAndSendMail(email, uid, blogURL, uuid);
+  const { email, uid, blogURL, uuid, forceSend }: MailMessage = message.json;
+  await crowlAndSendMail(email, uid, blogURL, uuid, forceSend);
   return true;
 });
 
-export const sendReportMail = functions.region('asia-northeast1').https.onCall(async (data, context) => {
+export const sendTestReportMail = functions.region('asia-northeast1').https.onCall(async (data, context) => {
   const { blogURL } = data;
   if (!context.auth) {
     throw new Error('Authorization Error');
@@ -75,7 +76,11 @@ export const sendReportMail = functions.region('asia-northeast1').https.onCall(a
     throw new Error('Blog URL is missing');
   }
   const user = await auth().getUser(context.auth.uid);
+  const { email, uid } = user;
   const uuid = uuidv1(); // dummy
-  await crowlAndSendMail(user.email, user.uid, encodeURIComponent(blogURL), uuid);
+  const topic = pubsub.topic('send-report-mail');
+  const publisher = topic.publisher();
+  const message: MailMessage = { email, uid, blogURL, uuid, forceSend: true };
+  await publisher.publish(Buffer.from(JSON.stringify(message)));
   return true;
 });

@@ -11,14 +11,15 @@ import styled from 'styled-components';
 import { CountType } from '../../../models/consts/count-type';
 import { deleteBlog, DeleteBlogActions, deleteBlogReset } from '../../../redux/actions/delete-blog-action';
 import { FeedFirebaseActions, fetchFirebaseBlog } from '../../../redux/actions/feed-actions/feed-firebase-action';
-import { saveSetting, SettingActions } from '../../../redux/actions/setting-action';
+import { saveSetting, sendTestReportMail, SettingActions } from '../../../redux/actions/setting-action';
 import { fetchUser } from '../../../redux/actions/user-action';
 import { AppState } from '../../../redux/states/app-state';
 import { DeleteBlogState } from '../../../redux/states/delete-blog-state';
 import { FeedState } from '../../../redux/states/feed-state';
+import { SettingState } from '../../../redux/states/setting-state';
 import { UserState } from '../../../redux/states/user-state';
 import Anker from '../../atoms/Anker/index';
-import { WarningButton } from '../../atoms/Button/index';
+import Button, { WarningButton } from '../../atoms/Button/index';
 import Favicon from '../../atoms/Favicon/index';
 import ScrollView from '../../atoms/ScrollView/index';
 import Spinner from '../../atoms/Spinner/index';
@@ -33,6 +34,7 @@ type StateProps = {
   feedState: FeedState;
   deleteBlogState: DeleteBlogState;
   userState: UserState;
+  settingState: SettingState;
 };
 
 type DispatchProps = {
@@ -41,6 +43,7 @@ type DispatchProps = {
   deleteBlogReset: () => void;
   saveSetting: (...props: Parameters<typeof saveSetting>) => void;
   fetchUser: (...props: Parameters<typeof fetchUser>) => void;
+  sendTestReportMail: (...props: Parameters<typeof sendTestReportMail>) => void;
 };
 
 type OwnProps = RouteComponentProps<{ blogURL: string }>;
@@ -117,8 +120,13 @@ class SettingPage extends React.PureComponent<Props, {}> {
     );
   }
 
+  sendTestReportMail() {
+    const blogURL = decodeURIComponent(this.props.match.params.blogURL);
+    this.props.sendTestReportMail(blogURL);
+  }
+
   render() {
-    const { feedState, deleteBlogState, userState } = this.props;
+    const { feedState, deleteBlogState, userState, settingState } = this.props;
     if (deleteBlogState.finished) {
       return <Redirect to={'/settings'} />;
     } else {
@@ -230,6 +238,16 @@ class SettingPage extends React.PureComponent<Props, {}> {
                   <Description>
                     この機能はα版です。毎朝更新レポートが{(userState.user && userState.user.email) || 'メールアドレス'}
                     に送られます
+                    <SendMailButtonWrapper>
+                      <Button onClick={() => this.sendTestReportMail()}>テストメールを送る</Button>
+                      {settingState && settingState.loading ? (
+                        <SpinnerWrapper>
+                          <Spinner />
+                        </SpinnerWrapper>
+                      ) : (
+                        undefined
+                      )}
+                    </SendMailButtonWrapper>
                   </Description>
                 }
                 LeftIcon={<MdMailOutline size="16" />}
@@ -296,11 +314,18 @@ const Description = styled.p`
   line-height: ${properties.fontSizes.l};
 `;
 
+const SendMailButtonWrapper = styled(Wrapper)`
+  align-items: center;
+  margin: 8px;
+`;
+
 function mapStateToProps(state: AppState, ownProps: OwnProps): StateProps {
+  const blogURL = decodeURIComponent(ownProps.match.params.blogURL);
   return {
-    feedState: state.feeds.feeds[decodeURIComponent(ownProps.match.params.blogURL)],
+    feedState: state.feeds.feeds[blogURL],
     deleteBlogState: state.deleteBlog,
     userState: state.user,
+    settingState: state.settings.settings[blogURL],
   };
 }
 
@@ -312,6 +337,7 @@ function mapDispatchToProps(dispatch: TD & Dispatch<DeleteBlogActions>): Dispatc
     deleteBlogReset: () => dispatch(deleteBlogReset()),
     saveSetting: (...props) => dispatch(saveSetting(...props)),
     fetchUser: (...props) => dispatch(fetchUser(...props)),
+    sendTestReportMail: (...props) => dispatch(sendTestReportMail(...props)),
   };
 }
 

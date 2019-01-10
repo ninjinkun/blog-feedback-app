@@ -30,7 +30,7 @@ type Count = {
   link?: string;
 };
 
-export async function crowlAndSendMail(to: string, userId: string, blogURL: string, uuid: string) {
+export async function crowlAndSendMail(to: string, userId: string, blogURL: string, uuid: string, sendForce = false) {
   const uuidDoc = await getMailLock(uuid);
   if (uuidDoc) {
     return false;
@@ -41,7 +41,7 @@ export async function crowlAndSendMail(to: string, userId: string, blogURL: stri
 
   const [blogEntity, items] = await crawl(userId, blogURL);
   const shouldSendMail = items.some(i => i.counts.some(c => c.updatedCount > 0));
-  if (shouldSendMail) {
+  if (shouldSendMail || sendForce) {
     await createMailPromise;
     // check twice
     const uuidDocAgain = await getMailLock(uuid);
@@ -51,7 +51,7 @@ export async function crowlAndSendMail(to: string, userId: string, blogURL: stri
         return false;
       }
     }
-    await sendDailyReportMail(to, blogURL, blogEntity.title, items);
+    await sendDailyReportMail(to, blogURL, blogEntity.title, items, sendForce);
     console.log('mail sent');
   }
   await saveYestardayCounts(userId, blogURL, items);
@@ -146,7 +146,7 @@ function saveYestardayCounts(userId: string, blogURL: string, items: Item[]) {
   return batch.commit();
 }
 
-function sendDailyReportMail(to: string, blogURL: String, blogTitle: string, items: Item[]) {
+function sendDailyReportMail(to: string, blogURL: String, blogTitle: string, items: Item[], sendForce = false) {
   const email = new EmailTemplate({
     message: {
       from: '"BlogFeedback" <report@blog-feedback.app>'
@@ -163,6 +163,7 @@ function sendDailyReportMail(to: string, blogURL: String, blogTitle: string, ite
       blogTitle,
       blogURL,
       items,
+      sendForce,
     },
   });
 }
