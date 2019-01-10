@@ -38,6 +38,7 @@
 
 a.entry-cell-link {
   text-decoration: none;
+  color: rgb(20, 23, 26);
 }
 
 a.entry-cell-link:link {

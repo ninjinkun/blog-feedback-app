@@ -27,14 +27,15 @@ body.body
                       .entry-cell-content-buttons-button-wrapper
                         - const iconType = count.type !== 'countjsoon' ? count.type : 'twitter'
                         if count.link
-                          a.entry-cell-link.entry-cell-content-buttons-button-link(href=`${count.link}`)
                             table.entry-cell-content-buttons-button-wrapper-button                                
                               tr
                                 td.entry-cell-content-buttons-button-wrapper-button-icon-wrapper
+                                  a.entry-cell-link.entry-cell-content-buttons-button-link(href=`${count.link}`)
                                     img.entry-cell-content-buttons-button-wrapper-button-icon(src=`https://feedback-5e26f.firebaseapp.com/images/${iconType}-icon.png`)
                                 td.entry-cell-content-buttons-button-wrapper-button-count
-                                    | #{count.count}
-                                    if count.updatedCount > 0
+                                  a.entry-cell-link.entry-cell-content-buttons-button-link(href=`${count.link}`) #{count.count}
+                                  if count.updatedCount > 0
+                                    a.entry-cell-link.entry-cell-content-buttons-button-link(href=`${count.link}`)
                                       span.entry-cell-content-buttons-button-wrapper-button-count-text (
                                           span.entry-cell-content-buttons-button-wrapper-button-count-update +#{count.updatedCount}
                                           | )
