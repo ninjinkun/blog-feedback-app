@@ -1,5 +1,6 @@
 import * as firebase from 'firebase-admin';
 import EmailTemplate = require('email-templates');
+import * as uuidv1 from 'uuid/v1';
 
 import { transport } from './mail-transport';
 import { fetchFeed } from "./fetchers/feed-fetcher";
@@ -12,6 +13,7 @@ import { fetchHatenaStarCounts } from './fetchers/count-fetchers/hatenastar-fetc
 import { fetchCountJsoonCounts } from './fetchers/count-fetchers/count-jsoon-fetcher';
 import { fetchFacebookCounts } from './fetchers/count-fetchers/facebook-fetcher';
 import { fetchPocketCounts } from './fetchers/count-fetchers/pocket-fetcher';
+import { getMailLock, createMailLock } from './repositories/mail-lock-repository';
 
 type Item = {
   title: string;
@@ -27,7 +29,36 @@ type Count = {
   link?: string;
 };
 
-export async function crowlAndSendMail(to: string, userId: string, blogId: string) {
+export async function crowlAndSendMail(to: string, userId: string, blogURL: string, uuid: string) {
+  const uuidDoc = await getMailLock(uuid);
+  if (uuidDoc) {
+    return false;
+  }
+  const taskUUID = uuidv1();
+  // defer save wait
+  const createMailPromise = createMailLock(uuid, taskUUID);
+
+  const [blogEntity, items] = await crawl(userId, blogURL);
+  const shouldSendMail = items.some(i => i.counts.some(c => c.updatedCount > 0));
+  if (shouldSendMail) {
+    await createMailPromise;
+    // check twice
+    const uuidDocAgain = await getMailLock(uuid);
+    if (uuidDocAgain) {
+      const { taskUUID: fetchedTaskUUID } = uuidDocAgain;
+      if (taskUUID !== fetchedTaskUUID) {
+        return false;
+      }
+    }
+    await sendDailyReportMail(to, blogURL, blogEntity.title, items);
+    console.log('mail sent');
+  }
+  await saveYestardayCounts(userId, blogURL, items);
+  return true;
+}
+
+async function crawl(userId: string, blogURL: string) {
+  const blogId = encodeURIComponent(blogURL);
   const blogSnapshot = await db.collection('users').doc(userId).collection('blogs').doc(blogId).get();
   const blogEntity = blogSnapshot.data() as BlogEntity;
   const feed = await fetchFeed(blogEntity.feedURL);
@@ -92,13 +123,7 @@ export async function crowlAndSendMail(to: string, userId: string, blogId: strin
     published: itemResponse.published,
     counts: types.map(type => createCount(type, itemResponse, itemEntitiesMap.get(itemResponse.url), countMaps[type] && countMaps[type].get(itemResponse.url))),
   }));
-  const shouldSendMail = items.some(i => i.counts.some(c => c.updatedCount > 0));
-  if (shouldSendMail) {
-    await sendDailyReportMail(to, blogEntity, items);
-    console.log('mail sent');
-  }
-  await saveYestardayCounts(userId, blogId, items);
-  return true;
+  return [blogEntity, items] as [BlogEntity, Item[]];  
 }
 
 function createCount(countType: CountType, itemResponse: ItemResponse, itemEntitry?: ItemEntity, todayCount?: number): Count {
@@ -113,11 +138,11 @@ function createCount(countType: CountType, itemResponse: ItemResponse, itemEntit
   };
 }
 
-function saveYestardayCounts(userId: string, blogId: string, items: Item[]) {
+function saveYestardayCounts(userId: string, blogURL: string, items: Item[]) {
   const batch = db.batch();
   for (const item of items) {
     const { url, title, published, counts } = item;
-    const itemRef = db.collection('users').doc(userId).collection('blogs').doc(blogId).collection('items').doc(encodeURIComponent(url));
+    const itemRef = db.collection('users').doc(userId).collection('blogs').doc(encodeURIComponent(blogURL)).collection('items').doc(encodeURIComponent(url));
     const yesterdayCounts: { [key: string]: any } = {};
     for (const c of counts) {
       const { type, count } = c;
@@ -128,18 +153,20 @@ function saveYestardayCounts(userId: string, blogId: string, items: Item[]) {
         };
       }
     }
-    batch.set(itemRef, {
-      title,
-      url,
-      published,
-      yesterdayCounts,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    }, { merge: true });
+    if (Object.keys(yesterdayCounts).length) {
+      batch.set(itemRef, {
+        title,
+        url,
+        published,
+        yesterdayCounts,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      }, { merge: true });
+    }
   }
   return batch.commit();
 }
 
-function sendDailyReportMail(to: string, blog: BlogEntity, items: Item[]) {
+function sendDailyReportMail(to: string, blogURL: String, blogTitle: string, items: Item[]) {
   const email = new EmailTemplate({
     message: {
       from: '"BlogFeedback" <report@blog-feedback.app>'
@@ -153,7 +180,8 @@ function sendDailyReportMail(to: string, blog: BlogEntity, items: Item[]) {
       to,
     },
     locals: {
-      blog,
+      blogTitle,
+      blogURL,
       items,
     },
   });
