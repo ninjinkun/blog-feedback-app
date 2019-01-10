@@ -31,7 +31,7 @@ body.body
                               tr
                                 td.entry-cell-content-buttons-button-wrapper-button-icon-wrapper
                                   a.entry-cell-link.entry-cell-content-buttons-button-link(href=`${count.link}`)
-                                    img.entry-cell-content-buttons-button-wrapper-button-icon(src=`https://feedback-5e26f.firebaseapp.com/images/${iconType}-icon.png`)
+                                    img.entry-cell-content-buttons-button-wrapper-button-icon(src=`https://blog-feedback.com/images/${iconType}-icon.png`)
                                 td.entry-cell-content-buttons-button-wrapper-button-count
                                   a.entry-cell-link.entry-cell-content-buttons-button-link(href=`${count.link}`) #{count.count}
                                   if count.updatedCount > 0
@@ -43,7 +43,7 @@ body.body
                           table.entry-cell-content-buttons-button-wrapper-button
                             tr
                               td.entry-cell-content-buttons-button-wrapper-button-icon-wrapper
-                                  img.entry-cell-content-buttons-button-wrapper-button-icon(src=`https://feedback-5e26f.firebaseapp.com/images/${iconType}-icon.png`)
+                                  img.entry-cell-content-buttons-button-wrapper-button-icon(src=`https://blog-feedback.com/images/${iconType}-icon.png`)
                               td.entry-cell-content-buttons-button-wrapper-button-count
                                   | #{count.count}
                                   if count.updatedCount > 0
@@ -54,7 +54,7 @@ body.body
     .buttons
       - const blogId = encodeURIComponent(blogURL)
       a.primary-button(href=`https://blog-feedback.app/blogs/${blogId}`)
-        span BlogFeedbackで開く
+        span BlogFeedbackを開く
 
     .entry-cells-notice このメール機能はα版です。現在多くのユーザー様にご利用頂けるよう調整をしていますが、今後予告なく配信を取りやめる場合があります。
     .content
