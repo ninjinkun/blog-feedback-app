@@ -11,6 +11,7 @@ export type FeedState = {
   fetchedPocketCounts?: CountResponse[];
   title?: string;
   services?: Services;
+  sendReport?: boolean;
   loading: boolean;
   error?: Error;
   feedURL?: string;

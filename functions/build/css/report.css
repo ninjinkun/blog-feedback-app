@@ -1,0 +1,144 @@
+.body {
+  margin: auto;
+  padding: 0;
+  max-width: 480px;
+  border-left: 1px solid rgb(221, 221, 221);
+  border-right: 1px solid rgb(221, 221, 221);
+}
+
+.wrapper {
+  width: 100%;
+  padding-top: 1px;
+  background-color: rgb(246, 246, 246);
+}
+
+.entry-cells {
+  padding-right: 24px;
+}
+
+.entry-cells-notice {
+  font-size: 0.9em;
+  margin: 6px 12px;
+  padding: 4px;
+}
+
+.entry-cell {
+  margin: 6px 12px;
+  padding: 8px;
+  border: 1px solid rgb(221, 221, 221);
+  background-color: white;
+  box-shadow: rgb(225, 225, 225) 0px 0px 1px 0px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.entry-cell:first-child {
+  margin: 12px 12px 6px;
+}
+
+a.entry-cell-link {
+  text-decoration: none;
+  color: rgb(20, 23, 26);
+}
+
+a.entry-cell-link:link {
+  color: rgb(20, 23, 26);
+}
+
+a.entry-cell-link:visited {
+  color: rgb(20, 23, 26);
+}
+
+.entry-cell-favicon-wrapper {
+  vertical-align: top;
+  width: 16px;
+}
+
+.entry-cell-favicon {
+  width: 16px;
+  height: 16px;
+  margin-top: 4px;
+}
+
+.entry-cell-content {
+  width: 100%;
+}
+
+.entry-cell-content-title {
+  font-size: 1rem;
+  margin: 0 0 0 8px;
+}
+
+.entry-cell-content-buttons {
+  width: 100%;
+  margin-left: 2px;
+  overflow: auto;
+}
+
+.entry-cell-content-buttons-button-wrapper {
+  position: relative;
+}
+
+.entry-cell-content-buttons-button-link {
+  position: relative;
+}
+
+.entry-cell-content-buttons-button-wrapper-button {
+  position: relative;
+  margin: 0.2rem;
+
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgb(26, 26, 26);
+  text-decoration: none;
+  border-radius: 4px;
+  transition: liner 0.2s ease 0s;
+  padding: 0.2rem;
+  background: linear-gradient(rgb(246, 246, 246), rgb(238, 238, 238));
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(204, 204, 204);
+  border-image: initial;
+  padding: 0;
+  float: left;
+  display: block;
+  min-width: 58px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.entry-cell-content-buttons-button-wrapper-button:hover {
+  opacity: 0.7;
+}
+
+.entry-cell-content-buttons-button-wrapper-button-icon-wrapper {
+  width: 24px;
+  height: 24px;
+}
+
+.entry-cell-content-buttons-button-wrapper-button-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.entry-cell-content-buttons-button-wrapper-button-count {
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-align: center;
+  margin-left: 2px;
+  width: 100%;
+}
+
+.entry-cell-content-buttons-button-wrapper-button-count-text {
+  font-weight: normal;
+  font-size: 0.7rem;
+  margin-left: 2px;
+}
+
+.entry-cell-content-buttons-button-wrapper-button-count-update {
+  font-weight: 700;
+  color: #3bba07;
+}

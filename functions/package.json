@@ -7,10 +7,12 @@
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "logs": "firebase functions:log",
+    "tslint:fix": "tslint --fix --force --format stylish --project ./tsconfig.json ./{src,__tests__}/**/*.{ts,tsx}"
   },
   "main": "build/index.js",
   "dependencies": {
+    "@google-cloud/pubsub": "^0.22.2",
     "axios": "^0.18.0",
     "charset": "^1.0.1",
     "cheerio": "^1.0.0-rc.2",
@@ -19,7 +21,9 @@
     "firebase-functions": "^2.1.0",
     "iconv-lite": "^0.4.24",
     "lodash": "^4.17.11",
+    "uuid": "^3.3.2",
     "nodemailer": "^5.0.0",
+    "qs": "^6.6.0",
     "xml-js": "^1.6.8",
     "xmldom": "^0.1.27"
   },
@@ -29,6 +33,7 @@
     "@types/email-templates": "^3.5.0",
     "@types/lodash": "^4.14.119",
     "@types/nodemailer": "^4.6.5",
+    "@types/uuid": "^3.4.4",
     "@types/xmldom": "^0.1.29",
     "tslint": "~5.11.0",
     "typescript": "~3.2.1"

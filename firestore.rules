@@ -8,12 +8,13 @@ service cloud.firestore {
       allow read: if request.auth.uid == userId;
       allow delete: if request.auth.uid == userId;
       allow create, update: if request.auth.uid == userId
-          && request.resource.data.keys().hasOnly(["title", "url", "feedURL", "feedType", "timestamp", "services"])
+          && request.resource.data.keys().hasOnly(["title", "url", "feedURL", "feedType", "timestamp", "services", "sendReport"])
           && request.resource.data.title is string
           && request.resource.data.url is string
           && request.resource.data.feedURL is string
           && request.resource.data.feedType is string
           && request.resource.data.timestamp is timestamp
+          && request.resource.data.sendReport is bool
           && request.resource.data.services is map
           && request.resource.data.services.keys().hasOnly(["twitter", "countjsoon", "facebook", "hatenabookmark", "hatenastar", "pocket"])
           && request.resource.data.services.twitter is bool
@@ -31,6 +32,15 @@ service cloud.firestore {
               && resource[countType].count is number
               && resource[countType].timestamp is timestamp);
         }
+        function checkCountMap(resource, field) {
+          return isUndefined(resource, field)
+            || (resource[field] is map
+              && checkCountFields(resource[field], "countjsoon")
+              && checkCountFields(resource[field], "facebook")
+              && checkCountFields(resource[field], "hatenabookmark")
+              && checkCountFields(resource[field], "hatenastar")
+              && checkCountFields(resource[field], "pocket"));
+        }
 
         allow read: if request.auth.uid == userId;
         allow delete: if request.auth.uid == userId;
@@ -39,20 +49,9 @@ service cloud.firestore {
           && request.resource.data.title is string
           && request.resource.data.url is string
           && request.resource.data.published is timestamp
-          && (isUndefined(request.resource.data, "count") 
-            || (request.resource.data.count is map 
-              && checkCountFields(request.resource.data.count, "countjsoon")
-              && checkCountFields(request.resource.data.count, "facebook")
-              && checkCountFields(request.resource.data.count, "hatenabookmark")
-              && checkCountFields(request.resource.data.count, "hatenastar")
-              && checkCountFields(request.resource.data.count, "pocket")))
-          && (isUndefined(request.resource.data, "prevCount") 
-            || (request.resource.data.prevCount is map
-              && checkCountFields(request.resource.data.prevCount, "countjsoon")
-              && checkCountFields(request.resource.data.prevCount, "facebook")
-              && checkCountFields(request.resource.data.prevCount, "hatenabookmark")
-              && checkCountFields(request.resource.data.prevCount, "hatenastar")
-              && checkCountFields(request.resource.data.prevCount, "pocket")));
+          && checkCountMap(request.resource.data, "count")
+          && checkCountMap(request.resource.data, "prevCount")
+          && checkCountMap(request.resource.data, "yesterdayCount");
 	    }
     }
   }

@@ -11,10 +11,26 @@ export function settingSaveSettingRequest(blogURL: string) {
   };
 }
 export const FIREBASE_SAVE_SETTING_RESPONSE = 'setting/FIREBASE_SAVE_RESPONSE';
-export function settingSaveSettingResponse(blogURL: string) {
+export function settingSaveSettingResponse(
+  blogURL: string,
+  sendReport: boolean,
+  twitter: boolean,
+  countjsoon: boolean,
+  facebook: boolean,
+  hatenabookmark: boolean,
+  hatenastar: boolean,
+  pocket: boolean
+) {
   return {
     type: FIREBASE_SAVE_SETTING_RESPONSE as typeof FIREBASE_SAVE_SETTING_RESPONSE,
     blogURL,
+    sendReport,
+    twitter,
+    countjsoon,
+    facebook,
+    hatenabookmark,
+    hatenastar,
+    pocket,
   };
 }
 
@@ -37,6 +53,7 @@ type TA = ThunkAction<void, AppState, undefined, SettingActions>;
 export function saveSetting(
   auth: firebase.auth.Auth,
   blogURL: string,
+  reportEnabled: boolean,
   twitterEnabled: boolean,
   countJsoonEnabled: boolean,
   facebookEnabled: boolean,
@@ -51,6 +68,7 @@ export function saveSetting(
       await saveBlogSetting(
         user.uid,
         blogURL,
+        reportEnabled,
         twitterEnabled,
         countJsoonEnabled,
         facebookEnabled,
@@ -58,7 +76,18 @@ export function saveSetting(
         hatenaStarEnabled,
         pocketEnabled
       );
-      dispatch(settingSaveSettingResponse(blogURL));
+      dispatch(
+        settingSaveSettingResponse(
+          blogURL,
+          reportEnabled,
+          twitterEnabled,
+          countJsoonEnabled,
+          facebookEnabled,
+          hatenaBookmarkEnabled,
+          hatenaStarEnabled,
+          pocketEnabled
+        )
+      );
     } catch (e) {
       dispatch(settingSaveSettingError(blogURL, e));
     }

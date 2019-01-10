@@ -1,6 +1,8 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import { clone } from 'lodash';
 import React from 'react';
+import { MdMailOutline } from 'react-icons/md';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps, withRouter } from 'react-router';
 import { Dispatch } from 'redux';
@@ -10,9 +12,11 @@ import { CountType } from '../../../models/consts/count-type';
 import { deleteBlog, DeleteBlogActions, deleteBlogReset } from '../../../redux/actions/delete-blog-action';
 import { FeedFirebaseActions, fetchFirebaseBlog } from '../../../redux/actions/feed-actions/feed-firebase-action';
 import { saveSetting, SettingActions } from '../../../redux/actions/setting-action';
+import { fetchUser } from '../../../redux/actions/user-action';
 import { AppState } from '../../../redux/states/app-state';
 import { DeleteBlogState } from '../../../redux/states/delete-blog-state';
 import { FeedState } from '../../../redux/states/feed-state';
+import { UserState } from '../../../redux/states/user-state';
 import Anker from '../../atoms/Anker/index';
 import { WarningButton } from '../../atoms/Button/index';
 import Favicon from '../../atoms/Favicon/index';
@@ -28,6 +32,7 @@ import PageLayout from '../../templates/PageLayout/index';
 type StateProps = {
   feedState: FeedState;
   deleteBlogState: DeleteBlogState;
+  userState: UserState;
 };
 
 type DispatchProps = {
@@ -35,6 +40,7 @@ type DispatchProps = {
   deleteBlog: (...props: Parameters<typeof deleteBlog>) => void;
   deleteBlogReset: () => void;
   saveSetting: (...props: Parameters<typeof saveSetting>) => void;
+  fetchUser: (...props: Parameters<typeof fetchUser>) => void;
 };
 
 type OwnProps = RouteComponentProps<{ blogURL: string }>;
@@ -51,6 +57,7 @@ class SettingPage extends React.PureComponent<Props, {}> {
     const blogURL = decodeURIComponent(this.props.match.params.blogURL);
     this.props.deleteBlogReset();
     this.props.fetchFirebaseBlog(firebase.auth(), blogURL);
+    this.props.fetchUser(firebase.auth());
   }
 
   deleteBlog() {
@@ -58,15 +65,24 @@ class SettingPage extends React.PureComponent<Props, {}> {
     this.props.deleteBlog(firebase.auth(), blogURL);
   }
 
-  enableCountType(enabled: boolean, type: CountType) {
-    const blogURL = decodeURIComponent(this.props.match.params.blogURL);
+  enableSendReport(enabled: boolean) {
     const { feedState } = this.props;
-    if (feedState && feedState.title && feedState.services) {
-      feedState.services[type] = enabled;
+    if (feedState && feedState.services) {
       const { twitter, countjsoon, facebook, hatenabookmark, hatenastar, pocket } = feedState.services;
-      this.props.saveSetting(
-        firebase.auth(),
-        blogURL,
+      this.saveSettings(enabled, twitter, countjsoon, facebook, hatenabookmark, hatenastar, pocket || true);
+    }
+  }
+
+  enableCountType(enabled: boolean, type: CountType) {
+    const { feedState } = this.props;
+    if (feedState && feedState.services) {
+      const services = clone(feedState.services);
+      if (type) {
+        services[type] = enabled;
+      }
+      const { twitter, countjsoon, facebook, hatenabookmark, hatenastar, pocket } = services;
+      this.saveSettings(
+        feedState.sendReport || false,
         twitter,
         countjsoon,
         facebook,
@@ -77,8 +93,32 @@ class SettingPage extends React.PureComponent<Props, {}> {
     }
   }
 
+  saveSettings(
+    sendReport: boolean,
+    twitter: boolean,
+    countjsoon: boolean,
+    facebook: boolean,
+    hatenabookmark: boolean,
+    hatenastar: boolean,
+    pocket: boolean
+  ) {
+    const blogURL = decodeURIComponent(this.props.match.params.blogURL);
+
+    this.props.saveSetting(
+      firebase.auth(),
+      blogURL,
+      sendReport,
+      twitter,
+      countjsoon,
+      facebook,
+      hatenabookmark,
+      hatenastar,
+      pocket
+    );
+  }
+
   render() {
-    const { feedState, deleteBlogState } = this.props;
+    const { feedState, deleteBlogState, userState } = this.props;
     if (deleteBlogState.finished) {
       return <Redirect to={'/settings'} />;
     } else {
@@ -184,6 +224,26 @@ class SettingPage extends React.PureComponent<Props, {}> {
                 }
               />
               <SectionHeader />
+              <SettingCell
+                title="デイリーレポートメールを送る"
+                description={
+                  <Description>
+                    この機能はα版です。毎朝更新レポートが{(userState.user && userState.user.email) || 'メールアドレス'}
+                    に送られます
+                  </Description>
+                }
+                LeftIcon={<MdMailOutline size="16" />}
+                RightIcon={
+                  <CheckBox
+                    type="checkbox"
+                    defaultChecked={feedState && feedState.sendReport}
+                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                      this.enableSendReport((e.target as HTMLInputElement).checked)
+                    }
+                  />
+                }
+              />
+              <SectionHeader />
               <DeleteWrapper>
                 <StyledWarningButton onClick={this.deleteBlog}>
                   {`${(feedState && feedState.title) || 'ブログ'}`}を削除
@@ -240,6 +300,7 @@ function mapStateToProps(state: AppState, ownProps: OwnProps): StateProps {
   return {
     feedState: state.feeds.feeds[decodeURIComponent(ownProps.match.params.blogURL)],
     deleteBlogState: state.deleteBlog,
+    userState: state.user,
   };
 }
 
@@ -250,6 +311,7 @@ function mapDispatchToProps(dispatch: TD & Dispatch<DeleteBlogActions>): Dispatc
     deleteBlog: (...props) => dispatch(deleteBlog(...props)),
     deleteBlogReset: () => dispatch(deleteBlogReset()),
     saveSetting: (...props) => dispatch(saveSetting(...props)),
+    fetchUser: (...props) => dispatch(fetchUser(...props)),
   };
 }
 

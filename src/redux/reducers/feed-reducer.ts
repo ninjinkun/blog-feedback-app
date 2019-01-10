@@ -1,5 +1,6 @@
 import flatten from 'lodash/flatten';
 import { Reducer } from 'redux';
+import { Services } from '../../models/entities';
 import { AddBlogActions, FIREBASE_ADD_BLOG_RESPONSE } from '../actions/add-blog-action';
 import { BlogActions, FIREBASE_BLOGS_RESPONSE } from '../actions/blog-action';
 import {
@@ -31,10 +32,11 @@ import {
 import { FETCH_HATENA_STAR_COUNT_RESPONSE } from '../actions/feed-actions/hatenastar-action';
 import { FETCH_POCKET_COUNT_RESPONSE } from '../actions/feed-actions/pocket-action';
 import { FETCH_RSS_REQUEST, FETCH_RSS_RESPONSE } from '../actions/feed-actions/rss';
+import { FIREBASE_SAVE_SETTING_RESPONSE, SettingActions } from '../actions/setting-action';
 import { FeedState, initialState } from '../states/feed-state';
 import { FeedsState, initialState as feedsIniticalState } from '../states/feeds-state';
 
-export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogActions | BlogActions> = (
+export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogActions | BlogActions | SettingActions> = (
   state = feedsIniticalState,
   action
 ): FeedsState => {
@@ -59,6 +61,7 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogActions | Bl
       return updateFeed(blogURL, state, {
         title: blogEntity.title,
         services: blogEntity.services,
+        sendReport: blogEntity.sendReport,
       });
     }
     case FIREBASE_FEED_RESPONSE: {
@@ -132,6 +135,12 @@ export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogActions | Bl
         state = updateFeed(url, state, { title, feedURL });
       }
       return state;
+    }
+    case FIREBASE_SAVE_SETTING_RESPONSE: {
+      const { blogURL, twitter, countjsoon, facebook, hatenabookmark, hatenastar, pocket, sendReport } = action;
+      const services: Services = { twitter, countjsoon, facebook, hatenabookmark, hatenastar, pocket };
+
+      return updateFeed(blogURL, state, { services, sendReport });
     }
     default:
       return state;

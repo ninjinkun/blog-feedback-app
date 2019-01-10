@@ -48,6 +48,7 @@ export function saveBlog(
   blogTitle: string,
   feedURL: string,
   feedType: string,
+  reportEnabled: boolean,
   twitterEnabled: boolean,
   countJsonnEnabled: boolean,
   facebookEnabled: boolean,
@@ -61,6 +62,7 @@ export function saveBlog(
     feedURL,
     feedType,
     timestamp: serverTimestamp(),
+    sendReport: reportEnabled,
     services: {
       twitter: twitterEnabled,
       countjsoon: countJsonnEnabled,
@@ -75,6 +77,7 @@ export function saveBlog(
 export function saveBlogSetting(
   userId: string,
   blogURL: string,
+  reportEnabled: boolean,
   twitterEnabled: boolean,
   countJsonnEnabled: boolean,
   facebookEnabled: boolean,
@@ -85,6 +88,7 @@ export function saveBlogSetting(
   return blogRef(userId, blogURL).set(
     {
       timestamp: serverTimestamp(),
+      sendReport: reportEnabled,
       services: {
         twitter: twitterEnabled,
         countjsoon: countJsonnEnabled,
