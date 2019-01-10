@@ -42,7 +42,6 @@ $ yarn build:production
 ```
 
 # Test
-
 ```
 $ yarn firebase serve --only firestore
 $ yarn test
