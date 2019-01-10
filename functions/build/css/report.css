@@ -51,6 +51,7 @@ a.entry-cell-link:visited {
 
 .entry-cell-favicon-wrapper {
   vertical-align: top;
+  width: 16px;
 }
 
 .entry-cell-favicon {
