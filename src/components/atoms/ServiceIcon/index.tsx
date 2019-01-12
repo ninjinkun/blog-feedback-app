@@ -28,7 +28,7 @@ const ServiceIcon = ({ ...props }: Props) => {
 export default ServiceIcon;
 
 export const TwitterIcon = ({ ...props }) => <Img src="/images/twitter-icon.png" {...props} />;
-export const FacebookIcon = ({ ...props }) => <Img src="/images/twitter-icon.png" {...props} />;
+export const FacebookIcon = ({ ...props }) => <Img src="/images/facebook-icon.png" {...props} />;
 export const HatenaBookmarkIcon = ({ ...props }) => <Img src="/images/hatenabookmark-icon.png" {...props} />;
 export const HatenaStarIcon = ({ ...props }) => <Img src="/images/hatenastar-icon.png" {...props} />;
 export const PocketIcon = ({ ...props }) => <Img src="/images/pocket-icon.png" {...props} />;
