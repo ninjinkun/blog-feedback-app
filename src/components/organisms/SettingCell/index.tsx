@@ -37,11 +37,13 @@ const CountentWrapper = styled(Wrapper)`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+  align-items: center;
 `;
 
 const Left = styled(Wrapper)`
   flex-direction: row;
   width: 100%;
+  margin-left: 8px;
 `;
 
 const Right = styled(Wrapper)`

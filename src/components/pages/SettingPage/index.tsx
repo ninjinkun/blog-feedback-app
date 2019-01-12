@@ -5,6 +5,8 @@ import React from 'react';
 import { MdMailOutline } from 'react-icons/md';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps, withRouter } from 'react-router';
+import Toggle from 'react-toggle';
+import 'react-toggle/style.css';
 import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import styled from 'styled-components';
@@ -145,8 +147,9 @@ class SettingPage extends React.PureComponent<Props, {}> {
                 description={<Description>Count APIが廃止されたため、現在シェア数は表示されません。</Description>}
                 LeftIcon={<Favicon src={require('../../../assets/images/twitter-icon.png')} />}
                 RightIcon={
-                  <CheckBox
+                  <Toggle
                     type="checkbox"
+                    icons={false}
                     defaultChecked={feedState && feedState.services && feedState.services.twitter}
                     onChange={(e: React.FormEvent<HTMLInputElement>) =>
                       this.enableCountType((e.target as HTMLInputElement).checked, CountType.Twitter)
@@ -170,8 +173,9 @@ class SettingPage extends React.PureComponent<Props, {}> {
                 }
                 LeftIcon={<Favicon src="/images/twitter-icon.png" />}
                 RightIcon={
-                  <CheckBox
+                  <Toggle
                     type="checkbox"
+                    icons={false}
                     defaultChecked={feedState && feedState.services && feedState.services.countjsoon}
                     onChange={(e: React.FormEvent<HTMLInputElement>) =>
                       this.enableCountType((e.target as HTMLInputElement).checked, CountType.CountJsoon)
@@ -183,8 +187,9 @@ class SettingPage extends React.PureComponent<Props, {}> {
                 title="Facebook"
                 LeftIcon={<Favicon src="/images/facebook-icon.png" />}
                 RightIcon={
-                  <CheckBox
+                  <Toggle
                     type="checkbox"
+                    icons={false}
                     defaultChecked={feedState && feedState.services && feedState.services.facebook}
                     onChange={(e: React.FormEvent<HTMLInputElement>) =>
                       this.enableCountType((e.target as HTMLInputElement).checked, CountType.Facebook)
@@ -196,8 +201,9 @@ class SettingPage extends React.PureComponent<Props, {}> {
                 title="はてなブックマーク"
                 LeftIcon={<Favicon src="/images/hatenabookmark-icon.png" />}
                 RightIcon={
-                  <CheckBox
+                  <Toggle
                     type="checkbox"
+                    icons={false}
                     defaultChecked={feedState && feedState.services && feedState.services.hatenabookmark}
                     onChange={(e: React.FormEvent<HTMLInputElement>) =>
                       this.enableCountType((e.target as HTMLInputElement).checked, CountType.HatenaBookmark)
@@ -209,8 +215,9 @@ class SettingPage extends React.PureComponent<Props, {}> {
                 title="はてなスター"
                 LeftIcon={<Favicon src="/images/hatenastar-icon.png" />}
                 RightIcon={
-                  <CheckBox
+                  <Toggle
                     type="checkbox"
+                    icons={false}
                     defaultChecked={feedState && feedState.services && feedState.services.hatenastar}
                     onChange={(e: React.FormEvent<HTMLInputElement>) =>
                       this.enableCountType((e.target as HTMLInputElement).checked, CountType.HatenaStar)
@@ -222,8 +229,9 @@ class SettingPage extends React.PureComponent<Props, {}> {
                 title="Pocket"
                 LeftIcon={<Favicon src="/images/pocket-icon.png" />}
                 RightIcon={
-                  <CheckBox
+                  <Toggle
                     type="checkbox"
+                    icons={false}
                     defaultChecked={feedState && feedState.services && feedState.services.pocket}
                     onChange={(e: React.FormEvent<HTMLInputElement>) =>
                       this.enableCountType((e.target as HTMLInputElement).checked, CountType.Pocket)
@@ -253,9 +261,10 @@ class SettingPage extends React.PureComponent<Props, {}> {
                 }
                 LeftIcon={<MdMailOutline size="16" />}
                 RightIcon={
-                  <CheckBox
+                  <Toggle
                     type="checkbox"
                     defaultChecked={feedState && feedState.sendReport}
+                    icons={false}
                     onChange={(e: React.FormEvent<HTMLInputElement>) =>
                       this.enableSendReport((e.target as HTMLInputElement).checked)
                     }
@@ -284,11 +293,6 @@ class SettingPage extends React.PureComponent<Props, {}> {
     }
   }
 }
-
-const CheckBox = styled.input`
-  width: 16px;
-  height: 16px;
-`;
 
 const StyledScrollView = styled(ScrollView)`
   background-color: ${properties.colors.white};

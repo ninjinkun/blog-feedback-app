@@ -59,10 +59,10 @@ class AddBlogView extends React.PureComponent<Props, States> {
         >
           <FormWrapper>
             <AddBlogForm
-              handleSubmit={e => this.handleSubmit(e)}
+              handleSubmit={(url, reportMailEnabled) => this.handleSubmit(url, reportMailEnabled)}
               loading={loading}
               errorMessage={
-                error && `${error.message}（エラーが続く場合はRSSのURLを直接入力するとうまくいくことがあります）}`
+                error && `${error.message}（エラーが続く場合はRSSのURLを直接入力するとうまくいくことがあります）`
               }
               url={this.state.fillInURL}
               clearURL={() => this.clearURL()}
@@ -86,8 +86,8 @@ class AddBlogView extends React.PureComponent<Props, States> {
     }
   }
 
-  handleSubmit(url: string) {
-    this.props.addBlog(firebase.auth(), url);
+  handleSubmit(url: string, reportMailEnabled: boolean) {
+    this.props.addBlog(firebase.auth(), url, reportMailEnabled);
   }
 
   fillIn(url: string) {
@@ -100,7 +100,7 @@ class AddBlogView extends React.PureComponent<Props, States> {
 }
 
 const FormWrapper = styled(Wrapper)`
-  margin-top: 25vh;
+  margin-top: 20vh;
 `;
 
 const SuggestionWrapper = styled(Wrapper)`

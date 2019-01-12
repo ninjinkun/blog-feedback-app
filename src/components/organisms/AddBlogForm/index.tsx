@@ -1,5 +1,7 @@
 import React from 'react';
 import { MdError } from 'react-icons/md';
+import Toggle from 'react-toggle';
+import 'react-toggle/style.css';
 import styled from 'styled-components';
 import { PrimaryButton } from '../../atoms/Button';
 import Spinner from '../../atoms/Spinner/index';
@@ -7,7 +9,7 @@ import Wrapper from '../../atoms/Wrapper/index';
 import * as properties from '../../properties';
 
 type Props = {
-  handleSubmit: (url: string) => any;
+  handleSubmit: (url: string, reportMailEnabled: boolean) => any;
   loading: boolean;
   errorMessage?: string;
   url?: string;
@@ -16,18 +18,19 @@ type Props = {
 
 type States = {
   url: string;
+  reportMailEnabled: boolean;
 };
 
 export default class AddBlogForm extends React.PureComponent<Props, States> {
-  constructor(props: any) {
-    super(props);
-    this.state = { url: '' };
-  }
+  state: Readonly<States> = {
+    url: '',
+    reportMailEnabled: false,
+  };
 
   handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     const { url } = this.props;
     event.preventDefault();
-    this.props.handleSubmit(url || this.state.url);
+    this.props.handleSubmit(url || this.state.url, this.state.reportMailEnabled);
   }
 
   render() {
@@ -49,6 +52,25 @@ export default class AddBlogForm extends React.PureComponent<Props, States> {
               }}
             />
           </StyledLabel>
+          <ReportMailWrapper>
+            <ReportMailLabel htmlFor="report-mail">
+              <ReprotMailTitle>デイリーレポートメールを購読する (α版)</ReprotMailTitle>
+              <ReprotMailDescription>
+                毎朝シェア数が増加しているとメールが届きます。
+                <br />
+                この設定はブログの設定画面から変更できます。
+              </ReprotMailDescription>
+            </ReportMailLabel>
+            <Switch
+              id="report-mail"
+              type="checkbox"
+              defaultChecked={false}
+              icons={false}
+              onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                this.setState({ reportMailEnabled: (e.target as HTMLInputElement).checked })
+              }
+            />
+          </ReportMailWrapper>
           <PrimaryButton type="submit" value="ブログを追加" as="input" />
         </StyledForm>
         {errorMessage ? (
@@ -95,6 +117,7 @@ const ErrorWrapper = styled(Wrapper)`
   padding: 8px;
   color: ${properties.colors.grayDark};
   align-items: center;
+  font-size: ${properties.fontSizes.s};
 `;
 
 const StyledForm = styled.form`
@@ -118,7 +141,35 @@ const URLField = styled.input`
   width: 100%;
   display: inline-block;
   box-sizing: border-box;
-  font-size: 1rem;
+  font-size: ${properties.fontSizes.m};
   border: 1px solid ${properties.colors.grayLight};
   border-radius: 4px;
+`;
+
+const ReportMailWrapper = styled(Wrapper)`
+  flex-direction: row;
+  border: 1px solid ${properties.colors.grayLight};
+  padding: 8px;
+  border-radius: 4px;
+  align-items: center;
+  margin-bottom: 16px;
+`;
+
+const ReportMailLabel = styled.label`
+  display: flex;
+  flex-direction: column;
+`;
+
+const ReprotMailTitle = styled.span`
+  font-size: ${properties.fontSizes.s};
+  font-weight: ${properties.fontWeights.bold};
+`;
+
+const ReprotMailDescription = styled.p`
+  font-size: ${properties.fontSizes.xs};
+  margin: 4px 0;
+`;
+
+const Switch = styled(Toggle)`
+  margin-left: 12px;
 `;
