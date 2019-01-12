@@ -55,8 +55,8 @@ a.entry-cell-link:visited {
 }
 
 .entry-cell-favicon {
-  width: 16px;
-  height: 16px;
+  max-width: 16px;
+  max-height: 16px;
   margin-top: 4px;
 }
 
