@@ -233,11 +233,12 @@ class SettingPage extends React.PureComponent<Props, {}> {
               />
               <SectionHeader />
               <SettingCell
-                title="デイリーレポートメールを送る"
+                title="デイリーレポートメールを購読する"
                 description={
                   <Description>
-                    この機能はα版です。毎朝更新レポートが{(userState.user && userState.user.email) || 'メールアドレス'}
-                    に送られます
+                    毎朝シェア数が増加していると更新レポートが
+                    {(userState.user && userState.user.email) || 'メールアドレス'}
+                    に送られます（この機能はα版です）。
                     <SendMailButtonWrapper>
                       <Button onClick={() => this.sendTestReportMail()}>テストメールを送る</Button>
                       {settingState && settingState.loading ? (

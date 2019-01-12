@@ -41,6 +41,7 @@ const CountentWrapper = styled(Wrapper)`
 
 const Left = styled(Wrapper)`
   flex-direction: row;
+  width: 100%;
 `;
 
 const Right = styled(Wrapper)`
