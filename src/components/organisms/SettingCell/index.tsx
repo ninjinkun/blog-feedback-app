@@ -48,6 +48,7 @@ const Left = styled(Wrapper)`
 
 const Right = styled(Wrapper)`
   flex-direction: row;
+  margin-left: 12px;
 `;
 
 const TitleWrapper = styled.div`
