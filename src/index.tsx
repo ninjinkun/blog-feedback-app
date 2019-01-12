@@ -1,6 +1,5 @@
 import 'normalize.css';
 import React from 'react';
-import 'react-app-polyfill/ie11';
 import { render } from 'react-dom';
 import UAParser from 'ua-parser-js';
 
