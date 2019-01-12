@@ -21,7 +21,8 @@ export const sendWelcomeMail = functions.region('asia-northeast1').auth.user().o
   if (!(context.auth && context.auth.uid)) {
     throw new Error('Authorization Error');
   }
-  await sendWelcomeMailAction(user.email);
+  const { uid, email } = user;  
+  await sendWelcomeMailAction(email, uid);
   console.log('mail sent')
   return true;
 });

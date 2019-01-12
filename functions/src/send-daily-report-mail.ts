@@ -15,6 +15,7 @@ import { fetchFacebookCounts } from './fetchers/count-fetchers/facebook-fetcher'
 import { fetchPocketCounts } from './fetchers/count-fetchers/pocket-fetcher';
 import { getMailLock, createMailLock } from './repositories/mail-lock-repository';
 import { resolve } from 'path';
+import { gaImageSrc } from './mail-ga';
 
 type Item = {
   title: string;
@@ -51,7 +52,7 @@ export async function crowlAndSendMail(to: string, userId: string, blogURL: stri
         return false;
       }
     }
-    await sendDailyReportMail(to, blogURL, blogEntity.title, items, sendForce);
+    await sendDailyReportMail(to, userId, blogURL, blogEntity.title, items, sendForce);
     console.log('mail sent');
   }
   await saveYestardayCounts(userId, blogURL, items);
@@ -146,14 +147,14 @@ function saveYestardayCounts(userId: string, blogURL: string, items: Item[]) {
   return batch.commit();
 }
 
-function sendDailyReportMail(to: string, blogURL: String, blogTitle: string, items: Item[], sendForce = false) {
+function sendDailyReportMail(to: string, userId: string, blogURL: string, blogTitle: string, items: Item[], sendForce = false) {
   const email = new EmailTemplate({
     message: {
       from: '"BlogFeedback" <report@blog-feedback.app>'
     },
     transport: transport(),
   });
-
+  const ga = gaImageSrc(userId, 'daily-report', `/mail/report/${encodeURIComponent(blogURL)}`);
   return email.send({
     template: 'report',
     message: {
@@ -164,6 +165,7 @@ function sendDailyReportMail(to: string, blogURL: String, blogTitle: string, ite
       blogURL,
       items,
       sendForce,
+      ga,
     },
   });
 }
