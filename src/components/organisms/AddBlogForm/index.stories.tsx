@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 import AddBlogForm from './index';
 
-const handleSubmit = (url: string) => action(`submit ${url}`)();
+const handleSubmit = (url: string, enabled: boolean) => action(`submit ${url} ${enabled}`)();
 
 storiesOf('organisms/AddBlogForm', module)
   .add('default', () => <AddBlogForm handleSubmit={handleSubmit} loading={false} />)

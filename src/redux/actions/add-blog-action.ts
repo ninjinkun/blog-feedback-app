@@ -97,7 +97,7 @@ type AddBlogFetchActions =
 export type AddBlogActions = AddBlogFetchActions | ReturnType<typeof addBlogInitialize>;
 
 export type AddBlogThunkAction = ThunkAction<void, AppState, undefined, AddBlogFetchActions>;
-export function addBlog(auth: firebase.auth.Auth, blogURL: string): AddBlogThunkAction {
+export function addBlog(auth: firebase.auth.Auth, blogURL: string, reportMailEnabled: boolean): AddBlogThunkAction {
   return async dispatch => {
     const user = await currenUserOronAuthStateChanged(auth);
     let blogResponse: BlogResponse | undefined;
@@ -135,7 +135,7 @@ export function addBlog(auth: firebase.auth.Auth, blogURL: string): AddBlogThunk
         blogResponse.title,
         blogResponse.feedURL,
         blogResponse.feedType,
-        false,
+        reportMailEnabled,
         true,
         false,
         true,
