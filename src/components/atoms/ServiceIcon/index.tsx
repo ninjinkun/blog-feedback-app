@@ -34,6 +34,8 @@ export const HatenaStarIcon = ({ ...props }) => <Img src="/images/hatenastar-ico
 export const PocketIcon = ({ ...props }) => <Img src="/images/pocket-icon.png" {...props} />;
 
 const Img = styled.img`
+  width: 24px;
+  height: 24px;
   max-width: 24px;
   max-height: 24px;
 `;
