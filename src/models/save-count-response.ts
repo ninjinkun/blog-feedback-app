@@ -58,13 +58,13 @@ export function createSaveEntities(
       const typeMap = countTypeMaps[countType];
 
       const typeCount = typeMap.get(item.url);
-      const firebaseTypeCount = firebaseItem && firebaseItem.counts[countType];
+      const firebaseTypeCount = firebaseItem && firebaseItem.counts && firebaseItem.counts[countType];
       itemCounts[countType] = createItemCount(typeCount, firebaseTypeCount);
       if (!itemCounts[countType]) {
         delete itemCounts[countType];
       }
 
-      const prevTypeCount = firebaseItem && firebaseItem.prevCounts[countType];
+      const prevTypeCount = firebaseItem && firebaseItem.prevCounts && firebaseItem.prevCounts[countType];
       prevCounts[countType] = createPrevItemCount(prevTypeCount, firebaseTypeCount, itemCounts[countType]);
       if (!prevCounts[countType]) {
         delete prevCounts[countType];
