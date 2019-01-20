@@ -11,14 +11,13 @@ export function fetchJSON(url: string): Promise<string> {
 }
 
 async function fetch(url: string, acceptHeader: string): Promise<string> {
-  const res: AxiosResponse<Buffer> = await axios.get(url, {
+  const res: AxiosResponse<Buffer> = await axios.get(url, {      
     responseType: 'arraybuffer',
     headers: {
       'User-Agent': 'BlogFeedback/0.1',
       'Accept': acceptHeader,
      },
-     maxRedirects: 5,
-    });
+ });
  const encoding: string = charset(res.headers);
  return encoding ? iconv.decode(res.data, encoding) : res.data.toString('utf8');
 }
