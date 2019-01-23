@@ -16,6 +16,7 @@ import { fetchPocketCounts } from './fetchers/count-fetchers/pocket-fetcher';
 import { getMailLock, createMailLock } from './repositories/mail-lock-repository';
 import { resolve } from 'path';
 import { gaImageSrc } from './mail-ga';
+import { sum } from 'lodash';
 
 type Item = {
   title: string;
@@ -41,7 +42,8 @@ export async function crowlAndSendMail(to: string, userId: string, blogURL: stri
   const createMailPromise = createMailLock(uuid, taskUUID);
 
   const [blogEntity, items] = await crawl(userId, blogURL);
-  const shouldSendMail = items.some(i => i.counts.some(c => c.updatedCount > 0));
+  const updatedCounts = sum(items.map(i => sum(i.counts.map(c => c.updatedCount))));
+  const shouldSendMail = updatedCounts > 0;
   if (shouldSendMail || sendForce) {
     await createMailPromise;
     // check twice
@@ -52,7 +54,7 @@ export async function crowlAndSendMail(to: string, userId: string, blogURL: stri
         return false;
       }
     }
-    await sendDailyReportMail(to, userId, blogURL, blogEntity.title, items, sendForce);
+    await sendDailyReportMail(to, userId, blogURL, blogEntity.title, items, updatedCounts, sendForce);
     console.log('mail sent');
   }
   await saveYestardayCounts(userId, blogURL, items);
@@ -147,7 +149,7 @@ function saveYestardayCounts(userId: string, blogURL: string, items: Item[]) {
   return batch.commit();
 }
 
-function sendDailyReportMail(to: string, userId: string, blogURL: string, blogTitle: string, items: Item[], sendForce = false) {
+function sendDailyReportMail(to: string, userId: string, blogURL: string, blogTitle: string, items: Item[], updatedCounts: number, sendForce = false) {
   const email = new EmailTemplate({
     message: {
       from: '"BlogFeedback" <report@blog-feedback.app>'
@@ -164,6 +166,7 @@ function sendDailyReportMail(to: string, userId: string, blogURL: string, blogTi
       blogTitle,
       blogURL,
       items,
+      updatedCounts,
       sendForce,
       ga,
     },
