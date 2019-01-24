@@ -42,7 +42,7 @@ export async function crowlAndSendMail(to: string, userId: string, blogURL: stri
   const createMailPromise = createMailLock(uuid, taskUUID);
 
   const [blogEntity, items] = await crawl(userId, blogURL);
-  const updatedCounts = sum(items.map(i => sum(i.counts.map(c => c.updatedCount))));
+  const updatedCounts = sum(items.map(i => sum(i.counts.map(c => c.updatedCount || 0)) || 0));
   const shouldSendMail = updatedCounts > 0;
   if (shouldSendMail || sendForce) {
     await createMailPromise;
