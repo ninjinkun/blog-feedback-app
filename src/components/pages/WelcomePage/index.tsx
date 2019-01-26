@@ -32,7 +32,7 @@ const WelcomePage = () => (
         </ImageWrapper>
         <SigninButtonWrapper>
           <PrimaryButton as="a" href="/signin">
-            ユーザー登録 / ログインへ進む
+            ユーザー登録 / ログインへ進む（無料）
           </PrimaryButton>
         </SigninButtonWrapper>
         <TermAndPrivacyWrapper>
