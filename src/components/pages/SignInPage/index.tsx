@@ -40,7 +40,7 @@ class SignInPage extends React.PureComponent<Props> {
       return (
         <PageLayout
           header={{
-            title: 'ユーザー登録 / ログイン',
+            title: 'ユーザー登録 / ログイン（無料）',
             backButtonLink: '/',
           }}
         >
