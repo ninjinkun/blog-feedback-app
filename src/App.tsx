@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { GlobalStyle } from './components/base-style';
 import ScrollToTop from './components/templates/ScrollToTop/index';
@@ -30,15 +30,17 @@ const App = () => (
       <SmartphoneLayout>
         <Router>
           <ScrollToTop>
-            <Route exact={true} path="/" component={withTracker(IndexPage)} />
-            <Route exact={true} path="/signin" component={withTracker(AuthPage)} />
-            <Route exact={true} path="/add" component={withTracker(AddBlogPage)} />
-            <Route exact={true} path="/blogs" component={withTracker(BlogsPage)} />
-            <Route exact={true} path="/blogs/:blogURL" component={withTracker(FeedPage)} />
-            <Route exact={true} path="/settings" component={withTracker(SettingsPage)} />
-            <Route exact={true} path="/settings/:blogURL" component={withTracker(SettingPage)} />
-            <Route exact={true} path="/term" component={withTracker(TermPage)} />
-            <Route exact={true} path="/privacy" component={withTracker(PrivacyPage)} />
+            <Switch>
+              <Route exact={true} path="/" component={withTracker(IndexPage)} />
+              <Route exact={true} path="/signin" component={withTracker(AuthPage)} />
+              <Route exact={true} path="/add" component={withTracker(AddBlogPage)} />
+              <Route exact={true} path="/blogs" component={withTracker(BlogsPage)} />
+              <Route exact={true} path="/blogs/:blogURL" component={withTracker(FeedPage)} />
+              <Route exact={true} path="/settings" component={withTracker(SettingsPage)} />
+              <Route exact={true} path="/settings/:blogURL" component={withTracker(SettingPage)} />
+              <Route exact={true} path="/term" component={withTracker(TermPage)} />
+              <Route exact={true} path="/privacy" component={withTracker(PrivacyPage)} />
+            </Switch>
           </ScrollToTop>
         </Router>
       </SmartphoneLayout>
