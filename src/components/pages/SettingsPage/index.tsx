@@ -3,23 +3,20 @@ import 'firebase/auth';
 import React from 'react';
 import styled from 'styled-components';
 
-import { FaDonate, FaGithub, FaHeart, FaSignOutAlt } from 'react-icons/fa';
-import { FiGithub, FiHeart } from 'react-icons/fi';
-import { MdAssignment, MdAssignmentInd, MdLaunch, MdOpenInBrowser } from 'react-icons/md';
+import { FiGithub } from 'react-icons/fi';
+import { MdAssignment, MdAssignmentInd, MdLaunch } from 'react-icons/md';
 import { connect } from 'react-redux';
-import { Redirect, RouteComponentProps } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { ThunkDispatch } from 'redux-thunk';
 import { BlogActions, fetchBlogs } from '../../../redux/actions/blog-action';
 import { signOut } from '../../../redux/actions/user-action';
 import { AppState } from '../../../redux/states/app-state';
 import { BlogState } from '../../../redux/states/blog-state';
-import { UserState } from '../../../redux/states/user-state';
 import { Button } from '../../atoms/Button/index';
 import ScrollView from '../../atoms/ScrollView/index';
 import Wrapper from '../../atoms/Wrapper/index';
 import LoadingView from '../../molecules/LoadingView/index';
-import PlainCell from '../../molecules/PlainCell/index';
 import BlogCell from '../../organisms/BlogCell/index';
 import SettingCell from '../../organisms/SettingCell/index';
 import SectionHeader from '../../organisms/SettingSectionHeader/index';
@@ -29,7 +26,6 @@ import PageLayout from '../../templates/PageLayout/index';
 
 type StateProps = {
   blogState: BlogState;
-  userState: UserState;
 };
 
 type DispatchProps = {
@@ -57,12 +53,7 @@ class SettingsPage extends React.PureComponent<Props, {}> {
   }
 
   render() {
-    const { userState, blogState } = this.props;
-
-    const { blogs, loading } = blogState;
-    if (!userState.user && !userState.loading) {
-      return <Redirect to="/" />;
-    }
+    const { blogs, loading } = this.props.blogState;
 
     const blogCells = (
       <React.Fragment>
@@ -123,7 +114,6 @@ class SettingsPage extends React.PureComponent<Props, {}> {
 function mapStateToProps(state: AppState): StateProps {
   return {
     blogState: state.blog,
-    userState: state.user,
   };
 }
 
