@@ -16,6 +16,7 @@ import IndexPage from './components/pages/IndexPage/index';
 import PrivacyPage from './components/pages/PrivarcyPage/index';
 import SettingPage from './components/pages/SettingPage/index';
 import SettingsPage from './components/pages/SettingsPage/index';
+import SignInPage from './components/pages/SignInPage/index';
 import TermPage from './components/pages/TermPage/index';
 import { initializeGoogleAnalytics } from './ga';
 import withTracker from './withTracker';
@@ -32,14 +33,18 @@ const App = () => (
           <ScrollToTop>
             <Switch>
               <Route exact={true} path="/" component={withTracker(IndexPage)} />
-              <Route exact={true} path="/signin" component={withTracker(AuthPage)} />
-              <Route exact={true} path="/add" component={withTracker(AddBlogPage)} />
-              <Route exact={true} path="/blogs" component={withTracker(BlogsPage)} />
-              <Route exact={true} path="/blogs/:blogURL" component={withTracker(FeedPage)} />
-              <Route exact={true} path="/settings" component={withTracker(SettingsPage)} />
-              <Route exact={true} path="/settings/:blogURL" component={withTracker(SettingPage)} />
+              <Route exact={true} path="/signin" component={withTracker(SignInPage)} />
               <Route exact={true} path="/term" component={withTracker(TermPage)} />
               <Route exact={true} path="/privacy" component={withTracker(PrivacyPage)} />
+              <AuthPage>
+                <Switch>
+                  <Route exact={true} path="/add" component={withTracker(AddBlogPage)} />
+                  <Route exact={true} path="/blogs" component={withTracker(BlogsPage)} />
+                  <Route exact={true} path="/blogs/:blogURL" component={withTracker(FeedPage)} />
+                  <Route exact={true} path="/settings" component={withTracker(SettingsPage)} />
+                  <Route exact={true} path="/settings/:blogURL" component={withTracker(SettingPage)} />
+                </Switch>
+              </AuthPage>
             </Switch>
           </ScrollToTop>
         </Router>
