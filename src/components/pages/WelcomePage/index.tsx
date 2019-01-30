@@ -4,7 +4,6 @@ import Anker from '../../atoms/Anker/index';
 import { PrimaryButton } from '../../atoms/Button/index';
 import ScrollView from '../../atoms/ScrollView/index';
 import Wrapper from '../../atoms/Wrapper/index';
-import SocialButtons from '../../organisms/SocialButtons/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
@@ -16,7 +15,6 @@ const WelcomePage = () => (
   >
     <StyledScrollView>
       <BodyWrapper>
-        <StyledSocialButtons />
         <Title>BlogFeedbackへようこそ！</Title>
         <MessageWrapper>
           <Text>BlogFeedbackはブログのソーシャルボタンの数を集計し、反響を確認できるサービスです。</Text>
@@ -101,10 +99,6 @@ const TermAndPrivacyWrapper = styled(Wrapper)`
 
 const Slash = styled.p`
   margin: 0 0.3em 0 0.3em;
-`;
-
-const StyledSocialButtons = styled(SocialButtons)`
-  margin: 16px 0 16px 0;
 `;
 
 const Text = styled.p`
