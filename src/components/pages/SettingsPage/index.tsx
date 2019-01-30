@@ -20,7 +20,6 @@ import LoadingView from '../../molecules/LoadingView/index';
 import BlogCell from '../../organisms/BlogCell/index';
 import SettingCell from '../../organisms/SettingCell/index';
 import SectionHeader from '../../organisms/SettingSectionHeader/index';
-import SocialButtons from '../../organisms/SocialButtons/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
@@ -93,7 +92,6 @@ class SettingsPage extends React.PureComponent<Props, {}> {
               RightIcon={<MdLaunch size="24" color={properties.colors.gray} />}
             />
           </a>
-          <StyledSocialButtons />
         </StyledScrollView>
       );
     };
@@ -141,8 +139,4 @@ const SignOutButton = styled(Button)`
 const StyledScrollView = styled(ScrollView)`
   background-color: ${properties.colors.white};
   min-height: 100%;
-`;
-
-const StyledSocialButtons = styled(SocialButtons)`
-  margin: 16px 16px 24px 16px;
 `;
