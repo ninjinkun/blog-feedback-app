@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "app.blogfeedback",
+    "sha256_cert_fingerprints":
+    ["3A:52:28:3F:1A:CC:4B:69:97:55:A1:4F:16:4E:D7:6F:6E:03:28:39:CA:38:80:EE:E4:BA:66:4C:D7:3A:F8:95"]
+  }
+}]
