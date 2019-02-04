@@ -43,7 +43,7 @@ const WelcomePage = () => (
           </Anker>
         </TermAndPrivacyWrapper>
         <TermAndPrivacyWrapper>
-          <Anker href="https://github.com/ninjinkun/blog-feedback-app" target="_blank">
+          <Anker href="https://github.com/ninjinkun/blog-feedback-app" target="_blank" rel="noopener">
             GitHub
           </Anker>
         </TermAndPrivacyWrapper>

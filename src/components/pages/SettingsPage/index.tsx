@@ -85,7 +85,7 @@ class SettingsPage extends React.PureComponent<Props, {}> {
           <Link to="/privacy" target="_blank">
             <SettingCell title="プライバシーポリシー" LeftIcon={<MdAssignmentInd size="16" />} />
           </Link>
-          <a href="https://github.com/ninjinkun/blog-feedback-app" target="_blank">
+          <a href="https://github.com/ninjinkun/blog-feedback-app" target="_blank" rel="noopener">
             <SettingCell
               title="要望・PullRequest (Github)"
               LeftIcon={<FiGithub size="16" />}

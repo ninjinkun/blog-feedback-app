@@ -19,7 +19,7 @@ type Props = {
 };
 
 const EntryCell: React.FunctionComponent<Props> = ({ favicon, title, counts, url, ...props }) => (
-  <AnkerWrapper {...props} href={url} target="_blank">
+  <AnkerWrapper {...props} href={url} target="_blank" rel="noopener">
     <Favicon src={favicon} />
     <ContentWrapper>
       <Title>{title}</Title>

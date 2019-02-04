@@ -161,11 +161,11 @@ class SettingPage extends React.PureComponent<Props, {}> {
                 title="count.jsoon"
                 description={
                   <Description>
-                    <Anker href="https://jsoon.digitiminimi.com/" target="_blank">
+                    <Anker href="https://jsoon.digitiminimi.com/" target="_blank" rel="noopener">
                       count.jsoon
                     </Anker>
                     は(株)ディジティ・ミニミが提供する廃止されたTwitter Count APIの互換APIです。
-                    <Anker href="https://jsoon.digitiminimi.com/" target="_blank">
+                    <Anker href="https://jsoon.digitiminimi.com/" target="_blank" rel="noopener">
                       count.jsoon
                     </Anker>
                     のサイトからブログのURLを登録するとBlogFeedbackにもTwitterのシェア数が表示されます。
