@@ -104,18 +104,18 @@ async function crawl(userId: string, blogURL: string) {
     title: itemResponse.title,
     url: itemResponse.url,
     published: itemResponse.published,
-    counts: countTasks.map(([type, _]) => createCount(type, itemResponse, itemEntitiesMap.get(itemResponse.url), countMaps[type] && countMaps[type].get(itemResponse.url))),
+    counts: countTasks.map(([type, _]) => createCount(type, itemResponse, itemEntitiesMap.get(itemResponse.url), countMaps[type] && countMaps[type].get(itemResponse.url) || 0)),
   }));
   return [blogEntity, items] as [BlogEntity, Item[]];  
 }
 
 function createCount(countType: CountType, itemResponse: ItemResponse, itemEntitry?: ItemEntity, todayCount?: number): Count {
-  const yesterDayCount = itemEntitry && itemEntitry.yesterdayCounts && itemEntitry.yesterdayCounts[countType];
-  const prevCount = itemEntitry && itemEntitry.counts && itemEntitry.counts[countType];
+  const yesterDayCount = itemEntitry && itemEntitry.yesterdayCounts && itemEntitry.yesterdayCounts[countType] && itemEntitry.yesterdayCounts[countType].count || 0;
+  const prevCount = itemEntitry && itemEntitry.counts && itemEntitry.counts[countType] && itemEntitry.counts[countType].count || 0;
   const link = toServiceURL(countType, itemResponse.url);
   return {
-    count: todayCount || prevCount && prevCount.count || 0,
-    updatedCount: todayCount - (yesterDayCount && yesterDayCount.count || prevCount && prevCount.count || 0),
+    count: todayCount || prevCount,
+    updatedCount: todayCount - (yesterDayCount || prevCount),
     type: countType,
     link,
   };
