@@ -1,10 +1,9 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import React from 'react';
-import styled from 'styled-components';
 
 import { connect } from 'react-redux';
-import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
+import { Redirect, RouteComponentProps } from 'react-router-dom';
 import { ThunkDispatch } from 'redux-thunk';
 import { fetchUser, UserActions } from '../../../redux/actions/user-action';
 import { AppState } from '../../../redux/states/app-state';
@@ -59,9 +58,7 @@ function mapDispatchToProps(dispatch: TD): DispatchProps {
   };
 }
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(IndexPage)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(IndexPage);

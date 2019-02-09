@@ -4,7 +4,7 @@ import { clone } from 'lodash';
 import React from 'react';
 import { MdMailOutline } from 'react-icons/md';
 import { connect } from 'react-redux';
-import { Redirect, RouteComponentProps, withRouter } from 'react-router';
+import { Redirect, RouteComponentProps } from 'react-router';
 import Toggle from 'react-toggle';
 import 'react-toggle/style.css';
 import { Dispatch } from 'redux';
@@ -346,9 +346,7 @@ function mapDispatchToProps(dispatch: TD & Dispatch<DeleteBlogActions>): Dispatc
   };
 }
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(SettingPage)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingPage);
