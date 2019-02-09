@@ -1,6 +1,5 @@
 import { chunk, flatten } from 'lodash';
-import { delay } from 'redux-saga';
-import { all, call, put } from 'redux-saga/effects';
+import { all, call, delay, put } from 'redux-saga/effects';
 import { fetchPocketCount } from '../../../models/fetchers/count-fetchers/pocket-fetcher';
 import { CountResponse } from '../../../models/responses';
 import {

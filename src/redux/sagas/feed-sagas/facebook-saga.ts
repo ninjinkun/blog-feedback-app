@@ -1,7 +1,6 @@
 import chunk from 'lodash/chunk';
 import flatten from 'lodash/flatten';
-import { delay } from 'redux-saga';
-import { all, call, put } from 'redux-saga/effects';
+import { all, call, delay, put } from 'redux-saga/effects';
 import { fetchFacebookCount } from '../../../models/fetchers/count-fetchers/facebook-fetcher';
 import { CountResponse } from '../../../models/responses';
 import {
