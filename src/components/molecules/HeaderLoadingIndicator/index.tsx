@@ -1,6 +1,6 @@
 import React from 'react';
 import MDSpinner from 'react-md-spinner';
-import { animated, Spring, Transition } from 'react-spring';
+import { animated, useSpring, useTransition } from 'react-spring';
 import styled from 'styled-components';
 import * as properties from '../../properties';
 
@@ -23,29 +23,29 @@ export default class HeaderLoadingIndicator extends React.PureComponent<Props, {
     }
 
     // Transion needs previous frame.
-    const frame1 = (style: object) => <Label style={style}>{this.frameToggle ? label : this.prevLabel}</Label>;
-    const frame2 = (style: object) => <Label style={style}>{this.frameToggle ? this.prevLabel : label}</Label>;
+    const [label1, label2] = this.frameToggle ? [label, this.prevLabel] : [this.prevLabel, label];
+    const trans = useTransition([label1, label2], t => t || '', {
+      from: { opacity: 0, transform: `translate3d(0, -100%, 0)` },
+      enter: { opacity: 1, transform: `translate3d(0, 0, 0)` },
+      // tslint:disable-next-line:jsx-alignment
+      leave: { opacity: 0, transform: `translate3d(0, 100%, 0)` },
+    });
 
     return (
-      <Spring
-        to={{ backgroundColor: loading ? properties.colorsValue.grayDark : properties.colorsBlanding.accent }}
+      <animated.div
+        style={useSpring({
+          to: { backgroundColor: loading ? properties.colorsValue.grayDark : properties.colorsBlanding.accent },
+        })}
         {...this.props}
       >
-        {styles => (
+        {(styles: any) => (
           <Wrapper style={styles}>
             <Content>
               <SpinnerWrapper>{loading ? <Spinner size={12} singleColor={'white'} /> : undefined}</SpinnerWrapper>
               <LabelWrapper>
-                <Transition
-                  native={true}
-                  keys={label}
-                  from={{ opacity: 0, transform: `translate3d(0, -100%, 0)` }}
-                  enter={{ opacity: 1, transform: `translate3d(0, 0, 0)` }}
-                  // tslint:disable-next-line:jsx-alignment
-                  leave={{ opacity: 0, transform: `translate3d(0, 100%, 0)` }}
-                >
-                  {this.frameToggle ? frame1 : frame2}
-                </Transition>
+                {trans.map(({ item, props, key }) => (
+                  <Label style={props}>{item}</Label>
+                ))}
               </LabelWrapper>
               {loading ? (
                 <Ratio>
@@ -55,7 +55,7 @@ export default class HeaderLoadingIndicator extends React.PureComponent<Props, {
             </Content>
           </Wrapper>
         )}
-      </Spring>
+      </animated.div>
     );
   }
 }

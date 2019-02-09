@@ -6,7 +6,7 @@ type Props = {
   twincleNum?: number;
 };
 
-const TwincleAnimation: React.FunctionComponent<Props> = ({ children, animate, twincleNum = 8, ...props }) => (
+const TwincleAnimation: React.FC<Props> = ({ children, animate, twincleNum = 8, ...props }) => (
   <Wrapper {...props}>
     {animate ? [...Array(twincleNum).keys()].map(i => <AnimatedSpark key={i} />) : undefined}
     {children}
