@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import styled from 'styled-components';
 
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 import { CountType } from '../../../models/consts/count-type';
 import { CountEntity, ItemEntity } from '../../../models/entities';
 import { CountResponse, ItemResponse } from '../../../models/responses';
@@ -220,9 +220,7 @@ function mapDispatchToProps(dispatch: Dispatch<FeedActions>): DispatchProps {
   };
 }
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(FeedPage)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FeedPage);

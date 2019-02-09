@@ -91,12 +91,10 @@ function mapDispatchToProps(dispatch: ThunkDispatch<AppState, undefined, BlogAct
   };
 }
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(BlogsPage)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BlogsPage);
 
 const StyledScrollView = styled(ScrollView)`
   background-color: white;

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { Location } from 'history';
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import { connect } from 'react-redux';
-import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
+import { Redirect, RouteComponentProps } from 'react-router-dom';
 import { ThunkDispatch } from 'redux-thunk';
 import { fetchUser, UserActions } from '../../../redux/actions/user-action';
 import { AppState } from '../../../redux/states/app-state';
@@ -79,12 +79,10 @@ class SignInPage extends React.PureComponent<Props> {
   }
 }
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(SignInPage)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignInPage);
 
 // Configure FirebaseUI.
 const uiConfig = {
