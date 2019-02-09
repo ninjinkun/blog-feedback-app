@@ -1201,7 +1201,7 @@
     "@firebase/storage-types" "0.2.4"
     tslib "1.9.0"
 
-"@firebase/testing@^0.4.0":
+"@firebase/testing@0.4.0":
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/@firebase/testing/-/testing-0.4.0.tgz#bc6d9730628d3c75afa84352706d6847b6f08eab"
   integrity sha512-2ncYSJ2Pwz1/MleIc3OeZ59dUJhsUT+82IAfFaxNk82k4GYWLdD1cNrw4cj1rWgW0JE+ETUJzNX7p5PaB1TikA==
@@ -5603,10 +5603,10 @@ find-up@^2.0.0, find-up@^2.1.0:
   dependencies:
     locate-path "^2.0.0"
 
-firebase-tools@6.2.2:
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-6.2.2.tgz#06ef9b729e857e489d7a464df238c22bcddedc73"
-  integrity sha512-paknn5f3E4yzkxde0AY10ESpWdJi49waojHjePv42sHtGNyS2VQ34jI0kJTdJ+95daIV8lhd5I8pjHVk34M+lQ==
+firebase-tools@6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-6.1.1.tgz#94a57f2d22de618431cc1235606d5958abf37aeb"
+  integrity sha512-0UOdv2BTadzCwuskoYSOAZnXy0K09AyMnVAO2eCEcikZcRimrAzzQMXiUFcRLUxav/V1gDMxjv3RgLE6gKC5jw==
   dependencies:
     JSONStream "^1.2.1"
     archiver "^2.1.1"
