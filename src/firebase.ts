@@ -15,10 +15,6 @@ export function initializeFirebase() {
     messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
   };
   firebase.initializeApp(config);
-
-  const db: firebase.firestore.Firestore = firebase.firestore();
-  const settings = { timestampsInSnapshots: true };
-  db.settings(settings);
 }
 
 const DotEnvKeys = [
