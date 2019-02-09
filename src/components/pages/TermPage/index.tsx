@@ -1,4 +1,5 @@
 import React from 'react';
+import { RouteComponentProps } from 'react-router';
 import styled from 'styled-components';
 import Anker from '../../atoms/Anker/index';
 import ScrollView from '../../atoms/ScrollView/index';
@@ -6,7 +7,7 @@ import Wrapper from '../../atoms/Wrapper/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
-const TermPage: React.FunctionComponent = () => (
+const TermPage: React.FunctionComponent<RouteComponentProps> = () => (
   <PageLayout header={{ title: 'サービス利用規約' }}>
     <StyledScrollView>
       <ContentWrapper>

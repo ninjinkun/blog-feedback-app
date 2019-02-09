@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router';
 
 type Props = RouteComponentProps;
 
-export default function withTracker<T>(WrappedComponent: React.ComponentType<T>, options: any = {}) {
+export default function withTracker<T extends Props>(WrappedComponent: React.ComponentType<T>, options: any = {}) {
   const trackPage = (page: string) => {
     ReactGA.set({
       page,
@@ -13,13 +13,13 @@ export default function withTracker<T>(WrappedComponent: React.ComponentType<T>,
     ReactGA.pageview(page);
   };
 
-  const HOC = class extends Component<Props> {
+  const HOC = class extends Component<T> {
     componentDidMount() {
       const page = this.props.location.pathname;
       trackPage(page);
     }
 
-    componentWillReceiveProps(nextProps: Props) {
+    componentWillReceiveProps(nextProps: T) {
       const currentPage = this.props.location.pathname;
       const nextPage = nextProps.location.pathname;
 
