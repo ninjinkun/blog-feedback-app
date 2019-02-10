@@ -2,11 +2,11 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
 type Props = {
-  animate?: boolean;
+  animate: boolean;
   twincleNum?: number;
 };
 
-const TwincleAnimation: React.FunctionComponent<Props> = ({ children, animate, twincleNum = 8, ...props }) => (
+const TwincleAnimation: React.FC<Props> = ({ children, animate, twincleNum = 8, ...props }) => (
   <Wrapper {...props}>
     {animate ? [...Array(twincleNum).keys()].map(i => <AnimatedSpark key={i} />) : undefined}
     {children}
@@ -15,7 +15,7 @@ const TwincleAnimation: React.FunctionComponent<Props> = ({ children, animate, t
 
 export default TwincleAnimation;
 
-const AnimatedSpark: React.FunctionComponent<{}> = props => {
+const AnimatedSpark: React.FC<{}> = props => {
   const [top, left] = [randomInt(0, 100), randomInt(0, 100)];
   const [toTranlateX, toTranslateY] = [randomInt(-10, 10), randomInt(-10, 10)];
   const rotate360 = keyframes`

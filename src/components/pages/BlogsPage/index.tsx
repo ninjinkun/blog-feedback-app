@@ -4,13 +4,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { connect } from 'react-redux';
-import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { BlogActions, fetchBlogs } from '../../../redux/actions/blog-action';
 import { AppState } from '../../../redux/states/app-state';
 import { BlogState } from '../../../redux/states/blog-state';
-import { PrimaryButton } from '../../atoms/Button/index';
+import { PrimaryAnkerButton } from '../../atoms/Button/index';
 import ScrollView from '../../atoms/ScrollView/index';
 import Wrapper from '../../atoms/Wrapper/index';
 import LoadingView from '../../molecules/LoadingView/index';
@@ -65,9 +65,7 @@ class BlogsPage extends React.PureComponent<Props, {}> {
                 <Title>ご登録ありがとうございます</Title>
                 <WelcomeImage src={require('../../../assets/images/welcome-image.png')} />
                 <p>ブログを追加して利用を開始しましょう</p>
-                <StyledPrimaryButton href="/add" as="a">
-                  ブログを追加する
-                </StyledPrimaryButton>
+                <StyledPrimaryButton href="/add">ブログを追加する</StyledPrimaryButton>
               </AddBlogWrapper>
             );
           } else {
@@ -107,7 +105,7 @@ const AddBlogWrapper = styled(Wrapper)`
   padding: 16px;
 `;
 
-const StyledPrimaryButton = styled(PrimaryButton)`
+const StyledPrimaryButton = styled(PrimaryAnkerButton)`
   justify-content: center;
 `;
 

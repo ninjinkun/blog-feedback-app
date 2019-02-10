@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Anker from '../../atoms/Anker/index';
-import { PrimaryButton } from '../../atoms/Button/index';
+import { PrimaryAnkerButton } from '../../atoms/Button/index';
 import ScrollView from '../../atoms/ScrollView/index';
 import Wrapper from '../../atoms/Wrapper/index';
 import * as properties from '../../properties';
@@ -29,9 +29,7 @@ const WelcomePage = () => (
           />
         </ImageWrapper>
         <SigninButtonWrapper>
-          <PrimaryButton as="a" href="/signin">
-            ユーザー登録 / ログインへ進む（無料）
-          </PrimaryButton>
+          <PrimaryAnkerButton href="/signin">ユーザー登録 / ログインへ進む（無料）</PrimaryAnkerButton>
         </SigninButtonWrapper>
         <TermAndPrivacyWrapper>
           <Anker href="/term" target="_blank">

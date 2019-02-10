@@ -16,16 +16,16 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
+          - v2-dependencies-{{ checksum "package.json" }}
           # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+          - v2-dependencies-
 
       - run: yarn install
 
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v2-dependencies-{{ checksum "package.json" }}
 
       # run tests!
       - run: yarn tslint
@@ -50,15 +50,15 @@ jobs:
 
       - restore_cache:
           keys:
-          - v1-dependencies-functions-{{ checksum "functions/package.json" }}
-          - v1-dependencies-functions-
+          - v2-dependencies-functions-{{ checksum "functions/package.json" }}
+          - v2-dependencies-functions-
 
       - run: cd functions && yarn install && cd ..
 
       - save_cache:
           paths:
             - functions/node_modules
-          key: v1-dependencies-functions-{{ checksum "functions/package.json" }}
+          key: v2-dependencies-functions-{{ checksum "functions/package.json" }}
 
       - run: yarn build
       - run: yarn firebase deploy --project development --token "$FIREBASE_TOKEN_DEVELOPMENT"
@@ -74,15 +74,15 @@ jobs:
 
       - restore_cache:
           keys:
-          - v1-dependencies-functions-{{ checksum "functions/package.json" }}
-          - v1-dependencies-functions-
+          - v2-dependencies-functions-{{ checksum "functions/package.json" }}
+          - v2-dependencies-functions-
 
       - run: cd functions && yarn install && cd ..
 
       - save_cache:
           paths:
             - functions/node_modules
-          key: v1-dependencies-functions-{{ checksum "functions/package.json" }}
+          key: v2-dependencies-functions-{{ checksum "functions/package.json" }}
 
       - run: yarn build:production
       - run: yarn firebase deploy --project production --token "$FIREBASE_TOKEN_PRODUCTION"

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MDSpinner from 'react-md-spinner';
-import { animated, Spring, Transition } from 'react-spring';
+import { animated, useSpring, useTransition } from 'react-spring';
 import styled from 'styled-components';
 import * as properties from '../../properties';
 
@@ -10,55 +10,57 @@ type Props = {
   loading: boolean;
 };
 
-export default class HeaderLoadingIndicator extends React.PureComponent<Props, {}> {
-  private prevLabel?: string;
-  private frameToggle: boolean = false;
+type States = {
+  prevLabel?: string;
+  frameToggle: boolean;
+};
 
-  render() {
-    const { loading, label, ratio } = this.props;
+const HeaderLoadingIndicator: React.FC<Props> = props => {
+  const [state, setState] = useState<States>({ frameToggle: false });
+  const { loading, label, ratio } = props;
 
-    if (label !== this.prevLabel) {
-      this.frameToggle = !this.frameToggle;
-      this.prevLabel = this.props.label;
-    }
-
-    // Transion needs previous frame.
-    const frame1 = (style: object) => <Label style={style}>{this.frameToggle ? label : this.prevLabel}</Label>;
-    const frame2 = (style: object) => <Label style={style}>{this.frameToggle ? this.prevLabel : label}</Label>;
-
-    return (
-      <Spring
-        to={{ backgroundColor: loading ? properties.colorsValue.grayDark : properties.colorsBlanding.accent }}
-        {...this.props}
-      >
-        {styles => (
-          <Wrapper style={styles}>
-            <Content>
-              <SpinnerWrapper>{loading ? <Spinner size={12} singleColor={'white'} /> : undefined}</SpinnerWrapper>
-              <LabelWrapper>
-                <Transition
-                  native={true}
-                  keys={label}
-                  from={{ opacity: 0, transform: `translate3d(0, -100%, 0)` }}
-                  enter={{ opacity: 1, transform: `translate3d(0, 0, 0)` }}
-                  // tslint:disable-next-line:jsx-alignment
-                  leave={{ opacity: 0, transform: `translate3d(0, 100%, 0)` }}
-                >
-                  {this.frameToggle ? frame1 : frame2}
-                </Transition>
-              </LabelWrapper>
-              {loading ? (
-                <Ratio>
-                  <span>{`${ratio}%`}</span>
-                </Ratio>
-              ) : null}
-            </Content>
-          </Wrapper>
-        )}
-      </Spring>
-    );
+  if (label !== state.prevLabel) {
+    state.frameToggle = !state.frameToggle;
+    setState({
+      frameToggle: !state.frameToggle,
+      prevLabel: props.label,
+    });
   }
-}
+  // Transion needs previous frame.
+  const [label1, label2] = state.frameToggle ? [label, state.prevLabel] : [state.prevLabel, label];
+  const spring = useSpring({
+    backgroundColor: loading ? properties.colorsValue.grayDark : properties.colorsBlanding.accent,
+  });
+  const trans = useTransition([label1, label2], t => t || '', {
+    from: { opacity: 0, transform: `translate3d(0, -100%, 0)` },
+    enter: { opacity: 1, transform: `translate3d(0, 0, 0)` },
+    // tslint:disable-next-line:jsx-alignment
+    leave: { opacity: 0, transform: `translate3d(0, 100%, 0)` },
+  });
+  return (
+    <animated.div style={spring} {...props}>
+      <Wrapper>
+        <Content>
+          <SpinnerWrapper>{loading ? <Spinner size={12} singleColor={'white'} /> : undefined}</SpinnerWrapper>
+          <LabelWrapper>
+            {trans.map(({ item, props, key }) => (
+              <Label style={props} key={key}>
+                {item}
+              </Label>
+            ))}
+          </LabelWrapper>
+          {loading ? (
+            <Ratio>
+              <span>{`${ratio}%`}</span>
+            </Ratio>
+          ) : null}
+        </Content>
+      </Wrapper>
+    </animated.div>
+  );
+};
+
+export default HeaderLoadingIndicator;
 
 const Content = styled.div`
   display: grid;
