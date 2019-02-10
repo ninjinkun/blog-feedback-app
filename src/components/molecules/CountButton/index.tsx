@@ -1,18 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 import { CountType } from '../../../models/consts/count-type';
-import Button from '../../atoms/Button';
+import { AnkerButton } from '../../atoms/Button';
 import ServiceIcon from '../../atoms/ServiceIcon';
 import * as properties from '../../properties';
 
 type Props = {
   href?: string;
+  target?: string;
   type: CountType;
   count?: number;
 };
 
 const CountButton: React.FunctionComponent<Props> = ({ count, type, children, href, ...props }) => (
-  <StyledButton href={href} {...props} as="a">
+  <StyledButton href={href} {...props}>
     <ServiceIcon type={type} />
     {count !== undefined ? <CuontLabel>{count}</CuontLabel> : <UndefinedCuontLabel>-</UndefinedCuontLabel>}
     {children}
@@ -21,7 +22,7 @@ const CountButton: React.FunctionComponent<Props> = ({ count, type, children, hr
 
 export default CountButton;
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(AnkerButton)`
   padding: 0.2rem;
   font-size: ${properties.fontSizes.s};
   background: linear-gradient(${properties.colorsValue.grayPale}, #eee);
