@@ -65,9 +65,7 @@ class BlogsPage extends React.PureComponent<Props, {}> {
                 <Title>ご登録ありがとうございます</Title>
                 <WelcomeImage src={require('../../../assets/images/welcome-image.png')} />
                 <p>ブログを追加して利用を開始しましょう</p>
-                <StyledPrimaryButton href="/add" as="a">
-                  ブログを追加する
-                </StyledPrimaryButton>
+                <StyledPrimaryButton href="/add">ブログを追加する</StyledPrimaryButton>
               </AddBlogWrapper>
             );
           } else {

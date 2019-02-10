@@ -9,12 +9,13 @@ type Props = {
   children: ChildRenderer;
 };
 
-const CountUp: React.FunctionComponent<Props> = ({ children, start, end, ...props }) => (
-  <animated.div
-    style={useSpring({ from: { value: start }, to: { value: end }, config: { duration: 3000, easing: t => t } })}
-  >
-    {({ value }: any) => children && children(Math.round(value))}
-  </animated.div>
-);
+const CountUp: React.FunctionComponent<Props> = ({ children, start, end, ...props }) => {
+  const style = useSpring<{ value: number }>({
+    from: { value: start },
+    value: end,
+    config: { duration: 3000, easing: t => t },
+  });
+  return <animated.div>{children && children(style.value.interpolate(v => Math.round(v)))}</animated.div>;
+};
 
 export default CountUp;

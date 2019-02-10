@@ -1,4 +1,5 @@
 import React from 'react';
+import { animated } from 'react-spring';
 import styled from 'styled-components';
 import { CountType } from '../../../models/consts/count-type';
 import { AnkerButton } from '../../atoms/Button';
@@ -30,7 +31,7 @@ const StyledButton = styled(AnkerButton)`
   color: ${properties.colorsValue.grayDark};
 `;
 
-const CuontLabel = styled.span`
+const CuontLabel = styled(animated.span)`
   margin-left: 0.2rem;
   border-radius: 8px;
   width: 100%;
