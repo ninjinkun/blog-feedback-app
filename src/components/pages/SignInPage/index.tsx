@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { Location } from 'history';
@@ -27,57 +27,56 @@ type DispatchProps = {
 
 type Props = StateProps & DispatchProps & RouteComponentProps<{}, {}, { from?: Location }>;
 
-class SignInPage extends React.PureComponent<Props> {
-  componentDidMount() {
-    this.props.fetchUser(firebase.auth());
-  }
-  render() {
-    const { loading, user } = this.props.user;
-    if (user) {
-      const from = (this.props.location.state && this.props.location.state.from) || 'blogs';
-      return <Redirect to={from} />;
-    } else {
-      return (
-        <PageLayout
-          header={{
-            title: 'ユーザー登録 / ログイン（無料）',
-            backButtonLink: '/',
-          }}
-        >
-          {(() => {
-            if (loading && !user) {
-              return <LoadingView />;
-            } else {
-              return (
-                <StyledWrapper>
-                  <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+const SignInPage: React.FC<Props> = props => {
+  useEffect(() => {
+    props.fetchUser(firebase.auth());
+  });
 
-                  <TextWrapper>
-                    <Text>
-                      続行すると、
-                      <Anker href="/term" target="_blank">
-                        利用規約
-                      </Anker>
-                      および
-                      <Anker href="/privacy" target="_blank">
-                        プライバシーポリシー
-                      </Anker>
-                      に同意したことになります。
-                    </Text>
-                    <Text>
-                      SNSログインの情報は認証とメールアドレスの登録のみに使用されます。無断でSNSに投稿されることはありません。
-                    </Text>
-                    <Text>登録したデータはプライベートになり、他のユーザーから閲覧されることはありません。</Text>
-                  </TextWrapper>
-                </StyledWrapper>
-              );
-            }
-          })()}
-        </PageLayout>
-      );
-    }
+  const { loading, user } = props.user;
+  if (user) {
+    const from = (props.location.state && props.location.state.from) || 'blogs';
+    return <Redirect to={from} />;
+  } else {
+    return (
+      <PageLayout
+        header={{
+          title: 'ユーザー登録 / ログイン（無料）',
+          backButtonLink: '/',
+        }}
+      >
+        {(() => {
+          if (loading && !user) {
+            return <LoadingView />;
+          } else {
+            return (
+              <StyledWrapper>
+                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+
+                <TextWrapper>
+                  <Text>
+                    続行すると、
+                    <Anker href="/term" target="_blank">
+                      利用規約
+                    </Anker>
+                    および
+                    <Anker href="/privacy" target="_blank">
+                      プライバシーポリシー
+                    </Anker>
+                    に同意したことになります。
+                  </Text>
+                  <Text>
+                    SNSログインの情報は認証とメールアドレスの登録のみに使用されます。無断でSNSに投稿されることはありません。
+                  </Text>
+                  <Text>登録したデータはプライベートになり、他のユーザーから閲覧されることはありません。</Text>
+                </TextWrapper>
+              </StyledWrapper>
+            );
+          }
+        })()}
+      </PageLayout>
+    );
   }
-}
+};
 
 export default connect(
   mapStateToProps,
