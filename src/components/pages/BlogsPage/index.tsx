@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { connect } from 'react-redux';
@@ -28,54 +28,48 @@ type DispatchProps = {
 
 type Props = StateProps & DispatchProps & RouteComponentProps<{}> & { dispatch: Dispatch };
 
-class BlogsPage extends React.PureComponent<Props, {}> {
-  componentDidMount() {
-    this.fetchBlogs();
-  }
+const BlogsPage: React.FC<Props> = props => {
+  const { blog, fetchBlogs } = props;
+  useEffect(() => {
+    fetchBlogs(firebase.auth());
+  });
 
-  fetchBlogs() {
-    this.props.fetchBlogs(firebase.auth());
-  }
-
-  render() {
-    const { blog } = this.props;
-    const { blogs, loading } = blog;
-    return (
-      <PageLayout
-        header={{
-          title: 'BlogFeedback',
-          addButtonLink: '/add',
-          settingButtonLink: '/settings',
-        }}
-      >
-        {(() => {
-          if (blogs && blogs.length) {
-            return (
-              <StyledScrollView>
-                {blogs.map(blog => (
-                  <Link to={`/blogs/${encodeURIComponent(blog.url)}`} key={blog.url}>
-                    <BlogCell title={blog.title} favicon={`https://www.google.com/s2/favicons?domain=${blog.url}`} />
-                  </Link>
-                ))}
-              </StyledScrollView>
-            );
-          } else if (!loading && blogs && blogs.length === 0) {
-            return (
-              <AddBlogWrapper>
-                <Title>ご登録ありがとうございます</Title>
-                <WelcomeImage src={require('../../../assets/images/welcome-image.png')} />
-                <p>ブログを追加して利用を開始しましょう</p>
-                <StyledPrimaryButton href="/add">ブログを追加する</StyledPrimaryButton>
-              </AddBlogWrapper>
-            );
-          } else {
-            return <LoadingView />;
-          }
-        })()}
-      </PageLayout>
-    );
-  }
-}
+  const { blogs, loading } = blog;
+  return (
+    <PageLayout
+      header={{
+        title: 'BlogFeedback',
+        addButtonLink: '/add',
+        settingButtonLink: '/settings',
+      }}
+    >
+      {(() => {
+        if (blogs && blogs.length) {
+          return (
+            <StyledScrollView>
+              {blogs.map(blog => (
+                <Link to={`/blogs/${encodeURIComponent(blog.url)}`} key={blog.url}>
+                  <BlogCell title={blog.title} favicon={`https://www.google.com/s2/favicons?domain=${blog.url}`} />
+                </Link>
+              ))}
+            </StyledScrollView>
+          );
+        } else if (!loading && blogs && blogs.length === 0) {
+          return (
+            <AddBlogWrapper>
+              <Title>ご登録ありがとうございます</Title>
+              <WelcomeImage src={require('../../../assets/images/welcome-image.png')} />
+              <p>ブログを追加して利用を開始しましょう</p>
+              <StyledPrimaryButton href="/add">ブログを追加する</StyledPrimaryButton>
+            </AddBlogWrapper>
+          );
+        } else {
+          return <LoadingView />;
+        }
+      })()}
+    </PageLayout>
+  );
+};
 
 function mapStateToProps(state: AppState): StateProps {
   return {
