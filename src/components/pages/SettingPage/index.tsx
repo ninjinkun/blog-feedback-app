@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { clone } from 'lodash';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MdMailOutline } from 'react-icons/md';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
@@ -52,53 +52,27 @@ type OwnProps = RouteComponentProps<{ blogURL: string }>;
 
 type Props = OwnProps & StateProps & DispatchProps;
 
-class SettingPage extends React.PureComponent<Props, {}> {
-  constructor(props: any) {
-    super(props);
-    this.deleteBlog = this.deleteBlog.bind(this);
-  }
+const SettingPage: React.FC<Props> = props => {
+  const {
+    feedState,
+    deleteBlogState,
+    userState,
+    settingState,
+    deleteBlogReset,
+    fetchFirebaseBlog,
+    fetchUser,
+    sendTestReportMail,
+  } = props;
+  const blogURL = decodeURIComponent(props.match.params.blogURL);
 
-  componentDidMount() {
-    const blogURL = decodeURIComponent(this.props.match.params.blogURL);
-    this.props.deleteBlogReset();
-    this.props.fetchFirebaseBlog(firebase.auth(), blogURL);
-    this.props.fetchUser(firebase.auth());
-  }
+  useEffect(() => {
+    deleteBlogReset();
+    fetchFirebaseBlog(firebase.auth(), blogURL);
+    fetchUser(firebase.auth());
+    return () => undefined;
+  });
 
-  deleteBlog() {
-    const blogURL = decodeURIComponent(this.props.match.params.blogURL);
-    this.props.deleteBlog(firebase.auth(), blogURL);
-  }
-
-  enableSendReport(enabled: boolean) {
-    const { feedState } = this.props;
-    if (feedState && feedState.services) {
-      const { twitter, countjsoon, facebook, hatenabookmark, hatenastar, pocket } = feedState.services;
-      this.saveSettings(enabled, twitter, countjsoon, facebook, hatenabookmark, hatenastar, pocket || true);
-    }
-  }
-
-  enableCountType(enabled: boolean, type: CountType) {
-    const { feedState } = this.props;
-    if (feedState && feedState.services) {
-      const services = clone(feedState.services);
-      if (type) {
-        services[type] = enabled;
-      }
-      const { twitter, countjsoon, facebook, hatenabookmark, hatenastar, pocket } = services;
-      this.saveSettings(
-        feedState.sendReport || false,
-        twitter,
-        countjsoon,
-        facebook,
-        hatenabookmark,
-        hatenastar,
-        pocket || true
-      );
-    }
-  }
-
-  saveSettings(
+  const saveSettings = (
     sendReport: boolean,
     twitter: boolean,
     countjsoon: boolean,
@@ -106,10 +80,8 @@ class SettingPage extends React.PureComponent<Props, {}> {
     hatenabookmark: boolean,
     hatenastar: boolean,
     pocket: boolean
-  ) {
-    const blogURL = decodeURIComponent(this.props.match.params.blogURL);
-
-    this.props.saveSetting(
+  ) => {
+    props.saveSetting(
       firebase.auth(),
       blogURL,
       sendReport,
@@ -120,179 +92,197 @@ class SettingPage extends React.PureComponent<Props, {}> {
       hatenastar,
       pocket
     );
-  }
+  };
 
-  sendTestReportMail() {
-    const blogURL = decodeURIComponent(this.props.match.params.blogURL);
-    this.props.sendTestReportMail(blogURL);
-  }
+  const enableSendReport = (enabled: boolean) => {
+    if (feedState && feedState.services) {
+      const { twitter, countjsoon, facebook, hatenabookmark, hatenastar, pocket } = feedState.services;
+      saveSettings(enabled, twitter, countjsoon, facebook, hatenabookmark, hatenastar, pocket || true);
+    }
+  };
 
-  render() {
-    const { feedState, deleteBlogState, userState, settingState } = this.props;
-    if (deleteBlogState.finished) {
-      return <Redirect to={'/settings'} />;
-    } else {
-      return (
-        <PageLayout
-          header={{
-            title: `${(feedState && feedState.title) || 'ブログ'}の設定`,
-            backButtonLink: '/settings',
-          }}
-        >
-          {feedState && feedState.title && feedState.services ? (
-            <StyledScrollView>
-              <SectionHeader>集計するサービス</SectionHeader>
-              <SettingCell
-                title="Twitter"
-                description={<Description>Count APIが廃止されたため、現在シェア数は表示されません。</Description>}
-                LeftIcon={<Favicon src={require('../../../assets/images/twitter-icon.png')} />}
-                RightIcon={
-                  <Toggle
-                    type="checkbox"
-                    icons={false}
-                    defaultChecked={feedState && feedState.services && feedState.services.twitter}
-                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                      this.enableCountType((e.target as HTMLInputElement).checked, CountType.Twitter)
-                    }
-                  />
-                }
-              />
-              <SettingCell
-                title="count.jsoon"
-                description={
-                  <Description>
-                    <Anker href="https://jsoon.digitiminimi.com/" target="_blank" rel="noopener">
-                      count.jsoon
-                    </Anker>
-                    は(株)ディジティ・ミニミが提供する廃止されたTwitter Count APIの互換APIです。
-                    <Anker href="https://jsoon.digitiminimi.com/" target="_blank" rel="noopener">
-                      count.jsoon
-                    </Anker>
-                    のサイトからブログのURLを登録するとBlogFeedbackにもTwitterのシェア数が表示されます。
-                  </Description>
-                }
-                LeftIcon={<Favicon src="/images/twitter-icon.png" />}
-                RightIcon={
-                  <Toggle
-                    type="checkbox"
-                    icons={false}
-                    defaultChecked={feedState && feedState.services && feedState.services.countjsoon}
-                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                      this.enableCountType((e.target as HTMLInputElement).checked, CountType.CountJsoon)
-                    }
-                  />
-                }
-              />
-              <SettingCell
-                title="Facebook"
-                LeftIcon={<Favicon src="/images/facebook-icon.png" />}
-                RightIcon={
-                  <Toggle
-                    type="checkbox"
-                    icons={false}
-                    defaultChecked={feedState && feedState.services && feedState.services.facebook}
-                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                      this.enableCountType((e.target as HTMLInputElement).checked, CountType.Facebook)
-                    }
-                  />
-                }
-              />
-              <SettingCell
-                title="はてなブックマーク"
-                LeftIcon={<Favicon src="/images/hatenabookmark-icon.png" />}
-                RightIcon={
-                  <Toggle
-                    type="checkbox"
-                    icons={false}
-                    defaultChecked={feedState && feedState.services && feedState.services.hatenabookmark}
-                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                      this.enableCountType((e.target as HTMLInputElement).checked, CountType.HatenaBookmark)
-                    }
-                  />
-                }
-              />
-              <SettingCell
-                title="はてなスター"
-                LeftIcon={<Favicon src="/images/hatenastar-icon.png" />}
-                RightIcon={
-                  <Toggle
-                    type="checkbox"
-                    icons={false}
-                    defaultChecked={feedState && feedState.services && feedState.services.hatenastar}
-                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                      this.enableCountType((e.target as HTMLInputElement).checked, CountType.HatenaStar)
-                    }
-                  />
-                }
-              />
-              <SettingCell
-                title="Pocket"
-                LeftIcon={<Favicon src="/images/pocket-icon.png" />}
-                RightIcon={
-                  <Toggle
-                    type="checkbox"
-                    icons={false}
-                    defaultChecked={feedState && feedState.services && feedState.services.pocket}
-                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                      this.enableCountType((e.target as HTMLInputElement).checked, CountType.Pocket)
-                    }
-                  />
-                }
-              />
-              <SectionHeader />
-              <SettingCell
-                title="デイリーレポートメールを購読する"
-                description={
-                  <Description>
-                    毎朝シェア数が増加していると更新レポートが
-                    {(userState.user && userState.user.email) || 'メールアドレス'}
-                    に送られます（この機能はα版です）。
-                    <SendMailButtonWrapper>
-                      <Button onClick={() => this.sendTestReportMail()}>テストメールを送る</Button>
-                      {settingState && settingState.loading ? (
-                        <SpinnerWrapper>
-                          <Spinner />
-                        </SpinnerWrapper>
-                      ) : (
-                        undefined
-                      )}
-                    </SendMailButtonWrapper>
-                  </Description>
-                }
-                LeftIcon={<MdMailOutline size="16" />}
-                RightIcon={
-                  <Toggle
-                    type="checkbox"
-                    defaultChecked={feedState && feedState.sendReport}
-                    icons={false}
-                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                      this.enableSendReport((e.target as HTMLInputElement).checked)
-                    }
-                  />
-                }
-              />
-              <SectionHeader />
-              <DeleteWrapper>
-                <StyledWarningButton onClick={this.deleteBlog}>
-                  {`${(feedState && feedState.title) || 'ブログ'}`}を削除
-                </StyledWarningButton>
-                {deleteBlogState.loading ? (
-                  <SpinnerWrapper>
-                    <Spinner />
-                  </SpinnerWrapper>
-                ) : (
-                  undefined
-                )}
-              </DeleteWrapper>
-            </StyledScrollView>
-          ) : (
-            <LoadingView />
-          )}
-        </PageLayout>
+  const enableCountType = (enabled: boolean, type: CountType) => {
+    if (feedState && feedState.services) {
+      const services = clone(feedState.services);
+      if (type) {
+        services[type] = enabled;
+      }
+      const { twitter, countjsoon, facebook, hatenabookmark, hatenastar, pocket } = services;
+      saveSettings(
+        feedState.sendReport || false,
+        twitter,
+        countjsoon,
+        facebook,
+        hatenabookmark,
+        hatenastar,
+        pocket || true
       );
     }
+  };
+
+  if (deleteBlogState.finished) {
+    return <Redirect to={'/settings'} />;
+  } else {
+    return (
+      <PageLayout
+        header={{
+          title: `${(feedState && feedState.title) || 'ブログ'}の設定`,
+          backButtonLink: '/settings',
+        }}
+      >
+        {feedState && feedState.title && feedState.services ? (
+          <StyledScrollView>
+            <SectionHeader>集計するサービス</SectionHeader>
+            <SettingCell
+              title="Twitter"
+              description={<Description>Count APIが廃止されたため、現在シェア数は表示されません。</Description>}
+              LeftIcon={<Favicon src={require('../../../assets/images/twitter-icon.png')} />}
+              RightIcon={
+                <Toggle
+                  type="checkbox"
+                  icons={false}
+                  defaultChecked={feedState && feedState.services && feedState.services.twitter}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                    enableCountType((e.target as HTMLInputElement).checked, CountType.Twitter)
+                  }
+                />
+              }
+            />
+            <SettingCell
+              title="count.jsoon"
+              description={
+                <Description>
+                  <Anker href="https://jsoon.digitiminimi.com/" target="_blank" rel="noopener">
+                    count.jsoon
+                  </Anker>
+                  は(株)ディジティ・ミニミが提供する廃止されたTwitter Count APIの互換APIです。
+                  <Anker href="https://jsoon.digitiminimi.com/" target="_blank" rel="noopener">
+                    count.jsoon
+                  </Anker>
+                  のサイトからブログのURLを登録するとBlogFeedbackにもTwitterのシェア数が表示されます。
+                </Description>
+              }
+              LeftIcon={<Favicon src="/images/twitter-icon.png" />}
+              RightIcon={
+                <Toggle
+                  type="checkbox"
+                  icons={false}
+                  defaultChecked={feedState && feedState.services && feedState.services.countjsoon}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                    enableCountType((e.target as HTMLInputElement).checked, CountType.CountJsoon)
+                  }
+                />
+              }
+            />
+            <SettingCell
+              title="Facebook"
+              LeftIcon={<Favicon src="/images/facebook-icon.png" />}
+              RightIcon={
+                <Toggle
+                  type="checkbox"
+                  icons={false}
+                  defaultChecked={feedState && feedState.services && feedState.services.facebook}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                    enableCountType((e.target as HTMLInputElement).checked, CountType.Facebook)
+                  }
+                />
+              }
+            />
+            <SettingCell
+              title="はてなブックマーク"
+              LeftIcon={<Favicon src="/images/hatenabookmark-icon.png" />}
+              RightIcon={
+                <Toggle
+                  type="checkbox"
+                  icons={false}
+                  defaultChecked={feedState && feedState.services && feedState.services.hatenabookmark}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                    enableCountType((e.target as HTMLInputElement).checked, CountType.HatenaBookmark)
+                  }
+                />
+              }
+            />
+            <SettingCell
+              title="はてなスター"
+              LeftIcon={<Favicon src="/images/hatenastar-icon.png" />}
+              RightIcon={
+                <Toggle
+                  type="checkbox"
+                  icons={false}
+                  defaultChecked={feedState && feedState.services && feedState.services.hatenastar}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                    enableCountType((e.target as HTMLInputElement).checked, CountType.HatenaStar)
+                  }
+                />
+              }
+            />
+            <SettingCell
+              title="Pocket"
+              LeftIcon={<Favicon src="/images/pocket-icon.png" />}
+              RightIcon={
+                <Toggle
+                  type="checkbox"
+                  icons={false}
+                  defaultChecked={feedState && feedState.services && feedState.services.pocket}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                    enableCountType((e.target as HTMLInputElement).checked, CountType.Pocket)
+                  }
+                />
+              }
+            />
+            <SectionHeader />
+            <SettingCell
+              title="デイリーレポートメールを購読する"
+              description={
+                <Description>
+                  毎朝シェア数が増加していると更新レポートが
+                  {(userState.user && userState.user.email) || 'メールアドレス'}
+                  に送られます（この機能はα版です）。
+                  <SendMailButtonWrapper>
+                    <Button onClick={() => sendTestReportMail(blogURL)}>テストメールを送る</Button>
+                    {settingState && settingState.loading ? (
+                      <SpinnerWrapper>
+                        <Spinner />
+                      </SpinnerWrapper>
+                    ) : (
+                      undefined
+                    )}
+                  </SendMailButtonWrapper>
+                </Description>
+              }
+              LeftIcon={<MdMailOutline size="16" />}
+              RightIcon={
+                <Toggle
+                  type="checkbox"
+                  defaultChecked={feedState && feedState.sendReport}
+                  icons={false}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                    enableSendReport((e.target as HTMLInputElement).checked)
+                  }
+                />
+              }
+            />
+            <SectionHeader />
+            <DeleteWrapper>
+              <StyledWarningButton onClick={() => deleteBlog(firebase.auth(), blogURL)}>
+                {`${(feedState && feedState.title) || 'ブログ'}`}を削除
+              </StyledWarningButton>
+              {deleteBlogState.loading ? (
+                <SpinnerWrapper>
+                  <Spinner />
+                </SpinnerWrapper>
+              ) : (
+                undefined
+              )}
+            </DeleteWrapper>
+          </StyledScrollView>
+        ) : (
+          <LoadingView />
+        )}
+      </PageLayout>
+    );
   }
-}
+};
 
 const StyledScrollView = styled(ScrollView)`
   background-color: ${properties.colors.white};
