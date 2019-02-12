@@ -26,7 +26,7 @@ const AuthPage: React.FC<Props> = props => {
   useEffect(() => {
     fetchUser(firebase.auth());
     return () => undefined;
-  });
+  }, []);
 
   const { user, loading } = userState;
   if (user) {
