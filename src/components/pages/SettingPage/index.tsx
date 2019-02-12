@@ -70,7 +70,7 @@ const SettingPage: React.FC<Props> = props => {
     fetchFirebaseBlog(firebase.auth(), blogURL);
     fetchUser(firebase.auth());
     return () => undefined;
-  });
+  }, []);
 
   const saveSettings = (
     sendReport: boolean,

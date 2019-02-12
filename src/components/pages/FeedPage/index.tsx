@@ -46,7 +46,7 @@ const FeedPage: React.FC<Props> = props => {
     return () => {
       feedBlogURLClear();
     };
-  });
+  }, []);
 
   return (
     <PageLayout

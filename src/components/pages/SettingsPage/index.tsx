@@ -41,7 +41,7 @@ const SettingsPage: React.FC<Props> = props => {
   useEffect(() => {
     fetchBlogs(firebase.auth());
     return () => undefined;
-  });
+  }, []);
 
   const blogCells = (
     <React.Fragment>

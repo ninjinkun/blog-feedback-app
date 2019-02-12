@@ -25,7 +25,7 @@ const IndexPage: React.FC<Props> = props => {
   useEffect(() => {
     props.fetchUser(firebase.auth());
     return () => undefined;
-  });
+  }, []);
 
   const { loading, user } = props.user;
   if (loading) {
