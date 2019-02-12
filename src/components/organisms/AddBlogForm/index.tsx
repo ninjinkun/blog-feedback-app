@@ -22,12 +22,13 @@ type States = {
 };
 
 const AddBlogForm: React.FC<Props> = props => {
-  const [state, setState] = useState<States>({ url: '', reportMailEnabled: false });
+  const [inputURL, setInputURL] = useState<string>('');
+  const [reportMailEnabled, setReportMailEnabled] = useState<boolean>(false);
   const { loading, errorMessage, url, clearURL } = props;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    props.handleSubmit(url || state.url, state.reportMailEnabled);
+    props.handleSubmit(url || inputURL, reportMailEnabled);
   };
 
   return (
@@ -37,16 +38,13 @@ const AddBlogForm: React.FC<Props> = props => {
           <Text>ブログのURLを入力してください</Text>
           <URLField
             type="url"
-            value={url || state.url}
+            value={url || inputURL}
             placeholder={'https://exampleblog.com/'}
             onChange={(e: React.FormEvent<HTMLInputElement>) => {
               if (clearURL) {
                 clearURL();
               }
-              setState({
-                url: (e.target as HTMLInputElement).value,
-                reportMailEnabled: state.reportMailEnabled,
-              });
+              setInputURL((e.target as HTMLInputElement).value);
             }}
           />
         </StyledLabel>
@@ -65,10 +63,7 @@ const AddBlogForm: React.FC<Props> = props => {
             defaultChecked={false}
             icons={false}
             onChange={(e: React.FormEvent<HTMLInputElement>) =>
-              setState({
-                url: state.url,
-                reportMailEnabled: (e.target as HTMLInputElement).checked,
-              })
+              setReportMailEnabled((e.target as HTMLInputElement).checked)
             }
           />
         </ReportMailWrapper>
