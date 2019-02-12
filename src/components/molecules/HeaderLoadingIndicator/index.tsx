@@ -15,23 +15,16 @@ type States = {
   frameToggle: boolean;
 };
 
-const HeaderLoadingIndicator: React.FC<Props> = props => {
-  const [state, setState] = useState<States>({ frameToggle: false });
-  const { loading, label, ratio } = props;
+const HeaderLoadingIndicator: React.FC<Props> = ({ loading, label, ratio, ...props }) => {
+  const [prevLabel, setPrevLabel] = useState<string | undefined>(undefined);
 
-  if (label !== state.prevLabel) {
-    state.frameToggle = !state.frameToggle;
-    setState({
-      frameToggle: !state.frameToggle,
-      prevLabel: props.label,
-    });
+  if (label !== prevLabel) {
+    setPrevLabel(label);
   }
-  // Transion needs previous frame.
-  const [label1, label2] = state.frameToggle ? [label, state.prevLabel] : [state.prevLabel, label];
   const spring = useSpring({
     backgroundColor: loading ? properties.colorsValue.grayDark : properties.colorsBlanding.accent,
   });
-  const trans = useTransition([label1, label2], t => t || '', {
+  const trans = useTransition([label, prevLabel], t => t || '', {
     from: { opacity: 0, transform: `translate3d(0, -100%, 0)` },
     enter: { opacity: 1, transform: `translate3d(0, 0, 0)` },
     // tslint:disable-next-line:jsx-alignment
