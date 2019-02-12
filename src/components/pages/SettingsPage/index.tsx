@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { FiGithub } from 'react-icons/fi';
@@ -34,80 +34,63 @@ type DispatchProps = {
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
 
-class SettingsPage extends React.PureComponent<Props, {}> {
-  constructor(props: any) {
-    super(props);
-    this.signOut = this.signOut.bind(this);
-  }
-  componentDidMount() {
-    this.fetchBlogs();
-  }
+const SettingsPage: React.FC<Props> = props => {
+  const { fetchBlogs, signOut, blogState } = props;
+  const { blogs, loading } = blogState;
 
-  fetchBlogs() {
-    this.props.fetchBlogs(firebase.auth());
-  }
+  useEffect(() => {
+    fetchBlogs(firebase.auth());
+    return () => undefined;
+  });
 
-  signOut() {
-    this.props.signOut(firebase.auth());
-  }
+  const blogCells = (
+    <React.Fragment>
+      {(blogs && blogs.length) || loading ? <SectionHeader>ブログの設定</SectionHeader> : undefined}
+      {(() => {
+        if (blogs && blogs.length) {
+          return blogs.map(blog => (
+            <Link to={`/settings/${encodeURIComponent(blog.url)}`} key={blog.url}>
+              <BlogCell title={blog.title} favicon={`https://www.google.com/s2/favicons?domain=${blog.url}`} />
+            </Link>
+          ));
+        } else if (loading) {
+          return <LoadingView />;
+        }
+      })()}
+    </React.Fragment>
+  );
 
-  render() {
-    const { blogs, loading } = this.props.blogState;
-
-    const blogCells = (
-      <React.Fragment>
-        {(blogs && blogs.length) || loading ? <SectionHeader>ブログの設定</SectionHeader> : undefined}
-        {(() => {
-          if (blogs && blogs.length) {
-            return blogs.map(blog => (
-              <Link to={`/settings/${encodeURIComponent(blog.url)}`} key={blog.url}>
-                <BlogCell title={blog.title} favicon={`https://www.google.com/s2/favicons?domain=${blog.url}`} />
-              </Link>
-            ));
-          } else if (loading) {
-            return <LoadingView />;
-          }
-        })()}
-      </React.Fragment>
-    );
-    const content = () => {
-      return (
-        <StyledScrollView>
-          {blogCells}
-          <SectionHeader>ユーザーの設定</SectionHeader>
-          <SignOutButtonWrapper>
-            <SignOutButton onClick={this.signOut}>ログアウト</SignOutButton>
-          </SignOutButtonWrapper>
-          <SectionHeader>サービスの情報</SectionHeader>
-          <Link to="/term" target="_blank">
-            <SettingCell title="サービス利用規約" LeftIcon={<MdAssignment size="16" />} />
-          </Link>
-          <Link to="/privacy" target="_blank">
-            <SettingCell title="プライバシーポリシー" LeftIcon={<MdAssignmentInd size="16" />} />
-          </Link>
-          <a href="https://github.com/ninjinkun/blog-feedback-app" target="_blank" rel="noopener">
-            <SettingCell
-              title="要望・PullRequest (Github)"
-              LeftIcon={<FiGithub size="16" />}
-              RightIcon={<MdLaunch size="24" color={properties.colors.gray} />}
-            />
-          </a>
-        </StyledScrollView>
-      );
-    };
-
-    return (
-      <PageLayout
-        header={{
-          title: '設定',
-          backButtonLink: '/',
-        }}
-      >
-        {content()}
-      </PageLayout>
-    );
-  }
-}
+  return (
+    <PageLayout
+      header={{
+        title: '設定',
+        backButtonLink: '/',
+      }}
+    >
+      <StyledScrollView>
+        {blogCells}
+        <SectionHeader>ユーザーの設定</SectionHeader>
+        <SignOutButtonWrapper>
+          <SignOutButton onClick={() => signOut(firebase.auth())}>ログアウト</SignOutButton>
+        </SignOutButtonWrapper>
+        <SectionHeader>サービスの情報</SectionHeader>
+        <Link to="/term" target="_blank">
+          <SettingCell title="サービス利用規約" LeftIcon={<MdAssignment size="16" />} />
+        </Link>
+        <Link to="/privacy" target="_blank">
+          <SettingCell title="プライバシーポリシー" LeftIcon={<MdAssignmentInd size="16" />} />
+        </Link>
+        <a href="https://github.com/ninjinkun/blog-feedback-app" target="_blank" rel="noopener">
+          <SettingCell
+            title="要望・PullRequest (Github)"
+            LeftIcon={<FiGithub size="16" />}
+            RightIcon={<MdLaunch size="24" color={properties.colors.gray} />}
+          />
+        </a>
+      </StyledScrollView>
+    </PageLayout>
+  );
+};
 
 function mapStateToProps(state: AppState): StateProps {
   return {

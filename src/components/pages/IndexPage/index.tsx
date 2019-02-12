@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
@@ -21,29 +21,29 @@ type DispatchProps = {
 };
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
-class IndexPage extends React.PureComponent<Props> {
-  componentDidMount() {
-    this.props.fetchUser(firebase.auth());
+const IndexPage: React.FC<Props> = props => {
+  useEffect(() => {
+    props.fetchUser(firebase.auth());
+    return () => undefined;
+  });
+
+  const { loading, user } = props.user;
+  if (loading) {
+    return (
+      <PageLayout
+        header={{
+          title: 'BlogFeedback',
+        }}
+      >
+        <LoadingView />
+      </PageLayout>
+    );
+  } else if (user) {
+    return <Redirect to="/blogs" />;
+  } else {
+    return <WelcomePage />;
   }
-  render() {
-    const { loading, user } = this.props.user;
-    if (loading) {
-      return (
-        <PageLayout
-          header={{
-            title: 'BlogFeedback',
-          }}
-        >
-          <LoadingView />
-        </PageLayout>
-      );
-    } else if (user) {
-      return <Redirect to="/blogs" />;
-    } else {
-      return <WelcomePage />;
-    }
-  }
-}
+};
 
 function mapStateToProps(state: AppState): StateProps {
   return {
