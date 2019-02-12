@@ -13,7 +13,7 @@ const CountUp: React.FunctionComponent<Props> = ({ children, start, end, ...prop
   const style = useSpring<{ value: number }>({
     from: { value: start },
     value: end,
-    config: { duration: 1000, easing: t => t },
+    config: { duration: 500, easing: t => t },
   });
   return <animated.div>{children && children(style.value.interpolate(v => Math.round(v)))}</animated.div>;
 };
