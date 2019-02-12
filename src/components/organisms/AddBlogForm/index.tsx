@@ -16,11 +16,6 @@ type Props = {
   clearURL?: () => void;
 };
 
-type States = {
-  url: string;
-  reportMailEnabled: boolean;
-};
-
 const AddBlogForm: React.FC<Props> = props => {
   const [inputURL, setInputURL] = useState<string>('');
   const [reportMailEnabled, setReportMailEnabled] = useState<boolean>(false);
