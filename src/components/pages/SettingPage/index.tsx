@@ -62,6 +62,7 @@ const SettingPage: React.FC<Props> = props => {
     fetchFirebaseBlog,
     fetchUser,
     sendTestReportMail,
+    deleteBlog,
   } = props;
   const blogURL = decodeURIComponent(props.match.params.blogURL);
 
