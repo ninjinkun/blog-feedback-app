@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MdError } from 'react-icons/md';
 import Toggle from 'react-toggle';
 import 'react-toggle/style.css';
@@ -21,72 +21,74 @@ type States = {
   reportMailEnabled: boolean;
 };
 
-export default class AddBlogForm extends React.PureComponent<Props, States> {
-  state: Readonly<States> = {
-    url: '',
-    reportMailEnabled: false,
+const AddBlogForm: React.FC<Props> = props => {
+  const [state, setState] = useState<States>({ url: '', reportMailEnabled: false });
+  const { loading, errorMessage, url, clearURL } = props;
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    props.handleSubmit(url || state.url, state.reportMailEnabled);
   };
 
-  handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    const { url } = this.props;
-    event.preventDefault();
-    this.props.handleSubmit(url || this.state.url, this.state.reportMailEnabled);
-  }
-
-  render() {
-    const { loading, errorMessage, url, clearURL } = this.props;
-    return (
-      <StyledWrapper>
-        <StyledForm onSubmit={(e: React.FormEvent<HTMLFormElement>) => this.handleSubmit(e)}>
-          <StyledLabel>
-            <Text>ブログのURLを入力してください</Text>
-            <URLField
-              type="url"
-              value={url || this.state.url}
-              placeholder={'https://exampleblog.com/'}
-              onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                if (clearURL) {
-                  clearURL();
-                }
-                this.setState({ url: (e.target as HTMLInputElement).value });
-              }}
-            />
-          </StyledLabel>
-          <ReportMailWrapper>
-            <ReportMailLabel htmlFor="report-mail">
-              <ReprotMailTitle>デイリーレポートメールを購読する (α版)</ReprotMailTitle>
-              <ReprotMailDescription>
-                毎朝シェア数が増加しているとメールが届きます。
-                <br />
-                この設定はブログの設定画面から変更できます。
-              </ReprotMailDescription>
-            </ReportMailLabel>
-            <Switch
-              id="report-mail"
-              type="checkbox"
-              defaultChecked={false}
-              icons={false}
-              onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                this.setState({ reportMailEnabled: (e.target as HTMLInputElement).checked })
+  return (
+    <StyledWrapper>
+      <StyledForm onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}>
+        <StyledLabel>
+          <Text>ブログのURLを入力してください</Text>
+          <URLField
+            type="url"
+            value={url || state.url}
+            placeholder={'https://exampleblog.com/'}
+            onChange={(e: React.FormEvent<HTMLInputElement>) => {
+              if (clearURL) {
+                clearURL();
               }
-            />
-          </ReportMailWrapper>
-          <PrimaryButton type="submit" value="ブログを追加" as="input" />
-        </StyledForm>
-        {errorMessage ? (
-          <ErrorWrapper>
-            <ErrorIcon size={20} /> {errorMessage}
-          </ErrorWrapper>
-        ) : null}
-        {loading ? (
-          <SpinnerWrapper>
-            <Spinner />
-          </SpinnerWrapper>
-        ) : null}
-      </StyledWrapper>
-    );
-  }
-}
+              setState({
+                url: (e.target as HTMLInputElement).value,
+                reportMailEnabled: state.reportMailEnabled,
+              });
+            }}
+          />
+        </StyledLabel>
+        <ReportMailWrapper>
+          <ReportMailLabel htmlFor="report-mail">
+            <ReprotMailTitle>デイリーレポートメールを購読する (α版)</ReprotMailTitle>
+            <ReprotMailDescription>
+              毎朝シェア数が増加しているとメールが届きます。
+              <br />
+              この設定はブログの設定画面から変更できます。
+            </ReprotMailDescription>
+          </ReportMailLabel>
+          <Switch
+            id="report-mail"
+            type="checkbox"
+            defaultChecked={false}
+            icons={false}
+            onChange={(e: React.FormEvent<HTMLInputElement>) =>
+              setState({
+                url: state.url,
+                reportMailEnabled: (e.target as HTMLInputElement).checked,
+              })
+            }
+          />
+        </ReportMailWrapper>
+        <PrimaryButton type="submit" value="ブログを追加" as="input" />
+      </StyledForm>
+      {errorMessage ? (
+        <ErrorWrapper>
+          <ErrorIcon size={20} /> {errorMessage}
+        </ErrorWrapper>
+      ) : null}
+      {loading ? (
+        <SpinnerWrapper>
+          <Spinner />
+        </SpinnerWrapper>
+      ) : null}
+    </StyledWrapper>
+  );
+};
+
+export default AddBlogForm;
 
 const StyledWrapper = styled(Wrapper)`
   background-color: ${properties.colors.grayPale};

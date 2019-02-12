@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
@@ -33,71 +33,67 @@ type States = {
   fillInURL?: string;
 };
 
-class AddBlogView extends React.PureComponent<Props, States> {
-  constructor(props: any) {
-    super(props);
-    this.state = {};
-  }
+const AddBlogView: React.FC<Props> = props => {
+  const [state, setState] = useState<States>({});
+  useEffect(() => {
+    return () => {
+      props.addBlogInitialize();
+    };
+  });
 
-  componentWillUnmount() {
-    this.props.addBlogInitialize();
-  }
+  const handleSubmit = (url: string, reportMailEnabled: boolean) => {
+    props.addBlog(firebase.auth(), url, reportMailEnabled);
+  };
 
-  render() {
-    const { addBlogState, blogState } = this.props;
-    const { loading, error, finished, blogURL } = addBlogState;
-    const { blogs } = blogState;
-    if (finished && blogURL) {
-      return <Redirect to={`/blogs/${encodeURIComponent(blogURL)}`} />;
-    } else {
-      return (
-        <PageLayout
-          header={{
-            title: 'ブログを追加する',
-            backButtonLink: '/blogs',
-          }}
-        >
-          <FormWrapper>
-            <AddBlogForm
-              handleSubmit={(url, reportMailEnabled) => this.handleSubmit(url, reportMailEnabled)}
-              loading={loading}
-              errorMessage={
-                error && `${error.message}（エラーが続く場合はRSSのURLを直接入力するとうまくいくことがあります）`
-              }
-              url={this.state.fillInURL}
-              clearURL={() => this.clearURL()}
-            />
-          </FormWrapper>
-          {!(blogs !== undefined && blogs.length) && (
-            <SuggestionWrapper>
-              <SuggestionContentWrapper>
-                <SuggestionText>まず試してみたい場合は、以下からおすすめブログのURLを入力できます</SuggestionText>
-                <SeggestionButton onClick={() => this.fillIn('https://user-first.ikyu.co.jp/')}>
-                  一休.com Developers Blog
-                </SeggestionButton>
-                <SeggestionButton onClick={() => this.fillIn('https://ninjinkun.hatenablog.com/')}>
-                  ninjinkun's diary
-                </SeggestionButton>
-              </SuggestionContentWrapper>
-            </SuggestionWrapper>
-          )}
-        </PageLayout>
-      );
-    }
-  }
+  const fillIn = (url: string) => {
+    setState({ fillInURL: url });
+  };
 
-  handleSubmit(url: string, reportMailEnabled: boolean) {
-    this.props.addBlog(firebase.auth(), url, reportMailEnabled);
-  }
+  const clearURL = () => {
+    setState({ fillInURL: undefined });
+  };
 
-  fillIn(url: string) {
-    this.setState({ fillInURL: url });
+  const { addBlogState, blogState } = props;
+  const { loading, error, finished, blogURL } = addBlogState;
+  const { blogs } = blogState;
+  if (finished && blogURL) {
+    return <Redirect to={`/blogs/${encodeURIComponent(blogURL)}`} />;
+  } else {
+    return (
+      <PageLayout
+        header={{
+          title: 'ブログを追加する',
+          backButtonLink: '/blogs',
+        }}
+      >
+        <FormWrapper>
+          <AddBlogForm
+            handleSubmit={(url, reportMailEnabled) => handleSubmit(url, reportMailEnabled)}
+            loading={loading}
+            errorMessage={
+              error && `${error.message}（エラーが続く場合はRSSのURLを直接入力するとうまくいくことがあります）`
+            }
+            url={state.fillInURL}
+            clearURL={() => clearURL()}
+          />
+        </FormWrapper>
+        {!(blogs !== undefined && blogs.length) && (
+          <SuggestionWrapper>
+            <SuggestionContentWrapper>
+              <SuggestionText>まず試してみたい場合は、以下からおすすめブログのURLを入力できます</SuggestionText>
+              <SeggestionButton onClick={() => fillIn('https://user-first.ikyu.co.jp/')}>
+                一休.com Developers Blog
+              </SeggestionButton>
+              <SeggestionButton onClick={() => fillIn('https://ninjinkun.hatenablog.com/')}>
+                ninjinkun's diary
+              </SeggestionButton>
+            </SuggestionContentWrapper>
+          </SuggestionWrapper>
+        )}
+      </PageLayout>
+    );
   }
-
-  clearURL() {
-    this.setState({ fillInURL: undefined });
-  }
-}
+};
 
 const FormWrapper = styled(Wrapper)`
   margin-top: 20vh;

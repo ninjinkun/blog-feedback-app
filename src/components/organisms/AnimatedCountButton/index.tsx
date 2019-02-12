@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { CountType } from '../../../models/consts/count-type';
@@ -14,26 +14,32 @@ type Props = {
   target?: string;
 };
 
-export default class AnimatedCountButton extends React.PureComponent<Props> {
+type States = {
   prevCount?: number;
+};
 
-  render() {
-    const { animate, type, count, href, target } = this.props;
-    if (count !== undefined) {
-      const res = (
-        <StyledTwincleAnimation animate={animate} key={type}>
-          <CountUpAnimation start={animate && this.prevCount ? this.prevCount : count} end={count}>
-            {value => <StyledCountButton type={type} count={value} href={href} target={target} />}
-          </CountUpAnimation>
-        </StyledTwincleAnimation>
-      );
-      this.prevCount = count;
-      return res;
-    } else {
-      return <StyledCountButton type={type} href={href} target={target} />;
+const AnimatedCountButton: React.FC<Props> = props => {
+  const [state, setState] = useState<States>({});
+  const { animate, type, count, href, target } = props;
+  const { prevCount } = state;
+
+  if (count !== undefined) {
+    if (prevCount !== count) {
+      setState({ prevCount: count });
     }
+    return (
+      <StyledTwincleAnimation animate={animate} key={type}>
+        <CountUpAnimation start={animate && prevCount ? prevCount : count} end={count}>
+          {value => <StyledCountButton type={type} count={value} href={href} target={target} />}
+        </CountUpAnimation>
+      </StyledTwincleAnimation>
+    );
+  } else {
+    return <StyledCountButton type={type} href={href} target={target} />;
   }
-}
+};
+
+export default AnimatedCountButton;
 
 const StyledTwincleAnimation = styled(TwincleAnimation)`
   display: flex;
