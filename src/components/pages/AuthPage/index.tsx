@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import React from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
 import { ThunkDispatch } from 'redux-thunk';
@@ -11,7 +11,7 @@ import LoadingView from '../../molecules/LoadingView/index';
 import PageLayout from '../../templates/PageLayout/index';
 
 type StateProps = {
-  user: UserState;
+  userState: UserState;
 };
 
 type DispatchProps = {
@@ -20,34 +20,35 @@ type DispatchProps = {
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
 
-class AuthPage extends React.PureComponent<Props> {
-  componentWillMount() {
-    this.props.fetchUser(firebase.auth());
+const AuthPage: React.FC<Props> = props => {
+  const { children, userState, location, fetchUser } = props;
+
+  useEffect(() => {
+    fetchUser(firebase.auth());
+    return () => undefined;
+  });
+
+  const { user, loading } = userState;
+  if (user) {
+    return <Fragment>{children}</Fragment>;
+  } else if (loading) {
+    return (
+      <PageLayout
+        header={{
+          title: '',
+        }}
+      >
+        <LoadingView />
+      </PageLayout>
+    );
+  } else {
+    return <Redirect to={{ pathname: '/signin', state: { from: location } }} />;
   }
-  render() {
-    const { children } = this.props;
-    const { user, loading } = this.props.user;
-    if (user) {
-      return children;
-    } else if (loading) {
-      return (
-        <PageLayout
-          header={{
-            title: '',
-          }}
-        >
-          <LoadingView />
-        </PageLayout>
-      );
-    } else {
-      return <Redirect to={{ pathname: '/signin', state: { from: this.props.location } }} />;
-    }
-  }
-}
+};
 
 function mapStateToProps(state: AppState): StateProps {
   return {
-    user: state.user,
+    userState: state.user,
   };
 }
 
