@@ -32,7 +32,10 @@ jobs:
       - run: yarn test:compile
       - run: yarn firebase setup:emulators:firestore
       - run:
-          command: yarn firebase serve --only firestore
+          # Firestore Emulator bind host to = [::1]:8080. Unfortunately CircleCI cannot handle IPv6 address.
+          # Launch jar file directory and override host to IPv4 address.
+          # command: yarn firebase serve --only firestore
+          command: java -jar $HOME/.cache/firebase/emulators/cloud-firestore-emulator-v1.3.0.jar --host=127.0.0.1
           background: true
       - run: yarn test:ci
       - persist_to_workspace:
