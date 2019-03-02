@@ -79,8 +79,7 @@ export const sendTestReportMail = functions.region('asia-northeast1').https.onCa
   const { email, uid } = user;
   const uuid = uuidv1(); // dummy
   const topic = pubsub.topic('send-report-mail');
-  const publisher = topic.publisher();
   const message: MailMessage = { email, uid, blogURL, uuid, forceSend: true };
-  await publisher.publish(Buffer.from(JSON.stringify(message)));
+  await topic.publish(Buffer.from(JSON.stringify(message)));
   return true;
 });
