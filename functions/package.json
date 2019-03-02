@@ -12,13 +12,13 @@
   },
   "main": "build/index.js",
   "dependencies": {
-    "@google-cloud/pubsub": "^0.22.2",
+    "@google-cloud/pubsub": "^0.26.0",
     "axios": "^0.18.0",
     "charset": "^1.0.1",
     "cheerio": "^1.0.0-rc.2",
-    "email-templates": "^5.0.2",
-    "firebase-admin": "~6.3.0",
-    "firebase-functions": "^2.1.0",
+    "email-templates": "^5.0.4",
+    "firebase-admin": "~7.0.0",
+    "firebase-functions": "^2.2.0",
     "iconv-lite": "^0.4.24",
     "lodash": "^4.17.11",
     "uuid": "^3.3.2",
@@ -36,7 +36,7 @@
     "@types/uuid": "^3.4.4",
     "@types/xmldom": "^0.1.29",
     "tslint": "~5.11.0",
-    "typescript": "~3.2.1"
+    "typescript": "~3.3.3"
   },
   "private": true,
   "engines": {
