@@ -51,12 +51,11 @@ export const dailyReportMail = functions.region('asia-northeast1').pubsub.topic(
     return blogURLs.map(blogURL => [uid, email, blogURL]) as [string, string, string][];
   }));
   const topic = pubsub.topic('send-report-mail');
-  const publisher = topic.publisher();
 
   for (const [uid, email, blogURL] of uidBlogIds) {
     const uuid = uuidv1();
     const message: MailMessage = { email, uid, blogURL, uuid, forceSend: false };
-    await publisher.publish(Buffer.from(JSON.stringify(message)));
+    await topic.publish(Buffer.from(JSON.stringify(message)));
     console.log(`${uid}, ${blogURL}`);
   }
   return true;
