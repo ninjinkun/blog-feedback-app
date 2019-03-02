@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { CountType } from '../../consts/count-type';
 import { CountResponse } from '../../responses';
-import { chunk, flatten } from 'lodash';
+import chunk from 'lodash-es/chunk';
+import flatten from 'lodash-es/flatten';
 
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
 

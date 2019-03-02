@@ -1,5 +1,5 @@
-import chunk from 'lodash/chunk';
-import flatten from 'lodash/flatten';
+import chunk from 'lodash-es/chunk';
+import flatten from 'lodash-es/flatten';
 import { all, call, delay, put } from 'redux-saga/effects';
 import { fetchCountJsoonCount as fetchCountJsoonCountActoun } from '../../../models/fetchers/count-fetchers/count-jsoon-fetcher';
 import { CountResponse } from '../../../models/responses';

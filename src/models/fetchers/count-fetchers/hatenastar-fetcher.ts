@@ -1,4 +1,4 @@
-import { sum } from 'lodash';
+import sum from 'lodash-es/sum';
 import { CountType } from '../../consts/count-type';
 import { HatenaStarReponse } from '../../consts/fetch-response/hatena-star';
 import { CountResponse } from '../../responses';

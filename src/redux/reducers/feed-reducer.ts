@@ -1,4 +1,4 @@
-import flatten from 'lodash/flatten';
+import flatten from 'lodash-es/flatten';
 import { Reducer } from 'redux';
 import { Services } from '../../models/entities';
 import { AddBlogActions, FIREBASE_ADD_BLOG_RESPONSE } from '../actions/add-blog-action';

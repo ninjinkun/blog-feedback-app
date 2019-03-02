@@ -1,5 +1,5 @@
-import { clone } from 'lodash';
-import flatten from 'lodash/flatten';
+import clone from 'lodash-es/clone';
+import flatten from 'lodash-es/flatten';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { CountType } from '../../models/consts/count-type';
 import { BlogEntity, ItemEntity } from '../../models/entities';
