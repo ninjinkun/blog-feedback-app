@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import clone from 'lodash-es/clone';
+import { clone } from 'lodash';
 import React, { useEffect } from 'react';
 import { MdMailOutline } from 'react-icons/md';
 import { connect } from 'react-redux';

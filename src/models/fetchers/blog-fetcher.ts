@@ -1,4 +1,4 @@
-import unescape from 'lodash-es/unescape';
+import unescape from 'lodash/unescape';
 import { FeedType } from '../consts/feed-type';
 import { BlogResponse } from '../responses';
 import { crossOriginFetch } from './functions';
