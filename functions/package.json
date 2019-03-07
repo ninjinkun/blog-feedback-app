@@ -24,7 +24,7 @@
     "uuid": "^3.3.2",
     "nodemailer": "^5.0.0",
     "qs": "^6.6.0",
-    "xml-js": "^1.6.8",
+    "xml-js": "^1.6.11",
     "xmldom": "^0.1.27"
   },
   "devDependencies": {
