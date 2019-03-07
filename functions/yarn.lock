@@ -101,30 +101,26 @@
   resolved "https://registry.yarnpkg.com/@google-cloud/promisify/-/promisify-0.4.0.tgz#4fbfcf4d85bb6a2e4ccf05aa63d2b10d6c9aad9b"
   integrity sha512-4yAHDC52TEMCNcMzVC8WlqnKKKq+Ssi2lXoUg9zWWkZ6U6tq9ZBRYLHHCRdfU+EU9YJsVmivwGcKYCjRGjnf4Q==
 
-"@google-cloud/pubsub@^0.26.0":
-  version "0.26.0"
-  resolved "https://registry.yarnpkg.com/@google-cloud/pubsub/-/pubsub-0.26.0.tgz#90a872343ac5d462284a52090eaeb6886c380612"
-  integrity sha512-5XiyVts4wOouUB2ME9lfZb2Nps29TS67Eizpg/nOC1XaY7FbbZ2cgnoSW7km1b999l3Fpl+3/UpSJ3ENlO72xA==
+"@google-cloud/pubsub@^0.27.0":
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/pubsub/-/pubsub-0.27.0.tgz#b42c2895291b2abacc3f1127195636122259014f"
+  integrity sha512-nJEfytCXC2w8RgmmWnWL0vXAJhEkakmzsBK39blB6AkxSRTZDQG0nIzdRMxRT/bV0YxNNbxqBkOZcR1HXL8RJA==
   dependencies:
     "@google-cloud/paginator" "^0.1.0"
     "@google-cloud/precise-date" "^0.1.0"
     "@google-cloud/projectify" "^0.3.0"
     "@google-cloud/promisify" "^0.4.0"
+    "@sindresorhus/is" "^0.15.0"
     arrify "^1.0.0"
     async-each "^1.0.1"
-    delay "^4.0.0"
-    duplexify "^4.0.0"
     extend "^3.0.1"
     google-auth-library "^3.0.0"
     google-gax "^0.25.0"
-    is "^3.0.1"
     is-stream-ended "^0.1.4"
-    lodash.chunk "^4.2.0"
     lodash.merge "^4.6.0"
     lodash.snakecase "^4.1.1"
     p-defer "^1.0.0"
     protobufjs "^6.8.1"
-    through2 "^3.0.0"
 
 "@google-cloud/storage@^2.3.0":
   version "2.4.2"
@@ -225,6 +221,11 @@
 "@protobufjs/utf8@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
+
+"@sindresorhus/is@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.15.0.tgz#96915baa05e6a6a1d137badf4984d3fc05820bb6"
+  integrity sha512-lu8BpxjAtRCAo5ifytTpCPCj99LF7o/2Myn+NXyNCBqvPYn7Pjd76AMmUB5l7XF1U6t0hcWrlEM5ESufW7wAeA==
 
 "@types/babel-types@*", "@types/babel-types@^7.0.0":
   version "7.0.4"
@@ -966,10 +967,6 @@ deep-extend@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.6.0.tgz#c4fa7c95404a17a9c3e8ca7e1537312b736330ac"
 
-delay@^4.0.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/delay/-/delay-4.1.0.tgz#474cd28809da41d1a048a70a1d835f47ac377cd2"
-
 delayed-stream@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/delayed-stream/-/delayed-stream-1.0.0.tgz#df3ae199acadfb7d440aaae0b29e2272b24ec619"
@@ -1052,16 +1049,6 @@ duplexify@^3.5.0, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-duplexify@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/duplexify/-/duplexify-4.0.0.tgz#9eddda497bf43dddd2d143d31f7a4e68ad1e53a9"
-  integrity sha512-yY3mlX6uXXe53lt9TnyIIlPZD9WfBEl+OU/8YLiU+p0xxaNRMjLE+rIEURR5/F1H41z9iMHcmVRxRS89tKCUcQ==
-  dependencies:
-    end-of-stream "^1.4.1"
-    inherits "^2.0.3"
-    readable-stream "^3.1.1"
-    stream-shift "^1.0.0"
-
 eachr@^2.0.2:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/eachr/-/eachr-2.0.4.tgz#466f7caa10708f610509e32c807aafe57fc122bf"
@@ -1118,7 +1105,7 @@ encodeurl@~1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/encodeurl/-/encodeurl-1.0.2.tgz#ad3ff4c86ec2d029322f5a02c3a9a606c95b3f59"
 
-end-of-stream@^1.0.0, end-of-stream@^1.1.0, end-of-stream@^1.4.1:
+end-of-stream@^1.0.0, end-of-stream@^1.1.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/end-of-stream/-/end-of-stream-1.4.1.tgz#ed29634d19baba463b6ce6b80a37213eab71ec43"
   integrity sha512-1MkrZNvWTKCaigbn+W15elq2BB/L22nqrSY5DKlo3X6+vclJm8Bb5djXJBmEX6fS3+zCh/F4VBK5Z2KxJt4s2Q==
@@ -1736,7 +1723,7 @@ is-wsl@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/is-wsl/-/is-wsl-1.1.0.tgz#1f16e4aa22b04d1336b66188a66af3c600c3a66d"
 
-is@^3.0.1, is@^3.2.1:
+is@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/is/-/is-3.2.1.tgz#d0ac2ad55eb7b0bec926a5266f6c662aaa83dca5"
 
@@ -1905,10 +1892,6 @@ lodash.camelcase@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
   integrity sha1-soqmKIorn8ZRA1x3EfZathkDMaY=
-
-lodash.chunk@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/lodash.chunk/-/lodash.chunk-4.2.0.tgz#66e5ce1f76ed27b4303d8c6512e8d1216e8106bc"
 
 lodash.defaults@^4.0.1:
   version "4.2.0"
@@ -2558,7 +2541,7 @@ readable-stream@^2.0.0, readable-stream@^2.0.6, readable-stream@~2.3.6:
     string_decoder "~1.1.1"
     util-deprecate "~1.0.1"
 
-readable-stream@^3.0.2, readable-stream@^3.1.1:
+readable-stream@^3.0.2:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.2.0.tgz#de17f229864c120a9f56945756e4f32c4045245d"
   integrity sha512-RV20kLjdmpZuTF1INEb9IA3L68Nmi+Ri7ppZqo78wj//Pn62fCoJyV9zalccNzDD/OuJpMG4f+pfMl8+L6QdGw==
@@ -3161,10 +3144,9 @@ xdg-basedir@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/xdg-basedir/-/xdg-basedir-3.0.0.tgz#496b2cc109eca8dbacfe2dc72b603c17c5870ad4"
 
-xml-js@^1.6.11:
-  version "1.6.11"
-  resolved "https://registry.yarnpkg.com/xml-js/-/xml-js-1.6.11.tgz#927d2f6947f7f1c19a316dd8eea3614e8b18f8e9"
-  integrity sha512-7rVi2KMfwfWFl+GpPg6m80IVMWXLRjO+PxTq7V2CDhoGak0wzYzFgUY2m4XJ47OGdXd8eLE8EmwfAmdjw7lC1g==
+xml-js@^1.6.8:
+  version "1.6.8"
+  resolved "https://registry.yarnpkg.com/xml-js/-/xml-js-1.6.8.tgz#e06419c54235f18f4c2cdda824cbd65a782330de"
   dependencies:
     sax "^1.2.4"
 
