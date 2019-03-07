@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@types/charset": "^1.0.1",
-    "@types/cheerio": "^0.22.10",
+    "@types/cheerio": "^0.22.11",
     "@types/email-templates": "^3.5.1",
     "@types/lodash": "^4.14.122",
     "@types/nodemailer": "^4.6.6",
