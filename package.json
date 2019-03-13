@@ -21,7 +21,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.8",
-    "react-spring": "^8.0.14",
+    "react-spring": "^8.0.15",
     "react-toggle": "^4.0.2",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
