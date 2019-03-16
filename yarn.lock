@@ -6622,20 +6622,6 @@ firebase@5.9.0:
     "@firebase/polyfill" "0.3.8"
     "@firebase/storage" "0.2.11"
 
-firebase@^5.8.6:
-  version "5.8.6"
-  resolved "https://registry.yarnpkg.com/firebase/-/firebase-5.8.6.tgz#542e940fc331334ce4bfc163639e048f9fd53caf"
-  integrity sha512-pMAtOn1XZlC2CXADDL9Zx6+b1mDMfkGBBJ67VUOKtZX+4vi8S2DfgMSM0kWPiyuMZ1JgSUz/ZJWzAv2BCBaxeg==
-  dependencies:
-    "@firebase/app" "0.3.11"
-    "@firebase/auth" "0.9.4"
-    "@firebase/database" "0.3.14"
-    "@firebase/firestore" "1.0.6"
-    "@firebase/functions" "0.4.1"
-    "@firebase/messaging" "0.3.13"
-    "@firebase/polyfill" "0.3.7"
-    "@firebase/storage" "0.2.10"
-
 firebaseui@^3.2.0:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/firebaseui/-/firebaseui-3.4.1.tgz#f440f1cc653d98f97caadf8f58f7d67b83d00fde"
