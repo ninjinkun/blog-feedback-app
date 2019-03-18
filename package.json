@@ -19,7 +19,7 @@
     "react-md-spinner": "^0.3.0",
     "react-redux": "^6.0.1",
     "react-router": "^4.4.0",
-    "react-router-dom": "^4.4.0",
+    "react-router-dom": "^4.4.0-beta",
     "react-scripts": "^2.1.8",
     "react-spring": "^8.0.15",
     "react-toggle": "^4.0.2",
