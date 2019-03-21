@@ -36,7 +36,7 @@
     "@types/uuid": "^3.4.4",
     "@types/xmldom": "^0.1.29",
     "tslint": "~5.14.0",
-    "typescript": "~3.3.3333"
+    "typescript": "~3.3.4000"
   },
   "private": true,
   "engines": {
