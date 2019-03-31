@@ -1,5 +1,4 @@
-import firebase from 'firebase/app';
-import 'firebase/firestore';
+import { firestore } from 'firebase/app';
 import { BlogEntity } from './../entities';
 import { serverTimestamp } from './app-repository';
 import { userRef } from './user-repository';
@@ -10,13 +9,13 @@ export async function findAllBlogs(userId: string): Promise<BlogEntity[]> {
     .get();
 
   const items = snapshot.docs
-    .map((i: firebase.firestore.DocumentSnapshot) => i.data())
-    .filter(i => i !== undefined) as firebase.firestore.DocumentData[];
+    .map((i: firestore.DocumentSnapshot) => i.data())
+    .filter(i => i !== undefined) as firestore.DocumentData[];
 
   return items as BlogEntity[];
 }
 
-export function blogRef(userId: string, blogUrl: string): firebase.firestore.DocumentReference {
+export function blogRef(userId: string, blogUrl: string): firestore.DocumentReference {
   return userRef(userId)
     .collection('blogs')
     .doc(encodeURIComponent(blogUrl));
