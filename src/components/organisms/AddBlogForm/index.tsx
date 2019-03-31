@@ -55,7 +55,7 @@ const AddBlogForm: React.FC<Props> = props => {
           <Switch
             id="report-mail"
             type="checkbox"
-            defaultChecked={false}
+            defaultChecked={true}
             icons={false}
             onChange={(e: React.FormEvent<HTMLInputElement>) =>
               setReportMailEnabled((e.target as HTMLInputElement).checked)
