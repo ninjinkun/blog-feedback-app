@@ -48,7 +48,7 @@ export const dailyReportMail = functions.region('asia-northeast1').pubsub.topic(
 
   const uidBlogIds = flatten(blogSnapshots.map(([uid, email, blogSnapshot]) => {
     const blogURLs = blogSnapshot.docs.map(blog => decodeURIComponent(blog.id));
-    return blogURLs.map(blogURL => [uid, email, blogURL]) as [string, string, string][];
+    return blogURLs.map(blogURL => [uid, email, blogURL] as [string, string, string]);
   }));
   const topic = pubsub.topic('send-report-mail');
 
