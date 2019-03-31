@@ -1,5 +1,6 @@
 import { firestore } from 'firebase/app';
-import { CountType } from '../consts/count-type';
+import 'firebase/firestore';
+import { CountType } from '../models/consts/count-type';
 import { ItemEntity } from '../models/entities';
 import { CountResponse, ItemResponse } from '../models/responses';
 import { createSaveEntities } from '../models/save-count-response';
