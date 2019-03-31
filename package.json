@@ -50,7 +50,7 @@
     "precommit": "lint-staged"
   },
   "devDependencies": {
-    "@firebase/testing": "0.7.7",
+    "@firebase/testing": "0.7.8",
     "@storybook/addon-actions": "^5.0.5",
     "@storybook/addon-info": "^5.0.5",
     "@storybook/addon-links": "^5.0.5",
