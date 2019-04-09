@@ -68,7 +68,7 @@
     "@types/react-toggle": "^4.0.2",
     "@types/storybook__addon-actions": "^3.4.2",
     "@types/storybook__react": "^4.0.1",
-    "@types/styled-components": "^4.1.13",
+    "@types/styled-components": "^4.1.14",
     "@types/ua-parser-js": "^0.7.32",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.5",
