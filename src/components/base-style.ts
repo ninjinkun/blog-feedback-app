@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import UAParser from 'ua-parser-js';
+import { UAParser } from 'ua-parser-js';
 import { colors, fontFamily } from './properties';
 
 const parser = new UAParser();
