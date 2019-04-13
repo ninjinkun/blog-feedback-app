@@ -1,7 +1,7 @@
 import 'normalize.css';
 import React from 'react';
 import { render } from 'react-dom';
-import UAParser from 'ua-parser-js';
+import { UAParser } from 'ua-parser-js';
 
 import App from './App';
 import { register, unregister } from './serviceWorker';
