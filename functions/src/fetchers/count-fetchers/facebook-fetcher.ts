@@ -33,7 +33,7 @@ export async function fetchFacebookCounts(urls: string[]): Promise<CountResponse
       access_token: accessToken,
       batch: JSON.stringify(batch),
     })
-  );
+  , { timeout: 10 * 1000 });
   return response.data
     .map((json: FacebookBatchResponse) => JSON.parse(json.body))
     .filter((json: FacebookResponse) => json.hasOwnProperty('share'))

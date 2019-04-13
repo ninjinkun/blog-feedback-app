@@ -24,7 +24,7 @@ export async function fetchPocketCount(url: string): Promise<CountResponse | und
     const apiURL = `https://widgets.getpocket.com/v1/button?label=pocket&count=vertical&v=1&url=${encodeURIComponent(
       url
     )}&src=${encodeURIComponent(url)}`;
-    const response = await axios.get(apiURL);
+    const response = await axios.get(apiURL, { timeout: 2 * 1000 });
     const htmlText = response.data;
     const $ = cheerio.load(htmlText);
     const countString = $('em#cnt').text();
