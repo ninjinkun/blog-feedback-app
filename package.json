@@ -20,7 +20,7 @@
     "react-redux": "^7.0.2",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "^2.1.8",
+    "react-scripts": "^3.0.0",
     "react-spring": "^8.0.19",
     "react-toggle": "^4.0.2",
     "redux": "^4.0.1",
