@@ -17,6 +17,7 @@ import { getMailLock, createMailLock } from './repositories/mail-lock-repository
 import { resolve } from 'path';
 import { gaImageSrc } from './mail-ga';
 import { sum } from 'lodash';
+import console = require('console');
 
 type Item = {
   title: string;
@@ -98,7 +99,12 @@ async function crawl(userId: string, blogURL: string) {
       console.warn(e);
     }
   })()))
-  await Promise.all(promises);
+
+  try {
+    await Promise.all(promises);
+  } catch (e) {
+    console.warn(e);
+  }
 
   const items: Item[] = feed.items.map((itemResponse) => ({
     title: itemResponse.title,
