@@ -6,7 +6,7 @@
     "env-cmd": "^8.0.2",
     "fetch-jsonp": "^1.1.3",
     "firebase": "^5.10.0",
-    "firebaseui": "^3.5.2",
+    "firebaseui": "^3.6.0",
     "history": "^4.9.0",
     "lodash": "^4.17.11",
     "normalize.css": "^8.0.1",
