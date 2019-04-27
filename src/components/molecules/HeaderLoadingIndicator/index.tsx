@@ -16,7 +16,7 @@ type States = {
 };
 
 const HeaderLoadingIndicator: React.FC<Props> = ({ loading, label, ratio, ...props }) => {
-  const [prevLabel, setPrevLabel] = useState<string | undefined>(undefined);
+  const [prevLabel, setPrevLabel] = useState<string | undefined>('');
 
   if (label !== prevLabel) {
     setPrevLabel(label);
@@ -30,6 +30,7 @@ const HeaderLoadingIndicator: React.FC<Props> = ({ loading, label, ratio, ...pro
     // tslint:disable-next-line:jsx-alignment
     leave: { opacity: 0, transform: `translate3d(0, 100%, 0)` },
   });
+  console.log(trans);
   return (
     <animated.div style={spring} {...props}>
       <Wrapper>
