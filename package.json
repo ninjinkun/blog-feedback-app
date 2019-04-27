@@ -45,9 +45,9 @@
     "storybook:visual": "start-storybook -p 9001 -s ./build",
     "deploy-storybook": "storybook-to-ghpages",
     "test:compile": "tsc --noEmit",
-    "eslint": "eslint ./src/**/**/*.{ts,tsx}",
-    "eslint:fix": "eslint --fix ./src/**/**/*.{ts,tsx}",
-    "prettier": "prettier --write ./{src,__tests__}/**/**/*.{ts,tsx}",
+    "eslint": "eslint ./src/**/*.{ts,tsx}",
+    "eslint:fix": "eslint --fix ./src/**/*.{ts,tsx}",
+    "prettier": "prettier --write ./{src,__tests__}/**/*.{ts,tsx}",
     "precommit": "lint-staged"
   },
   "devDependencies": {
