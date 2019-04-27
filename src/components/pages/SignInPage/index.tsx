@@ -27,15 +27,15 @@ type DispatchProps = {
 
 type Props = StateProps & DispatchProps & RouteComponentProps<{}, {}, { from?: Location }>;
 
-const SignInPage: React.FC<Props> = ({ user, fetchUser, location }) => {
+const SignInPage: React.FC<Props> = props => {
   useEffect(() => {
-    fetchUser(firebase.auth());
+    props.fetchUser(firebase.auth());
     return () => undefined;
-  }, [fetchUser]);
+  }, []);
 
-  const { loading } = user;
+  const { loading, user } = props.user;
   if (user) {
-    const from = (location.state && location.state.from) || 'blogs';
+    const from = (props.location.state && props.location.state.from) || 'blogs';
     return <Redirect to={from} />;
   } else {
     return (
