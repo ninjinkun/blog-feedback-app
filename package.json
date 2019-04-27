@@ -43,6 +43,8 @@
     "storybook:visual": "start-storybook -p 9001 -s ./build",
     "deploy-storybook": "storybook-to-ghpages",
     "test:compile": "tsc --noEmit",
+    "eslint": "eslint ./src/**/*.{ts,tsx}",
+    "eslint:fix": "eslint --fix ./src/**/*.{ts,tsx}",
     "tslint:prettier-check": "tslint-config-prettier-check ./tslint.json",
     "tslint": "tslint --project ./tsconfig.json ./{src,__tests__}/**/*.{ts,tsx}",
     "tslint:fix": "tslint --fix --force --format stylish --project ./tsconfig.json ./{src,__tests__}/**/*.{ts,tsx}",
