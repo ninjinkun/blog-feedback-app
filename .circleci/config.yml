@@ -28,7 +28,7 @@ jobs:
           key: v2-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: yarn tslint
+      - run: yarn eslint
       - run: yarn test:compile
       - run: yarn firebase setup:emulators:firestore
       - run:
