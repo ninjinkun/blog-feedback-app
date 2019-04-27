@@ -21,13 +21,13 @@ type DispatchProps = {
 };
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
-const IndexPage: React.FC<Props> = props => {
+const IndexPage: React.FC<Props> = ({ user, fetchUser }) => {
   useEffect(() => {
-    props.fetchUser(firebase.auth());
+    fetchUser(firebase.auth());
     return () => undefined;
-  }, [props]);
+  }, [fetchUser]);
 
-  const { loading, user } = props.user;
+  const { loading, user: userData } = user;
   if (loading) {
     return (
       <PageLayout
@@ -38,7 +38,7 @@ const IndexPage: React.FC<Props> = props => {
         <LoadingView />
       </PageLayout>
     );
-  } else if (user) {
+  } else if (userData) {
     return <Redirect to="/blogs" />;
   } else {
     return <WelcomePage />;
