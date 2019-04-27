@@ -8,6 +8,6 @@ export default function* gaSaga() {
 
 function* handleUserAction(action: UserFirebaseUserResponseAction) {
   const { user } = action;
-  ReactGA.set({ userId: user.uid });
+  yield ReactGA.set({ userId: user.uid });
   return undefined;
 }

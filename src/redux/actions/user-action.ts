@@ -106,7 +106,7 @@ export function signOut(auth: firebase.auth.Auth): ThunkAction<void, AppState, u
   return async dispatch => {
     try {
       dispatch(userFirebaseSignoutRequest());
-      const user = await auth.signOut();
+      await auth.signOut();
       dispatch(userFirebaseSignoutResponse());
     } catch (e) {
       dispatch(userFirebaseSignoutError(e));

@@ -13,7 +13,6 @@ import { FeedActions, feedBlogURLChange, feedBlogURLClear, fetchFeed } from '../
 import { AppState } from '../../../redux/states/app-state';
 import { FeedState } from '../../../redux/states/feed-state';
 import ScrollView from '../../atoms/ScrollView/index';
-import Wrapper from '../../atoms/Wrapper/index';
 import LoadingView from '../../molecules/LoadingView/index';
 import EntryCell, { Count } from '../../organisms/EntryCell/index';
 import { colorsValue } from '../../properties';

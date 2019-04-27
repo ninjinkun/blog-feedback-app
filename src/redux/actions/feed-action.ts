@@ -2,7 +2,6 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import { ItemEntity } from '../../models/entities';
-import { CountResponse, ItemResponse } from '../../models/responses';
 import { FeedFetchCountJsoonCountActions } from './feed-actions/count-jsoon-action';
 import { FeedFetchFacebookCountActions } from './feed-actions/facebook-action';
 import { FeedFirebaseActions } from './feed-actions/feed-firebase-action';

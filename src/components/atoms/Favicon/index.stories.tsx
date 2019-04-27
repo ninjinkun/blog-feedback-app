@@ -1,4 +1,4 @@
-import { storiesOf, Story } from '@storybook/react';
+import { storiesOf } from '@storybook/react';
 import React from 'react';
 import Favicon from './index';
 
