@@ -24,14 +24,6 @@ function addBlogFetchBlogResponse(blog: BlogResponse) {
   };
 }
 
-export const FETCH_BLOG_ERROR = 'addblog/FETCH_BLOG_ERROR';
-function addBogFetchBlogError(error: Error) {
-  return {
-    type: FETCH_BLOG_ERROR as typeof FETCH_BLOG_ERROR,
-    error,
-  };
-}
-
 export const FETCH_FEED_REQUEST = 'addblog/FETCH_FEED_REQUEST';
 function addBlogFetchFeedRequest() {
   return {
