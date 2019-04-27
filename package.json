@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "env-cmd": "^8.0.2",
+    "eslint-config-prettier": "^4.2.0",
+    "eslint-plugin-prettier": "^3.0.1",
     "fetch-jsonp": "^1.1.3",
     "firebase": "^5.10.1",
     "firebaseui": "^3.6.0",
