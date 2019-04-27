@@ -71,7 +71,7 @@ const SettingPage: React.FC<Props> = props => {
     fetchFirebaseBlog(firebase.auth(), blogURL);
     fetchUser(firebase.auth());
     return () => undefined;
-  }, []);
+  }, [blogURL, deleteBlogReset, fetchFirebaseBlog, fetchUser]);
 
   const saveSettings = (
     sendReport: boolean,

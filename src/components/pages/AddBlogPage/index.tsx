@@ -33,16 +33,16 @@ type States = {
   fillInURL?: string;
 };
 
-const AddBlogView: React.FC<Props> = props => {
+const AddBlogView: React.FC<Props> = ({ addBlogInitialize, addBlog, addBlogState, blogState }) => {
   const [state, setState] = useState<States>({});
   useEffect(() => {
     return () => {
-      props.addBlogInitialize();
+      addBlogInitialize();
     };
-  }, []);
+  }, [addBlogInitialize]);
 
   const handleSubmit = (url: string, reportMailEnabled: boolean) => {
-    props.addBlog(firebase.auth(), url, reportMailEnabled);
+    addBlog(firebase.auth(), url, reportMailEnabled);
   };
 
   const fillIn = (url: string) => {
@@ -53,7 +53,6 @@ const AddBlogView: React.FC<Props> = props => {
     setState({ fillInURL: undefined });
   };
 
-  const { addBlogState, blogState } = props;
   const { loading, error, finished, blogURL } = addBlogState;
   const { blogs } = blogState;
   if (finished && blogURL) {
