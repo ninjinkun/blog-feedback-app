@@ -31,7 +31,7 @@ const SignInPage: React.FC<Props> = props => {
   useEffect(() => {
     props.fetchUser(firebase.auth());
     return () => undefined;
-  }, [props]);
+  }, []);
 
   const { loading, user } = props.user;
   if (user) {

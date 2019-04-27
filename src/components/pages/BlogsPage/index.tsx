@@ -32,7 +32,7 @@ const BlogsPage: React.FC<Props> = props => {
   const { blog, fetchBlogs } = props;
   useEffect(() => {
     fetchBlogs(firebase.auth());
-  }, [fetchBlogs]);
+  }, []);
 
   const { blogs, loading } = blog;
   return (

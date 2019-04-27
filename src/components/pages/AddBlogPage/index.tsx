@@ -39,7 +39,7 @@ const AddBlogView: React.FC<Props> = props => {
     return () => {
       props.addBlogInitialize();
     };
-  }, [props]);
+  }, []);
 
   const handleSubmit = (url: string, reportMailEnabled: boolean) => {
     props.addBlog(firebase.auth(), url, reportMailEnabled);
