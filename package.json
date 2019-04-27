@@ -43,12 +43,9 @@
     "storybook:visual": "start-storybook -p 9001 -s ./build",
     "deploy-storybook": "storybook-to-ghpages",
     "test:compile": "tsc --noEmit",
-    "eslint": "eslint ./src/**/*.{ts,tsx}",
-    "eslint:fix": "eslint --fix ./src/**/*.{ts,tsx}",
-    "tslint:prettier-check": "tslint-config-prettier-check ./tslint.json",
-    "tslint": "tslint --project ./tsconfig.json ./{src,__tests__}/**/*.{ts,tsx}",
-    "tslint:fix": "tslint --fix --force --format stylish --project ./tsconfig.json ./{src,__tests__}/**/*.{ts,tsx}",
-    "prettier": "prettier --write ./{src,__tests__}/**/*.{ts,tsx}",
+    "eslint": "eslint ./src/**/**/*.{ts,tsx}",
+    "eslint:fix": "eslint --fix ./src/**/**/*.{ts,tsx}",
+    "prettier": "prettier --write ./{src,__tests__}/**/**/*.{ts,tsx}",
     "precommit": "lint-staged"
   },
   "devDependencies": {
@@ -84,11 +81,6 @@
     "prettier": "^1.17.0",
     "react-docgen-typescript-webpack-plugin": "^1.1.0",
     "ts-jest": "^24.0.2",
-    "tslint": "^5.16.0",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-config-standard": "^8.0.1",
-    "tslint-plugin-prettier": "^2.0.1",
-    "tslint-react": "^4.0.0",
     "typescript": "^3.4.5"
   },
   "browserslist": [
