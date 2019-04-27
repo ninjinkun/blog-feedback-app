@@ -1,5 +1,3 @@
-import { Action } from 'redux';
-
 import { ThunkAction } from 'redux-thunk';
 import { BlogEntity } from '../../models/entities';
 import { findAllBlogs } from '../../models/repositories/blog-repository';

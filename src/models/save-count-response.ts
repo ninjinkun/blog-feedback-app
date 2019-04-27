@@ -1,7 +1,7 @@
 import { firestore, User } from 'firebase/app';
 
 import { CountType } from './consts/count-type';
-import { CountEntity, ItemEntity, Services } from './entities';
+import { CountEntity, ItemEntity } from './entities';
 import { serverTimestamp, writeBatch } from './repositories/app-repository';
 import { CountSaveEntities, saveItemBatch } from './repositories/item-repository';
 import { CountResponse, ItemResponse } from './responses';

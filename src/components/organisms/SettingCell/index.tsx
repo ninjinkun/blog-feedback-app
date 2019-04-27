@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 import Wrapper from '../../atoms/Wrapper/index';
 import PlainCell from '../../molecules/PlainCell/index';

@@ -1,4 +1,4 @@
-import { storiesOf, Story } from '@storybook/react';
+import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { CountType } from '../../../models/consts/count-type';
 import CountButton from './index';
