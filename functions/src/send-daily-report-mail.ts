@@ -1,10 +1,9 @@
 import * as firebase from 'firebase-admin';
-import EmailTemplate = require('email-templates');
 import * as uuidv1 from 'uuid/v1';
 
 import { transport } from './mail-transport';
-import { fetchFeed } from "./fetchers/feed-fetcher";
-import { fetchHatenaBookmarkCounts } from "./fetchers/count-fetchers/hatenabookmark-fetcher";
+import { fetchFeed } from './fetchers/feed-fetcher';
+import { fetchHatenaBookmarkCounts } from './fetchers/count-fetchers/hatenabookmark-fetcher';
 import { CountType, toServiceURL } from './consts/count-type';
 import { BlogEntity, ItemEntity } from './entities';
 import { db } from './firebase';
@@ -17,6 +16,7 @@ import { getMailLock, createMailLock } from './repositories/mail-lock-repository
 import { resolve } from 'path';
 import { gaImageSrc } from './mail-ga';
 import { sum } from 'lodash';
+import EmailTemplate = require('email-templates');
 import console = require('console');
 
 type Item = {
@@ -57,6 +57,8 @@ export async function crowlAndSendMail(to: string, userId: string, blogURL: stri
     }
     await sendDailyReportMail(to, userId, blogURL, blogEntity.title, items, updatedCounts, sendForce);
     console.log('mail sent');
+  } else {
+    console.log("mail didn't send");
   }
   await saveYestardayCounts(userId, blogURL, items);
   return true;
@@ -64,10 +66,21 @@ export async function crowlAndSendMail(to: string, userId: string, blogURL: stri
 
 async function crawl(userId: string, blogURL: string) {
   const blogId = encodeURIComponent(blogURL);
-  const blogSnapshot = await db.collection('users').doc(userId).collection('blogs').doc(blogId).get();
+  const blogSnapshot = await db
+    .collection('users')
+    .doc(userId)
+    .collection('blogs')
+    .doc(blogId)
+    .get();
   const blogEntity = blogSnapshot.data() as BlogEntity;
   const feed = await fetchFeed(blogEntity.feedURL);
-  const itemsSnapshot = await db.collection('users').doc(userId).collection('blogs').doc(blogId).collection('items').get();
+  const itemsSnapshot = await db
+    .collection('users')
+    .doc(userId)
+    .collection('blogs')
+    .doc(blogId)
+    .collection('items')
+    .get();
   const itemEntities = itemsSnapshot.docs.map(i => i.data()) as ItemEntity[];
   const itemEntitiesMap = new Map(itemEntities.map(i => [i.url, i] as [string, ItemEntity]));
 
@@ -75,7 +88,7 @@ async function crawl(userId: string, blogURL: string) {
   const countMaps: { [key: string]: Map<string, number> } = {};
   const countTasks: [CountType, Promise<CountResponse[]>][] = [];
   if (blogEntity.services) {
-    if (blogEntity.services.countjsoon) {            
+    if (blogEntity.services.countjsoon) {
       countTasks.push([CountType.CountJsoon, fetchCountJsoonCounts(urls)]);
     }
     if (blogEntity.services.facebook) {
@@ -91,14 +104,16 @@ async function crawl(userId: string, blogURL: string) {
       countTasks.push([CountType.Pocket, fetchPocketCounts(urls)]);
     }
   }
-  const promises = countTasks.map((([type, task]) => (async () => {
-    try {
-      const counts = await task;
-      countMaps[type] = new Map(counts.map((c) => [c.url, c.count] as [string, number]));
-    } catch (e) {
-      console.warn(e);
-    }
-  })()))
+  const promises = countTasks.map(([type, task]) =>
+    (async () => {
+      try {
+        const counts = await task;
+        countMaps[type] = new Map(counts.map(c => [c.url, c.count] as [string, number]));
+      } catch (e) {
+        console.warn(e);
+      }
+    })()
+  );
 
   try {
     await Promise.all(promises);
@@ -106,18 +121,36 @@ async function crawl(userId: string, blogURL: string) {
     console.warn(e);
   }
 
-  const items: Item[] = feed.items.map((itemResponse) => ({
+  const items: Item[] = feed.items.map(itemResponse => ({
     title: itemResponse.title,
     url: itemResponse.url,
     published: itemResponse.published,
-    counts: countTasks.map(([type, _]) => createCount(type, itemResponse, itemEntitiesMap.get(itemResponse.url), countMaps[type] && countMaps[type].get(itemResponse.url) || 0)),
+    counts: countTasks.map(([type, _]) =>
+      createCount(
+        type,
+        itemResponse,
+        itemEntitiesMap.get(itemResponse.url),
+        (countMaps[type] && countMaps[type].get(itemResponse.url)) || 0
+      )
+    ),
   }));
-  return [blogEntity, items] as [BlogEntity, Item[]];  
+  return [blogEntity, items] as [BlogEntity, Item[]];
 }
 
-function createCount(countType: CountType, itemResponse: ItemResponse, itemEntitry?: ItemEntity, todayCount?: number): Count {
-  const yesterDayCount = itemEntitry && itemEntitry.yesterdayCounts && itemEntitry.yesterdayCounts[countType] && itemEntitry.yesterdayCounts[countType].count || 0;
-  const prevCount = itemEntitry && itemEntitry.counts && itemEntitry.counts[countType] && itemEntitry.counts[countType].count || 0;
+function createCount(
+  countType: CountType,
+  itemResponse: ItemResponse,
+  itemEntitry?: ItemEntity,
+  todayCount?: number
+): Count {
+  const yesterDayCount =
+    (itemEntitry &&
+      itemEntitry.yesterdayCounts &&
+      itemEntitry.yesterdayCounts[countType] &&
+      itemEntitry.yesterdayCounts[countType].count) ||
+    0;
+  const prevCount =
+    (itemEntitry && itemEntitry.counts && itemEntitry.counts[countType] && itemEntitry.counts[countType].count) || 0;
   const link = toServiceURL(countType, itemResponse.url);
   return {
     count: todayCount || prevCount,
@@ -131,7 +164,13 @@ function saveYestardayCounts(userId: string, blogURL: string, items: Item[]) {
   const batch = db.batch();
   for (const item of items) {
     const { url, title, published, counts } = item;
-    const itemRef = db.collection('users').doc(userId).collection('blogs').doc(encodeURIComponent(blogURL)).collection('items').doc(encodeURIComponent(url));
+    const itemRef = db
+      .collection('users')
+      .doc(userId)
+      .collection('blogs')
+      .doc(encodeURIComponent(blogURL))
+      .collection('items')
+      .doc(encodeURIComponent(url));
     const yesterdayCounts: { [key: string]: any } = {};
     for (const c of counts) {
       const { type, count } = c;
@@ -143,22 +182,34 @@ function saveYestardayCounts(userId: string, blogURL: string, items: Item[]) {
       }
     }
     if (Object.keys(yesterdayCounts).length) {
-      batch.set(itemRef, {
-        title,
-        url,
-        published,
-        yesterdayCounts,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      }, { merge: true });
+      batch.set(
+        itemRef,
+        {
+          title,
+          url,
+          published,
+          yesterdayCounts,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        },
+        { merge: true }
+      );
     }
   }
   return batch.commit();
 }
 
-function sendDailyReportMail(to: string, userId: string, blogURL: string, blogTitle: string, items: Item[], updatedCounts: number, sendForce = false) {
+function sendDailyReportMail(
+  to: string,
+  userId: string,
+  blogURL: string,
+  blogTitle: string,
+  items: Item[],
+  updatedCounts: number,
+  sendForce = false
+) {
   const email = new EmailTemplate({
     message: {
-      from: '"BlogFeedback" <report@blog-feedback.app>'
+      from: '"BlogFeedback" <report@blog-feedback.app>',
     },
     transport: transport(),
   });

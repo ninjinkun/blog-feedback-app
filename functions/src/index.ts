@@ -7,6 +7,7 @@ import { sendWelcomeMail as sendWelcomeMailAction } from './send-welcome-mail';
 import { crowlAndSendMail } from './send-daily-report-mail';
 import { db } from './firebase';
 import { pubsub } from './pubsub';
+import { sleep } from './sleep';
 
 export const crossOriginFetch = functions.region('asia-northeast1').https.onCall(async (data, context) => {
   if (!(context.auth && context.auth.uid)) {
@@ -38,7 +39,9 @@ type MailMessage = {
   forceSend: boolean;
 };
 
+const timeoutSeconds = 540;
 export const dailyReportMail = functions
+  .runWith({ timeoutSeconds })
   .region('asia-northeast1')
   .pubsub.schedule('every day 09:00')
   .timeZone('Asia/Tokyo')
@@ -65,13 +68,16 @@ export const dailyReportMail = functions
         return blogURLs.map(blogURL => [uid, email, blogURL] as [string, string, string]);
       })
     );
-    const topic = pubsub.topic('send-report-mail');
+    const jobExecTime = 1000;
+    const sleepChunk = (timeoutSeconds * 1000) / uidBlogIds.length - jobExecTime * uidBlogIds.length;
 
+    const topic = pubsub.topic('send-report-mail');
     for (const [uid, email, blogURL] of uidBlogIds) {
       const uuid = uuidv1();
       const message: MailMessage = { email, uid, blogURL, uuid, forceSend: false };
       await topic.publish(Buffer.from(JSON.stringify(message)));
       console.log(`${uid}, ${blogURL}`);
+      await sleep(sleepChunk);
     }
     return true;
   });
