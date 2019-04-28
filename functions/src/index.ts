@@ -17,55 +17,73 @@ export const crossOriginFetch = functions.region('asia-northeast1').https.onCall
   return { body: res };
 });
 
-export const sendWelcomeMail = functions.region('asia-northeast1').auth.user().onCreate(async (user, context) => {
-  if (!user.uid) {
-    throw new Error('Authorization Error');
-  }
-  const { uid, email } = user;  
-  await sendWelcomeMailAction(email, uid);
-  console.log('mail sent')
-  return true;
-});
+export const sendWelcomeMail = functions
+  .region('asia-northeast1')
+  .auth.user()
+  .onCreate(async (user, context) => {
+    if (!user.uid) {
+      throw new Error('Authorization Error');
+    }
+    const { uid, email } = user;
+    await sendWelcomeMailAction(email, uid);
+    console.log('mail sent');
+    return true;
+  });
 
 type MailMessage = {
   uid: string;
   email: string;
-  blogURL: string;  
+  blogURL: string;
   uuid: string;
   forceSend: boolean;
-}
+};
 
-export const dailyReportMail = functions.region('asia-northeast1').pubsub.topic('daily-report-mail').onPublish(async () => {
-  const users = await auth().listUsers(1000);
-  const blogSnapshots = await Promise.all(users.users.map(async user => {
-    return [user.uid, user.email, await db
-      .collection('users')
-      .doc(user.uid)
-      .collection('blogs')
-      .where('sendReport', '==', true)
-      .get()] as [string, string, firestore.QuerySnapshot];
-  }));
+export const dailyReportMail = functions
+  .region('asia-northeast1')
+  .pubsub.schedule('every day 09:00')
+  .timeZone('Asia/Tokyo')
+  .onRun(async () => {
+    const users = await auth().listUsers(1000);
+    const blogSnapshots = await Promise.all(
+      users.users.map(async user => {
+        return [
+          user.uid,
+          user.email,
+          await db
+            .collection('users')
+            .doc(user.uid)
+            .collection('blogs')
+            .where('sendReport', '==', true)
+            .get(),
+        ] as [string, string, firestore.QuerySnapshot];
+      })
+    );
 
-  const uidBlogIds = flatten(blogSnapshots.map(([uid, email, blogSnapshot]) => {
-    const blogURLs = blogSnapshot.docs.map(blog => decodeURIComponent(blog.id));
-    return blogURLs.map(blogURL => [uid, email, blogURL] as [string, string, string]);
-  }));
-  const topic = pubsub.topic('send-report-mail');
+    const uidBlogIds = flatten(
+      blogSnapshots.map(([uid, email, blogSnapshot]) => {
+        const blogURLs = blogSnapshot.docs.map(blog => decodeURIComponent(blog.id));
+        return blogURLs.map(blogURL => [uid, email, blogURL] as [string, string, string]);
+      })
+    );
+    const topic = pubsub.topic('send-report-mail');
 
-  for (const [uid, email, blogURL] of uidBlogIds) {
-    const uuid = uuidv1();
-    const message: MailMessage = { email, uid, blogURL, uuid, forceSend: false };
-    await topic.publish(Buffer.from(JSON.stringify(message)));
-    console.log(`${uid}, ${blogURL}`);
-  }
-  return true;
-});
+    for (const [uid, email, blogURL] of uidBlogIds) {
+      const uuid = uuidv1();
+      const message: MailMessage = { email, uid, blogURL, uuid, forceSend: false };
+      await topic.publish(Buffer.from(JSON.stringify(message)));
+      console.log(`${uid}, ${blogURL}`);
+    }
+    return true;
+  });
 
-export const subscribeSendReportMail = functions.region('asia-northeast1').pubsub.topic('send-report-mail').onPublish(async (message) => {
-  const { email, uid, blogURL, uuid, forceSend }: MailMessage = message.json;
-  await crowlAndSendMail(email, uid, blogURL, uuid, forceSend);
-  return true;
-});
+export const subscribeSendReportMail = functions
+  .region('asia-northeast1')
+  .pubsub.topic('send-report-mail')
+  .onPublish(async message => {
+    const { email, uid, blogURL, uuid, forceSend }: MailMessage = message.json;
+    await crowlAndSendMail(email, uid, blogURL, uuid, forceSend);
+    return true;
+  });
 
 export const sendTestReportMail = functions.region('asia-northeast1').https.onCall(async (data, context) => {
   const { blogURL } = data;
