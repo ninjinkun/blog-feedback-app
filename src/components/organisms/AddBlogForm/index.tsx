@@ -18,7 +18,7 @@ type Props = {
 
 const AddBlogForm: React.FC<Props> = props => {
   const [inputURL, setInputURL] = useState<string>('');
-  const [reportMailEnabled, setReportMailEnabled] = useState<boolean>(false);
+  const [reportMailEnabled, setReportMailEnabled] = useState<boolean>(true);
   const { loading, errorMessage, url, clearURL } = props;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
