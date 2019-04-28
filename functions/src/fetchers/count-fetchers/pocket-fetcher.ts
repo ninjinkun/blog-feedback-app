@@ -3,10 +3,13 @@ import { CountResponse } from '../../responses';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { chunk, flatten } from 'lodash';
+import { sleep } from '../../sleep';
 
-const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
-
-export async function fetchPocketCounts(urls: string[], maxFetchCount: number = 40, chunkNum: number = 10): Promise<CountResponse[]> {
+export async function fetchPocketCounts(
+  urls: string[],
+  maxFetchCount: number = 40,
+  chunkNum: number = 10
+): Promise<CountResponse[]> {
   const slicedURLs = urls.slice(0, maxFetchCount - 1);
   const chunkedURLs = chunk(slicedURLs, chunkNum);
   const counts = await Promise.all(chunkedURLs.map(chunkedURL => fetchPocketCountChunk(chunkedURL)));
