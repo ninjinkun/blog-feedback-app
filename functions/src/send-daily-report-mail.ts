@@ -1,5 +1,5 @@
 import * as firebase from 'firebase-admin';
-import * as uuidv1 from 'uuid/v1';
+import * as uuidv4 from 'uuid/v4';
 
 import { transport } from './mail-transport';
 import { fetchFeed } from './fetchers/feed-fetcher';
@@ -38,7 +38,7 @@ export async function crowlAndSendMail(to: string, userId: string, blogURL: stri
   if (uuidDoc) {
     return false;
   }
-  const taskUUID = uuidv1();
+  const taskUUID = uuidv4();
   // defer save wait
   const createMailPromise = createMailLock(uuid, taskUUID);
 
