@@ -52,13 +52,14 @@ export async function crowlAndSendMail(to: string, userId: string, blogURL: stri
     if (uuidDocAgain) {
       const { taskUUID: fetchedTaskUUID } = uuidDocAgain;
       if (taskUUID !== fetchedTaskUUID) {
+        console.log(`task collision taskUUID: ${taskUUID}, UUID: ${uuid}, uid: ${userId}, blogURL: ${blogURL}`);
         return false;
       }
     }
     await sendDailyReportMail(to, userId, blogURL, blogEntity.title, items, updatedCounts, sendForce);
-    console.log('mail sent');
+    console.log(`mail sent. UUID: ${uuid}, uid: ${userId}, blogURL: ${blogURL}`);
   } else {
-    console.log("mail didn't send");
+    console.log(`mail didn't send. UUID: ${uuid}, uid: ${userId}, blogURL: ${blogURL}`);
   }
   await saveYestardayCounts(userId, blogURL, items);
   return true;

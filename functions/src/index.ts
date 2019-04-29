@@ -76,7 +76,7 @@ export const dailyReportMail = functions
       const uuid = uuidv4();
       const message: MailMessage = { email, uid, blogURL, uuid, forceSend: false };
       await topic.publish(Buffer.from(JSON.stringify(message)));
-      console.log(`${uid}, ${blogURL}`);
+      console.log(`UUID: ${uuid}, uid: ${uid}, blogURL: ${blogURL}`);
       await sleep(sleepChunk);
     }
     return true;
