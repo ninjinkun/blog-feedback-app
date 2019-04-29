@@ -68,7 +68,7 @@ export const dailyReportMail = functions
         return blogURLs.map(blogURL => [uid, email, blogURL] as [string, string, string]);
       })
     );
-    const jobExecTime = 1000;
+    const jobExecTime = 100;
     const sleepChunk = (timeoutSeconds * 1000) / uidBlogIds.length - jobExecTime * uidBlogIds.length;
 
     const topic = pubsub.topic('send-report-mail');
