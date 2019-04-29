@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import { flatten } from 'lodash';
 import { auth, firestore } from 'firebase-admin';
-import * as uuidv1 from 'uuid/v1';
+import * as uuidv4 from 'uuid/v4';
 import { fetchText } from './fetcher';
 import { sendWelcomeMail as sendWelcomeMailAction } from './send-welcome-mail';
 import { crowlAndSendMail } from './send-daily-report-mail';
@@ -73,7 +73,7 @@ export const dailyReportMail = functions
 
     const topic = pubsub.topic('send-report-mail');
     for (const [uid, email, blogURL] of uidBlogIds) {
-      const uuid = uuidv1();
+      const uuid = uuidv4();
       const message: MailMessage = { email, uid, blogURL, uuid, forceSend: false };
       await topic.publish(Buffer.from(JSON.stringify(message)));
       console.log(`${uid}, ${blogURL}`);
@@ -101,7 +101,7 @@ export const sendTestReportMail = functions.region('asia-northeast1').https.onCa
   }
   const user = await auth().getUser(context.auth.uid);
   const { email, uid } = user;
-  const uuid = uuidv1(); // dummy
+  const uuid = uuidv4(); // dummy
   const topic = pubsub.topic('send-report-mail');
   const message: MailMessage = { email, uid, blogURL, uuid, forceSend: true };
   await topic.publish(Buffer.from(JSON.stringify(message)));
