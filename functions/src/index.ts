@@ -1,5 +1,5 @@
 import * as functions from 'firebase-functions';
-import { flatten } from 'lodash';
+import { flatten, shuffle } from 'lodash';
 import { auth, firestore } from 'firebase-admin';
 import * as uuidv4 from 'uuid/v4';
 import { fetchText } from './fetcher';
@@ -72,7 +72,8 @@ export const dailyReportMail = functions
     const sleepChunk = (timeoutSeconds * 1000) / uidBlogIds.length - jobExecTime * uidBlogIds.length;
 
     const topic = pubsub.topic('send-report-mail');
-    for (const [uid, email, blogURL] of uidBlogIds) {
+
+    for (const [uid, email, blogURL] of shuffle(uidBlogIds)) {
       const uuid = uuidv4();
       const message: MailMessage = { email, uid, blogURL, uuid, forceSend: false };
       await topic.publish(Buffer.from(JSON.stringify(message)));
