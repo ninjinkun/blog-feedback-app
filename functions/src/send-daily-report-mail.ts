@@ -153,9 +153,10 @@ function createCount(
   const prevCount =
     (itemEntitry && itemEntitry.counts && itemEntitry.counts[countType] && itemEntitry.counts[countType].count) || 0;
   const link = toServiceURL(countType, itemResponse.url);
+  const updatedCount = todayCount ? todayCount - (yesterDayCount || prevCount) : 0;
   return {
     count: todayCount || prevCount,
-    updatedCount: todayCount - (yesterDayCount || prevCount),
+    updatedCount,
     type: countType,
     link,
   };
