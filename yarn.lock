@@ -6818,7 +6818,7 @@ firebase@2.x.x:
   dependencies:
     faye-websocket ">=0.6.0"
 
-firebase@5.11.0:
+firebase@^5.11.0:
   version "5.11.0"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-5.11.0.tgz#d1a37b822e01680a3d8d4b476b48d8c80949d9c1"
   integrity sha512-9SKdrjwOU9X0n83Qw+RjQ2v3Fsst0O4x1EuhHj4OZLCe8IVI4aTQNEJqAPP/fBwhdQS/nFNQfcWPxbBu6EF4qw==
@@ -6832,20 +6832,6 @@ firebase@5.11.0:
     "@firebase/performance" "0.2.0"
     "@firebase/polyfill" "0.3.13"
     "@firebase/storage" "0.2.15"
-
-firebase@^5.10.1:
-  version "5.10.1"
-  resolved "https://registry.yarnpkg.com/firebase/-/firebase-5.10.1.tgz#daad6655008d14dcb72a4dbea40a5ed35f4b94f8"
-  integrity sha512-QA8xCRxQOdBcWyExVLd4V7MpGTCR3QCj6X7eVUnQgX5RDjoiZSATStEOIgAQ3CNGkDyfUqQw1/fJwgkMqV9RmQ==
-  dependencies:
-    "@firebase/app" "0.3.16"
-    "@firebase/auth" "0.10.1"
-    "@firebase/database" "0.3.19"
-    "@firebase/firestore" "1.2.1"
-    "@firebase/functions" "0.4.5"
-    "@firebase/messaging" "0.3.18"
-    "@firebase/polyfill" "0.3.12"
-    "@firebase/storage" "0.2.14"
 
 firebaseui@^3.2.0, firebaseui@^3.6.0:
   version "3.6.0"
