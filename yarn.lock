@@ -1452,16 +1452,16 @@
     "@firebase/storage-types" "0.2.11"
     tslib "1.9.3"
 
-"@firebase/testing@0.8.1":
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/@firebase/testing/-/testing-0.8.1.tgz#aa3676bddc73503ddeb7d7fe9e13b6ab3e6f1354"
-  integrity sha512-LPXqPIEWLgKrm2A5X0Y5CeAmcToVxsGvEthZ1+aq9pbWs2mYUepspuaOBCst2hgIA3XVUyfoNrLDOWmKrPXdEA==
+"@firebase/testing@0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@firebase/testing/-/testing-0.9.0.tgz#3da9552492c9c6cddfaf0ecf3a7eb2eea0f1b7c4"
+  integrity sha512-GTaY3JdNy0dsfM5Zud12nbseEY0qvDVB2cktBj+AHW/ksFPTp4BzwQ4MbQe0UZzs22KdpbuoW7xjIqTNuhsmxg==
   dependencies:
-    "@firebase/logger" "0.1.12"
-    "@firebase/util" "0.2.13"
+    "@firebase/logger" "0.1.13"
+    "@firebase/util" "0.2.14"
     "@types/request" "2.48.1"
-    firebase "5.10.1"
-    grpc "1.19.0"
+    firebase "5.11.0"
+    grpc "1.20.0"
     request "2.88.0"
 
 "@firebase/util@0.2.13":
@@ -4055,13 +4055,13 @@ browserslist@^1.3.6:
     electron-to-chromium "^1.2.7"
 
 browserslist@^4.0.0, browserslist@^4.1.1, browserslist@^4.3.4, browserslist@^4.4.2, browserslist@^4.5.2, browserslist@^4.5.4:
-  version "4.5.5"
-  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.5.5.tgz#fe1a352330d2490d5735574c149a85bc18ef9b82"
-  integrity sha512-0QFO1r/2c792Ohkit5XI8Cm8pDtZxgNl2H6HU4mHrpYz7314pEYcsAVVatM0l/YmxPnEzh9VygXouj4gkFUTKA==
+  version "4.5.6"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.5.6.tgz#ea42e8581ca2513fa7f371d4dd66da763938163d"
+  integrity sha512-o/hPOtbU9oX507lIqon+UvPYqpx3mHc8cV3QemSBTXwkG8gSQSK6UKvXcE/DcleU3+A59XTUHyCvZ5qGy8xVAg==
   dependencies:
-    caniuse-lite "^1.0.30000960"
-    electron-to-chromium "^1.3.124"
-    node-releases "^1.1.14"
+    caniuse-lite "^1.0.30000963"
+    electron-to-chromium "^1.3.127"
+    node-releases "^1.1.17"
 
 bs-logger@0.x:
   version "0.2.6"
@@ -4289,7 +4289,7 @@ caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000639:
   resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000963.tgz#df13099c13d3ad29d8ded5387f77e86319dd3805"
   integrity sha512-5Qk1jSsqRY3dD7BAjU018y0MsznzYb+kMTKzGknue8vSWlHkw2S345vRnd0cVEerzZ6ugUfoKaUOOVbBxWLWCA==
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000929, caniuse-lite@^1.0.30000939, caniuse-lite@^1.0.30000955, caniuse-lite@^1.0.30000957, caniuse-lite@^1.0.30000960:
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000929, caniuse-lite@^1.0.30000939, caniuse-lite@^1.0.30000955, caniuse-lite@^1.0.30000957, caniuse-lite@^1.0.30000963:
   version "1.0.30000963"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000963.tgz#5be481d5292f22aff5ee0db4a6c049b65b5798b1"
   integrity sha512-n4HUiullc7Lw0LyzpeLa2ffP8KxFBGdxqD/8G3bSL6oB758hZ2UE2CVK+tQN958tJIi0/tfpjAc67aAtoHgnrQ==
@@ -5868,7 +5868,7 @@ ejs@^2.6.1:
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.6.1.tgz#498ec0d495655abc6f23cd61868d926464071aa0"
   integrity sha512-0xy4A/twfrRCnkhfk8ErDi5DqdAsAqeGxht4xkCUrsvhhbQNs7E+4jV0CN7+NKIY0aHE72+XvqtBIXzD31ZbXQ==
 
-electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.103, electron-to-chromium@^1.3.122, electron-to-chromium@^1.3.124:
+electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.103, electron-to-chromium@^1.3.122, electron-to-chromium@^1.3.127:
   version "1.3.127"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.127.tgz#9b34d3d63ee0f3747967205b953b25fe7feb0e10"
   integrity sha512-1o25iFRf/dbgauTWalEzmD1EmRN3a2CzP/K7UVpYLEBduk96LF0FyUdCcf4Ry2mAWJ1VxyblFjC93q6qlLwA2A==
@@ -6817,20 +6817,6 @@ firebase@2.x.x:
   integrity sha1-ThEZ7AOWylYdinrL/xYw/qxsCjE=
   dependencies:
     faye-websocket ">=0.6.0"
-
-firebase@5.10.1:
-  version "5.10.1"
-  resolved "https://registry.yarnpkg.com/firebase/-/firebase-5.10.1.tgz#daad6655008d14dcb72a4dbea40a5ed35f4b94f8"
-  integrity sha512-QA8xCRxQOdBcWyExVLd4V7MpGTCR3QCj6X7eVUnQgX5RDjoiZSATStEOIgAQ3CNGkDyfUqQw1/fJwgkMqV9RmQ==
-  dependencies:
-    "@firebase/app" "0.3.16"
-    "@firebase/auth" "0.10.1"
-    "@firebase/database" "0.3.19"
-    "@firebase/firestore" "1.2.1"
-    "@firebase/functions" "0.4.5"
-    "@firebase/messaging" "0.3.18"
-    "@firebase/polyfill" "0.3.12"
-    "@firebase/storage" "0.2.14"
 
 firebase@^5.11.0:
   version "5.11.0"
@@ -10649,7 +10635,7 @@ node-pre-gyp@^0.12.0:
     semver "^5.3.0"
     tar "^4"
 
-node-releases@^1.1.13, node-releases@^1.1.14, node-releases@^1.1.3:
+node-releases@^1.1.13, node-releases@^1.1.17, node-releases@^1.1.3:
   version "1.1.17"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.17.tgz#71ea4631f0a97d5cd4f65f7d04ecf9072eac711a"
   integrity sha512-/SCjetyta1m7YXLgtACZGDYJdCSIBAWorDWkGCGZlydP2Ll7J48l7j/JxNYZ+xsgSPbWfdulVS/aY+GdjUsQ7Q==
