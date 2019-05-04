@@ -6637,10 +6637,10 @@ find-up@^2.0.0, find-up@^2.1.0:
   dependencies:
     locate-path "^2.0.0"
 
-firebase-tools@6.7.2:
-  version "6.7.2"
-  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-6.7.2.tgz#e2074d1015d54e101aac99ddf0d1850084242853"
-  integrity sha512-IKtgc4DlWgxnZWUq6GIc6BBVqNXIYDEOEPN5ayYbsXhuWzoQzZ7UbtiyFzv+I6BxbK5gFaOpvfTIdXXGXVyqaw==
+firebase-tools@6.8.0:
+  version "6.8.0"
+  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-6.8.0.tgz#fdb68d3585d8b0393d6baaaff0e81a1ecab514d5"
+  integrity sha512-vFJ15ApoQJs6gZdWw9mOGw4Hjivwa2qsuDDHoPMh0xUlGrvrel6UtEHn0+rrpYAYf/fu8xW/u1kL5z8H8RTINg==
   dependencies:
     JSONStream "^1.2.1"
     archiver "^2.1.1"
@@ -6677,7 +6677,6 @@ firebase-tools@6.7.2:
     tmp "0.0.33"
     universal-analytics "^0.4.16"
     update-notifier "^2.5.0"
-    user-home "^2.0.0"
     uuid "^3.0.0"
     winston "^1.0.1"
   optionalDependencies:
@@ -15055,13 +15054,6 @@ use@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
   integrity sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==
-
-user-home@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/user-home/-/user-home-2.0.0.tgz#9c70bfd8169bc1dcbf48604e0f04b8b49cde9e9f"
-  integrity sha1-nHC/2Babwdy/SGBODwS4tJzenp8=
-  dependencies:
-    os-homedir "^1.0.0"
 
 util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"
