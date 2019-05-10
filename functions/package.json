@@ -31,7 +31,7 @@
     "@types/charset": "^1.0.1",
     "@types/cheerio": "^0.22.11",
     "@types/email-templates": "^3.5.1",
-    "@types/lodash": "^4.14.124",
+    "@types/lodash": "^4.14.125",
     "@types/nodemailer": "^4.6.8",
     "@types/uuid": "^3.4.4",
     "@types/xmldom": "^0.1.29",
