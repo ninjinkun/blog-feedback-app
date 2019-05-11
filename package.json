@@ -8,7 +8,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "fetch-jsonp": "^1.1.3",
     "firebase": "^5.11.1",
-    "firebaseui": "^3.6.0",
+    "firebaseui": "^3.6.1",
     "history": "^4.9.0",
     "lodash": "^4.17.11",
     "normalize.css": "^8.0.1",
