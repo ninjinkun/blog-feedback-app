@@ -6743,10 +6743,17 @@ firebase@^5.11.1:
     "@firebase/polyfill" "0.3.13"
     "@firebase/storage" "0.2.15"
 
-firebaseui@^3.2.0, firebaseui@^3.6.0:
+firebaseui@^3.2.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/firebaseui/-/firebaseui-3.6.0.tgz#35ffada85e7c7ecfe77b2ce206cb90c04449c419"
   integrity sha512-q9MP5P2F+SIzBsz3EFdI7AJvsJLFDGZvk7K3XHS5GXX6hCDbO7PlR/avatbeDJH912inXNFGyLtxSXVCeOCt3w==
+  dependencies:
+    dialog-polyfill "^0.4.7"
+
+firebaseui@^3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/firebaseui/-/firebaseui-3.6.1.tgz#b88a59680f55d2d15433cd5f61afee468f5dda60"
+  integrity sha512-Ta50Ksi1CKO084YN/Bn5caSlaOxAzA1dzf5StjiRkarXP3Y4KBTp1SEEnYdUw8GcVUm1nRkjnpDkAeqkCYTwqQ==
   dependencies:
     dialog-polyfill "^0.4.7"
 
