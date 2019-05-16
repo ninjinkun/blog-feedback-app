@@ -6455,10 +6455,10 @@ firebaseui@^3.2.0:
   dependencies:
     dialog-polyfill "^0.4.7"
 
-firebaseui@^3.6.1:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/firebaseui/-/firebaseui-3.6.1.tgz#b88a59680f55d2d15433cd5f61afee468f5dda60"
-  integrity sha512-Ta50Ksi1CKO084YN/Bn5caSlaOxAzA1dzf5StjiRkarXP3Y4KBTp1SEEnYdUw8GcVUm1nRkjnpDkAeqkCYTwqQ==
+firebaseui@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/firebaseui/-/firebaseui-4.0.0.tgz#994547340a62da0b0e55f9f133d8986a37c542e6"
+  integrity sha512-NFlzv/pY64vkFQnGOEZH/FNbkKBFskLn7El9IxeTbyppNtYjWXHs2Ww5OaqnoiK0qfCWVuQqizsnoWpKtF57tA==
   dependencies:
     dialog-polyfill "^0.4.7"
 
