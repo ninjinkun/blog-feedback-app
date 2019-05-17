@@ -101,43 +101,63 @@
     split-array-stream "^2.0.0"
     stream-events "^1.0.4"
 
-"@google-cloud/precise-date@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@google-cloud/precise-date/-/precise-date-0.1.0.tgz#02ccda04b4413fa64f098fc93db51e95af5c855a"
-  integrity sha512-nXt4AskYjmDLRIO+nquVVppjiLE5ficFRP3WF1JYtPnSRFRpuMusa1kysPsD/yOxt5NMmvlkUCkaFI4rHYeckQ==
+"@google-cloud/paginator@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/paginator/-/paginator-1.0.0.tgz#35549a463fd7072a3caf550e79d28d88a24af3f3"
+  integrity sha512-U0Pa2k05mZlRmIGTl81VBv+cYbGsg3E/+IeNasUSk1EisC0fADSwB/o8QJ9yL0knUEAVzOEyErPXnvbMq0IM6w==
+  dependencies:
+    arrify "^2.0.0"
+    extend "^3.0.1"
+    split-array-stream "^2.0.0"
+    stream-events "^1.0.4"
 
-"@google-cloud/projectify@^0.3.0", "@google-cloud/projectify@^0.3.3":
+"@google-cloud/precise-date@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/precise-date/-/precise-date-1.0.0.tgz#07943161c3d687f7a0b5c8620f230a952a8eaef8"
+  integrity sha512-HnaBtUD3LGU300xSc52JD2xLwwf01NjLIldSst8vKvIQGj5p98BGVp1GPtV7feQuh0ZVTTWB5valI8N8QEMDnQ==
+
+"@google-cloud/projectify@^0.3.3":
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/@google-cloud/projectify/-/projectify-0.3.3.tgz#bde9103d50b20a3ea3337df8c6783a766e70d41d"
   integrity sha512-7522YHQ4IhaafgSunsFF15nG0TGVmxgXidy9cITMe+256RgqfcrfWphiMufW+Ou4kqagW/u3yxwbzVEW3dk2Uw==
+
+"@google-cloud/projectify@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/projectify/-/projectify-1.0.0.tgz#7efbb592b03dab6af1e37d4bdf748200982cdcb6"
+  integrity sha512-Dr1E5bcCLNLYo/O3U6A/1+AiRwr6ZYVmNv2Rys04HWFN31J8RcNdKZWV8Wrtu8YmXWRKltsdDhiuQb1TvV0RGA==
 
 "@google-cloud/promisify@^0.4.0":
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/@google-cloud/promisify/-/promisify-0.4.0.tgz#4fbfcf4d85bb6a2e4ccf05aa63d2b10d6c9aad9b"
   integrity sha512-4yAHDC52TEMCNcMzVC8WlqnKKKq+Ssi2lXoUg9zWWkZ6U6tq9ZBRYLHHCRdfU+EU9YJsVmivwGcKYCjRGjnf4Q==
 
-"@google-cloud/pubsub@^0.28.1":
-  version "0.28.1"
-  resolved "https://registry.yarnpkg.com/@google-cloud/pubsub/-/pubsub-0.28.1.tgz#8d0605e155f5a8c36f7b51363c1e139f534b5fd8"
-  integrity sha512-ukvR2S6DgerEJ5T0e9G2XTyk83Ajjfhy2GdNHR3qOIkFZTn1VjqnMbGK8oWtnYm4+hZ9PHPiZY4LnxvapmwaRA==
+"@google-cloud/promisify@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/promisify/-/promisify-1.0.0.tgz#1ae99ab8dd36807ee9923a81f8c6bc9159025fe9"
+  integrity sha512-B1wYzEqvM71QQgzc47xH3np40dxT17G76gMYew0q/fSwU/iWu7nNfxOU8Ataormee5j/n27G1muKU85LRdecww==
+
+"@google-cloud/pubsub@^0.29.0":
+  version "0.29.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/pubsub/-/pubsub-0.29.0.tgz#315511b36dc846963136caf84434b085cf584c10"
+  integrity sha512-GvmYtXRO/07m2Ozg4x348rm63DU5KNaRfo2ZsZSz4DIwToRthfd8FFiQZUrlRMSe5Tc1BYHksax5lcQFAbdZQA==
   dependencies:
-    "@google-cloud/paginator" "^0.2.0"
-    "@google-cloud/precise-date" "^0.1.0"
-    "@google-cloud/projectify" "^0.3.0"
-    "@google-cloud/promisify" "^0.4.0"
+    "@google-cloud/paginator" "^1.0.0"
+    "@google-cloud/precise-date" "^1.0.0"
+    "@google-cloud/projectify" "^1.0.0"
+    "@google-cloud/promisify" "^1.0.0"
     "@sindresorhus/is" "^0.15.0"
     "@types/duplexify" "^3.6.0"
     "@types/long" "^4.0.0"
-    "@types/p-defer" "^1.0.3"
-    arrify "^1.0.0"
+    arrify "^2.0.0"
     async-each "^1.0.1"
     extend "^3.0.1"
     google-auth-library "^3.0.0"
-    google-gax "^0.25.0"
+    google-gax "^1.0.0"
+    grpc "^1.20.3"
     is-stream-ended "^0.1.4"
     lodash.merge "^4.6.0"
     lodash.snakecase "^4.1.1"
-    p-defer "^1.0.0"
+    p-defer "^2.0.1"
     protobufjs "^6.8.1"
 
 "@google-cloud/storage@^2.3.0":
@@ -174,10 +194,25 @@
   dependencies:
     semver "^5.5.0"
 
+"@grpc/grpc-js@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.4.0.tgz#b20a6abf1346ce7fd696a042f83d10c94e143881"
+  integrity sha512-UbGDPnstJamJrSiHzCSwSavIX260IfLOZLRJYDqRKJA/jmVZa3hPMWDjhFrcCKDq2MLc/O/nauFED3r4khcZrA==
+  dependencies:
+    semver "^6.0.0"
+
 "@grpc/proto-loader@^0.4.0":
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/@grpc/proto-loader/-/proto-loader-0.4.0.tgz#a823a51eb2fde58369bef1deb5445fd808d70901"
   integrity sha512-Jm6o+75uWT7E6+lt8edg4J1F/9+BedOjaMgwE14pxS/AO43/0ZqK+rCLVVrXLoExwSAZvgvOD2B0ivy3Spsspw==
+  dependencies:
+    lodash.camelcase "^4.3.0"
+    protobufjs "^6.8.6"
+
+"@grpc/proto-loader@^0.5.0":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@grpc/proto-loader/-/proto-loader-0.5.1.tgz#48492b53cdda353110b51a4b02f465974729c76f"
+  integrity sha512-3y0FhacYAwWvyXshH18eDkUI40wT/uGio7MAegzY8lO5+wVsc19+1A7T0pPptae4kl7bdITL+0cHpnAPmryBjQ==
   dependencies:
     lodash.camelcase "^4.3.0"
     protobufjs "^6.8.6"
@@ -393,11 +428,6 @@
   integrity sha512-IX1P3bxDP1VIdZf6/kIWYNmSejkYm9MOyMEtoDFi4DVzKjJ3kY4GhOcOAKs6lZRjqVVmF9UjPOZXuQczlpZThw==
   dependencies:
     "@types/node" "*"
-
-"@types/p-defer@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@types/p-defer/-/p-defer-1.0.3.tgz#786ce79c86f779fcd9e9bec4f1fbd1167aeac064"
-  integrity sha512-0CK39nXek0mSZL/lnGYjhcR1QLAxg9N0/5S1BvU+MQwjlP4Jd2ebbEkJ/bEUqYMAvKLMZcGd4sJE13dnUKlDnQ==
 
 "@types/prop-types@*":
   version "15.7.1"
@@ -1581,12 +1611,30 @@ gaxios@^1.0.2, gaxios@^1.0.4, gaxios@^1.2.1, gaxios@^1.5.0:
     https-proxy-agent "^2.2.1"
     node-fetch "^2.3.0"
 
+gaxios@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/gaxios/-/gaxios-2.0.1.tgz#2ca1c9eb64c525d852048721316c138dddf40708"
+  integrity sha512-c1NXovTxkgRJTIgB2FrFmOFg4YIV6N/bAa4f/FZ4jIw13Ql9ya/82x69CswvotJhbV3DiGnlTZwoq2NVXk2Irg==
+  dependencies:
+    abort-controller "^3.0.0"
+    extend "^3.0.2"
+    https-proxy-agent "^2.2.1"
+    node-fetch "^2.3.0"
+
 gcp-metadata@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/gcp-metadata/-/gcp-metadata-1.0.0.tgz#5212440229fa099fc2f7c2a5cdcb95575e9b2ca6"
   integrity sha512-Q6HrgfrCQeEircnNP3rCcEgiDv7eF9+1B+1MMgpE190+/+0mjQR8PxeOaRgxZWmdDAF9EIryHB9g1moPiw1SbQ==
   dependencies:
     gaxios "^1.0.2"
+    json-bigint "^0.3.0"
+
+gcp-metadata@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/gcp-metadata/-/gcp-metadata-2.0.0.tgz#afd6092bd68e64c508e1687dfb829f5800eaa12e"
+  integrity sha512-BN6KUUWo6WLkDRst+Y7bqpXq1PYMrKUecNLRdZESp7oYtMjWcZdAM0UYvcip8wb0GXNO/j8Z8HTccK4iYtMvyQ==
+  dependencies:
+    gaxios "^2.0.0"
     json-bigint "^0.3.0"
 
 gcs-resumable-upload@^1.0.0:
@@ -1654,6 +1702,21 @@ google-auth-library@^3.0.0, google-auth-library@^3.1.1:
     lru-cache "^5.0.0"
     semver "^5.5.0"
 
+google-auth-library@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/google-auth-library/-/google-auth-library-4.0.0.tgz#2ec24b9ce5758fc86d2cd2093894b1452575ef5a"
+  integrity sha512-yyxl74G16GjKLevccXK3/DYEXphtI9Q2Qw3Eh7y8scjBKNL0IbAZF1mi999gC0tkfG6J23sCbd9tMEbNYeWfJQ==
+  dependencies:
+    arrify "^2.0.0"
+    base64-js "^1.3.0"
+    fast-text-encoding "^1.0.0"
+    gaxios "^2.0.0"
+    gcp-metadata "^2.0.0"
+    gtoken "^3.0.0"
+    jws "^3.1.5"
+    lru-cache "^5.0.0"
+    semver "^6.0.0"
+
 google-gax@^0.25.0:
   version "0.25.6"
   resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-0.25.6.tgz#5ea5c743933ba957da63951bc828aef91fb69340"
@@ -1674,6 +1737,23 @@ google-gax@^0.25.0:
     semver "^6.0.0"
     walkdir "^0.3.2"
 
+google-gax@^1.0.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-1.1.0.tgz#d6fb2b18fbedcc008ee5e587da0a6ba4e61c5f05"
+  integrity sha512-Up9HTSYHd5d8/kQ0X8xcNwL+VNR2W0bpd/zYdcy/PamDEelbSR0GsZGxSwuSaINXyqgbfvWdBrQdSbsQOi0sig==
+  dependencies:
+    "@grpc/grpc-js" "^0.4.0"
+    "@grpc/proto-loader" "^0.5.0"
+    duplexify "^3.6.0"
+    google-auth-library "^4.0.0"
+    is-stream-ended "^0.1.4"
+    lodash.at "^4.6.0"
+    lodash.has "^4.5.2"
+    protobufjs "^6.8.8"
+    retry-request "^4.0.0"
+    semver "^6.0.0"
+    walkdir "^0.4.0"
+
 google-p12-pem@^1.0.0:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/google-p12-pem/-/google-p12-pem-1.0.4.tgz#b77fb833a2eb9f7f3c689e2e54f095276f777605"
@@ -1681,6 +1761,13 @@ google-p12-pem@^1.0.0:
   dependencies:
     node-forge "^0.8.0"
     pify "^4.0.0"
+
+google-p12-pem@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/google-p12-pem/-/google-p12-pem-2.0.0.tgz#78f57cfeee46bd676e4a556009432712b687bad6"
+  integrity sha512-n8eGSKzWOb9/EmSBIh81sPvsQM939QlpHMXahTZDzuRIpCu09x3Oaqz+mXGjL4TeCvSbcnOC0YZRvjkJ9s9lnA==
+  dependencies:
+    node-forge "^0.8.0"
 
 google-proto-files@^0.20.0:
   version "0.20.0"
@@ -1715,6 +1802,17 @@ grpc@^1.16.0:
     node-pre-gyp "^0.13.0"
     protobufjs "^5.0.3"
 
+grpc@^1.20.3:
+  version "1.20.3"
+  resolved "https://registry.yarnpkg.com/grpc/-/grpc-1.20.3.tgz#a74d36718f1e89c4a64f2fb9441199c3c8f78978"
+  integrity sha512-GsEsi0NVj6usS/xor8pF/xDbDiwZQR59aZl5NUZ59Sy2bdPQFZ3UePr5wevZjHboirRCIQCKRI1cCgvSWUe2ag==
+  dependencies:
+    lodash.camelcase "^4.3.0"
+    lodash.clone "^4.5.0"
+    nan "^2.13.2"
+    node-pre-gyp "^0.13.0"
+    protobufjs "^5.0.3"
+
 gtoken@^2.3.2:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/gtoken/-/gtoken-2.3.3.tgz#8a7fe155c5ce0c4b71c886cfb282a9060d94a641"
@@ -1722,6 +1820,17 @@ gtoken@^2.3.2:
   dependencies:
     gaxios "^1.0.4"
     google-p12-pem "^1.0.0"
+    jws "^3.1.5"
+    mime "^2.2.0"
+    pify "^4.0.0"
+
+gtoken@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/gtoken/-/gtoken-3.0.0.tgz#7d37245b5109442d8ec28075d5de15505c7462ad"
+  integrity sha512-IY9HVi78D4ykVHn+ThI7rlcpdFtKyo9e9YLim9S9T3rp6fEnfeTexcrqzSpExVshPofsdauLKIa8dEnzX7ZLfQ==
+  dependencies:
+    gaxios "^2.0.0"
+    google-p12-pem "^2.0.0"
     jws "^3.1.5"
     mime "^2.2.0"
     pify "^4.0.0"
@@ -2629,10 +2738,10 @@ osenv@^0.1.4:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
-p-defer@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/p-defer/-/p-defer-1.0.0.tgz#9f6eb182f6c9aa8cd743004a7d4f96b196b0fb0c"
-  integrity sha1-n26xgvbJqozXQwBKfU+WsZaw+ww=
+p-defer@^2.0.1:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/p-defer/-/p-defer-2.1.0.tgz#d9c97b40f8fb5c256a70b4aabec3c1c8c42f1fae"
+  integrity sha512-xMwL9id1bHn/UfNGFEMFwlULOprQUEOg6vhqSfr6oKxPFB0oSh0zhGq/9/tPSE+cyij2+RW6H8+0Ke4xsPdZ7Q==
 
 parse5@^3.0.1:
   version "3.0.3"
@@ -3499,6 +3608,11 @@ walkdir@^0.3.0, walkdir@^0.3.2:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/walkdir/-/walkdir-0.3.2.tgz#ac8437a288c295656848ebc19981ebc677a5f590"
   integrity sha512-0Twghia4Z5wDGDYWURlhZmI47GvERMCsXIu0QZWVVZyW9ZjpbbZvD9Zy9M6cWiQQRRbAcYajIyKNavaZZDt1Uw==
+
+walkdir@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/walkdir/-/walkdir-0.4.0.tgz#6b5a23e4416d27e713eaffc769f88944db0b95e5"
+  integrity sha512-Ps0LSr9doEPbF4kEQi6sk5RgzIGLz9+OroGj1y2osIVnufjNQWSLEGIbZwW5V+j/jK8lCj/+8HSWs+6Q/rnViA==
 
 watchr@~2.4.13:
   version "2.4.13"
