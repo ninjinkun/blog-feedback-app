@@ -32,7 +32,7 @@
     "@types/cheerio": "^0.22.11",
     "@types/email-templates": "^3.5.1",
     "@types/lodash": "^4.14.132",
-    "@types/nodemailer": "^6.1.0",
+    "@types/nodemailer": "^6.1.1",
     "@types/uuid": "^3.4.4",
     "@types/xmldom": "^0.1.29",
     "tslint": "~5.16.0",
