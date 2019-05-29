@@ -719,10 +719,15 @@ bignumber.js@^7.0.0:
   resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-7.2.1.tgz#80c048759d826800807c4bfd521e50edbba57a5f"
   integrity sha512-S4XzBk5sMB+Rcb/LNcpzXr57VRTxgAvaAEDAl1AwRx27j00hT84O6OkteE7u8UB3NuaaygCRrEpqox4uDOrbdQ==
 
-bluebird@^3.1.1, bluebird@^3.5.1, bluebird@^3.5.3, bluebird@^3.5.4:
+bluebird@^3.1.1, bluebird@^3.5.1, bluebird@^3.5.3:
   version "3.5.4"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.4.tgz#d6cc661595de30d5b3af5fcedd3c0b3ef6ec5714"
   integrity sha512-FG+nFEZChJrbQ9tIccIfZJBz3J7mLrAhxakAbnrJWn8d7aKOC+LWifa0G+p4ZqKp4y13T7juYvdhq9NzKdsrjw==
+
+bluebird@^3.5.5:
+  version "3.5.5"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
+  integrity sha512-5am6HnnfN+urzt4yfg7IgTbotDjIT/u8AJpEt0sIU9FtXfVeezXAPKswrG+xKUCOYAINpSdgZVDU6QFh+cuH3w==
 
 body-parser@1.18.3:
   version "1.18.3"
@@ -1292,21 +1297,21 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-email-templates@^5.0.5:
-  version "5.0.5"
-  resolved "https://registry.yarnpkg.com/email-templates/-/email-templates-5.0.5.tgz#55258997bb5bc2602bb0269d89024bc1ebb6dc4d"
-  integrity sha512-zrtsFiU/dY1V/yx+eJzeOb7Q2SlC7gM/ipYGxHge7ytjauBECKVAcSGdFyZJQ0ZYLmOR4v+yigsSRbwfbcpxPA==
+email-templates@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/email-templates/-/email-templates-5.1.0.tgz#762bc09f96ee04c82c0dc2deacf6b18cc10f87f4"
+  integrity sha512-wtAK/cfiPPxDAkJN/XMed8t3nG2lOsfhsOXd55oicDDfSS3A8zY2aJhVpA1BzZMFcwUDuobZf98GLxUfrVBF+g==
   dependencies:
     "@ladjs/i18n" "^1.1.0"
     auto-bind "^2.1.0"
-    bluebird "^3.5.4"
+    bluebird "^3.5.5"
     consolidate "^0.15.1"
     debug "^4.1.1"
     get-paths "^0.0.4"
     html-to-text "^5.1.1"
     juice "^5.2.0"
     lodash "^4.17.11"
-    nodemailer "^6.1.1"
+    nodemailer "^6.2.1"
     preview-email "^0.0.10"
     underscore.string "^3.3.5"
 
@@ -2551,11 +2556,6 @@ nodemailer@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-5.1.1.tgz#0c48d1ecab02e86d9ff6c620ee75ed944b763505"
   integrity sha512-hKGCoeNdFL2W7S76J/Oucbw0/qRlfG815tENdhzcqTpSjKgAN91mFOqU2lQUflRRxFM7iZvCyaFcAR9noc/CqQ==
-
-nodemailer@^6.1.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.1.1.tgz#09e88ef4b3646f01089c5d84d007b872141fb575"
-  integrity sha512-/x5MRIh56VyuuhLfcz+DL2SlBARpZpgQIf2A4Ao4hMb69MHSgDIMPwYmFwesGT1lkRDZ0eBSoym5+JoIZ3N+cQ==
 
 nodemailer@^6.2.1:
   version "6.2.1"
