@@ -15,9 +15,9 @@ export function toServiceURL(type: CountType, url: string): string | null {
       return `https://twitter.com/search?q=${encodeURIComponent(url)}&f=live`;
     case CountType.HatenaBookmark:
       if (url.match(/^https/)) {
-        return `http://b.hatena.ne.jp/entry/s/${url.replace(/^https:\/\//, '')}`;
+        return `https://b.hatena.ne.jp/entry/s/${url.replace(/^https:\/\//, '')}`;
       } else {
-        return `http://b.hatena.ne.jp/entry/${url.replace(/^http:\/\//, '')}`;
+        return `https://b.hatena.ne.jp/entry/${url.replace(/^http:\/\//, '')}`;
       }
     case CountType.HatenaStar:
       return `https://s.hatena.ne.jp/mobile/entry?uri=${encodeURIComponent(url)}`;
