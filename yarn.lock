@@ -12181,10 +12181,10 @@ react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.2, react-lifecycles
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-md-spinner@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/react-md-spinner/-/react-md-spinner-0.3.0.tgz#3b3538853aba3d8bc317c2e6bfc27f57657c5f43"
-  integrity sha512-7MZx3eSCjUNocTQuYFzt2BF3J69s9UNSnOG2I6R+Yg2okbi3VzRVY0Ers7C7dTXHhpNMYeQoaI1juIz72r3bng==
+react-md-spinner@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-md-spinner/-/react-md-spinner-0.4.0.tgz#dc7a16133b787323902805e0f6c0dda204fbe167"
+  integrity sha512-5I+mZOhQuBcjdgb0ciLOSwyq+RTQGmYQm+HgXPbXXH4lG7lGctO4dzwi38V4uYRIy7POWwFJX0CpueFNqts1Qg==
   dependencies:
     caniuse-api "^1.6.1"
     css-keyframer "1.0.1"
