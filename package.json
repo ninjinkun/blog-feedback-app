@@ -67,7 +67,7 @@
     "@types/react-redux": "^7.0.9",
     "@types/react-router-dom": "^4.3.3",
     "@types/react-toggle": "^4.0.2",
-    "@types/storybook__addon-actions": "^3.4.2",
+    "@types/storybook__addon-actions": "^3.4.3",
     "@types/storybook__react": "^4.0.1",
     "@types/styled-components": "^4.1.16",
     "@types/ua-parser-js": "^0.7.33",
