@@ -6,11 +6,13 @@ export function fetchFacebookCounts(urls: string[]): Array<Promise<CountResponse
 }
 
 export async function fetchFacebookCount(url: string): Promise<CountResponse> {
-  const response = await fetch(`https://graph.facebook.com/?id=${encodeURIComponent(url)}`);
+  const response = await fetch(
+    `https://graph.facebook.com/?id=${encodeURIComponent(url)}&fields=og_object{engagement}`
+  );
   const json = await response.json();
-  if (json.hasOwnProperty('share')) {
-    return { url: json.id, count: json.share.share_count, type: CountType.Facebook };
+  if (json.hasOwnProperty('og_object') && json.og_object.hasOwnProperty('engagement')) {
+    return { url: json.id, count: json.og_object.engagement.count, type: CountType.Facebook };
   } else {
-    throw new Error('Facebook count fetch failed: ' + url);
+    return { url: json.id, count: 0, type: CountType.Facebook };
   }
 }
