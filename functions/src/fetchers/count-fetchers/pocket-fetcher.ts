@@ -24,14 +24,10 @@ async function fetchPocketCountChunk(urls: string[], delayMsec: number = 400) {
 
 export async function fetchPocketCount(url: string): Promise<CountResponse | undefined> {
   try {
-    const apiURL = `https://widgets.getpocket.com/v1/button?label=pocket&count=vertical&v=1&url=${encodeURIComponent(
-      url
-    )}&src=${encodeURIComponent(url)}`;
-    const response = await axios.get(apiURL, { timeout: 2 * 1000 });
-    const htmlText = response.data;
-    const $ = cheerio.load(htmlText);
-    const countString = $('em#cnt').text();
-    const count = countString ? parseInt(countString.replace(/,/, ''), 10) : 0;
+    const apiURL = `https://widgets.getpocket.com/api/saves?url=${encodeURIComponent(url)}`;
+    const response = await axios.get(apiURL, { timeout: 10 * 1000 });
+    const json = response.data;
+    const count = json.saves;
     return { url, count, type: CountType.Pocket };
   } catch (e) {
     console.warn(e);
