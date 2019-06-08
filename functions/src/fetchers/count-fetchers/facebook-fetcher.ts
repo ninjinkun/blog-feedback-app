@@ -15,16 +15,17 @@ type FacebookBatchResponse = {
 
 type FacebookResponse = {
   id: string;
-  share: {
-    share_count: number;
-    comment_count: number;
+  og_object: {
+    engagement: {
+      count: number;
+    };
   };
 };
 
 export async function fetchFacebookCounts(urls: string[]): Promise<CountResponse[]> {
   const batch = urls.map(url => ({
     method: 'GET',
-    relative_url: `?id=${encodeURIComponent(url)}`,
+    relative_url: `?id=${encodeURIComponent(url)}&fields=og_object{engagement}`,
   }));
   const accessToken = functions.config().facebook.access_token;
   const response = await axios.post(
@@ -32,14 +33,15 @@ export async function fetchFacebookCounts(urls: string[]): Promise<CountResponse
     qs.stringify({
       access_token: accessToken,
       batch: JSON.stringify(batch),
-    })
-  , { timeout: 10 * 1000 });
+    }),
+    { timeout: 10 * 1000 }
+  );
   return response.data
     .map((json: FacebookBatchResponse) => JSON.parse(json.body))
-    .filter((json: FacebookResponse) => json.hasOwnProperty('share'))
+    .filter((json: FacebookResponse) => json.hasOwnProperty('og_object'))
     .map((json: FacebookResponse) => ({
       url: json.id,
-      count: json.share.share_count,
+      count: json.og_object.engagement.count,
       type: CountType.Facebook,
     }));
 }
