@@ -1,5 +1,5 @@
 import React from 'react';
-import MDSpinner, { MDSpinnerProps } from 'react-md-spinner';
+import MDSpinner from 'react-md-spinner';
 import styled from 'styled-components';
 import { colorsBlanding } from '../../properties';
 
@@ -10,7 +10,7 @@ const Spinner = styled(MDSpinner)`
   position: relative;
 `;
 
-const ColoredSpinner: React.FunctionComponent<MDSpinnerProps> = (...props) => (
+const ColoredSpinner: React.FunctionComponent<MDSpinner['props']> = (...props) => (
   <Spinner singleColor={colorsBlanding.accent} {...props} />
 );
 
