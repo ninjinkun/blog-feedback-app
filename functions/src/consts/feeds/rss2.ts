@@ -1,24 +1,24 @@
-export type RSS2 = {
+export interface RSS2 {
   rss: RSS;
-};
+}
 
-type RSS = {
+interface RSS {
   channel: Channel;
-};
+}
 
-type Channel = {
+interface Channel {
   title: Text;
   link: Text;
   item: Item[];
-};
+}
 
-type Item = {
+interface Item {
   title: Text;
   link: Text;
   pubDate: Text;
-};
+}
 
-type Text = {
+interface Text {
   _text: string;
   _cdata?: string;
-};
+}

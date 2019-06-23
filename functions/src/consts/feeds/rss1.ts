@@ -1,23 +1,23 @@
-export type RSS1 = {
+export interface RSS1 {
   'rdf:RDF': RSS;
-};
+}
 
-type RSS = {
+interface RSS {
   item: Item[];
   channel: Channel;
-};
+}
 
-type Channel = {
+interface Channel {
   title: Text;
   link: Text;
-};
+}
 
-type Item = {
+interface Item {
   title: Text;
   link: Text;
   'dc:date': Text;
-};
+}
 
-type Text = {
+interface Text {
   _text: string;
-};
+}

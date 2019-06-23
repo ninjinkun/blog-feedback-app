@@ -1,33 +1,33 @@
-export type Atom = {
+export interface Atom {
   feed: Feed;
-};
+}
 
-type Feed = {
+interface Feed {
   title: Text;
   link: Link | Link[];
   entry: Entry[];
-};
+}
 
-type Entry = {
+interface Entry {
   id: Text;
   link: Link | Link[];
   title: Text | FeedBurnerTitle;
   updated: Text;
   published?: Text;
   'feedburner:origLink'?: Text;
-};
+}
 
-export type Link = {
+export interface Link {
   _attributes: {
     href: string;
     rel?: string;
   };
-};
+}
 
-type Text = {
+interface Text {
   _text: string;
-};
+}
 
-type FeedBurnerTitle = {
+interface FeedBurnerTitle {
   _cdata: string;
-};
+}

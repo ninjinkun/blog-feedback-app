@@ -31,13 +31,13 @@ export const sendWelcomeMail = functions
     return true;
   });
 
-type MailMessage = {
+interface MailMessage {
   uid: string;
   email: string;
   blogURL: string;
   uuid: string;
   forceSend: boolean;
-};
+}
 
 const timeoutSeconds = 540;
 export const dailyReportMail = functions

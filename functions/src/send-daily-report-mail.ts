@@ -19,19 +19,19 @@ import { sum } from 'lodash';
 import EmailTemplate = require('email-templates');
 import console = require('console');
 
-type Item = {
+interface Item {
   title: string;
   url: string;
   published: Date;
   counts: Count[];
-};
+}
 
-type Count = {
+interface Count {
   type: CountType;
   count: number;
   updatedCount: number;
   link?: string;
-};
+}
 
 export async function crowlAndSendMail(to: string, userId: string, blogURL: string, uuid: string, sendForce = false) {
   const uuidDoc = await getMailLock(uuid);
