@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import * as iconv from 'iconv-lite';
-const charset = require('charset');
+import charset = require('charset');
 
 export async function fetchText(url: string): Promise<string> {
   return fetch(url, 'text/html,application/xhtml+xml,application/xml,application/rss+xml,application/atom+xml');

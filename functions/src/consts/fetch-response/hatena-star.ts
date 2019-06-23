@@ -1,19 +1,19 @@
-export type HatenaStarReponse = {
+export interface HatenaStarReponse {
   entries: Entry[];
-};
+}
 
-type Entry = {
+interface Entry {
   uri: string;
   stars?: Star[];
   colored_stars?: ColorStar[];
-};
+}
 
-type ColorStar = {
+interface ColorStar {
   color: string;
   stars: Star[];
-};
+}
 
-type Star = {
+interface Star {
   name: string;
   quote: string;
-};
+}

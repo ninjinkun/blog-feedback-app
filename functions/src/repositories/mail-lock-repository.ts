@@ -2,7 +2,7 @@
 import { firestore } from 'firebase-admin';
 import { db } from '../firebase';
 
-export type MailLock = {
+export interface MailLock {
     taskUUID: string;
 }
   

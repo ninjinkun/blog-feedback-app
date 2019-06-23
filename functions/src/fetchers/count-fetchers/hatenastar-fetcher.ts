@@ -9,9 +9,9 @@ export async function fetchHatenaStarCounts(urls: string[], maxFetchCount: numbe
   const apiURL = 'https://s.hatena.com/entry.json?' + slicedURLs.map(url => `uri=${encodeURIComponent(url)}`).join('&');
   const response = await axios.get(apiURL, { timeout: 10 * 1000 });
   const json: HatenaStarReponse = response.data;
-  return json.entries.map(({ uri, stars, colored_stars }) => ({
+  return json.entries.map(({ uri, stars, colored_stars: coloredStars }) => ({
     url: uri,
-    count: (stars && stars.length + sum(colored_stars && colored_stars.map(c => c.stars.length))) || 0,
+    count: (stars && stars.length + sum(coloredStars && coloredStars.map(c => c.stars.length))) || 0,
     type: CountType.HatenaStar,
   }));
 }
