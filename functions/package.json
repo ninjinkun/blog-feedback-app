@@ -1,14 +1,14 @@
 {
   "name": "functions",
   "scripts": {
-    "lint": "tslint --project tsconfig.json",
+    "eslint": "eslint './src/**/*.{ts,tsx}'",
     "build": "tsc",
     "serve": "npm run build && firebase serve --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "tslint:fix": "tslint --fix --force --format stylish --project ./tsconfig.json ./{src,__tests__}/**/*.{ts,tsx}"
+    "eslint:fix": "eslint --fix './src/**/*.{ts,tsx}'"
   },
   "main": "build/index.js",
   "dependencies": {
@@ -21,9 +21,9 @@
     "firebase-functions": "^3.0.1",
     "iconv-lite": "^0.4.24",
     "lodash": "^4.17.11",
-    "uuid": "^3.3.2",
     "nodemailer": "^6.2.1",
     "qs": "^6.7.0",
+    "uuid": "^3.3.2",
     "xml-js": "^1.6.11",
     "xmldom": "^0.1.27"
   },
@@ -35,7 +35,11 @@
     "@types/nodemailer": "^6.2.0",
     "@types/uuid": "^3.4.4",
     "@types/xmldom": "^0.1.29",
-    "tslint": "~5.18.0",
+    "@typescript-eslint/eslint-plugin": "^1.10.2",
+    "eslint": "^6.0.0",
+    "eslint-config-prettier": "^5.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "prettier": "^1.18.2",
     "typescript": "~3.5.2"
   },
   "private": true,
