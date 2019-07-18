@@ -6230,10 +6230,10 @@ find-up@^4.0.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-firebase-tools@7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-7.1.0.tgz#dcde117e70d021d163616e8bcd02abead5d5c1e1"
-  integrity sha512-8m+ukPf10GmM7zLB7V8hAgfSXt2bLhRB/t9f4AqPNDvUDxvfnIFFW55V2g6UeE7BjxdFlT5jMiwC5dWNHw6RhA==
+firebase-tools@7.1.1:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-7.1.1.tgz#4e92488c2ae94eba4b39d65438964aecbd9f4f70"
+  integrity sha512-RWLr6c3YJz4/yjPg4ARucKC8GgcPqB1xhdh5VM9oDsOkxoZ/zoNpJTknczJb37W51ZEXlP2s9Fb97H7y5161xg==
   dependencies:
     JSONStream "^1.2.1"
     archiver "^3.0.0"
@@ -6257,7 +6257,7 @@ firebase-tools@7.1.0:
     inquirer "~6.3.1"
     jsonschema "^1.0.2"
     jsonwebtoken "^8.2.1"
-    lodash "^4.17.10"
+    lodash "^4.17.14"
     minimatch "^3.0.4"
     open "^6.3.0"
     ora "0.2.3"
