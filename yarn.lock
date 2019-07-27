@@ -6314,10 +6314,10 @@ find-up@^4.0.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-firebase-tools@7.2.0:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-7.2.0.tgz#d9bbcde3c0b2530c39d2c689b0a3424f98f8a96c"
-  integrity sha512-pGxShLWs8q8So/OdUFbS6e2urMB0/VIsDRBXrWSRbZoTqGJCtsH0TtZRGFen8/HOh6UCssPMxFlcVk/qlNWoeA==
+firebase-tools@7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-7.2.1.tgz#bb845252bcd2e5e8eef54e08618cbdf37ccd3b1e"
+  integrity sha512-P8x9ONFyO6Q4YQA8CH+XCVUwtR8MkKliaAUSAvt0YJVKPlMBvPFnr1DkMLjQUzhheZLggw/H9/MDeWIN8rhbGA==
   dependencies:
     JSONStream "^1.2.1"
     archiver "^3.0.0"
@@ -6343,7 +6343,7 @@ firebase-tools@7.2.0:
     jsonschema "^1.0.2"
     jsonwebtoken "^8.2.1"
     lodash "^4.17.14"
-    marked "^0.6.2"
+    marked "^0.7.0"
     marked-terminal "^3.1.1"
     minimatch "^3.0.4"
     open "^6.3.0"
@@ -9480,6 +9480,11 @@ marked@^0.6.2:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/marked/-/marked-0.6.3.tgz#79babad78af638ba4d522a9e715cdfdd2429e946"
   integrity sha512-Fqa7eq+UaxfMriqzYLayfqAE40WN03jf+zHjT18/uXNuzjq3TY0XTbrAoPeqSJrAmPz11VuUA+kBPYOhHt9oOQ==
+
+marked@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-0.7.0.tgz#b64201f051d271b1edc10a04d1ae9b74bb8e5c0e"
+  integrity sha512-c+yYdCZJQrsRjTPhUx7VKkApw9bwDkNbHUKo1ovgcfDjb2kc8rLuRbIFyXL5WOEUwzSSKo3IXpph2K6DqB/KZg==
 
 marksy@^7.0.0:
   version "7.0.1"
