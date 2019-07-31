@@ -6306,10 +6306,10 @@ find-up@^4.0.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-firebase-tools@7.2.1:
-  version "7.2.1"
-  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-7.2.1.tgz#bb845252bcd2e5e8eef54e08618cbdf37ccd3b1e"
-  integrity sha512-P8x9ONFyO6Q4YQA8CH+XCVUwtR8MkKliaAUSAvt0YJVKPlMBvPFnr1DkMLjQUzhheZLggw/H9/MDeWIN8rhbGA==
+firebase-tools@7.2.2:
+  version "7.2.2"
+  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-7.2.2.tgz#15f548403e249802627eb3610a906ab0465e46d7"
+  integrity sha512-irHSMFE8HIrIUaFOVEBK5TFhKmBs9G8AWJSR6YUIeSwqEhmn9KZ0t/PwEbkC/dqqemGQoUgghL+E6hvMA1W7pQ==
   dependencies:
     JSONStream "^1.2.1"
     archiver "^3.0.0"
