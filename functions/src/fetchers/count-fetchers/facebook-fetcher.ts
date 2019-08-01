@@ -22,8 +22,8 @@ interface FacebookResponse {
   };
 }
 
-export async function fetchFacebookCounts(urls: string[]): Promise<CountResponse[]> {
-  const batch = urls.map(url => ({
+export async function fetchFacebookCounts(urls: string[], maxFetchCount=30): Promise<CountResponse[]> {
+  const batch = urls.slice(0, maxFetchCount - 1).map(url => ({
     method: 'GET',
     'relative_url': `?id=${encodeURIComponent(url)}&fields=og_object{engagement}`,
   }));
