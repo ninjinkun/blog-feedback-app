@@ -4,14 +4,14 @@ import { saveBlogSetting } from '../../models/repositories/blog-repository';
 import { AppState } from '../states/app-state';
 import { currenUserOronAuthStateChanged } from './user-action';
 
-export const FIREBASE_SAVE_SETTING_REQUEST = 'setting/FIREBASE_SAVE_REQUEST';
+export const FIREBASE_SAVE_SETTING_REQUEST = 'setting/FIREBASE_SAVE_REQUEST' as const;
 export function settingSaveSettingRequest(blogURL: string) {
   return {
-    type: FIREBASE_SAVE_SETTING_REQUEST as typeof FIREBASE_SAVE_SETTING_REQUEST,
+    type: FIREBASE_SAVE_SETTING_REQUEST,
     blogURL,
   };
 }
-export const FIREBASE_SAVE_SETTING_RESPONSE = 'setting/FIREBASE_SAVE_RESPONSE';
+export const FIREBASE_SAVE_SETTING_RESPONSE = 'setting/FIREBASE_SAVE_RESPONSE' as const;
 export function settingSaveSettingResponse(
   blogURL: string,
   sendReport: boolean,
@@ -23,7 +23,7 @@ export function settingSaveSettingResponse(
   pocket: boolean
 ) {
   return {
-    type: FIREBASE_SAVE_SETTING_RESPONSE as typeof FIREBASE_SAVE_SETTING_RESPONSE,
+    type: FIREBASE_SAVE_SETTING_RESPONSE,
     blogURL,
     sendReport,
     twitter,
@@ -35,10 +35,10 @@ export function settingSaveSettingResponse(
   };
 }
 
-export const FIREBASE_SAVE_SETTING_ERROR = 'setting/FIREBASE_SAVE_ERROR';
+export const FIREBASE_SAVE_SETTING_ERROR = 'setting/FIREBASE_SAVE_ERROR' as const;
 export function settingSaveSettingError(blogURL: string, error: Error) {
   return {
-    type: FIREBASE_SAVE_SETTING_ERROR as typeof FIREBASE_SAVE_SETTING_ERROR,
+    type: FIREBASE_SAVE_SETTING_ERROR,
     blogURL,
     error,
   };
