@@ -11,25 +11,25 @@ import { FeedFetchHatenaStarActions } from './feed-actions/hatenastar-action';
 import { FeedFetchPocketCountActions } from './feed-actions/pocket-action';
 import { FeedFetchRSSActions } from './feed-actions/rss';
 
-export const BLOG_URL_CHANGE = 'feed/BLOG_URL_CHANGE';
+export const BLOG_URL_CHANGE = 'feed/BLOG_URL_CHANGE' as const;
 export function feedBlogURLChange(blogURL: string) {
   return {
-    type: BLOG_URL_CHANGE as typeof BLOG_URL_CHANGE,
+    type: BLOG_URL_CHANGE,
     blogURL,
   };
 }
 
-export const BLOG_URL_CLEAR = 'feed/BLOG_URL_CLEAR';
+export const BLOG_URL_CLEAR = 'feed/BLOG_URL_CLEAR' as const;
 export function feedBlogURLClear() {
   return {
-    type: BLOG_URL_CLEAR as typeof BLOG_URL_CLEAR,
+    type: BLOG_URL_CLEAR,
   };
 }
 
-export const FETCH_AND_SAVE_START = 'feed/FETCH_AND_SAVE_START';
+export const FETCH_AND_SAVE_START = 'feed/FETCH_AND_SAVE_START' as const;
 export function fetchFeed(auth: firebase.auth.Auth, blogURL: string) {
   return {
-    type: FETCH_AND_SAVE_START as typeof FETCH_AND_SAVE_START,
+    type: FETCH_AND_SAVE_START,
     auth,
     blogURL,
   };
@@ -37,10 +37,10 @@ export function fetchFeed(auth: firebase.auth.Auth, blogURL: string) {
 
 export type FeedFetchFeedAction = ReturnType<typeof fetchFeed>;
 
-export const FEED_FETCH_AND_SAVE_ERROR = 'feed/FEED_FETCH_AND_SAVE_ERROR';
+export const FEED_FETCH_AND_SAVE_ERROR = 'feed/FEED_FETCH_AND_SAVE_ERROR' as const;
 export function feedFetchAndSaveError(blogURL: string, error: Error) {
   return {
-    type: FEED_FETCH_AND_SAVE_ERROR as typeof FEED_FETCH_AND_SAVE_ERROR,
+    type: FEED_FETCH_AND_SAVE_ERROR,
     blogURL,
     error,
   };

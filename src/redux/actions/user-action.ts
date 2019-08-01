@@ -3,33 +3,33 @@ import 'firebase/auth';
 import { ThunkAction } from 'redux-thunk';
 import { AppState } from '../states/app-state';
 
-export const FIREBASE_USER_REQUEST = 'user/FIREBASE_REQUEST';
+export const FIREBASE_USER_REQUEST = 'user/FIREBASE_REQUEST' as const;
 export function userFirebaseUserRequest() {
   return {
-    type: FIREBASE_USER_REQUEST as typeof FIREBASE_USER_REQUEST,
+    type: FIREBASE_USER_REQUEST,
   };
 }
 
-export const FIREBASE_USER_RESPONSE = 'user/FIREBASE_RESPONSE';
+export const FIREBASE_USER_RESPONSE = 'user/FIREBASE_RESPONSE' as const;
 export function userFirebaseUserResponse(user: firebase.User) {
   return {
-    type: FIREBASE_USER_RESPONSE as typeof FIREBASE_USER_RESPONSE,
+    type: FIREBASE_USER_RESPONSE,
     user,
   };
 }
 export type UserFirebaseUserResponseAction = ReturnType<typeof userFirebaseUserResponse>;
 
-export const FIREBASE_USER_UNAUTHORIZED_ERROR = 'user/FIREBASE_UNAUTHORIZED_ERROR';
+export const FIREBASE_USER_UNAUTHORIZED_ERROR = 'user/FIREBASE_UNAUTHORIZED_ERROR' as const;
 function userFirebaseUserUnauthorizedError() {
   return {
-    type: FIREBASE_USER_UNAUTHORIZED_ERROR as typeof FIREBASE_USER_UNAUTHORIZED_ERROR,
+    type: FIREBASE_USER_UNAUTHORIZED_ERROR,
   };
 }
 
-export const FIREBASE_USER_ERROR = 'user/FIREBASE_ERROR';
+export const FIREBASE_USER_ERROR = 'user/FIREBASE_ERROR' as const;
 export function userFirebaseUserError(error: Error) {
   return {
-    type: FIREBASE_USER_ERROR as typeof FIREBASE_USER_ERROR,
+    type: FIREBASE_USER_ERROR,
     error,
   };
 }
@@ -40,24 +40,24 @@ export type UserFetchActions =
   | ReturnType<typeof userFirebaseUserError>
   | ReturnType<typeof userFirebaseUserUnauthorizedError>;
 
-export const FIREBASE_SIGNOUT_REQUEST = 'user/signout/FIREBASE_REQUEST';
+export const FIREBASE_SIGNOUT_REQUEST = 'user/signout/FIREBASE_REQUEST' as const;
 function userFirebaseSignoutRequest() {
   return {
-    type: FIREBASE_SIGNOUT_REQUEST as typeof FIREBASE_SIGNOUT_REQUEST,
+    type: FIREBASE_SIGNOUT_REQUEST,
   };
 }
 
-export const FIREBASE_SIGNOUT_RESPONSE = 'user/signout/FIREBASE_RESPONSE';
+export const FIREBASE_SIGNOUT_RESPONSE = 'user/signout/FIREBASE_RESPONSE' as const;
 export function userFirebaseSignoutResponse() {
   return {
-    type: FIREBASE_SIGNOUT_RESPONSE as typeof FIREBASE_SIGNOUT_RESPONSE,
+    type: FIREBASE_SIGNOUT_RESPONSE,
   };
 }
 
-export const FIREBASE_SIGNOUT_ERROR = 'user/signout/FIREBASE_ERROR';
+export const FIREBASE_SIGNOUT_ERROR = 'user/signout/FIREBASE_ERROR' as const;
 export function userFirebaseSignoutError(error: Error) {
   return {
-    type: FIREBASE_SIGNOUT_ERROR as typeof FIREBASE_SIGNOUT_ERROR,
+    type: FIREBASE_SIGNOUT_ERROR,
     error,
   };
 }

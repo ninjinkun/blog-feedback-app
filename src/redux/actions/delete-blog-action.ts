@@ -6,35 +6,35 @@ import * as ItemsRepo from '../../models/repositories/item-repository';
 import { AppState } from '../states/app-state';
 import { currenUserOronAuthStateChanged } from './user-action';
 
-export const DELETE_REQUEST = 'deleteblog/DELETE_REQUEST';
+export const DELETE_REQUEST = 'deleteblog/DELETE_REQUEST' as const;
 function deleteBlogRequest(blogURL: string) {
   return {
-    type: DELETE_REQUEST as typeof DELETE_REQUEST,
+    type: DELETE_REQUEST,
     blogURL,
   };
 }
 
-export const DELETE_RESPONSE = 'deleteblog/DELETE_RESPONSE';
+export const DELETE_RESPONSE = 'deleteblog/DELETE_RESPONSE' as const;
 function deleteBlogResponse(blogURL: string) {
   return {
-    type: DELETE_RESPONSE as typeof DELETE_RESPONSE,
+    type: DELETE_RESPONSE,
     blogURL,
   };
 }
 
-export const DELETE_ERROR = 'deleteblog/DELETE_ERROR';
+export const DELETE_ERROR = 'deleteblog/DELETE_ERROR' as const;
 function deleteBlogError(blogURL: string, error: Error) {
   return {
-    type: DELETE_ERROR as typeof DELETE_ERROR,
+    type: DELETE_ERROR,
     blogURL,
     error,
   };
 }
 
-export const RESET = 'deleteblog/RESET';
+export const RESET = 'deleteblog/RESET' as const;
 export function deleteBlogReset() {
   return {
-    type: RESET as typeof RESET,
+    type: RESET,
   };
 }
 

@@ -9,71 +9,71 @@ import { BlogResponse, FeedResponse } from '../../models/responses';
 import { AppState } from '../states/app-state';
 import { currenUserOronAuthStateChanged } from './user-action';
 
-export const FETCH_BLOG_REQUEST = 'addblog/FETCH_BLOG_REQUEST';
+export const FETCH_BLOG_REQUEST = 'addblog/FETCH_BLOG_REQUEST' as const;
 function addBlogFetchBlogRequest() {
   return {
-    type: FETCH_BLOG_REQUEST as typeof FETCH_BLOG_REQUEST,
+    type: FETCH_BLOG_REQUEST,
   };
 }
 
-export const FETCH_BLOG_RESPONSE = 'addblog/FETCH_BLOG_RESPONSE';
+export const FETCH_BLOG_RESPONSE = 'addblog/FETCH_BLOG_RESPONSE' as const;
 function addBlogFetchBlogResponse(blog: BlogResponse) {
   return {
-    type: FETCH_BLOG_RESPONSE as typeof FETCH_BLOG_RESPONSE,
+    type: FETCH_BLOG_RESPONSE,
     blog,
   };
 }
 
-export const FETCH_FEED_REQUEST = 'addblog/FETCH_FEED_REQUEST';
+export const FETCH_FEED_REQUEST = 'addblog/FETCH_FEED_REQUEST' as const;
 function addBlogFetchFeedRequest() {
   return {
-    type: FETCH_FEED_REQUEST as typeof FETCH_FEED_REQUEST,
+    type: FETCH_FEED_REQUEST,
   };
 }
 
-export const FETCH_FEED_RESPONSE = 'addblog/FETCH_FEED_RESPONSE';
+export const FETCH_FEED_RESPONSE = 'addblog/FETCH_FEED_RESPONSE' as const;
 function addBlogFetchFeedResponse(feed: FeedResponse) {
   return {
-    type: FETCH_FEED_RESPONSE as typeof FETCH_FEED_RESPONSE,
+    type: FETCH_FEED_RESPONSE,
     feed,
   };
 }
 
-export const FETCH_FEED_ERROR = 'addblog/FETCH_FEED_ERROR';
+export const FETCH_FEED_ERROR = 'addblog/FETCH_FEED_ERROR' as const;
 export function addBlogFetchFeedError(error: Error) {
   return {
-    type: FETCH_FEED_ERROR as typeof FETCH_FEED_ERROR,
+    type: FETCH_FEED_ERROR,
     error,
   };
 }
 
-export const FIREBASE_ADD_BLOG_REQUEST = 'addblog/FIREBASE_SAVE_REQUEST';
+export const FIREBASE_ADD_BLOG_REQUEST = 'addblog/FIREBASE_SAVE_REQUEST' as const;
 function addBlogFirebaseSaveRequest() {
   return {
-    type: FIREBASE_ADD_BLOG_REQUEST as typeof FIREBASE_ADD_BLOG_REQUEST,
+    type: FIREBASE_ADD_BLOG_REQUEST,
   };
 }
 
-export const FIREBASE_ADD_BLOG_RESPONSE = 'addblog/FIREBASE_SAVE_RESPONSE';
+export const FIREBASE_ADD_BLOG_RESPONSE = 'addblog/FIREBASE_SAVE_RESPONSE' as const;
 export function addBlogFirebaseSaveResponse(response: BlogResponse) {
   return {
-    type: FIREBASE_ADD_BLOG_RESPONSE as typeof FIREBASE_ADD_BLOG_RESPONSE,
+    type: FIREBASE_ADD_BLOG_RESPONSE,
     response,
   };
 }
 
-export const FIREBASE_ADD_BLOG_ERROR = 'addblog/FIREBASE_SAVE_ERROR';
+export const FIREBASE_ADD_BLOG_ERROR = 'addblog/FIREBASE_SAVE_ERROR' as const;
 export function addBlogFirebaseSaveError(error: Error) {
   return {
-    type: FIREBASE_ADD_BLOG_ERROR as typeof FIREBASE_ADD_BLOG_ERROR,
+    type: FIREBASE_ADD_BLOG_ERROR,
     error,
   };
 }
 
-export const ADD_BLOG_INITIALIZE = 'addblog/INITIALIZE';
+export const ADD_BLOG_INITIALIZE = 'addblog/INITIALIZE' as const;
 export function addBlogInitialize() {
   return {
-    type: ADD_BLOG_INITIALIZE as typeof ADD_BLOG_INITIALIZE,
+    type: ADD_BLOG_INITIALIZE,
   };
 }
 

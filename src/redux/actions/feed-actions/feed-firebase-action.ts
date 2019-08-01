@@ -4,37 +4,37 @@ import { findBlog } from '../../../models/repositories/blog-repository';
 import { AppState } from '../../states/app-state';
 import { currenUserOronAuthStateChanged } from '../user-action';
 
-export const FIREBASE_FEED_RESPONSE = 'feed/feed/FIREBASE_RESPONSE';
+export const FIREBASE_FEED_RESPONSE = 'feed/feed/FIREBASE_RESPONSE' as const;
 export function feedFirebaseFeedItemsResponse(blogURL: string, items: ItemEntity[]) {
   return {
-    type: FIREBASE_FEED_RESPONSE as typeof FIREBASE_FEED_RESPONSE,
+    type: FIREBASE_FEED_RESPONSE,
     blogURL,
     items,
   };
 }
 
-export const FIREBASE_BLOG_REQUEST = 'feed/blog/FIREBASE_REQUEST';
+export const FIREBASE_BLOG_REQUEST = 'feed/blog/FIREBASE_REQUEST' as const;
 export function feedFirebaseBlogRequest(blogURL: string) {
   return {
-    type: FIREBASE_BLOG_REQUEST as typeof FIREBASE_BLOG_REQUEST,
+    type: FIREBASE_BLOG_REQUEST,
     blogURL,
   };
 }
 
-export const FIREBASE_BLOG_RESPONSE = 'feed/blog/FIREBASE_RESPONSE';
+export const FIREBASE_BLOG_RESPONSE = 'feed/blog/FIREBASE_RESPONSE' as const;
 export function feedFirebaseBlogResponse(blogURL: string, blogEntity: BlogEntity, user: firebase.User) {
   return {
-    type: FIREBASE_BLOG_RESPONSE as typeof FIREBASE_BLOG_RESPONSE,
+    type: FIREBASE_BLOG_RESPONSE,
     blogURL,
     blogEntity,
     user,
   };
 }
 
-export const FIREBASE_BLOG_ERROR = 'feed/blog/FIREBASE_ERROR';
+export const FIREBASE_BLOG_ERROR = 'feed/blog/FIREBASE_ERROR' as const;
 export function feedFirebaseBlogError(blogURL: string, error: Error) {
   return {
-    type: FIREBASE_BLOG_ERROR as typeof FIREBASE_BLOG_ERROR,
+    type: FIREBASE_BLOG_ERROR,
     blogURL,
     error,
   };
