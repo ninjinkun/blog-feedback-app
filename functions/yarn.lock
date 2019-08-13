@@ -310,10 +310,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/email-templates@^3.5.1":
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/@types/email-templates/-/email-templates-3.5.1.tgz#cb00dea2aff8fdfe7a2d8f30df428e221bcd1457"
-  integrity sha512-WqzW5l/8VOJNGKjHYxGH9A8n3E2NNqfM6fy0r59ROD4WAQ1nw+qeViYkAhmTlPluKsGwWyGCMXSVJjN9IWHA1g==
+"@types/email-templates@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@types/email-templates/-/email-templates-6.0.0.tgz#9caf4b8b2e1982988c562fc09f7e70429fd15f02"
+  integrity sha512-Ja2m6hE6Qp/yp8+AuVJI1+te89H+TARXamrKFYJAuoztxaQmxmhQ5WdfrqgPre0ZCstA/nP+NKXsGgQv1yk8Tw==
 
 "@types/express-serve-static-core@*":
   version "4.16.7"
