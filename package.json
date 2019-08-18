@@ -72,7 +72,7 @@
     "@types/styled-components": "^4.1.18",
     "@types/ua-parser-js": "^0.7.33",
     "firebase-tools": "7.2.2",
-    "husky": "^3.0.3",
+    "husky": "^3.0.4",
     "lint-staged": "^9.2.1",
     "prettier": "^1.18.2",
     "react-docgen-typescript-webpack-plugin": "^1.1.0",
