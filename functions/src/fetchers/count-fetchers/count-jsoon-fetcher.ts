@@ -6,7 +6,7 @@ import { sleep } from '../../sleep';
 
 export async function fetchCountJsoonCounts(
   urls: string[],
-  maxFetchCount: number = 20,
+  maxFetchCount = 20,
   chunkNum = 10
 ): Promise<CountResponse[]> {
   const slicedURLs = urls.slice(0, maxFetchCount - 1);
@@ -15,7 +15,7 @@ export async function fetchCountJsoonCounts(
   return flatten(counts);
 }
 
-async function fetchCountJsoonCountChunk(urls: string[], delayMsec: number = 200) {
+async function fetchCountJsoonCountChunk(urls: string[], delayMsec = 200) {
   await sleep(delayMsec);
   const counts = await Promise.all(urls.map(url => fetchCountJsoonCount(url)));
   return counts.filter(c => c !== undefined);

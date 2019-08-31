@@ -7,8 +7,8 @@ import { sleep } from '../../sleep';
 
 export async function fetchPocketCounts(
   urls: string[],
-  maxFetchCount: number = 40,
-  chunkNum: number = 10
+  maxFetchCount = 40,
+  chunkNum = 10
 ): Promise<CountResponse[]> {
   const slicedURLs = urls.slice(0, maxFetchCount - 1);
   const chunkedURLs = chunk(slicedURLs, chunkNum);
@@ -16,7 +16,7 @@ export async function fetchPocketCounts(
   return flatten(counts);
 }
 
-async function fetchPocketCountChunk(urls: string[], delayMsec: number = 400) {
+async function fetchPocketCountChunk(urls: string[], delayMsec = 400) {
   await sleep(delayMsec);
   const counts = await Promise.all(urls.map(url => fetchPocketCount(url)));
   return counts.filter(c => c !== undefined);
