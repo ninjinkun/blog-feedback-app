@@ -109,10 +109,10 @@
   resolved "https://registry.yarnpkg.com/@google-cloud/promisify/-/promisify-1.0.2.tgz#e581aa79ff71fb6074acc1cc59e3d81bf84ce07b"
   integrity sha512-7WfV4R/3YV5T30WRZW0lqmvZy9hE2/p9MvpI34WuKa2Wz62mLu5XplGTFEMK6uTbJCLWUxTcZ4J4IyClKucE5g==
 
-"@google-cloud/pubsub@^0.31.1":
-  version "0.31.1"
-  resolved "https://registry.yarnpkg.com/@google-cloud/pubsub/-/pubsub-0.31.1.tgz#61b04a241033eb4d5cd2d4b960fd7a01f6c62279"
-  integrity sha512-50edW72W9rZQKm6+lb7a84OkfiosJmo/kE9BlUeWkOPc64pITgtyMtwdgip0PZGKUosOb/zb/tJ0p35+WuqhZw==
+"@google-cloud/pubsub@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/pubsub/-/pubsub-1.0.0.tgz#26b609183888a82026a34825bb521b2fa9e7ba16"
+  integrity sha512-JlZ8ZhDe2t9rmAaeFvMNsXWA9RxhT+Be4reu1jpF2EZ09BGGk3cIVr0qhnPlA95wh3gxF6DXwBPxHSl86EJciA==
   dependencies:
     "@google-cloud/paginator" "^2.0.0"
     "@google-cloud/precise-date" "^1.0.0"
@@ -126,7 +126,7 @@
     async-each "^1.0.1"
     extend "^3.0.2"
     google-auth-library "^5.0.0"
-    google-gax "^1.0.0"
+    google-gax "^1.5.2"
     is-stream-ended "^0.1.4"
     lodash.snakecase "^4.1.1"
     p-defer "^3.0.0"
@@ -1761,10 +1761,29 @@ google-auth-library@^5.0.0:
     jws "^3.1.5"
     lru-cache "^5.0.0"
 
-google-gax@^1.0.0, google-gax@^1.1.2:
+google-gax@^1.1.2:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-1.5.1.tgz#982c3d55d71280d7e6811aaefe7032a687fb6067"
   integrity sha512-LSQ/VG2DZJGuKnDj1EjODxCImS30JBF9hGyhgGAYApsKuFTfS6Hd956+gx1ZTlQp6FbUnbL6Ajr569ydoxbMyg==
+  dependencies:
+    "@grpc/grpc-js" "^0.5.2"
+    "@grpc/proto-loader" "^0.5.1"
+    abort-controller "^3.0.0"
+    duplexify "^3.6.0"
+    google-auth-library "^5.0.0"
+    is-stream-ended "^0.1.4"
+    lodash.at "^4.6.0"
+    lodash.has "^4.5.2"
+    node-fetch "^2.6.0"
+    protobufjs "^6.8.8"
+    retry-request "^4.0.0"
+    semver "^6.0.0"
+    walkdir "^0.4.0"
+
+google-gax@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-1.5.2.tgz#996cf70778667cc22befbeae4b8a9d76fce0fabb"
+  integrity sha512-NceyDzlw4mQz6qH3bDIuRtfDAZKehM96QpnPPJ3Hur7FA/gPzpzboUYwhfP6q5obSP4LuSSDhI/76Fu51/ljtg==
   dependencies:
     "@grpc/grpc-js" "^0.5.2"
     "@grpc/proto-loader" "^0.5.1"
