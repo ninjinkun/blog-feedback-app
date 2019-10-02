@@ -12298,17 +12298,17 @@ react-app-polyfill@^1.0.3:
     regenerator-runtime "0.13.3"
     whatwg-fetch "3.0.0"
 
-react-art@16.9.0:
-  version "16.9.0"
-  resolved "https://registry.yarnpkg.com/react-art/-/react-art-16.9.0.tgz#72b7ebf3b6bcff78f6f547981805570bffaf303f"
-  integrity sha512-gQGSf5ZzA8bZWhJpl1/FVyfS6C+uWZat1xQ78gxYBE4kQjO23zcrzJDIy8tBoXbkKnSQp9FoN0EVPBpBiorfJw==
+react-art@16.10.1:
+  version "16.10.1"
+  resolved "https://registry.yarnpkg.com/react-art/-/react-art-16.10.1.tgz#ab3ecfd293cdd694916051c4a53972d80ea9aa64"
+  integrity sha512-NlI6RzawXtrokxQdQwfgRg7Mfriw7Izg1s5wX7L1WU0VnyLl23Q5fkCBEzxS0ZtzZYsDnPmgUh0iXazALtOB8w==
   dependencies:
     art "^0.10.1"
     create-react-class "^15.6.2"
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
-    scheduler "^0.15.0"
+    scheduler "^0.16.1"
 
 react-clientside-effect@^1.2.0:
   version "1.2.2"
@@ -12386,7 +12386,7 @@ react-docgen@^4.1.0:
     node-dir "^0.1.10"
     recast "^0.17.3"
 
-react-dom@^16.8.3, react-dom@^16.9.0:
+react-dom@^16.10.1, react-dom@^16.8.3:
   version "16.10.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.10.1.tgz#479a6511ba34a429273c213cbc2a9ac4d296dac1"
   integrity sha512-SmM4ZW0uug0rn95U8uqr52I7UdNf6wdGLeXDmNLfg3y5q5H9eAbdjF5ubQc3bjDyRrvdAB2IKG7X0GzSpnn5Mg==
@@ -12702,7 +12702,7 @@ react@^0.14.0:
     envify "^3.0.0"
     fbjs "^0.6.1"
 
-react@^16.8.3, react@^16.9.0:
+react@^16.10.1, react@^16.8.3:
   version "16.10.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.10.1.tgz#967c1e71a2767dfa699e6ba702a00483e3b0573f"
   integrity sha512-2bisHwMhxQ3XQz4LiJJwG3360pY965pTl/MRrZYxIBKVj4fOHoDs5aZAkYXGxDRO1Li+SyjTAilQEbOmtQJHzA==
@@ -13363,14 +13363,6 @@ saxes@^3.1.9:
   integrity sha512-Ydydq3zC+WYDJK1+gRxRapLIED9PWeSuuS41wqyoRmzvhhh9nc+QQrVMKJYzJFULazeGhzSV0QleN2wD3boh2g==
   dependencies:
     xmlchars "^2.1.1"
-
-scheduler@^0.15.0:
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.15.0.tgz#6bfcf80ff850b280fed4aeecc6513bc0b4f17f8e"
-  integrity sha512-xAefmSfN6jqAa7Kuq7LIJY0bwAPG3xlCj0HMEBQk1lxYiDKZscY2xJ5U/61ZTrYbmNQbXa+gc7czPkVo11tnCg==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
 
 scheduler@^0.16.1:
   version "0.16.1"
