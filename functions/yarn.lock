@@ -109,16 +109,16 @@
   resolved "https://registry.yarnpkg.com/@google-cloud/promisify/-/promisify-1.0.2.tgz#e581aa79ff71fb6074acc1cc59e3d81bf84ce07b"
   integrity sha512-7WfV4R/3YV5T30WRZW0lqmvZy9hE2/p9MvpI34WuKa2Wz62mLu5XplGTFEMK6uTbJCLWUxTcZ4J4IyClKucE5g==
 
-"@google-cloud/pubsub@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@google-cloud/pubsub/-/pubsub-1.1.0.tgz#48b44559b5a7beacbaaf88d890ba062514d600c5"
-  integrity sha512-5p8U/m4G5l+hbC20l50RG1riSHVAgl3ArwmksCiwcFtPfpIGbLpWLmZOt1DiwxcU1JteWEvI2qncYGhEtiWRsQ==
+"@google-cloud/pubsub@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@google-cloud/pubsub/-/pubsub-1.1.1.tgz#e42456ec50a642874ef7910b790b49ee730b6a08"
+  integrity sha512-Lk6bVjKkC8eywgHVoVBF0KGYrNakPIWzBziVqaElxLKwLUKX0PImCQIZ0WiCewaBG/FBwCh/1LLEg++3WcyfMA==
   dependencies:
     "@google-cloud/paginator" "^2.0.0"
     "@google-cloud/precise-date" "^1.0.0"
     "@google-cloud/projectify" "^1.0.0"
     "@google-cloud/promisify" "^1.0.0"
-    "@grpc/grpc-js" "^0.6.0"
+    "@grpc/grpc-js" "^0.6.6"
     "@sindresorhus/is" "^1.0.0"
     "@types/duplexify" "^3.6.0"
     "@types/long" "^4.0.0"
@@ -126,7 +126,7 @@
     async-each "^1.0.1"
     extend "^3.0.2"
     google-auth-library "^5.0.0"
-    google-gax "^1.5.2"
+    google-gax "^1.6.3"
     is-stream-ended "^0.1.4"
     lodash.snakecase "^4.1.1"
     p-defer "^3.0.0"
@@ -160,6 +160,13 @@
     through2 "^3.0.0"
     xdg-basedir "^4.0.0"
 
+"@grpc/grpc-js@0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.6.6.tgz#30684ddbca75593c6a004a58a2fe8cc06c2c9d6a"
+  integrity sha512-Q+TGfJoXWARgAnga5kWBWhc7tMI3LNHMzGlzsT0i/kn64jQwndkdbYXkyQKr17zPNoouFaG4yAwaKtv3JZ6PEA==
+  dependencies:
+    semver "^6.2.0"
+
 "@grpc/grpc-js@^0.5.2":
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.5.4.tgz#20ee7880e69805cbc63a1c54a3af02cc6475c850"
@@ -167,10 +174,10 @@
   dependencies:
     semver "^6.2.0"
 
-"@grpc/grpc-js@^0.6.0":
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.6.2.tgz#88431876b91b3cc44c6951d0fdec078efdb03d2c"
-  integrity sha512-4S7CocQ+oqjKb32gDOLmBw091TTwcWKv9xIGjW/exZEiY9loq9H7wMKrg2fIJGkIBp02lJAhjHGVnoSqNi21IA==
+"@grpc/grpc-js@^0.6.6":
+  version "0.6.7"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.6.7.tgz#39043c8299e1261074b769f7343ef451b3a710b0"
+  integrity sha512-mpMyQenuKLP1DGUOIhy0W3x9iDnCMHkBvbauTEB2ul7WGwGi5lqhgaXxvRRuwQGpgcSBitQMy9jhR719//MctQ==
   dependencies:
     semver "^6.2.0"
 
@@ -1769,12 +1776,31 @@ google-auth-library@^5.0.0:
     jws "^3.1.5"
     lru-cache "^5.0.0"
 
-google-gax@^1.1.2, google-gax@^1.5.2:
+google-gax@^1.1.2:
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-1.6.2.tgz#1619d68b9f5573cf3e271ae0ac59c763f2271476"
   integrity sha512-khiWcACZ5m3b9x26gLgDZvO66OqxiRRaqHt+Zq2YMJVO5fHzkY247HAXdRTUDIqpEHfOz324FkY1ePiawyjn+g==
   dependencies:
     "@grpc/grpc-js" "^0.5.2"
+    "@grpc/proto-loader" "^0.5.1"
+    abort-controller "^3.0.0"
+    duplexify "^3.6.0"
+    google-auth-library "^5.0.0"
+    is-stream-ended "^0.1.4"
+    lodash.at "^4.6.0"
+    lodash.has "^4.5.2"
+    node-fetch "^2.6.0"
+    protobufjs "^6.8.8"
+    retry-request "^4.0.0"
+    semver "^6.0.0"
+    walkdir "^0.4.0"
+
+google-gax@^1.6.3:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-1.7.0.tgz#d11d1eb1d99283b5aa4d178bd5bb06d0617309fc"
+  integrity sha512-OGT43/lnIcspkGamart9/X+lGGo3d9GR+h6zo4+ob+7rmgQ3SQJDixOodvQ24c8BCGhc4k+PIqJHRySZZp2uNw==
+  dependencies:
+    "@grpc/grpc-js" "0.6.6"
     "@grpc/proto-loader" "^0.5.1"
     abort-controller "^3.0.0"
     duplexify "^3.6.0"
