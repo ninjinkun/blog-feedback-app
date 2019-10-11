@@ -109,16 +109,15 @@
   resolved "https://registry.yarnpkg.com/@google-cloud/promisify/-/promisify-1.0.2.tgz#e581aa79ff71fb6074acc1cc59e3d81bf84ce07b"
   integrity sha512-7WfV4R/3YV5T30WRZW0lqmvZy9hE2/p9MvpI34WuKa2Wz62mLu5XplGTFEMK6uTbJCLWUxTcZ4J4IyClKucE5g==
 
-"@google-cloud/pubsub@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@google-cloud/pubsub/-/pubsub-1.1.1.tgz#e42456ec50a642874ef7910b790b49ee730b6a08"
-  integrity sha512-Lk6bVjKkC8eywgHVoVBF0KGYrNakPIWzBziVqaElxLKwLUKX0PImCQIZ0WiCewaBG/FBwCh/1LLEg++3WcyfMA==
+"@google-cloud/pubsub@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@google-cloud/pubsub/-/pubsub-1.1.2.tgz#73d6a7cfa6f13e7b8a99ecb55159012ccab1b4fe"
+  integrity sha512-H42pQ42KkEc5OiPPS5mGX8qdNrC7H20nIDSIRGOPPZpBaqdIrWQdsbkyR5OsHuFo3OF0J49S0fPh9S7YUsnnng==
   dependencies:
     "@google-cloud/paginator" "^2.0.0"
     "@google-cloud/precise-date" "^1.0.0"
     "@google-cloud/projectify" "^1.0.0"
     "@google-cloud/promisify" "^1.0.0"
-    "@grpc/grpc-js" "^0.6.6"
     "@sindresorhus/is" "^1.0.0"
     "@types/duplexify" "^3.6.0"
     "@types/long" "^4.0.0"
@@ -171,13 +170,6 @@
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.5.4.tgz#20ee7880e69805cbc63a1c54a3af02cc6475c850"
   integrity sha512-aY4fTCz7jq7oKFmfAeZVqGzMCR5I9NLdY9E2fJ70QtGXwlJnTaN6cnbRmCk23/aKPx9UHqOtk2lyjpN6LbAaxw==
-  dependencies:
-    semver "^6.2.0"
-
-"@grpc/grpc-js@^0.6.6":
-  version "0.6.7"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.6.7.tgz#39043c8299e1261074b769f7343ef451b3a710b0"
-  integrity sha512-mpMyQenuKLP1DGUOIhy0W3x9iDnCMHkBvbauTEB2ul7WGwGi5lqhgaXxvRRuwQGpgcSBitQMy9jhR719//MctQ==
   dependencies:
     semver "^6.2.0"
 
