@@ -61,7 +61,7 @@
     "@storybook/storybook-deployer": "^2.8.1",
     "@storybook/theming": "^5.2.5",
     "@types/lodash": "^4.14.144",
-    "@types/node": "^9.6.53",
+    "@types/node": "^9.6.55",
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.9.3",
     "@types/react-redux": "^7.1.5",
