@@ -80,10 +80,7 @@ const SignInPage: React.FC<Props> = props => {
   }
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignInPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SignInPage);
 
 // Configure FirebaseUI.
 const uiConfig = {
