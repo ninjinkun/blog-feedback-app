@@ -214,7 +214,4 @@ function mapDispatchToProps(dispatch: Dispatch<FeedActions>): DispatchProps {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FeedPage);
+export default connect(mapStateToProps, mapDispatchToProps)(FeedPage);

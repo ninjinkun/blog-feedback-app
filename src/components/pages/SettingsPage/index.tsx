@@ -105,10 +105,7 @@ function mapDispatchToProps(dispatch: ThunkDispatch<AppState, undefined, BlogAct
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SettingsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);
 
 const SignOutButtonWrapper = styled(Wrapper)`
   padding: 16px;

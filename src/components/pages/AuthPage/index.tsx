@@ -59,9 +59,4 @@ function mapDispatchToProps(dispatch: TD): DispatchProps {
   };
 }
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(AuthPage)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AuthPage));

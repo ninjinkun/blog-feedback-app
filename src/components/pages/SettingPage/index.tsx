@@ -337,7 +337,4 @@ function mapDispatchToProps(dispatch: TD & Dispatch<DeleteBlogActions>): Dispatc
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SettingPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SettingPage);

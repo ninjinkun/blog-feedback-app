@@ -135,7 +135,4 @@ function mapDispatchToProps(dispatch: TD & Dispatch<AddBlogActions>): DispatchPr
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AddBlogView);
+export default connect(mapStateToProps, mapDispatchToProps)(AddBlogView);
