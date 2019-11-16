@@ -309,10 +309,13 @@
   dependencies:
     "@types/node" "*"
 
-"@types/email-templates@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@types/email-templates/-/email-templates-6.0.0.tgz#9caf4b8b2e1982988c562fc09f7e70429fd15f02"
-  integrity sha512-Ja2m6hE6Qp/yp8+AuVJI1+te89H+TARXamrKFYJAuoztxaQmxmhQ5WdfrqgPre0ZCstA/nP+NKXsGgQv1yk8Tw==
+"@types/email-templates@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@types/email-templates/-/email-templates-6.0.1.tgz#a026be076d879dbc42dad4bb6403d5ca868fb354"
+  integrity sha512-28KZ8bTIoP9gY58a7lM3Bmc2lX6OTjYtLzRWI5rztCHyiAozEFnlR2wBIA7hqpvU8zPWJbS6tmgQnQvW6IuHxA==
+  dependencies:
+    "@types/html-to-text" "*"
+    "@types/nodemailer" "*"
 
 "@types/express-serve-static-core@*":
   version "4.16.10"
@@ -330,6 +333,11 @@
     "@types/body-parser" "*"
     "@types/express-serve-static-core" "*"
     "@types/serve-static" "*"
+
+"@types/html-to-text@*":
+  version "1.4.31"
+  resolved "https://registry.yarnpkg.com/@types/html-to-text/-/html-to-text-1.4.31.tgz#3b73aa59f127551cc0ce615346caa730e7622f9f"
+  integrity sha512-9vTFw6vYZNnjPOep9WRXs7cw0vg04pAZgcX9bqx70q1BNT7y9sOJovpbiNIcSNyHF/6LscLvGhtb5Og1T0UEvA==
 
 "@types/json-schema@^7.0.3":
   version "7.0.3"
@@ -366,7 +374,7 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.58.tgz#98c14ce95a634701bd2d59d52df882c0610dd0eb"
   integrity sha512-NNcUk/rAdR7Pie7WiA5NHp345dTkD62qaxqscQXVIjCjog/ZXsrG8Wo7dZMZAzE7PSpA+qR2S3TYTeFCKuBFxQ==
 
-"@types/nodemailer@^6.2.2":
+"@types/nodemailer@*", "@types/nodemailer@^6.2.2":
   version "6.2.2"
   resolved "https://registry.yarnpkg.com/@types/nodemailer/-/nodemailer-6.2.2.tgz#08df85c22546e9f3f3c86e5635571c5229ab43a3"
   integrity sha512-vDbSSe3+bBXYgibKs8duOrH7bhAv1hMHl3Vtdr3KmXZWLfi5WtIg3X6D/+K4SMK1RbNlm5QZBQCOldST/sVjjg==
