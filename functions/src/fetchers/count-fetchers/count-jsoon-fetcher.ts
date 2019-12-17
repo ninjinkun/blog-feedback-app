@@ -15,7 +15,7 @@ export async function fetchCountJsoonCounts(
   return flatten(counts);
 }
 
-async function fetchCountJsoonCountChunk(urls: string[], delayMsec = 200) {
+async function fetchCountJsoonCountChunk(urls: string[], delayMsec = 200): Promise<CountResponse[]> {
   await sleep(delayMsec);
   const counts = await Promise.all(urls.map(url => fetchCountJsoonCount(url)));
   return counts.filter(c => c !== undefined);

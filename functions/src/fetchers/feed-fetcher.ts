@@ -32,7 +32,7 @@ function handleAtom(atom: Atom): FeedResponse {
   const items = atom.feed.entry.map(
     (entry): ItemResponse => {
       const { title, link, published, updated, 'feedburner:origLink': feedburnerLink } = entry;
-      const url = (() => {
+      const url = ((): string => {
         if (feedburnerLink) {
           return feedburnerLink._text;
         } else {
@@ -90,7 +90,7 @@ function handleRSS2(rss2: RSS2): FeedResponse {
   };
 }
 
-function normalizeMediumURL(url: string) {
+function normalizeMediumURL(url: string): string {
   return url.replace(/\?source=([^&]+)/, '');
 }
 

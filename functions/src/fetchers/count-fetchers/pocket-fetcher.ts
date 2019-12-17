@@ -1,7 +1,6 @@
 import { CountType } from '../../consts/count-type';
 import { CountResponse } from '../../responses';
 import axios from 'axios';
-import * as cheerio from 'cheerio';
 import { chunk, flatten } from 'lodash';
 import { sleep } from '../../sleep';
 
@@ -16,7 +15,7 @@ export async function fetchPocketCounts(
   return flatten(counts);
 }
 
-async function fetchPocketCountChunk(urls: string[], delayMsec = 400) {
+async function fetchPocketCountChunk(urls: string[], delayMsec = 400): Promise<CountResponse[]> {
   await sleep(delayMsec);
   const counts = await Promise.all(urls.map(url => fetchPocketCount(url)));
   return counts.filter(c => c !== undefined);
