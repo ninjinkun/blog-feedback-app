@@ -21,7 +21,7 @@ export const crossOriginFetch = functions.region('asia-northeast1').https.onCall
 export const sendWelcomeMail = functions
   .region('asia-northeast1')
   .auth.user()
-  .onCreate(async (user, context) => {
+  .onCreate(async (user) => {
     if (!user.uid) {
       throw new Error('Authorization Error');
     }

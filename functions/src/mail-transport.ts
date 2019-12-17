@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
-import { createTransport } from 'nodemailer';
+import { createTransport, Transporter } from 'nodemailer';
 
-export function transport() {
+export function transport(): Transporter {
   const gmailEmail = functions.config().gmail.email;
   const gmailPassword = functions.config().gmail.password;
   

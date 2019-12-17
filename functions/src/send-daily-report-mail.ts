@@ -13,11 +13,11 @@ import { fetchCountJsoonCounts } from './fetchers/count-fetchers/count-jsoon-fet
 import { fetchFacebookCounts } from './fetchers/count-fetchers/facebook-fetcher';
 import { fetchPocketCounts } from './fetchers/count-fetchers/pocket-fetcher';
 import { getMailLock, createMailLock } from './repositories/mail-lock-repository';
-import { resolve } from 'path';
 import { gaImageSrc } from './mail-ga';
 import { sum } from 'lodash';
 import EmailTemplate = require('email-templates');
 import console = require('console');
+import { WriteResult, FieldValue } from '@google-cloud/firestore';
 
 interface Item {
   title: string;
@@ -33,7 +33,7 @@ interface Count {
   link?: string;
 }
 
-export async function crowlAndSendMail(to: string, userId: string, blogURL: string, uuid: string, sendForce = false) {
+export async function crowlAndSendMail(to: string, userId: string, blogURL: string, uuid: string, sendForce = false): Promise<boolean> {
   const uuidDoc = await getMailLock(uuid);
   if (uuidDoc) {
     return false;
@@ -65,7 +65,7 @@ export async function crowlAndSendMail(to: string, userId: string, blogURL: stri
   return true;
 }
 
-async function crawl(userId: string, blogURL: string) {
+async function crawl(userId: string, blogURL: string): Promise<[BlogEntity, Item[]]> {
   const blogId = encodeURIComponent(blogURL);
   const blogSnapshot = await db
     .collection('users')
@@ -106,7 +106,7 @@ async function crawl(userId: string, blogURL: string) {
     }
   }
   const promises = countTasks.map(([type, task]) =>
-    (async () => {
+    (async (): Promise<void> => {
       try {
         const counts = await task;
         countMaps[type] = new Map(counts.map(c => [c.url, c.count] as [string, number]));
@@ -126,7 +126,7 @@ async function crawl(userId: string, blogURL: string) {
     title: itemResponse.title,
     url: itemResponse.url,
     published: itemResponse.published,
-    counts: countTasks.map(([type, _]) =>
+    counts: countTasks.map(([type]) =>
       createCount(
         type,
         itemResponse,
@@ -162,7 +162,7 @@ function createCount(
   };
 }
 
-function saveYestardayCounts(userId: string, blogURL: string, items: Item[]) {
+function saveYestardayCounts(userId: string, blogURL: string, items: Item[]): Promise<WriteResult[]> {
   const batch = db.batch();
   for (const item of items) {
     const { url, title, published, counts } = item;
@@ -173,7 +173,7 @@ function saveYestardayCounts(userId: string, blogURL: string, items: Item[]) {
       .doc(encodeURIComponent(blogURL))
       .collection('items')
       .doc(encodeURIComponent(url));
-    const yesterdayCounts: { [key: string]: any } = {};
+    const yesterdayCounts: { [key: string]: { count: number, timestamp: FieldValue } } = {};
     for (const c of counts) {
       const { type, count } = c;
       if (count > 0) {
@@ -208,7 +208,7 @@ function sendDailyReportMail(
   items: Item[],
   updatedCounts: number,
   sendForce = false
-) {
+): void {
   const email = new EmailTemplate({
     message: {
       from: '"BlogFeedback" <report@blog-feedback.app>',
