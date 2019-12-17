@@ -1,37 +1,24 @@
-import React, { Component } from 'react';
-import ReactGA from 'react-ga';
+import React, { useEffect } from 'react';
+import ReactGA, { FieldsObject } from 'react-ga';
 import { RouteComponentProps } from 'react-router';
 
-type Props = RouteComponentProps;
-
-export default function withTracker<T extends Props>(WrappedComponent: React.ComponentType<T>, options: any = {}) {
+// https://github.com/react-ga/react-ga/wiki/React-Router-v4-withTracker
+const withTracker = <P extends RouteComponentProps>(
+  WrappedComponent: React.ComponentType<P>,
+  options: FieldsObject = {}
+) => {
   const trackPage = (page: string) => {
-    ReactGA.set({
-      page,
-      ...options,
-    });
+    ReactGA.set({ page, ...options });
     ReactGA.pageview(page);
   };
 
-  const HOC = class extends Component<T> {
-    componentDidMount() {
-      const page = this.props.location.pathname;
-      trackPage(page);
-    }
+  return (props: P) => {
+    useEffect(() => {
+      trackPage(props.location.pathname);
+    }, [props.location.pathname]);
 
-    componentWillReceiveProps(nextProps: T) {
-      const currentPage = this.props.location.pathname;
-      const nextPage = nextProps.location.pathname;
-
-      if (currentPage !== nextPage) {
-        trackPage(nextPage);
-      }
-    }
-
-    render() {
-      return <WrappedComponent {...this.props} />;
-    }
+    return <WrappedComponent {...props} />;
   };
+};
 
-  return HOC;
-}
+export default withTracker;
