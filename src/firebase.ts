@@ -18,7 +18,7 @@ export function initializeFirebase() {
   };
   firebase.initializeApp(config);
 
-  firebase.performance();
+  //  firebase.performance(app);
 }
 
 const DotEnvKeys = [
