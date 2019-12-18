@@ -186,13 +186,13 @@
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-8.5.0.tgz#2f9ce301c8898e1c3248b0a8564696b24d1a9a5a"
   integrity sha512-7XYT10CZfPsH7j9F1Jmg1+d0ezOux2oM2GfArAzLwWe4mE2Dr3hVjsAL6+TFY49RRJlCdJDMw3nJsLFroTc8Kw==
 
-"@ladjs/i18n@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@ladjs/i18n/-/i18n-2.0.0.tgz#0235d989a8600bb9b230264261a99dfce4b0aae3"
-  integrity sha512-2h9bVJ818dcCfuV8kUEAA4B5jDyDsPilhGkBKgR1W1vt+QZFueIKBolJ/FJKr5ExHySmFKF5sOTC6f3S0+3KHA==
+"@ladjs/i18n@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@ladjs/i18n/-/i18n-3.0.1.tgz#efb32d7ee11421a48dbfda2c582113bb88c11713"
+  integrity sha512-/glfm9tY5Sd8L/oqnaFH1XrqfMFConHPxWPIioQ1SHrglmKOZEVFwN2Yc0zFs3Rzf9NXdTHMmsitgsyejDNtcQ==
   dependencies:
     "@hapi/boom" "^8.0.1"
-    boolean "1.0.0"
+    boolean "3.0.0"
     country-language "^0.1.7"
     debug "^4.1.1"
     i18n "^0.8.4"
@@ -689,10 +689,10 @@ boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
-boolean@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/boolean/-/boolean-1.0.0.tgz#45764b4aac187a050995b0a33d7579b6759f0dfd"
-  integrity sha512-IB1lgIywn37N9Aff8CciCblVpMUflgL42vyxPUH0IvaDdIi/QwBHKv1lq/HOkATHCfa7c4MbMYJ7Bo7hGuoI+w==
+boolean@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/boolean/-/boolean-3.0.0.tgz#fab78d5907dbae6216ab46d32733bb7b76b99e76"
+  integrity sha512-OElxJ1lUSinuoUnkpOgLmxp0DC4ytEhODEL6QJU0NpxE/mI4rUSh8h1P1Wkvfi3xQEBcxXR2gBIPNYNuaFcAbQ==
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -1222,12 +1222,12 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-email-templates@^6.0.6:
-  version "6.0.6"
-  resolved "https://registry.yarnpkg.com/email-templates/-/email-templates-6.0.6.tgz#b32163b17900fd6fdacb526e81ee32656cb9cf9c"
-  integrity sha512-p4dWh4Br4xk3FHCXPEHmAwBm4AwVX4TBU9nP0uzxStZB/PeCyw2eLkJ17e0xcbLW+rF6D1MNQPwAT/QySzkxMQ==
+email-templates@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/email-templates/-/email-templates-6.1.0.tgz#c887164344a1fa4cf054e8272b3170896ad44c5a"
+  integrity sha512-3Z68a+uNr8M/Fi33KcVGtgd/F7X2wc3/+yooue18I7Go8ZmODJEBDQH1DUdlDKmaimwD6QXHQE2A1Qw+RSHLwg==
   dependencies:
-    "@ladjs/i18n" "^2.0.0"
+    "@ladjs/i18n" "^3.0.1"
     "@sindresorhus/is" "^1.2.0"
     consolidate "^0.15.1"
     debug "^4.1.1"
@@ -1235,7 +1235,7 @@ email-templates@^6.0.6:
     html-to-text "^5.1.1"
     juice "^6.0.0"
     lodash "^4.17.15"
-    nodemailer "^6.3.1"
+    nodemailer "^6.4.2"
     pify "^4.0.1"
     preview-email "^1.0.2"
 
