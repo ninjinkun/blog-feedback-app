@@ -1186,6 +1186,11 @@
     tslib "1.10.0"
     xmlhttprequest "1.8.0"
 
+"@firebase/auth-interop-types@0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@firebase/auth-interop-types/-/auth-interop-types-0.1.1.tgz#b3e1bc5ea8b2df1c376b5fc14aae8a3572dbcace"
+  integrity sha512-rNpCOyCspZvNDoQVQLQQgWAGBMB2ClCWKN1c8cEFgLNFgnMJrjVB+tcL7KW2q2UjKa7l8Mxgwys7szTiEDAcvA==
+
 "@firebase/auth-types@0.9.3":
   version "0.9.3"
   resolved "https://registry.yarnpkg.com/@firebase/auth-types/-/auth-types-0.9.3.tgz#c2e719a9911486177c31fb0c25a857e82c455e0d"
@@ -1225,6 +1230,19 @@
     faye-websocket "0.11.3"
     tslib "1.10.0"
 
+"@firebase/database@0.5.17":
+  version "0.5.17"
+  resolved "https://registry.yarnpkg.com/@firebase/database/-/database-0.5.17.tgz#67631f57b1f809bea4c5c528cd951e8a502882f6"
+  integrity sha512-nufRBK1p2adTEDvUQ1lEfa0nd2BvBe6tlDbO0q9zMQaTMg9dDjTomKRsc3byyRDhhTwDNwX4oUCFCTNTOHoKaA==
+  dependencies:
+    "@firebase/auth-interop-types" "0.1.1"
+    "@firebase/component" "0.1.1"
+    "@firebase/database-types" "0.4.10"
+    "@firebase/logger" "0.1.33"
+    "@firebase/util" "0.2.36"
+    faye-websocket "0.11.3"
+    tslib "1.10.0"
+
 "@firebase/firestore-types@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@firebase/firestore-types/-/firestore-types-1.9.0.tgz#078ebb2728eb7d3d87ff5785b1fbcda07a183d39"
@@ -1234,6 +1252,20 @@
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-1.9.0.tgz#ee6727d7c670500ce22016956ac3d87494c58b57"
   integrity sha512-bcVfzGmj5qweUD1eYcezoCYeVl6oNlkc+s47EJBoNrmvWuvKeaiUy+RhB6hFblJCXUmecCuYUT2UA7CKipbEIQ==
+  dependencies:
+    "@firebase/component" "0.1.1"
+    "@firebase/firestore-types" "1.9.0"
+    "@firebase/logger" "0.1.33"
+    "@firebase/util" "0.2.36"
+    "@firebase/webchannel-wrapper" "0.2.34"
+    "@grpc/proto-loader" "^0.5.0"
+    grpc "1.24.2"
+    tslib "1.10.0"
+
+"@firebase/firestore@1.9.1":
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-1.9.1.tgz#bef0f8617aed7416de5ac842583a2ffafea07eeb"
+  integrity sha512-b3MsfyXxE65HirKdR9R/EI++1esyU4Mg8UN5LA+3Kbov7qMAPqHpXdrZy1v4Ng3+ZA2NC7Y08boaIgudr98sGA==
   dependencies:
     "@firebase/component" "0.1.1"
     "@firebase/firestore-types" "1.9.0"
@@ -1355,15 +1387,15 @@
     "@firebase/util" "0.2.36"
     tslib "1.10.0"
 
-"@firebase/testing@0.16.3":
-  version "0.16.3"
-  resolved "https://registry.yarnpkg.com/@firebase/testing/-/testing-0.16.3.tgz#c418b53847627cc28040d920bcf07c3ea170903b"
-  integrity sha512-S58zuNHqhspUbsVLmxss6hrrlUZoMHr4Kueozp52ryzpQYWGnFOnTaDnHKVcggykjGzOmj+8e2ApXvdPNsjmKw==
+"@firebase/testing@0.16.4":
+  version "0.16.4"
+  resolved "https://registry.yarnpkg.com/@firebase/testing/-/testing-0.16.4.tgz#3ef40e29e7687748b1046acb818ee9a0126ed958"
+  integrity sha512-9KHmenGtJw2ukd+gPjyGAkUOSo2JAqJeenbl5iSueI1j3cg+Z9hM4RQU2E4xFYQtBszIX2amSEWnvd/Tw8mJfg==
   dependencies:
     "@firebase/logger" "0.1.33"
     "@firebase/util" "0.2.36"
     "@types/request" "2.48.3"
-    firebase "7.6.0"
+    firebase "7.6.1"
     grpc "1.24.2"
     request "2.88.0"
 
@@ -6954,7 +6986,27 @@ firebase-tools@7.10.0:
     uuid "^3.0.0"
     winston "^1.0.1"
 
-firebase@7.6.0, firebase@^7.6.0:
+firebase@7.6.1:
+  version "7.6.1"
+  resolved "https://registry.yarnpkg.com/firebase/-/firebase-7.6.1.tgz#ef9bf74d9d0d9fc2b3ac5945769c3d62ca076458"
+  integrity sha512-rrKp2cWmrH3gdxr+3t97t6eGye4VJTOYo6U98jvGi+OA4ZSKTSrCMXN6nZkAVOkSCvn/fgw//oHV+7VsJskB/Q==
+  dependencies:
+    "@firebase/analytics" "0.2.9"
+    "@firebase/app" "0.5.0"
+    "@firebase/app-types" "0.5.0"
+    "@firebase/auth" "0.13.3"
+    "@firebase/database" "0.5.17"
+    "@firebase/firestore" "1.9.1"
+    "@firebase/functions" "0.4.28"
+    "@firebase/installations" "0.3.8"
+    "@firebase/messaging" "0.6.0"
+    "@firebase/performance" "0.2.28"
+    "@firebase/polyfill" "0.3.30"
+    "@firebase/remote-config" "0.1.9"
+    "@firebase/storage" "0.3.22"
+    "@firebase/util" "0.2.36"
+
+firebase@^7.6.0:
   version "7.6.0"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-7.6.0.tgz#63fbbf9b878f85e670db919e3e189152c2cda7df"
   integrity sha512-4hjPrcNDF3E3vvoe+IDcnxu+Z4w7xxDBHZAmLjTAPPmtc8Ifb6vJ99tESGIb0Ncx+5Bl1nZK9um6qTf9fgGtqA==
