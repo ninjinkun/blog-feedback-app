@@ -1222,10 +1222,10 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-email-templates@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/email-templates/-/email-templates-6.1.0.tgz#c887164344a1fa4cf054e8272b3170896ad44c5a"
-  integrity sha512-3Z68a+uNr8M/Fi33KcVGtgd/F7X2wc3/+yooue18I7Go8ZmODJEBDQH1DUdlDKmaimwD6QXHQE2A1Qw+RSHLwg==
+email-templates@^6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/email-templates/-/email-templates-6.1.1.tgz#c4dd128bde77f34b05249a1e7226e45a9d3caeb0"
+  integrity sha512-h8OLnnbBGBI74nb8ZrUVNyXFcFa70zrNLNJzzDaMWROX2jcXT9NVQ1pTKuQ4gYVlrlgFmzGZnDxGOe5unTnuog==
   dependencies:
     "@ladjs/i18n" "^3.0.1"
     "@sindresorhus/is" "^1.2.0"
