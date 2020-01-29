@@ -33,7 +33,7 @@
     "@types/email-templates": "^6.0.2",
     "@types/lodash": "^4.14.149",
     "@types/nodemailer": "^6.4.0",
-    "@types/uuid": "^3.4.6",
+    "@types/uuid": "^3.4.7",
     "@types/xmldom": "^0.1.29",
     "@typescript-eslint/eslint-plugin": "^2.17.0",
     "eslint": "^6.8.0",
