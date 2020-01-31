@@ -6773,7 +6773,7 @@ firebase-tools@7.12.1:
     uuid "^3.0.0"
     winston "^1.0.1"
 
-firebase@7.8.0, firebase@^7.7.0:
+firebase@7.8.0, firebase@^7.8.0:
   version "7.8.0"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-7.8.0.tgz#1f71bf3712574fab5a7dc81c2a0bb6423a9fdbca"
   integrity sha512-oOXb8asc9mF+xN3nHUnt8cFDo4sDkSuTSLRmPM3Jpz6yriBHJYuO1k7G6sbJOtCVl+nkj0maIyByNVQxt2eBlA==
