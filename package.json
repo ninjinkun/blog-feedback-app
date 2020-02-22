@@ -58,7 +58,7 @@
     "@storybook/addon-links": "^5.3.13",
     "@storybook/addons": "^5.3.13",
     "@storybook/react": "^5.3.13",
-    "@storybook/storybook-deployer": "^2.8.1",
+    "@storybook/storybook-deployer": "^2.8.2",
     "@storybook/theming": "^5.3.13",
     "@types/lodash": "^4.14.149",
     "@types/node": "^9.6.55",
