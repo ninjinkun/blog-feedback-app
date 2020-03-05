@@ -124,10 +124,10 @@
   resolved "https://registry.yarnpkg.com/@google-cloud/promisify/-/promisify-1.0.4.tgz#ce86ffa94f9cfafa2e68f7b3e4a7fad194189723"
   integrity sha512-VccZDcOql77obTnFh0TbNED/6ZbbmHDf8UMNnzO1d5g9V0Htfm4k5cllY8P1tJsRKC3zWYGRLaViiupcgVjBoQ==
 
-"@google-cloud/pubsub@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@google-cloud/pubsub/-/pubsub-1.5.0.tgz#0ce5a60a90c87af9e9dcd28433a0da74c223007b"
-  integrity sha512-SCuNClo/xDGjYmciExxVjX78WPY1Ul6MK5Qn5eX2tsILqxXpf5Lan+XU/jnL53pirAIFgcxt8I2CWibSdSqRww==
+"@google-cloud/pubsub@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/pubsub/-/pubsub-1.6.0.tgz#135e58aa85c50ff765ae036ea5b749171e9f1396"
+  integrity sha512-RL7GJFOQaJpUcNjMDXAQ6dv+cxIIzzDc5DFwbak8KlIvK9znw/YrEybki8e8JTMdvU5Kg7FKGi5RmI6EQkWkVw==
   dependencies:
     "@google-cloud/paginator" "^2.0.0"
     "@google-cloud/precise-date" "^1.0.0"
@@ -139,7 +139,7 @@
     async-each "^1.0.1"
     extend "^3.0.2"
     google-auth-library "^5.5.0"
-    google-gax "^1.7.5"
+    google-gax "^1.14.2"
     is-stream-ended "^0.1.4"
     lodash.snakecase "^4.1.1"
     p-defer "^3.0.0"
@@ -1798,7 +1798,7 @@ google-auth-library@^5.0.0, google-auth-library@^5.5.0:
     jws "^4.0.0"
     lru-cache "^5.0.0"
 
-google-gax@^1.13.0, google-gax@^1.7.5:
+google-gax@^1.13.0, google-gax@^1.14.2:
   version "1.14.2"
   resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-1.14.2.tgz#ce4f9a42c1bc2ca4a4ed8e8cc70c6f7a3548b790"
   integrity sha512-Nde+FdqALbV3QgMA4KlkxOHfrj9busnZ3EECwy/1gDJm9vhKGwDLWzErqRU5g80OoGSAMgyY7DWIfqz7ina4Jw==
