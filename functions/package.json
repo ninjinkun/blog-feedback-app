@@ -21,7 +21,7 @@
     "firebase-functions": "^3.3.0",
     "iconv-lite": "^0.5.1",
     "lodash": "^4.17.15",
-    "nodemailer": "^6.4.4",
+    "nodemailer": "^6.4.5",
     "qs": "^6.9.1",
     "uuid": "^7.0.2",
     "xml-js": "^1.6.11",
