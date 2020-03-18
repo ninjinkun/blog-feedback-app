@@ -71,7 +71,7 @@
     "@types/storybook__react": "^4.0.2",
     "@types/styled-components": "^5.0.1",
     "@types/ua-parser-js": "^0.7.33",
-    "firebase-tools": "7.15.0",
+    "firebase-tools": "7.15.1",
     "husky": "^4.2.3",
     "lint-staged": "^10.0.8",
     "prettier": "^1.19.1",
