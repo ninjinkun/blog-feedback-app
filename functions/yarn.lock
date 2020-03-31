@@ -338,7 +338,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/email-templates@^6.0.2":
+"@types/email-templates@^6.0.3":
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/@types/email-templates/-/email-templates-6.0.3.tgz#1bf983d802c8604d2aef1f3168b580a895176f08"
   integrity sha512-qZAYxh11by8ZyxnsieBJ4Wb/grrrojSAIZYbVmQeUOFXmxEIeMcYVE0U+2NQ4ruNQAhVYuXopNRBpB6DjGxLpg==
