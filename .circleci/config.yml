@@ -32,7 +32,7 @@ jobs:
       - run: yarn test:compile
       - run: yarn firebase setup:emulators:firestore
       - run:
-          command: yarn emulators:start
+          command: yarn firebase emulators:start
           background: true
       - run: yarn test:ci
       - persist_to_workspace:
