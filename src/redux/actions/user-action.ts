@@ -70,7 +70,7 @@ export type UserSignoutActions =
 export type UserActions = UserFetchActions | UserSignoutActions;
 
 export function fetchUser(auth: firebase.auth.Auth): ThunkAction<void, AppState, undefined, UserFetchActions> {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       dispatch(userFirebaseUserRequest());
       const user = await currenUserOronAuthStateChanged(auth);
@@ -83,7 +83,7 @@ export function fetchUser(auth: firebase.auth.Auth): ThunkAction<void, AppState,
 
 export function onAuthStateChanged(auth: firebase.auth.Auth): Promise<firebase.User> {
   return new Promise((resolve, reject) => {
-    auth.onAuthStateChanged(user => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
         resolve(user);
       } else {
@@ -103,7 +103,7 @@ export async function currenUserOronAuthStateChanged(auth: firebase.auth.Auth): 
 }
 
 export function signOut(auth: firebase.auth.Auth): ThunkAction<void, AppState, undefined, UserSignoutActions> {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       dispatch(userFirebaseSignoutRequest());
       await auth.signOut();

@@ -33,7 +33,7 @@ type BlogFirebaseFetchActions =
   | ReturnType<typeof blogFirebaseError>;
 
 export function fetchBlogs(auth: firebase.auth.Auth): ThunkAction<void, AppState, undefined, BlogFirebaseFetchActions> {
-  return async dispatch => {
+  return async (dispatch) => {
     let user;
     try {
       user = await currenUserOronAuthStateChanged(auth);

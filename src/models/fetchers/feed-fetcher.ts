@@ -97,7 +97,7 @@ function normalizeMediumURL(url: string) {
 
 function handleAtomLink(link: Link | Link[]): string {
   if (link instanceof Array) {
-    const relLinks = link.filter(l => l._attributes.rel && l._attributes.rel === 'alternate');
+    const relLinks = link.filter((l) => l._attributes.rel && l._attributes.rel === 'alternate');
     return (relLinks.length && relLinks[0]._attributes.href) || link[0]._attributes.href;
   } else {
     return link._attributes.href;

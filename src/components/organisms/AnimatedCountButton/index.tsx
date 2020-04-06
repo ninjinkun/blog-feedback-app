@@ -18,7 +18,7 @@ type States = {
   prevCount?: number;
 };
 
-const AnimatedCountButton: React.FC<Props> = props => {
+const AnimatedCountButton: React.FC<Props> = (props) => {
   const [state, setState] = useState<States>({});
   const { animate, type, count, href, target } = props;
   const { prevCount } = state;
@@ -30,7 +30,7 @@ const AnimatedCountButton: React.FC<Props> = props => {
     return (
       <StyledTwincleAnimation animate={animate} key={type}>
         <CountUpAnimation start={animate && prevCount ? prevCount : count} end={count}>
-          {value => <StyledCountButton type={type} count={value} href={href} target={target} />}
+          {(value) => <StyledCountButton type={type} count={value} href={href} target={target} />}
         </CountUpAnimation>
       </StyledTwincleAnimation>
     );

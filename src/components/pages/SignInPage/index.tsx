@@ -27,7 +27,7 @@ type DispatchProps = {
 
 type Props = StateProps & DispatchProps & RouteComponentProps<{}, {}, { from?: Location }>;
 
-const SignInPage: React.FC<Props> = props => {
+const SignInPage: React.FC<Props> = (props) => {
   const { fetchUser } = props;
   useEffect(() => {
     fetchUser(firebase.auth());

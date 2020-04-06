@@ -34,7 +34,7 @@ type DispatchProps = {
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
 
-const SettingsPage: React.FC<Props> = props => {
+const SettingsPage: React.FC<Props> = (props) => {
   const { fetchBlogs, signOut, blogState } = props;
   const { blogs, loading } = blogState;
 
@@ -48,7 +48,7 @@ const SettingsPage: React.FC<Props> = props => {
       {(blogs && blogs.length) || loading ? <SectionHeader>ブログの設定</SectionHeader> : undefined}
       {(() => {
         if (blogs && blogs.length) {
-          return blogs.map(blog => (
+          return blogs.map((blog) => (
             <Link to={`/settings/${encodeURIComponent(blog.url)}`} key={blog.url}>
               <BlogCell title={blog.title} favicon={`https://www.google.com/s2/favicons?domain=${blog.url}`} />
             </Link>

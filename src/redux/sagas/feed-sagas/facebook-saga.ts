@@ -27,7 +27,7 @@ export function* fetchFacebookCounts(blogURL: string, urls: string[], maxFetchCo
 }
 
 export function* fetchFacebookCountChunk(urls: string[], delayMsec: number = 800) {
-  const count: CountResponse[] = yield all(urls.map(url => call(fetchFacebookCount, url)));
+  const count: CountResponse[] = yield all(urls.map((url) => call(fetchFacebookCount, url)));
   yield delay(delayMsec);
   return count;
 }

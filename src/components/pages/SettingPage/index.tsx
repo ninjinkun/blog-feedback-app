@@ -52,7 +52,7 @@ type OwnProps = RouteComponentProps<{ blogURL: string }>;
 
 type Props = OwnProps & StateProps & DispatchProps;
 
-const SettingPage: React.FC<Props> = props => {
+const SettingPage: React.FC<Props> = (props) => {
   const {
     feedState,
     deleteBlogState,
@@ -245,9 +245,7 @@ const SettingPage: React.FC<Props> = props => {
                       <SpinnerWrapper>
                         <Spinner />
                       </SpinnerWrapper>
-                    ) : (
-                      undefined
-                    )}
+                    ) : undefined}
                   </SendMailButtonWrapper>
                 </Description>
               }
@@ -272,9 +270,7 @@ const SettingPage: React.FC<Props> = props => {
                 <SpinnerWrapper>
                   <Spinner />
                 </SpinnerWrapper>
-              ) : (
-                undefined
-              )}
+              ) : undefined}
             </DeleteWrapper>
           </StyledScrollView>
         ) : (

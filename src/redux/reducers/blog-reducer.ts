@@ -19,7 +19,7 @@ export const blogReducer: Reducer<BlogState, BlogActions | UserSignoutActions | 
       const { blogURL } = action;
       let blogs;
       if (state.blogs) {
-        blogs = state.blogs.filter(b => b.url !== blogURL);
+        blogs = state.blogs.filter((b) => b.url !== blogURL);
       }
       return { ...state, blogs };
     }

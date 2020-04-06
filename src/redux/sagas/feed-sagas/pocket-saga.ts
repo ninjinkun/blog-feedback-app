@@ -26,7 +26,7 @@ export function* fetchPocketCounts(blogURL: string, urls: string[], maxFetchCoun
 }
 
 function* fetchPocketCountChunk(urls: string[], delayMsec: number = 100) {
-  const count: CountResponse[] = yield all(urls.map(url => call(fetchPocketCount, url)));
+  const count: CountResponse[] = yield all(urls.map((url) => call(fetchPocketCount, url)));
   yield delay(delayMsec);
   return count;
 }

@@ -38,11 +38,11 @@ export function createSaveEntities(
   const countTypeMaps: { [key: string]: Map<string, CountResponse> } = {};
   for (const countType of countTypes) {
     countTypeMaps[countType] = new Map(
-      counts.filter(count => count.type === countType).map(c => [c.url, c] as [string, CountResponse])
+      counts.filter((count) => count.type === countType).map((c) => [c.url, c] as [string, CountResponse])
     );
   }
 
-  const firebaseMap = new Map<string, ItemEntity>(firebaseEntities.map(i => [i.url, i] as [string, ItemEntity]));
+  const firebaseMap = new Map<string, ItemEntity>(firebaseEntities.map((i) => [i.url, i] as [string, ItemEntity]));
 
   const result: ItemSaveEntity[] = [];
 

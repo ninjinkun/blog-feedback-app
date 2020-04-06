@@ -35,7 +35,7 @@ type Props = OwnProps & StateProps & DispatchProps;
 type CountMap = Map<string, number>;
 type AnimateMap = Map<string, boolean>;
 
-const FeedPage: React.FC<Props> = props => {
+const FeedPage: React.FC<Props> = (props) => {
   const blogURL = decodeURIComponent(props.match.params.blogURL);
   const { feed, feedBlogURLChange, fetchFeed, feedBlogURLClear } = props;
 
@@ -106,7 +106,7 @@ const FeedPage: React.FC<Props> = props => {
 
           return (
             <StyledScrollView>
-              {items.map(item => (
+              {items.map((item) => (
                 <EntryCell
                   key={item.url}
                   title={item.title}
