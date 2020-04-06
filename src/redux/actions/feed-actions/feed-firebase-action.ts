@@ -48,7 +48,7 @@ export type FeedFirebaseActions =
 
 type TA = ThunkAction<void, AppState, undefined, FeedFirebaseActions>;
 export function fetchFirebaseBlog(auth: firebase.auth.Auth, blogURL: string): TA {
-  return async dispatch => {
+  return async (dispatch) => {
     let user;
     try {
       user = await currenUserOronAuthStateChanged(auth);

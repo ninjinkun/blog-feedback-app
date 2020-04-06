@@ -6,9 +6,6 @@ type Response = {
 };
 
 export function crossOriginFetch(url: string): Promise<Response> {
-  const crossOriginFetch = firebase
-    .app()
-    .functions('asia-northeast1')
-    .httpsCallable('crossOriginFetch');
+  const crossOriginFetch = firebase.app().functions('asia-northeast1').httpsCallable('crossOriginFetch');
   return crossOriginFetch({ url });
 }

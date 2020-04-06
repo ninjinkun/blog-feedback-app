@@ -28,7 +28,7 @@ type DispatchProps = {
 
 type Props = StateProps & DispatchProps & RouteComponentProps<{}> & { dispatch: Dispatch };
 
-const BlogsPage: React.FC<Props> = props => {
+const BlogsPage: React.FC<Props> = (props) => {
   const { blog, fetchBlogs } = props;
   useEffect(() => {
     fetchBlogs(firebase.auth());
@@ -47,7 +47,7 @@ const BlogsPage: React.FC<Props> = props => {
         if (blogs && blogs.length) {
           return (
             <StyledScrollView>
-              {blogs.map(blog => (
+              {blogs.map((blog) => (
                 <Link to={`/blogs/${encodeURIComponent(blog.url)}`} key={blog.url}>
                   <BlogCell title={blog.title} favicon={`https://www.google.com/s2/favicons?domain=${blog.url}`} />
                 </Link>
@@ -79,7 +79,7 @@ function mapStateToProps(state: AppState): StateProps {
 
 function mapDispatchToProps(dispatch: ThunkDispatch<AppState, undefined, BlogActions>): DispatchProps {
   return {
-    fetchBlogs: auth => dispatch(fetchBlogs(auth)),
+    fetchBlogs: (auth) => dispatch(fetchBlogs(auth)),
   };
 }
 

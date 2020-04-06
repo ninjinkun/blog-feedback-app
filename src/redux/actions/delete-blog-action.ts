@@ -46,7 +46,7 @@ export type DeleteBlogActions =
 
 type TA = ThunkAction<void, AppState, undefined, DeleteBlogActions>;
 export function deleteBlog(auth: firebase.auth.Auth, blogURL: string): TA {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const user = await currenUserOronAuthStateChanged(auth);
       dispatch(deleteBlogRequest(blogURL));

@@ -37,7 +37,7 @@ const initialItems = [
   },
 ];
 
-const Test: React.FC = props => {
+const Test: React.FC = (props) => {
   const [index, setIndex] = useState<number>(0);
   const [item, setItems] = useState<Item>(initialItems[index]);
 

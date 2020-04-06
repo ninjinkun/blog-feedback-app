@@ -24,7 +24,7 @@ const HeaderLoadingIndicator: React.FC<Props> = ({ loading, label, ratio, ...pro
   const spring = useSpring({
     backgroundColor: loading ? properties.colorsValue.grayDark : properties.colorsBlanding.accent,
   });
-  const trans = useTransition([label, prevLabel], t => t || '', {
+  const trans = useTransition([label, prevLabel], (t) => t || '', {
     from: { opacity: 0, transform: `translate3d(0, -100%, 0)` },
     enter: { opacity: 1, transform: `translate3d(0, 0, 0)` },
     // tslint:disable-next-line:jsx-alignment

@@ -45,7 +45,7 @@ function* handleFetchAction(action: FeedFetchFeedAction) {
     call(fetchFeed, blogURL, feedURL),
   ]);
 
-  const urls = fetchedItems.map(i => i.url);
+  const urls = fetchedItems.map((i) => i.url);
   const countServices = [];
   const countTypes: CountType[] = [];
   if (services) {

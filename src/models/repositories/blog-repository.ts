@@ -4,21 +4,17 @@ import { serverTimestamp } from './app-repository';
 import { userRef } from './user-repository';
 
 export async function findAllBlogs(userId: string): Promise<BlogEntity[]> {
-  const snapshot = await userRef(userId)
-    .collection('blogs')
-    .get();
+  const snapshot = await userRef(userId).collection('blogs').get();
 
   const items = snapshot.docs
     .map((i: firestore.DocumentSnapshot) => i.data())
-    .filter(i => i !== undefined) as firestore.DocumentData[];
+    .filter((i) => i !== undefined) as firestore.DocumentData[];
 
   return items as BlogEntity[];
 }
 
 export function blogRef(userId: string, blogUrl: string): firestore.DocumentReference {
-  return userRef(userId)
-    .collection('blogs')
-    .doc(encodeURIComponent(blogUrl));
+  return userRef(userId).collection('blogs').doc(encodeURIComponent(blogUrl));
 }
 
 export async function findBlog(userId: string, blogUrl: string): Promise<BlogEntity> {

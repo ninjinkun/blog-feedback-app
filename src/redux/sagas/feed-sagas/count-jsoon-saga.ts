@@ -27,7 +27,7 @@ export function* fetchCountJsoonCounts(blogURL: string, urls: string[], maxFetch
 }
 
 function* fetchCountJsoonCount(urls: string[], delayMsec: number = 100) {
-  const count: CountResponse[] = yield all(urls.map(url => call(fetchCountJsoonCountActoun, url)));
+  const count: CountResponse[] = yield all(urls.map((url) => call(fetchCountJsoonCountActoun, url)));
   yield delay(delayMsec);
   return count;
 }

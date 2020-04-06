@@ -20,7 +20,7 @@ type DispatchProps = {
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
 
-const AuthPage: React.FC<Props> = props => {
+const AuthPage: React.FC<Props> = (props) => {
   const { children, userState, location, fetchUser } = props;
 
   useEffect(() => {

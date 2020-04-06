@@ -62,7 +62,7 @@ export function saveSetting(
   hatenaStarEnabled: boolean,
   pocketEnabled: boolean
 ): STA {
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch(settingSaveSettingRequest(blogURL));
     try {
       const user = await currenUserOronAuthStateChanged(auth);
@@ -127,12 +127,10 @@ export type SettingSendTestReportMailActions =
 
 type MTA = ThunkAction<void, AppState, undefined, SettingSendTestReportMailActions>;
 export function sendTestReportMail(blogURL: string): MTA {
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch(settingCallSendTestReportMailRequest(blogURL));
     try {
-      await app()
-        .functions('asia-northeast1')
-        .httpsCallable('sendTestReportMail')({ blogURL });
+      await app().functions('asia-northeast1').httpsCallable('sendTestReportMail')({ blogURL });
       dispatch(settingCallSendTestReportMailResponse(blogURL));
     } catch (e) {
       dispatch(settingCallSendTestReportMailError(blogURL, e));

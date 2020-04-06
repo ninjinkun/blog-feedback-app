@@ -2,7 +2,7 @@ import { CountType } from '../../consts/count-type';
 import { CountResponse } from '../../responses';
 
 export function fetchFacebookCounts(urls: string[]): Array<Promise<CountResponse>> {
-  return urls.map(url => fetchFacebookCount(url));
+  return urls.map((url) => fetchFacebookCount(url));
 }
 
 export async function fetchFacebookCount(url: string): Promise<CountResponse> {

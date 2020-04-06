@@ -36,7 +36,7 @@ beforeAll(() => {
   });
 });
 
-afterAll(() => Promise.all(firebase.apps().map(app => app.delete())));
+afterAll(() => Promise.all(firebase.apps().map((app) => app.delete())));
 
 describe('/users', () => {
   it('save unauthorized user', async () => {

@@ -4,19 +4,14 @@ import { serverTimestamp, writeBatch } from './app-repository';
 import { blogRef } from './blog-repository';
 
 export function itemRef(userId: string, blogUrl: string, itemUrl: string): firebase.firestore.DocumentReference {
-  return blogRef(userId, blogUrl)
-    .collection('items')
-    .doc(encodeURIComponent(itemUrl));
+  return blogRef(userId, blogUrl).collection('items').doc(encodeURIComponent(itemUrl));
 }
 
 export async function findAllItems(userId: string, blogUrl: string): Promise<ItemEntity[]> {
-  const snapshot = await blogRef(userId, blogUrl)
-    .collection('items')
-    .orderBy('published', 'desc')
-    .get();
+  const snapshot = await blogRef(userId, blogUrl).collection('items').orderBy('published', 'desc').get();
   const items = snapshot.docs
     .map((i: firebase.firestore.DocumentSnapshot) => i.data())
-    .filter(i => i) as firebase.firestore.DocumentData[];
+    .filter((i) => i) as firebase.firestore.DocumentData[];
   return items.map(
     (i: firebase.firestore.DocumentData): ItemEntity => {
       const { title, url, published, counts, prevCounts } = i;
@@ -74,15 +69,13 @@ export function saveItemBatch(
 }
 
 export async function deleteItemsBatch(userId: string, blogUrl: string, batchSize: number = 50): Promise<void[]> {
-  const snapshots = await blogRef(userId, blogUrl)
-    .collection('items')
-    .get();
+  const snapshots = await blogRef(userId, blogUrl).collection('items').get();
   const docs = snapshots.docs;
   const promsies: Array<Promise<void>> = [];
   for (let i = 0; i <= docs.length; i += batchSize) {
     const batch = writeBatch();
     const slicedDocs = docs.slice(i, i + batchSize);
-    slicedDocs.forEach(d => batch.delete(d.ref));
+    slicedDocs.forEach((d) => batch.delete(d.ref));
     promsies.push(batch.commit());
   }
   return Promise.all(promsies);
