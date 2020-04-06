@@ -30,6 +30,7 @@ jobs:
       # run tests!
       - run: yarn eslint
       - run: yarn test:compile
+      - run: yarn firebase use development
       - run: yarn firebase setup:emulators:firestore
       - run:
           command: yarn firebase emulators:start
