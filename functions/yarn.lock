@@ -338,10 +338,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/email-templates@^6.0.3":
-  version "6.0.3"
-  resolved "https://registry.yarnpkg.com/@types/email-templates/-/email-templates-6.0.3.tgz#1bf983d802c8604d2aef1f3168b580a895176f08"
-  integrity sha512-qZAYxh11by8ZyxnsieBJ4Wb/grrrojSAIZYbVmQeUOFXmxEIeMcYVE0U+2NQ4ruNQAhVYuXopNRBpB6DjGxLpg==
+"@types/email-templates@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@types/email-templates/-/email-templates-7.0.1.tgz#0b7bcafa1ff396ff69eb6bb73de11ee8469378d1"
+  integrity sha512-dO/luzyN+O60lVi9njcmh5AoofwxKz0yZiIZEbw0F2fcfe3RsAU/BUNlJDR8ry2gyjR0qn3PoOrUNJblcu9PmQ==
   dependencies:
     "@types/html-to-text" "*"
     "@types/nodemailer" "*"
