@@ -7036,10 +7036,10 @@ find-versions@^3.2.0:
   dependencies:
     semver-regex "^2.0.0"
 
-firebase-tools@8.3.0:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-8.3.0.tgz#69bcd7953e2a7b16c65b0918bca210f74c9a3be6"
-  integrity sha512-/gl5wss3f31BQ71Mn11P9gFayWD0OB6s1HDmskeUea051XWT/M9KWfpV8OK866YNseA5uEzK8CwC+Q0MevWeHw==
+firebase-tools@8.4.1:
+  version "8.4.1"
+  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-8.4.1.tgz#1f015c9496f4241a8a67a1f6376e68b1547d4d89"
+  integrity sha512-kiC5KXQdQ2ksRRJEZ5dXsLHRPGwR5Y1nEpTtJly91cs7mASIi4tzpVnX5pF1WXZsa323jXkY9elNUPw7fWvvog==
   dependencies:
     "@google-cloud/pubsub" "^1.7.0"
     JSONStream "^1.2.1"
