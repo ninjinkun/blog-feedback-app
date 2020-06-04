@@ -7112,10 +7112,18 @@ firebase@7.14.6, firebase@^7.14.6:
     "@firebase/storage" "0.3.34"
     "@firebase/util" "0.2.47"
 
-firebaseui@^4.1.0, firebaseui@^4.5.0:
+firebaseui@^4.1.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/firebaseui/-/firebaseui-4.5.0.tgz#5688c0e14ff87d45a187a61b30fd2315fef7c5dc"
   integrity sha512-aliOXphs4e2DunKEhTqHV4rSMBninYVo0sqFaNTWw+KXRVp6381tluAhf5v8p208MZS0E8PdLKzMlgf11Fheow==
+  dependencies:
+    dialog-polyfill "^0.4.7"
+    material-design-lite "^1.2.0"
+
+firebaseui@^4.5.1:
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/firebaseui/-/firebaseui-4.5.1.tgz#6d7e5d154c8b27cf8823b2df318c7a9f6fd89236"
+  integrity sha512-sbBakwXFgBlsBOfPA6Qo/C4FWJUTl8TTuunueRExUtiRweFOXH/d1utjWrI8QtMRzzTt72h3aGXViMqm33Smrw==
   dependencies:
     dialog-polyfill "^0.4.7"
     material-design-lite "^1.2.0"
