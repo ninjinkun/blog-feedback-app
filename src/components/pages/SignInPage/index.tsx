@@ -5,36 +5,28 @@ import styled from 'styled-components';
 
 import { Location } from 'history';
 import { StyledFirebaseAuth } from 'react-firebaseui';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
-import { ThunkDispatch } from 'redux-thunk';
-import { fetchUser, UserActions } from '../../../redux/actions/user-action';
+import { UserState, fetchUser } from '../../../redux/states/user-state';
 import { AppState } from '../../../redux/states/app-state';
-import { UserState } from '../../../redux/states/user-state';
 import Anker from '../../atoms/Anker/index';
 import Wrapper from '../../atoms/Wrapper/index';
 import LoadingView from '../../molecules/LoadingView/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
-type StateProps = {
-  user: UserState;
-};
-
-type DispatchProps = {
-  fetchUser: (...props: Parameters<typeof fetchUser>) => void;
-};
-
-type Props = StateProps & DispatchProps & RouteComponentProps<{}, {}, { from?: Location }>;
+type Props = RouteComponentProps<{}, {}, { from?: Location }>;
 
 const SignInPage: React.FC<Props> = (props) => {
-  const { fetchUser } = props;
-  useEffect(() => {
-    fetchUser(firebase.auth());
-    return () => undefined;
-  }, [fetchUser]);
+  const userState = useSelector<AppState, UserState>((state) => state.user);
+  const dispatch = useDispatch();
 
-  const { loading, user } = props.user;
+  useEffect(() => {
+    dispatch(fetchUser(firebase.auth()));
+    return () => undefined;
+  }, [dispatch]);
+
+  const { loading, user } = userState;
   if (user) {
     const from = (props.location.state && props.location.state.from) || 'blogs';
     return <Redirect to={from} />;
@@ -80,7 +72,7 @@ const SignInPage: React.FC<Props> = (props) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignInPage);
+export default SignInPage;
 
 // Configure FirebaseUI.
 const uiConfig = {
@@ -111,16 +103,3 @@ const Text = styled.p`
   line-height: 1.4em;
   margin: 0.5em 0;
 `;
-
-function mapStateToProps(state: AppState): StateProps {
-  return {
-    user: state.user,
-  };
-}
-
-type TD = ThunkDispatch<AppState, undefined, UserActions>;
-function mapDispatchToProps(dispatch: TD): DispatchProps {
-  return {
-    fetchUser: (auth: firebase.auth.Auth) => dispatch(fetchUser(auth)),
-  };
-}
