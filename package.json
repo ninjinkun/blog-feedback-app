@@ -76,7 +76,7 @@
     "prettier": "^2.0.5",
     "lint-staged": "^10.2.9",
     "react-docgen-typescript-webpack-plugin": "^1.1.0",
-    "typescript": "^3.9.3"
+    "typescript": "^3.9.5"
   },
   "browserslist": [
     "defaults"
