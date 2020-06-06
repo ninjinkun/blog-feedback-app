@@ -5,12 +5,12 @@ import styled from 'styled-components';
 
 import { FiGithub } from 'react-icons/fi';
 import { MdAssignment, MdAssignmentInd, MdLaunch } from 'react-icons/md';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { ThunkDispatch } from 'redux-thunk';
 import { BlogActions, fetchBlogs } from '../../../redux/actions/blog-action';
-import { signOut } from '../../../redux/actions/user-action';
+import { signOut } from '../../../redux/states/user-state';
 import { AppState } from '../../../redux/states/app-state';
 import { BlogState } from '../../../redux/states/blog-state';
 import { Button } from '../../atoms/Button/index';
@@ -29,14 +29,14 @@ type StateProps = {
 
 type DispatchProps = {
   fetchBlogs: (...props: Parameters<typeof fetchBlogs>) => void;
-  signOut: (...props: Parameters<typeof signOut>) => void;
 };
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
 
 const SettingsPage: React.FC<Props> = (props) => {
-  const { fetchBlogs, signOut, blogState } = props;
+  const { fetchBlogs, blogState } = props;
   const { blogs, loading } = blogState;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetchBlogs(firebase.auth());
@@ -71,7 +71,7 @@ const SettingsPage: React.FC<Props> = (props) => {
         {blogCells}
         <SectionHeader>ユーザーの設定</SectionHeader>
         <SignOutButtonWrapper>
-          <SignOutButton onClick={() => signOut(firebase.auth())}>ログアウト</SignOutButton>
+          <SignOutButton onClick={() => dispatch(signOut(firebase.auth()))}>ログアウト</SignOutButton>
         </SignOutButtonWrapper>
         <SectionHeader>サービスの情報</SectionHeader>
         <Link to="/term" target="_blank">
@@ -101,7 +101,6 @@ function mapStateToProps(state: AppState): StateProps {
 function mapDispatchToProps(dispatch: ThunkDispatch<AppState, undefined, BlogActions>): DispatchProps {
   return {
     fetchBlogs: (...props) => dispatch(fetchBlogs(...props)),
-    signOut: (...props) => dispatch(signOut(...props)),
   };
 }
 

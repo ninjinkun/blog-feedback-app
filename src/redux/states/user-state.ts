@@ -36,11 +36,10 @@ export const userSlice = createSlice({
 
 export function fetchUser(auth: firebase.auth.Auth): ThunkAction<void, UserState, undefined, any> {
   return async (dispatch) => {
-    console.log('hogehogheogheo!');
     try {
       dispatch(userSlice.actions.firebaseUserRequest());
       const user = await currenUserOronAuthStateChanged(auth);
-      dispatch(userSlice.actions.firebaseUserResponse(user));
+      dispatch(userSlice.actions.firebaseUserResponse(JSON.parse(JSON.stringify(user))));
     } catch (e) {
       dispatch(userSlice.actions.firebaseUnauthorizedError());
     }

@@ -35,6 +35,7 @@ import { FETCH_RSS_REQUEST, FETCH_RSS_RESPONSE } from '../actions/feed-actions/r
 import { FIREBASE_SAVE_SETTING_RESPONSE, SettingSaveActions } from '../actions/setting-action';
 import { FeedState, initialState } from '../states/feed-state';
 import { FeedsState, initialState as feedsIniticalState } from '../states/feeds-state';
+import { createNextState } from '@reduxjs/toolkit';
 
 export const feedsReducer: Reducer<FeedsState, FeedActions | AddBlogActions | BlogActions | SettingSaveActions> = (
   state = feedsIniticalState,
@@ -152,8 +153,9 @@ const updateFeed = (blogURL: string, state: FeedsState, newFeed: Partial<FeedSta
     return state;
   }
   const feedState = state.feeds[blogURL] || initialState;
-  const newFeedState = { ...feedState, ...newFeed };
-  const newFeeds = state.feeds;
-  newFeeds[blogURL] = newFeedState;
-  return { ...state, feeds: newFeeds };
+  return createNextState(state, draft => {
+    const newFeeds = draft.feeds;
+    newFeeds[blogURL] = { ...feedState, ...newFeed };
+    draft.feeds = newFeeds;
+  });
 };
