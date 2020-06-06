@@ -11,11 +11,10 @@ import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import styled from 'styled-components';
 import { CountType } from '../../../models/consts/count-type';
-import { deleteBlog, DeleteBlogActions, deleteBlogReset } from '../../../redux/actions/delete-blog-action';
 import { FeedFirebaseActions, fetchFirebaseBlog } from '../../../redux/actions/feed-actions/feed-firebase-action';
 import { saveSetting, sendTestReportMail, SettingActions } from '../../../redux/actions/setting-action';
 import { AppState } from '../../../redux/states/app-state';
-import { DeleteBlogState } from '../../../redux/states/delete-blog-state';
+import { DeleteBlogState, deleteBlogSlice, deleteBlog } from '../../../redux/states/delete-blog-state';
 import { FeedState } from '../../../redux/states/feed-state';
 import { SettingState } from '../../../redux/states/setting-state';
 import Anker from '../../atoms/Anker/index';
@@ -33,14 +32,11 @@ import { UserState, fetchUser } from '../../../redux/states/user-state';
 
 type StateProps = {
   feedState: FeedState;
-  deleteBlogState: DeleteBlogState;
   settingState: SettingState;
 };
 
 type DispatchProps = {
   fetchFirebaseBlog: (...props: Parameters<typeof fetchFirebaseBlog>) => void;
-  deleteBlog: (...props: Parameters<typeof deleteBlog>) => void;
-  deleteBlogReset: () => void;
   saveSetting: (...props: Parameters<typeof saveSetting>) => void;
   sendTestReportMail: (...props: Parameters<typeof sendTestReportMail>) => void;
 };
@@ -51,25 +47,23 @@ type Props = OwnProps & StateProps & DispatchProps;
 
 const SettingPage: React.FC<Props> = (props) => {
   const userState = useSelector<AppState, UserState>((state) => state.user);
+  const deleteBlogState = useSelector<AppState, DeleteBlogState>((state) => state.deleteBlog);
   const dispatch = useDispatch();
-
+  
   const {
     feedState,
-    deleteBlogState,
     settingState,
-    deleteBlogReset,
     fetchFirebaseBlog,
     sendTestReportMail,
-    deleteBlog,
   } = props;
   const blogURL = decodeURIComponent(props.match.params.blogURL);
 
   useEffect(() => {
-    deleteBlogReset();
+    dispatch(deleteBlogSlice.actions.reset());
     fetchFirebaseBlog(firebase.auth(), blogURL);
     dispatch(fetchUser(firebase.auth()));
     return () => undefined;
-  }, [blogURL, deleteBlogReset, fetchFirebaseBlog, dispatch]);
+  }, [blogURL, fetchFirebaseBlog, dispatch]);
 
   const saveSettings = (
     sendReport: boolean,
@@ -261,7 +255,7 @@ const SettingPage: React.FC<Props> = (props) => {
             />
             <SectionHeader />
             <DeleteWrapper>
-              <StyledWarningButton onClick={() => deleteBlog(firebase.auth(), blogURL)}>
+              <StyledWarningButton onClick={() => dispatch(deleteBlog(firebase.auth(), blogURL))}>
                 {`${(feedState && feedState.title) || 'ブログ'}`}を削除
               </StyledWarningButton>
               {deleteBlogState.loading ? (
@@ -313,17 +307,14 @@ function mapStateToProps(state: AppState, ownProps: OwnProps): StateProps {
   const blogURL = decodeURIComponent(ownProps.match.params.blogURL);
   return {
     feedState: state.feeds.feeds[blogURL],
-    deleteBlogState: state.deleteBlog,
     settingState: state.settings.settings[blogURL],
   };
 }
 
-type TD = ThunkDispatch<AppState, undefined, FeedFirebaseActions | DeleteBlogActions | SettingActions>;
-function mapDispatchToProps(dispatch: TD & Dispatch<DeleteBlogActions>): DispatchProps {
+type TD = ThunkDispatch<AppState, undefined, FeedFirebaseActions | SettingActions>;
+function mapDispatchToProps(dispatch: TD): DispatchProps {
   return {
     fetchFirebaseBlog: (...props) => dispatch(fetchFirebaseBlog(...props)),
-    deleteBlog: (...props) => dispatch(deleteBlog(...props)),
-    deleteBlogReset: () => dispatch(deleteBlogReset()),
     saveSetting: (...props) => dispatch(saveSetting(...props)),
     sendTestReportMail: (...props) => dispatch(sendTestReportMail(...props)),
   };

@@ -1,4 +1,4 @@
-import { createSlice, ThunkAction } from '@reduxjs/toolkit';
+import { createSlice, ThunkAction, PayloadAction } from '@reduxjs/toolkit';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -16,7 +16,7 @@ export const userSlice = createSlice({
     firebaseUserRequest(state) {
       return { ...state, loading: true };
     },
-    firebaseUserResponse(state, action: { payload: firebase.User }) {
+    firebaseUserResponse(state, action: PayloadAction<firebase.User>) {
       return { ...state, user: action.payload, loading: false };
     },
     firebaseUnauthorizedError(state) {
@@ -28,7 +28,7 @@ export const userSlice = createSlice({
     firebaseSignoutRequest(state) {
       return state;
     },
-    firebaseSignoutError(state, action: { payload: Error }) {
+    firebaseSignoutError(state, action: PayloadAction<Error>) {
       return state;
     },
   },
