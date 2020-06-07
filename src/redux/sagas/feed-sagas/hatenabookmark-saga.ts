@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects';
 import { fetchHatenaBookmarkCounts as fetchHatenaBookmarkCountsAction } from '../../../models/fetchers/count-fetchers/hatenabookmark-fetcher';
 import { CountResponse } from '../../../models/responses';
-import { feedsSlice } from '../../slices/feeds-state';
+import { feedsSlice } from '../../slices/feeds';
 
 export function* fetchHatenaBookmarkCounts(blogURL: string, urls: string[], maxFetchCount: number = 50) {
   try {

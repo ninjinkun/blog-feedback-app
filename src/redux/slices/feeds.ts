@@ -2,8 +2,8 @@ import { createSlice, PayloadAction, createNextState, ThunkAction } from '@redux
 import { BlogEntity, ItemEntity, Services, CountEntity } from '../../models/entities';
 import { ItemResponse, CountResponse } from '../../models/responses';
 import { flatten } from 'lodash';
-import { blogSlice } from './blog-state';
-import { currenUserOronAuthStateChanged } from './user-state';
+import { blogSlice } from './blog';
+import { currenUserOronAuthStateChanged } from './user';
 import { findBlog } from '../../models/repositories/blog-repository';
 
 export type FeedState = {

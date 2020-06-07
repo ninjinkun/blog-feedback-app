@@ -8,7 +8,7 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from '../../../redux/app-reducer';
-import { BlogState, fetchBlogs } from '../../../redux/slices/blog-state';
+import { BlogState, fetchBlogs } from '../../../redux/slices/blog';
 import { PrimaryAnkerButton } from '../../atoms/Button/index';
 import ScrollView from '../../atoms/ScrollView/index';
 import Wrapper from '../../atoms/Wrapper/index';

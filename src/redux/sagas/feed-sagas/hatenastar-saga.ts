@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects';
 import { fetchHatenaStarCounts as fetchHatenaStarCountsAction } from '../../../models/fetchers/count-fetchers/hatenastar-fetcher';
 import { CountResponse } from '../../../models/responses';
-import { feedsSlice } from '../../slices/feeds-state';
+import { feedsSlice } from '../../slices/feeds';
 
 export function* fetchHatenaStarCounts(blogURL: string, urls: string[], maxFetchCount: number = 50) {
   try {

@@ -7,7 +7,7 @@ import { Location } from 'history';
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
-import { UserState, fetchUser } from '../../../redux/slices/user-state';
+import { UserState, fetchUser } from '../../../redux/slices/user';
 import { AppState } from '../../../redux/app-reducer';
 import Anker from '../../atoms/Anker/index';
 import Wrapper from '../../atoms/Wrapper/index';

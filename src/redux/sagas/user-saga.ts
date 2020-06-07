@@ -1,5 +1,5 @@
 import { call, put } from 'redux-saga/effects';
-import { userSlice, currenUserOronAuthStateChanged } from '../slices/user-state';
+import { userSlice, currenUserOronAuthStateChanged } from '../slices/user';
 
 export function* fetchFiresbaseUser(auth: firebase.auth.Auth) {
   yield put(userSlice.actions.firebaseUserRequest());

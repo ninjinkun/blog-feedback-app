@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
-import { currenUserOronAuthStateChanged } from "./user-state";
+import { currenUserOronAuthStateChanged } from "./user";
 import { BlogResponse, FeedResponse } from "../../models/responses";
 import { saveBlog } from "../../models/repositories/blog-repository";
 import { fetchFeed } from "../../models/fetchers/feed-fetcher";

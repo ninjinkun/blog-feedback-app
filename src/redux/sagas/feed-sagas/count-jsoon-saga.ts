@@ -3,7 +3,7 @@ import flatten from 'lodash/flatten';
 import { all, call, delay, put } from 'redux-saga/effects';
 import { fetchCountJsoonCount as fetchCountJsoonCountActoun } from '../../../models/fetchers/count-fetchers/count-jsoon-fetcher';
 import { CountResponse } from '../../../models/responses';
-import { feedsSlice } from '../../slices/feeds-state';
+import { feedsSlice } from '../../slices/feeds';
 
 export function* fetchCountJsoonCounts(blogURL: string, urls: string[], maxFetchCount: number = 30) {
   try {

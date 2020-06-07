@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 import { AppState } from '../../../redux/app-reducer';
-import { UserState, fetchUser } from '../../../redux/slices/user-state';
+import { UserState, fetchUser } from '../../../redux/slices/user';
 import LoadingView from '../../molecules/LoadingView/index';
 import PageLayout from '../../templates/PageLayout/index';
 import WelcomePage from '../WelcomePage/index';

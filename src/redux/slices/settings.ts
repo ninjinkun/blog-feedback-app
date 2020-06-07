@@ -2,7 +2,7 @@ import { createSlice, createNextState, PayloadAction, ThunkAction } from "@redux
 import { app } from "firebase";
 
 import { saveBlogSetting } from "../../models/repositories/blog-repository";
-import { currenUserOronAuthStateChanged } from "./user-state";
+import { currenUserOronAuthStateChanged } from "./user";
 
 export type SettingState = {
   loading: boolean;

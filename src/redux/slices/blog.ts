@@ -1,8 +1,8 @@
 import { BlogEntity } from '../../models/entities';
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
-import { currenUserOronAuthStateChanged } from './user-state';
+import { currenUserOronAuthStateChanged } from './user';
 import { findAllBlogs } from '../../models/repositories/blog-repository';
-import { deleteBlogSlice } from './delete-blog-state';
+import { deleteBlogSlice } from './delete-blog';
 
 export type BlogState = {
   blogs?: BlogEntity[];

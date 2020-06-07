@@ -2,7 +2,7 @@ import { chunk, flatten } from 'lodash';
 import { all, call, delay, put } from 'redux-saga/effects';
 import { fetchPocketCount } from '../../../models/fetchers/count-fetchers/pocket-fetcher';
 import { CountResponse } from '../../../models/responses';
-import { feedsSlice } from '../../slices/feeds-state';
+import { feedsSlice } from '../../slices/feeds';
 
 export function* fetchPocketCounts(blogURL: string, urls: string[], maxFetchCount: number = 30) {
   try {

@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import { userSlice } from './slices/user-state';
-import { blogSlice } from './slices/blog-state';
-import { deleteBlogSlice } from './slices/delete-blog-state';
-import { feedsSlice } from './slices/feeds-state';
-import { addBlogSlice } from './slices/add-blog-state';
-import { settingsSlice } from './slices/settings-state';
+import { userSlice } from './slices/user';
+import { blogSlice } from './slices/blog';
+import { deleteBlogSlice } from './slices/delete-blog';
+import { feedsSlice } from './slices/feeds';
+import { addBlogSlice } from './slices/add-blog';
+import { settingsSlice } from './slices/settings';
 
 export const appReducer = combineReducers({
   blog: blogSlice.reducer,

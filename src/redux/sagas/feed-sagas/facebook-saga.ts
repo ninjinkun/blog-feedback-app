@@ -3,7 +3,7 @@ import flatten from 'lodash/flatten';
 import { all, call, delay, put } from 'redux-saga/effects';
 import { fetchFacebookCount } from '../../../models/fetchers/count-fetchers/facebook-fetcher';
 import { CountResponse } from '../../../models/responses';
-import { feedsSlice } from '../../slices/feeds-state';
+import { feedsSlice } from '../../slices/feeds';
 
 export function* fetchFacebookCounts(blogURL: string, urls: string[], maxFetchCount: number = 20) {
   try {

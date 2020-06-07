@@ -14,7 +14,7 @@ import { fetchHatenaBookmarkCounts } from './feed-sagas/hatenabookmark-saga';
 import { fetchHatenaStarCounts } from './feed-sagas/hatenastar-saga';
 import { fetchPocketCounts } from './feed-sagas/pocket-saga';
 import { fetchFiresbaseUser } from './user-saga';
-import { feedsSlice } from '../slices/feeds-state';
+import { feedsSlice } from '../slices/feeds';
 
 export default function* feedSaga() {
   yield takeLatest(feedsSlice.actions.startFetchAndSave, handleFetchAction);

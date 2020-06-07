@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
-import { currenUserOronAuthStateChanged } from "./user-state";
+import { currenUserOronAuthStateChanged } from "./user";
 import * as BlogRepo from '../../models/repositories/blog-repository';
 import * as ItemsRepo from '../../models/repositories/item-repository';
 
