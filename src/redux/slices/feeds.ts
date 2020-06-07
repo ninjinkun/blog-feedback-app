@@ -37,8 +37,9 @@ export const feedInitialState = {
 };
 
 export const initialState: FeedsState = {
-  feeds: {}, currentBlogURL: undefined
-}
+  feeds: {},
+  currentBlogURL: undefined,
+};
 
 export const feedsSlice = createSlice({
   name: 'feed',
@@ -46,12 +47,12 @@ export const feedsSlice = createSlice({
   reducers: {
     changeBlogURL(state, action: PayloadAction<string>) {
       const blogURL = action.payload;
-      return { ...state, currentBlogURL: blogURL };  
+      return { ...state, currentBlogURL: blogURL };
     },
     clearBlogURL(state) {
       return { ...state, currentBlogURL: undefined };
     },
-    startFetchAndSave(state, action: PayloadAction<{auth: firebase.auth.Auth, blogURL: string}>) {
+    startFetchAndSave(state, action: PayloadAction<{ auth: firebase.auth.Auth; blogURL: string }>) {
       const { blogURL } = action.payload;
       return updateFeed(blogURL, state, { loading: true });
     },
@@ -59,7 +60,7 @@ export const feedsSlice = createSlice({
       const blogURL = action.payload;
       return updateFeed(blogURL, state, { loadingLabel: 'ブログを読み込んでいます', loadingRatio: 10 });
     },
-    firebaseBlogResponse(state, action: PayloadAction<{ blogURL: string, blogEntity: BlogEntity }>) {
+    firebaseBlogResponse(state, action: PayloadAction<{ blogURL: string; blogEntity: BlogEntity }>) {
       const { blogURL, blogEntity } = action.payload;
       return updateFeed(blogURL, state, {
         title: blogEntity.title,
@@ -67,13 +68,13 @@ export const feedsSlice = createSlice({
         sendReport: blogEntity.sendReport,
       });
     },
-    firebaseBlogError(state, action: PayloadAction<{ blogURL: string, error: Error }>) {
-      return state
+    firebaseBlogError(state, action: PayloadAction<{ blogURL: string; error: Error }>) {
+      return state;
     },
     firebaseFeedRequest(state, action: PayloadAction<string>) {
-      return state
+      return state;
     },
-    firebaseFeedResponse(state, action: PayloadAction<{ blogURL: string, items: ItemEntity[] }>) {
+    firebaseFeedResponse(state, action: PayloadAction<{ blogURL: string; items: ItemEntity[] }>) {
       const { blogURL, items } = action.payload;
       return updateFeed(blogURL, state, { firebaseEntities: items });
     },
@@ -81,57 +82,57 @@ export const feedsSlice = createSlice({
       const blogURL = action.payload;
       return updateFeed(blogURL, state, { loadingLabel: 'RSSを読み込んでいます', loadingRatio: 30 });
     },
-    fetchRSSResponse(state, action: PayloadAction<{ blogURL: string, items: ItemResponse[] }>) {
+    fetchRSSResponse(state, action: PayloadAction<{ blogURL: string; items: ItemResponse[] }>) {
       const { blogURL, items } = action.payload;
       return updateFeed(blogURL, state, { fethcedEntities: items });
     },
-    fetchRSSError(state, action: PayloadAction<{ blogURL: string, error: Error }>) {
-      return state
+    fetchRSSError(state, action: PayloadAction<{ blogURL: string; error: Error }>) {
+      return state;
     },
     fetchCountJSOONCountRequest(state, action: PayloadAction<string>) {
       const blogURL = action.payload;
       return updateFeed(blogURL, state, { loadingLabel: 'シェア数を読み込んでいます', loadingRatio: 60 });
     },
-    fetchCountJSOONCountResponse(state, action: PayloadAction<{ blogURL: string, counts: CountResponse[]}>) {
+    fetchCountJSOONCountResponse(state, action: PayloadAction<{ blogURL: string; counts: CountResponse[] }>) {
       const { blogURL, counts } = action.payload;
       return updateFeed(blogURL, state, { fetchedCountJsoonCounts: flatten(counts) });
     },
-    fetchCountJSOONCountError(state, action: PayloadAction<{ blogURL: string, error: Error }>) {
-      return state
+    fetchCountJSOONCountError(state, action: PayloadAction<{ blogURL: string; error: Error }>) {
+      return state;
     },
 
     fetchHatenaBookmarkCountRequest(state, action: PayloadAction<string>) {
       const blogURL = action.payload;
       return updateFeed(blogURL, state, { loadingLabel: 'シェア数を読み込んでいます', loadingRatio: 60 });
     },
-    fetchHatenaBookmarkCountResponse(state, action:  PayloadAction<{ blogURL: string, counts: CountResponse[]}>) {
+    fetchHatenaBookmarkCountResponse(state, action: PayloadAction<{ blogURL: string; counts: CountResponse[] }>) {
       const { blogURL, counts } = action.payload;
       return updateFeed(blogURL, state, { fetchedHatenaBookmarkCounts: flatten(counts) });
     },
-    fetchHatenaBookmarkCountError(state, action: PayloadAction<{ blogURL: string, error: Error }>) {
-      return state
+    fetchHatenaBookmarkCountError(state, action: PayloadAction<{ blogURL: string; error: Error }>) {
+      return state;
     },
 
     fetchHatenaStarCountRequest(state, action: PayloadAction<string>) {
       const blogURL = action.payload;
       return updateFeed(blogURL, state, { loadingLabel: 'シェア数を読み込んでいます', loadingRatio: 60 });
     },
-    fetchHatenaStarCountResponse(state, action:  PayloadAction<{ blogURL: string, counts: CountResponse[]}>) {
+    fetchHatenaStarCountResponse(state, action: PayloadAction<{ blogURL: string; counts: CountResponse[] }>) {
       const { blogURL, counts } = action.payload;
       return updateFeed(blogURL, state, { fetchedHatenaStarCounts: flatten(counts) });
     },
-    fetchHatenaStarCountError(state, action: PayloadAction<{ blogURL: string, error: Error }>) {
-      return state
+    fetchHatenaStarCountError(state, action: PayloadAction<{ blogURL: string; error: Error }>) {
+      return state;
     },
 
     fetchFacebookCountsRequest(state, action: PayloadAction<string>) {
       const blogURL = action.payload;
       return updateFeed(blogURL, state, { loadingLabel: 'シェア数を読み込んでいます', loadingRatio: 60 });
     },
-    fetchFacebookCountError(state, action: PayloadAction<{ blogURL: string, error: Error }>) {
-      return state
+    fetchFacebookCountError(state, action: PayloadAction<{ blogURL: string; error: Error }>) {
+      return state;
     },
-    fetchFacebookCountResponse(state, action:  PayloadAction<{ blogURL: string, counts: CountResponse[]}>) {
+    fetchFacebookCountResponse(state, action: PayloadAction<{ blogURL: string; counts: CountResponse[] }>) {
       const { blogURL, counts } = action.payload;
       return updateFeed(blogURL, state, { fetchedFacebookCounts: flatten(counts) });
     },
@@ -139,17 +140,22 @@ export const feedsSlice = createSlice({
       const blogURL = action.payload;
       return updateFeed(blogURL, state, { loadingLabel: 'シェア数を読み込んでいます', loadingRatio: 60 });
     },
-    fetchPocketCountResponse(state, action:  PayloadAction<{ blogURL: string, counts: CountResponse[]}>) {
+    fetchPocketCountResponse(state, action: PayloadAction<{ blogURL: string; counts: CountResponse[] }>) {
       const { blogURL, counts } = action.payload;
       return updateFeed(blogURL, state, { fetchedPocketCounts: flatten(counts) });
     },
-    fetchPocketCountError(state, action: PayloadAction<{ blogURL: string, error: Error }>) {
-      return state
+    fetchPocketCountError(state, action: PayloadAction<{ blogURL: string; error: Error }>) {
+      return state;
     },
-    firebaseSaveRequst(state, action: PayloadAction<{  blogURL: string,
-      firebaseItems: ItemEntity[],
-      fetchedItems: ItemResponse[],
-      counts: CountResponse[]}>) {
+    firebaseSaveRequst(
+      state,
+      action: PayloadAction<{
+        blogURL: string;
+        firebaseItems: ItemEntity[];
+        fetchedItems: ItemResponse[];
+        counts: CountResponse[];
+      }>
+    ) {
       const { blogURL } = action.payload;
       return updateFeed(blogURL, state, { loadingLabel: 'データを保存しています', loadingRatio: 80 });
     },
@@ -157,15 +163,15 @@ export const feedsSlice = createSlice({
       const blogURL = action.payload;
       return updateFeed(blogURL, state, { loading: false, loadingLabel: undefined, loadingRatio: 100 });
     },
-    firebaseSaveError(state, action: PayloadAction<{ blogURL: string, error: Error }>) {
+    firebaseSaveError(state, action: PayloadAction<{ blogURL: string; error: Error }>) {
       const { blogURL } = action.payload;
       return updateFeed(blogURL, state, { loading: false, loadingLabel: undefined, loadingRatio: 0 });
     },
-    fetchAndSaveError(state, action: PayloadAction<{ blogURL: string, error: Error }>) {
+    fetchAndSaveError(state, action: PayloadAction<{ blogURL: string; error: Error }>) {
       const { blogURL } = action.payload;
       return updateFeed(blogURL, state, { loading: false, loadingLabel: undefined, loadingRatio: 0 });
     },
-    firebaseAddBlogResponse(state, action: PayloadAction<{ title: string, url: string, feedURL: string }>) {
+    firebaseAddBlogResponse(state, action: PayloadAction<{ title: string; url: string; feedURL: string }>) {
       const { title, url, feedURL } = action.payload;
       return updateFeed(url, state, { title, feedURL });
     },
@@ -185,7 +191,7 @@ export const feedsSlice = createSlice({
 
     //   return updateFeed(blogURL, state, { services, sendReport });
     // })
-  }
+  },
 });
 
 function updateFeed(blogURL: string, state: FeedsState, newFeed: Partial<FeedState>): FeedsState {
@@ -193,7 +199,7 @@ function updateFeed(blogURL: string, state: FeedsState, newFeed: Partial<FeedSta
     return state;
   }
   const feedState = state.feeds[blogURL] || feedInitialState;
-  return createNextState(state, draft => {
+  return createNextState(state, (draft) => {
     const newFeeds = draft.feeds;
     newFeeds[blogURL] = { ...feedState, ...newFeed };
     draft.feeds = newFeeds;

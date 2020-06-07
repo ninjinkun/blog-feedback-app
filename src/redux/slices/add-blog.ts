@@ -1,9 +1,9 @@
-import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
-import { currenUserOronAuthStateChanged } from "./user";
-import { BlogResponse, FeedResponse } from "../../models/responses";
-import { saveBlog } from "../../models/repositories/blog-repository";
-import { fetchFeed } from "../../models/fetchers/feed-fetcher";
-import { fetchBlog } from "../../models/fetchers/blog-fetcher";
+import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
+import { currenUserOronAuthStateChanged } from './user';
+import { BlogResponse, FeedResponse } from '../../models/responses';
+import { saveBlog } from '../../models/repositories/blog-repository';
+import { fetchFeed } from '../../models/fetchers/feed-fetcher';
+import { fetchBlog } from '../../models/fetchers/blog-fetcher';
 
 export type AddBlogState = {
   loading: boolean;
@@ -40,8 +40,8 @@ export const addBlogSlice = createSlice({
     },
     reset(state) {
       return initialState;
-    }
-  }
+    },
+  },
 });
 
 export type AddBlogThunkAction = ThunkAction<void, AddBlogState, undefined, any>;

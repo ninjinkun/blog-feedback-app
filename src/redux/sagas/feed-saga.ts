@@ -91,10 +91,10 @@ function* fetchFeed(blogURL: string, feedURL: string) {
   try {
     yield put(feedsSlice.actions.fetchRSSRequest(blogURL));
     const feed: FeedResponse = yield call(fetchFeedAction, feedURL);
-    yield put(feedsSlice.actions.fetchRSSResponse({ blogURL, items: feed.items} ));
+    yield put(feedsSlice.actions.fetchRSSResponse({ blogURL, items: feed.items }));
     return feed.items;
   } catch (e) {
-    yield put(feedsSlice.actions.fetchRSSError({ blogURL, error: clone(e)}));
+    yield put(feedsSlice.actions.fetchRSSError({ blogURL, error: clone(e) }));
   }
 }
 

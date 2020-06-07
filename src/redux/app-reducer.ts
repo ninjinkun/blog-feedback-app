@@ -15,4 +15,4 @@ export const appReducer = combineReducers({
   settings: settingsSlice.reducer,
 });
 
-export type AppState = ReturnType<typeof appReducer>
+export type AppState = ReturnType<typeof appReducer>;

@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
-import { currenUserOronAuthStateChanged } from "./user";
+import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
+import { currenUserOronAuthStateChanged } from './user';
 import * as BlogRepo from '../../models/repositories/blog-repository';
 import * as ItemsRepo from '../../models/repositories/item-repository';
 
@@ -26,14 +26,14 @@ export const deleteBlogSlice = createSlice({
       const blogURL = action.payload;
       return { ...state, error: undefined, finished: true, blogURL, loading: false };
     },
-    deleteBlogError(state, action: PayloadAction<{ blogURL: string, error: Error }>) {
+    deleteBlogError(state, action: PayloadAction<{ blogURL: string; error: Error }>) {
       const { error } = action.payload;
       return { ...state, error, finished: false, loading: false };
     },
     reset() {
       return initialState;
-    }
-  }
+    },
+  },
 });
 
 type TA = ThunkAction<void, DeleteBlogState, undefined, any>;
@@ -46,7 +46,7 @@ export function deleteBlog(auth: firebase.auth.Auth, blogURL: string): TA {
       await BlogRepo.deleteBlog(user.uid, blogURL);
       dispatch(deleteBlogSlice.actions.deleteBlogResponse(blogURL));
     } catch (error) {
-      dispatch(deleteBlogSlice.actions.deleteBlogError({ blogURL, error } ));
+      dispatch(deleteBlogSlice.actions.deleteBlogError({ blogURL, error }));
     }
   };
 }

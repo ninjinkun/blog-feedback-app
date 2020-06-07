@@ -27,7 +27,6 @@ import { UserState, fetchUser } from '../../../redux/slices/user';
 import { fetchFirebaseBlog } from '../../../redux/slices/feeds';
 import { SettingState, saveSetting, sendTestReportMail } from '../../../redux/slices/settings';
 
-
 type Props = RouteComponentProps<{ blogURL: string }>;
 
 const SettingPage: React.FC<Props> = (props) => {
@@ -35,16 +34,16 @@ const SettingPage: React.FC<Props> = (props) => {
 
   const userState = useSelector<AppState, UserState>((state) => state.user);
   const feedState = useSelector<AppState, FeedState>((state) => state.feeds.feeds[blogURL]);
-  const settingState = useSelector<AppState, SettingState>(state => state.settings.settings[blogURL]);
+  const settingState = useSelector<AppState, SettingState>((state) => state.settings.settings[blogURL]);
   const deleteBlogState = useSelector<AppState, DeleteBlogState>((state) => state.deleteBlog);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     dispatch(deleteBlogSlice.actions.reset());
     dispatch(fetchFirebaseBlog(firebase.auth(), blogURL));
     dispatch(fetchUser(firebase.auth()));
     return () => undefined;
-  }, [dispatch]);
+  }, [blogURL, dispatch]);
 
   const saveSettings = (
     sendReport: boolean,
@@ -55,17 +54,19 @@ const SettingPage: React.FC<Props> = (props) => {
     hatenastar: boolean,
     pocket: boolean
   ) => {
-    dispatch(saveSetting(
-      firebase.auth(),
-      blogURL,
-      sendReport,
-      twitter,
-      countjsoon,
-      facebook,
-      hatenabookmark,
-      hatenastar,
-      pocket
-    ));
+    dispatch(
+      saveSetting(
+        firebase.auth(),
+        blogURL,
+        sendReport,
+        twitter,
+        countjsoon,
+        facebook,
+        hatenabookmark,
+        hatenastar,
+        pocket
+      )
+    );
   };
 
   const enableSendReport = (enabled: boolean) => {

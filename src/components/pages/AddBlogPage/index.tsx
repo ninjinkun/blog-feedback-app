@@ -19,13 +19,13 @@ type States = {
 
 const AddBlogPage: React.FC<RouteComponentProps> = () => {
   const [state, setState] = useState<States>({});
-  const addBlogState = useSelector<AppState, AddBlogState>(state => state.addBlog);
-  const blogState = useSelector<AppState, BlogState>(state => state.blog);
+  const addBlogState = useSelector<AppState, AddBlogState>((state) => state.addBlog);
+  const blogState = useSelector<AppState, BlogState>((state) => state.blog);
   const dispatch = useDispatch();
 
   useEffect(() => {
     return () => {
-      dispatch(addBlogSlice.actions.reset())
+      dispatch(addBlogSlice.actions.reset());
     };
   }, [dispatch]);
 

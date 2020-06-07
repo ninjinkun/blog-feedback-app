@@ -18,7 +18,7 @@ import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
 const BlogsPage: React.FC<RouteComponentProps> = (props) => {
-  const blog = useSelector<AppState, BlogState>((state) => state.blog)
+  const blog = useSelector<AppState, BlogState>((state) => state.blog);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchBlogs(firebase.auth()));

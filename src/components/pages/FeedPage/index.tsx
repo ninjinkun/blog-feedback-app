@@ -22,7 +22,7 @@ type AnimateMap = Map<string, boolean>;
 
 const FeedPage: React.FC<RouteComponentProps<{ blogURL: string }>> = (props) => {
   const blogURL = decodeURIComponent(props.match.params.blogURL);
-  const feed = useSelector<AppState, FeedState>((state) => state.feeds.feeds[blogURL])
+  const feed = useSelector<AppState, FeedState>((state) => state.feeds.feeds[blogURL]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const FeedPage: React.FC<RouteComponentProps<{ blogURL: string }>> = (props) => 
     return () => {
       dispatch(feedsSlice.actions.clearBlogURL());
     };
-  }, [dispatch]);
+  }, [blogURL, dispatch]);
 
   return (
     <PageLayout

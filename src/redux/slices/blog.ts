@@ -19,14 +19,14 @@ export const blogSlice = createSlice({
   initialState,
   reducers: {
     firebaseBlogsRequest(state) {
-      return { ...state, loading: true }; 
+      return { ...state, loading: true };
     },
     firebaseBlogsResponse(state, action: PayloadAction<BlogEntity[]>) {
       return { ...state, blogs: action.payload, loading: false };
     },
     firebaseBlogsError(state, action: PayloadAction<Error>) {
-      return state
-    }
+      return state;
+    },
   },
   extraReducers(builder) {
     builder.addCase(deleteBlogSlice.actions.deleteBlogResponse, (state, action: PayloadAction<string>) => {
@@ -37,9 +37,8 @@ export const blogSlice = createSlice({
       }
       return { ...state, blogs };
     });
-  }
-})
-
+  },
+});
 
 export function fetchBlogs(auth: firebase.auth.Auth): ThunkAction<void, BlogState, undefined, any> {
   return async (dispatch) => {

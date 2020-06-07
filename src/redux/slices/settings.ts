@@ -1,8 +1,8 @@
-import { createSlice, createNextState, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
-import { app } from "firebase";
+import { createSlice, createNextState, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
+import { app } from 'firebase';
 
-import { saveBlogSetting } from "../../models/repositories/blog-repository";
-import { currenUserOronAuthStateChanged } from "./user";
+import { saveBlogSetting } from '../../models/repositories/blog-repository';
+import { currenUserOronAuthStateChanged } from './user';
 
 export type SettingState = {
   loading: boolean;
@@ -20,9 +20,9 @@ export const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    saveSettingRequest(state, action: PayloadAction<string>) { },
-    saveSettingResponse(state, action: PayloadAction<string>) { },
-    saveSettingError(state, action: PayloadAction<{ blogURL: string, error: Error }>) { },
+    saveSettingRequest(state, action: PayloadAction<string>) {},
+    saveSettingResponse(state, action: PayloadAction<string>) {},
+    saveSettingError(state, action: PayloadAction<{ blogURL: string; error: Error }>) {},
     firebaseSendTestReportMailRequest(state, action: PayloadAction<string>) {
       const blogURL = action.payload;
       return updateStates(state, blogURL, { loading: true });
@@ -31,11 +31,11 @@ export const settingsSlice = createSlice({
       const blogURL = action.payload;
       return updateStates(state, blogURL, { loading: false });
     },
-    firebaseSendTestMailError(state, action: PayloadAction<{ blogURL: string, error: Error }>) {
+    firebaseSendTestMailError(state, action: PayloadAction<{ blogURL: string; error: Error }>) {
       const { blogURL } = action.payload;
       return updateStates(state, blogURL, { loading: false });
-    }
-  }
+    },
+  },
 });
 
 function updateStates(state: SettingsState, blogURL: string, updateState: Partial<SettingState>) {
@@ -75,9 +75,7 @@ export function saveSetting(
         hatenaStarEnabled,
         pocketEnabled
       );
-      dispatch(
-        settingsSlice.actions.saveSettingResponse(blogURL)
-      );
+      dispatch(settingsSlice.actions.saveSettingResponse(blogURL));
     } catch (error) {
       dispatch(settingsSlice.actions.saveSettingError({ blogURL, error }));
     }

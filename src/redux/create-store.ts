@@ -7,9 +7,12 @@ import gaSaga from './sagas/ga-saga';
 const sagaMiddleware = createSagaMiddleware();
 export const appStore = configureStore({
   reducer: appReducer,
-  middleware: [...getDefaultMiddleware({
-    serializableCheck: false,
-  }), sagaMiddleware],
+  middleware: [
+    ...getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+    sagaMiddleware,
+  ],
 });
 sagaMiddleware.run(feedSaga);
 sagaMiddleware.run(gaSaga);
