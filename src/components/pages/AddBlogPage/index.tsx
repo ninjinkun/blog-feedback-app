@@ -1,48 +1,36 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
-import { Dispatch } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
 import styled from 'styled-components';
-import { addBlog, AddBlogActions, addBlogInitialize } from '../../../redux/actions/add-blog-action';
-import { AddBlogState } from '../../../redux/states/add-blog-state';
-import { AppState } from '../../../redux/states/app-state';
-import { BlogState } from '../../../redux/states/blog-state';
+import { AddBlogState, addBlogSlice, addBlog } from '../../../redux/slices/add-blog';
+import { AppState } from '../../../redux/app-reducer';
+import { BlogState } from '../../../redux/slices/blog';
 import Button from '../../atoms/Button/index';
 import Wrapper from '../../atoms/Wrapper/index';
 import AddBlogForm from '../../organisms/AddBlogForm/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
-type StateProps = {
-  addBlogState: AddBlogState;
-  blogState: BlogState;
-};
-
-type DispatchProps = {
-  addBlog: (...props: Parameters<typeof addBlog>) => void;
-  addBlogInitialize: () => void;
-};
-
-type OwnProps = {};
-type Props = StateProps & DispatchProps & RouteComponentProps<OwnProps>;
-
 type States = {
   fillInURL?: string;
 };
 
-const AddBlogView: React.FC<Props> = ({ addBlogInitialize, addBlog, addBlogState, blogState }) => {
+const AddBlogPage: React.FC<RouteComponentProps> = () => {
   const [state, setState] = useState<States>({});
+  const addBlogState = useSelector<AppState, AddBlogState>((state) => state.addBlog);
+  const blogState = useSelector<AppState, BlogState>((state) => state.blog);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     return () => {
-      addBlogInitialize();
+      dispatch(addBlogSlice.actions.reset());
     };
-  }, [addBlogInitialize]);
+  }, [dispatch]);
 
   const handleSubmit = (url: string, reportMailEnabled: boolean) => {
-    addBlog(firebase.auth(), url, reportMailEnabled);
+    dispatch(addBlog(firebase.auth(), url, reportMailEnabled));
   };
 
   const fillIn = (url: string) => {
@@ -120,19 +108,4 @@ const SeggestionButton = styled(Button)`
   margin: 4px;
 `;
 
-function mapStateToProps(state: AppState): StateProps {
-  return {
-    addBlogState: state.addBlog,
-    blogState: state.blog,
-  };
-}
-
-type TD = ThunkDispatch<AppState, undefined, AddBlogActions>;
-function mapDispatchToProps(dispatch: TD & Dispatch<AddBlogActions>): DispatchProps {
-  return {
-    addBlog: (...props) => dispatch(addBlog(...props)),
-    addBlogInitialize: () => dispatch(addBlogInitialize()),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddBlogView);
+export default AddBlogPage;

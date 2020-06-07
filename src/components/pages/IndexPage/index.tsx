@@ -2,30 +2,21 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import React, { useEffect } from 'react';
 
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
-import { ThunkDispatch } from 'redux-thunk';
-import { fetchUser, UserActions } from '../../../redux/actions/user-action';
-import { AppState } from '../../../redux/states/app-state';
-import { UserState } from '../../../redux/states/user-state';
+import { AppState } from '../../../redux/app-reducer';
+import { UserState, fetchUser } from '../../../redux/slices/user';
 import LoadingView from '../../molecules/LoadingView/index';
 import PageLayout from '../../templates/PageLayout/index';
 import WelcomePage from '../WelcomePage/index';
 
-type StateProps = {
-  user: UserState;
-};
-
-type DispatchProps = {
-  fetchUser: (...props: Parameters<typeof fetchUser>) => void;
-};
-
-type Props = StateProps & DispatchProps & RouteComponentProps;
-const IndexPage: React.FC<Props> = ({ user, fetchUser }) => {
+const IndexPage: React.FC<RouteComponentProps> = () => {
+  const user = useSelector<AppState, UserState>((state) => state.user);
+  const dispatch = useDispatch();
   useEffect(() => {
-    fetchUser(firebase.auth());
+    dispatch(fetchUser(firebase.auth()));
     return () => undefined;
-  }, [fetchUser]);
+  }, [dispatch]);
 
   const { loading, user: userData } = user;
   if (loading) {
@@ -45,17 +36,4 @@ const IndexPage: React.FC<Props> = ({ user, fetchUser }) => {
   }
 };
 
-function mapStateToProps(state: AppState): StateProps {
-  return {
-    user: state.user,
-  };
-}
-
-type TD = ThunkDispatch<AppState, undefined, UserActions>;
-function mapDispatchToProps(dispatch: TD): DispatchProps {
-  return {
-    fetchUser: (auth: firebase.auth.Auth) => dispatch(fetchUser(auth)),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(IndexPage);
+export default IndexPage;

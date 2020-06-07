@@ -1,18 +1,13 @@
 import { call, put } from 'redux-saga/effects';
-import {
-  currenUserOronAuthStateChanged,
-  userFirebaseUserError,
-  userFirebaseUserRequest,
-  userFirebaseUserResponse,
-} from '../actions/user-action';
+import { userSlice, currenUserOronAuthStateChanged } from '../slices/user';
 
 export function* fetchFiresbaseUser(auth: firebase.auth.Auth) {
-  yield put(userFirebaseUserRequest());
+  yield put(userSlice.actions.firebaseUserRequest());
   try {
     const user: firebase.User = yield call(currenUserOronAuthStateChanged, auth);
-    yield put(userFirebaseUserResponse(user));
+    yield put(userSlice.actions.firebaseUserResponse(JSON.parse(JSON.stringify(user))));
     return user;
   } catch (e) {
-    yield put(userFirebaseUserError(e));
+    yield put(userSlice.actions.firebaseUnauthorizedError(e));
   }
 }

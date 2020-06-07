@@ -3,15 +3,11 @@ import flatten from 'lodash/flatten';
 import { all, call, delay, put } from 'redux-saga/effects';
 import { fetchFacebookCount } from '../../../models/fetchers/count-fetchers/facebook-fetcher';
 import { CountResponse } from '../../../models/responses';
-import {
-  feedFetchFacebookCountError,
-  feedFetchFacebookCountRequest,
-  feedFetchFacebookCountResponse,
-} from '../../actions/feed-actions/facebook-action';
+import { feedsSlice } from '../../slices/feeds';
 
 export function* fetchFacebookCounts(blogURL: string, urls: string[], maxFetchCount: number = 20) {
   try {
-    yield put(feedFetchFacebookCountRequest(blogURL));
+    yield put(feedsSlice.actions.fetchFacebookCountsRequest(blogURL));
     const slicedURLs = urls.slice(0, maxFetchCount - 1);
     const chunkedURLs = chunk(slicedURLs, 4);
     const counts: CountResponse[][] = [];
@@ -19,10 +15,10 @@ export function* fetchFacebookCounts(blogURL: string, urls: string[], maxFetchCo
       counts.push(yield call(fetchFacebookCountChunk, urls));
     }
     const flattenedCounts = flatten(counts);
-    yield put(feedFetchFacebookCountResponse(blogURL, flattenedCounts));
+    yield put(feedsSlice.actions.fetchFacebookCountResponse({ blogURL, counts: flattenedCounts }));
     return flattenedCounts;
-  } catch (e) {
-    yield put(feedFetchFacebookCountError(blogURL, e));
+  } catch (error) {
+    yield put(feedsSlice.actions.fetchFacebookCountError({ blogURL, error }));
   }
 }
 

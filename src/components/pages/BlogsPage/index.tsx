@@ -3,13 +3,10 @@ import 'firebase/auth';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Dispatch } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { BlogActions, fetchBlogs } from '../../../redux/actions/blog-action';
-import { AppState } from '../../../redux/states/app-state';
-import { BlogState } from '../../../redux/states/blog-state';
+import { AppState } from '../../../redux/app-reducer';
+import { BlogState, fetchBlogs } from '../../../redux/slices/blog';
 import { PrimaryAnkerButton } from '../../atoms/Button/index';
 import ScrollView from '../../atoms/ScrollView/index';
 import Wrapper from '../../atoms/Wrapper/index';
@@ -18,21 +15,12 @@ import BlogCell from '../../organisms/BlogCell/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
-type StateProps = {
-  blog: BlogState;
-};
-
-type DispatchProps = {
-  fetchBlogs: (...props: Parameters<typeof fetchBlogs>) => void;
-};
-
-type Props = StateProps & DispatchProps & RouteComponentProps<{}> & { dispatch: Dispatch };
-
-const BlogsPage: React.FC<Props> = (props) => {
-  const { blog, fetchBlogs } = props;
+const BlogsPage: React.FC<RouteComponentProps> = () => {
+  const blog = useSelector<AppState, BlogState>((state) => state.blog);
+  const dispatch = useDispatch();
   useEffect(() => {
-    fetchBlogs(firebase.auth());
-  }, [fetchBlogs]);
+    dispatch(fetchBlogs(firebase.auth()));
+  }, [dispatch]);
 
   const { blogs, loading } = blog;
   return (
@@ -71,19 +59,7 @@ const BlogsPage: React.FC<Props> = (props) => {
   );
 };
 
-function mapStateToProps(state: AppState): StateProps {
-  return {
-    blog: state.blog,
-  };
-}
-
-function mapDispatchToProps(dispatch: ThunkDispatch<AppState, undefined, BlogActions>): DispatchProps {
-  return {
-    fetchBlogs: (auth) => dispatch(fetchBlogs(auth)),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(BlogsPage);
+export default BlogsPage;
 
 const StyledScrollView = styled(ScrollView)`
   background-color: white;

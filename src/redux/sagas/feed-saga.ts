@@ -8,32 +8,21 @@ import { findBlog } from '../../models/repositories/blog-repository';
 import { findAllItems } from '../../models/repositories/item-repository';
 import { CountResponse, FeedResponse, ItemResponse } from '../../models/responses';
 import { saveFeedsAndCounts } from '../../models/save-count-response';
-import { feedFetchAndSaveError, FeedFetchFeedAction, FETCH_AND_SAVE_START } from '../actions/feed-action';
-import {
-  feedFirebaseBlogRequest,
-  feedFirebaseBlogResponse,
-  feedFirebaseFeedItemsResponse,
-} from '../actions/feed-actions/feed-firebase-action';
-import {
-  feedFirebaseSaveError,
-  feedSaveFeedFirebaseResponse,
-  feedSaveFeedRequest,
-} from '../actions/feed-actions/feed-firebase-save-action';
-import { feedFetchRSSError, feedFetchRSSRequest, feedFetchRSSResponse } from '../actions/feed-actions/rss';
 import { fetchCountJsoonCounts } from './feed-sagas/count-jsoon-saga';
 import { fetchFacebookCounts } from './feed-sagas/facebook-saga';
 import { fetchHatenaBookmarkCounts } from './feed-sagas/hatenabookmark-saga';
 import { fetchHatenaStarCounts } from './feed-sagas/hatenastar-saga';
 import { fetchPocketCounts } from './feed-sagas/pocket-saga';
 import { fetchFiresbaseUser } from './user-saga';
+import { feedsSlice } from '../slices/feeds';
 
 export default function* feedSaga() {
-  yield takeLatest(FETCH_AND_SAVE_START, handleFetchAction);
+  yield takeLatest(feedsSlice.actions.startFetchAndSave, handleFetchAction);
 }
 
 // main
-function* handleFetchAction(action: FeedFetchFeedAction) {
-  const { blogURL, auth } = action;
+function* handleFetchAction(action: ReturnType<typeof feedsSlice.actions.startFetchAndSave>) {
+  const { blogURL, auth } = action.payload;
 
   const user: firebase.User = yield call(fetchFiresbaseUser, auth);
 
@@ -78,34 +67,34 @@ function* handleFetchAction(action: FeedFetchFeedAction) {
 
 function* firebaseBlog(user: firebase.User, blogURL: string) {
   try {
-    yield put(feedFirebaseBlogRequest(blogURL));
-    const blogData: BlogEntity = yield call(findBlog, user.uid, blogURL);
-    yield put(feedFirebaseBlogResponse(blogURL, blogData, user));
-    return blogData;
-  } catch (e) {
-    yield put(feedFetchAndSaveError(blogURL, e));
+    yield put(feedsSlice.actions.firebaseBlogRequest(blogURL));
+    const blogEntity: BlogEntity = yield call(findBlog, user.uid, blogURL);
+    yield put(feedsSlice.actions.firebaseBlogResponse({ blogURL, blogEntity }));
+    return blogEntity;
+  } catch (error) {
+    yield put(feedsSlice.actions.fetchAndSaveError({ blogURL, error }));
   }
 }
 
 function* firebaseFeed(user: firebase.User, blogURL: string) {
   try {
-    yield put(feedFirebaseBlogRequest(blogURL));
+    yield put(feedsSlice.actions.firebaseFeedRequest(blogURL));
     const items: ItemEntity[] = yield call(findAllItems, user.uid, blogURL);
-    yield put(feedFirebaseFeedItemsResponse(blogURL, items));
+    yield put(feedsSlice.actions.firebaseFeedResponse({ blogURL, items }));
     return items;
-  } catch (e) {
-    yield put(feedFetchAndSaveError(blogURL, e));
+  } catch (error) {
+    yield put(feedsSlice.actions.fetchAndSaveError({ blogURL, error }));
   }
 }
 
 function* fetchFeed(blogURL: string, feedURL: string) {
   try {
-    yield put(feedFetchRSSRequest(blogURL));
+    yield put(feedsSlice.actions.fetchRSSRequest(blogURL));
     const feed: FeedResponse = yield call(fetchFeedAction, feedURL);
-    yield put(feedFetchRSSResponse(blogURL, feed.items));
+    yield put(feedsSlice.actions.fetchRSSResponse({ blogURL, items: feed.items }));
     return feed.items;
   } catch (e) {
-    yield put(feedFetchRSSError(blogURL, clone(e)));
+    yield put(feedsSlice.actions.fetchRSSError({ blogURL, error: clone(e) }));
   }
 }
 
@@ -118,10 +107,10 @@ function* saveBlogFeedItemsAndCounts(
   countTypes: CountType[]
 ) {
   try {
-    yield put(feedSaveFeedRequest(blogURL, firebaseItems, fetchedItems, counts));
+    yield put(feedsSlice.actions.firebaseSaveRequst({ blogURL, firebaseItems, fetchedItems, counts }));
     yield call(saveFeedsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts, countTypes);
-    yield put(feedSaveFeedFirebaseResponse(blogURL));
-  } catch (e) {
-    yield put(feedFirebaseSaveError(blogURL, e));
+    yield put(feedsSlice.actions.firebaseSaveResponse(blogURL));
+  } catch (error) {
+    yield put(feedsSlice.actions.firebaseSaveError({ blogURL, error }));
   }
 }
