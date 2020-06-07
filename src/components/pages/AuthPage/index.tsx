@@ -3,8 +3,8 @@ import 'firebase/auth';
 import React, { Fragment, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
-import { UserState, fetchUser } from '../../../redux/states/user-state';
-import { AppState } from '../../../redux/states/app-state';
+import { UserState, fetchUser } from '../../../redux/slices/user-state';
+import { AppState } from '../../../redux/slices/app-state';
 import LoadingView from '../../molecules/LoadingView/index';
 import PageLayout from '../../templates/PageLayout/index';
 

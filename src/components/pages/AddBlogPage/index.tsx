@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 import styled from 'styled-components';
-import { AddBlogState, addBlogSlice, addBlog } from '../../../redux/states/add-blog-state';
-import { AppState } from '../../../redux/states/app-state';
-import { BlogState } from '../../../redux/states/blog-state';
+import { AddBlogState, addBlogSlice, addBlog } from '../../../redux/slices/add-blog-state';
+import { AppState } from '../../../redux/slices/app-state';
+import { BlogState } from '../../../redux/slices/blog-state';
 import Button from '../../atoms/Button/index';
 import Wrapper from '../../atoms/Wrapper/index';
 import AddBlogForm from '../../organisms/AddBlogForm/index';
@@ -22,7 +22,7 @@ const AddBlogPage: React.FC<RouteComponentProps> = () => {
   const addBlogState = useSelector<AppState, AddBlogState>(state => state.addBlog);
   const blogState = useSelector<AppState, BlogState>(state => state.blog);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     return () => {
       dispatch(addBlogSlice.actions.reset())

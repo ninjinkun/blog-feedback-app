@@ -1,6 +1,6 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
-import { appReducer } from './reducers/app-reducer';
+import { appReducer } from './app-reducer';
 import feedSaga from './sagas/feed-saga';
 import gaSaga from './sagas/ga-saga';
 

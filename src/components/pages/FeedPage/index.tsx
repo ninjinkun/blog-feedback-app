@@ -8,14 +8,14 @@ import { RouteComponentProps } from 'react-router';
 import { CountType } from '../../../models/consts/count-type';
 import { CountEntity, ItemEntity } from '../../../models/entities';
 import { CountResponse, ItemResponse } from '../../../models/responses';
-import { AppState } from '../../../redux/states/app-state';
-import { FeedState } from '../../../redux/states/feeds-state';
+import { AppState } from '../../../redux/slices/app-state';
+import { FeedState } from '../../../redux/slices/feeds-state';
 import ScrollView from '../../atoms/ScrollView/index';
 import LoadingView from '../../molecules/LoadingView/index';
 import EntryCell, { Count } from '../../organisms/EntryCell/index';
 import { colorsValue } from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
-import { feedsSlice } from '../../../redux/states/feeds-state';
+import { feedsSlice } from '../../../redux/slices/feeds-state';
 
 type CountMap = Map<string, number>;
 type AnimateMap = Map<string, boolean>;

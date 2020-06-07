@@ -9,9 +9,9 @@ import Toggle from 'react-toggle';
 import 'react-toggle/style.css';
 import styled from 'styled-components';
 import { CountType } from '../../../models/consts/count-type';
-import { AppState } from '../../../redux/states/app-state';
-import { DeleteBlogState, deleteBlogSlice, deleteBlog } from '../../../redux/states/delete-blog-state';
-import { FeedState } from '../../../redux/states/feeds-state';
+import { AppState } from '../../../redux/slices/app-state';
+import { DeleteBlogState, deleteBlogSlice, deleteBlog } from '../../../redux/slices/delete-blog-state';
+import { FeedState } from '../../../redux/slices/feeds-state';
 import Anker from '../../atoms/Anker/index';
 import Button, { WarningButton } from '../../atoms/Button/index';
 import Favicon from '../../atoms/Favicon/index';
@@ -23,9 +23,9 @@ import SettingCell from '../../organisms/SettingCell/index';
 import SectionHeader from '../../organisms/SettingSectionHeader/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
-import { UserState, fetchUser } from '../../../redux/states/user-state';
-import { fetchFirebaseBlog } from '../../../redux/states/feeds-state';
-import { SettingState, saveSetting, sendTestReportMail } from '../../../redux/states/settings-state';
+import { UserState, fetchUser } from '../../../redux/slices/user-state';
+import { fetchFirebaseBlog } from '../../../redux/slices/feeds-state';
+import { SettingState, saveSetting, sendTestReportMail } from '../../../redux/slices/settings-state';
 
 
 type Props = RouteComponentProps<{ blogURL: string }>;

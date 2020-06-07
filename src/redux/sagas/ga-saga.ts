@@ -1,6 +1,6 @@
 import ReactGA from 'react-ga';
 import { takeLatest } from 'redux-saga/effects';
-import { userSlice } from '../states/user-state';
+import { userSlice } from '../slices/user-state';
 
 
 export default function* gaSaga() {
