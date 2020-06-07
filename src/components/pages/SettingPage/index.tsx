@@ -7,11 +7,9 @@ import { connect, useSelector, useDispatch } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import Toggle from 'react-toggle';
 import 'react-toggle/style.css';
-import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import styled from 'styled-components';
 import { CountType } from '../../../models/consts/count-type';
-import { FeedFirebaseActions, fetchFirebaseBlog } from '../../../redux/actions/feed-actions/feed-firebase-action';
 import { saveSetting, sendTestReportMail, SettingActions } from '../../../redux/actions/setting-action';
 import { AppState } from '../../../redux/states/app-state';
 import { DeleteBlogState, deleteBlogSlice, deleteBlog } from '../../../redux/states/delete-blog-state';
@@ -29,14 +27,13 @@ import SectionHeader from '../../organisms/SettingSectionHeader/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 import { UserState, fetchUser } from '../../../redux/states/user-state';
+import { fetchFirebaseBlog } from '../../../redux/states/feeds-state';
 
 type StateProps = {
-  feedState: FeedState;
   settingState: SettingState;
 };
 
 type DispatchProps = {
-  fetchFirebaseBlog: (...props: Parameters<typeof fetchFirebaseBlog>) => void;
   saveSetting: (...props: Parameters<typeof saveSetting>) => void;
   sendTestReportMail: (...props: Parameters<typeof sendTestReportMail>) => void;
 };
@@ -46,24 +43,24 @@ type OwnProps = RouteComponentProps<{ blogURL: string }>;
 type Props = OwnProps & StateProps & DispatchProps;
 
 const SettingPage: React.FC<Props> = (props) => {
+  const blogURL = decodeURIComponent(props.match.params.blogURL);
+
   const userState = useSelector<AppState, UserState>((state) => state.user);
+  const feedState = useSelector<AppState, FeedState>((state) => state.feeds.feeds?.[blogURL])
   const deleteBlogState = useSelector<AppState, DeleteBlogState>((state) => state.deleteBlog);
   const dispatch = useDispatch();
   
   const {
-    feedState,
     settingState,
-    fetchFirebaseBlog,
     sendTestReportMail,
   } = props;
-  const blogURL = decodeURIComponent(props.match.params.blogURL);
 
   useEffect(() => {
     dispatch(deleteBlogSlice.actions.reset());
-    fetchFirebaseBlog(firebase.auth(), blogURL);
+    dispatch(fetchFirebaseBlog(firebase.auth(), blogURL));
     dispatch(fetchUser(firebase.auth()));
     return () => undefined;
-  }, [blogURL, fetchFirebaseBlog, dispatch]);
+  }, [dispatch]);
 
   const saveSettings = (
     sendReport: boolean,
@@ -306,15 +303,13 @@ const SendMailButtonWrapper = styled(Wrapper)`
 function mapStateToProps(state: AppState, ownProps: OwnProps): StateProps {
   const blogURL = decodeURIComponent(ownProps.match.params.blogURL);
   return {
-    feedState: state.feeds.feeds[blogURL],
     settingState: state.settings.settings[blogURL],
   };
 }
 
-type TD = ThunkDispatch<AppState, undefined, FeedFirebaseActions | SettingActions>;
+type TD = ThunkDispatch<AppState, undefined, SettingActions>;
 function mapDispatchToProps(dispatch: TD): DispatchProps {
   return {
-    fetchFirebaseBlog: (...props) => dispatch(fetchFirebaseBlog(...props)),
     saveSetting: (...props) => dispatch(saveSetting(...props)),
     sendTestReportMail: (...props) => dispatch(sendTestReportMail(...props)),
   };

@@ -19,7 +19,7 @@ export const userSlice = createSlice({
     firebaseUserResponse(state, action: PayloadAction<firebase.User>) {
       return { ...state, user: action.payload, loading: false };
     },
-    firebaseUnauthorizedError(state) {
+    firebaseUnauthorizedError(state, action: PayloadAction<Error>) {
       return { ...state, loading: false };
     },
     firebaseSignoutResponse(state) {
@@ -41,7 +41,7 @@ export function fetchUser(auth: firebase.auth.Auth): ThunkAction<void, UserState
       const user = await currenUserOronAuthStateChanged(auth);
       dispatch(userSlice.actions.firebaseUserResponse(JSON.parse(JSON.stringify(user))));
     } catch (e) {
-      dispatch(userSlice.actions.firebaseUnauthorizedError());
+      dispatch(userSlice.actions.firebaseUnauthorizedError(e));
     }
   };
 }

@@ -1,15 +1,13 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { RouteComponentProps } from 'react-router';
 import { CountType } from '../../../models/consts/count-type';
 import { CountEntity, ItemEntity } from '../../../models/entities';
 import { CountResponse, ItemResponse } from '../../../models/responses';
-import { FeedActions, feedBlogURLChange, feedBlogURLClear, fetchFeed } from '../../../redux/actions/feed-action';
 import { AppState } from '../../../redux/states/app-state';
 import { FeedState } from '../../../redux/states/feed-state';
 import ScrollView from '../../atoms/ScrollView/index';
@@ -17,35 +15,23 @@ import LoadingView from '../../molecules/LoadingView/index';
 import EntryCell, { Count } from '../../organisms/EntryCell/index';
 import { colorsValue } from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
-
-type StateProps = {
-  feed: FeedState;
-};
-
-type DispatchProps = {
-  feedBlogURLClear: () => void;
-  feedBlogURLChange: (...props: Parameters<typeof feedBlogURLChange>) => void;
-  fetchFeed: (...props: Parameters<typeof fetchFeed>) => void;
-};
-
-type OwnProps = RouteComponentProps<{ blogURL: string }>;
-
-type Props = OwnProps & StateProps & DispatchProps;
+import { feedsSlice } from '../../../redux/states/feeds-state';
 
 type CountMap = Map<string, number>;
 type AnimateMap = Map<string, boolean>;
 
-const FeedPage: React.FC<Props> = (props) => {
+const FeedPage: React.FC<RouteComponentProps<{ blogURL: string }>> = (props) => {
   const blogURL = decodeURIComponent(props.match.params.blogURL);
-  const { feed, feedBlogURLChange, fetchFeed, feedBlogURLClear } = props;
+  const feed = useSelector<AppState, FeedState>((state) => state.feeds.feeds?.[blogURL])
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    feedBlogURLChange(blogURL);
-    fetchFeed(firebase.auth(), blogURL);
+    dispatch(feedsSlice.actions.changeBlogURL(blogURL));
+    dispatch(feedsSlice.actions.startFetchAndSave({ auth: firebase.auth(), blogURL }));
     return () => {
-      feedBlogURLClear();
+      dispatch(feedsSlice.actions.clearBlogURL());
     };
-  }, [blogURL, feedBlogURLChange, feedBlogURLClear, fetchFeed]);
+  }, [dispatch]);
 
   return (
     <PageLayout
@@ -200,18 +186,4 @@ const StyledScrollView = styled(ScrollView)`
   min-height: 100%;
 `;
 
-function mapStateToProps(state: AppState, ownProps: OwnProps): StateProps {
-  return {
-    feed: state.feeds.feeds[decodeURIComponent(ownProps.match.params.blogURL)],
-  };
-}
-
-function mapDispatchToProps(dispatch: Dispatch<FeedActions>): DispatchProps {
-  return {
-    feedBlogURLClear: () => dispatch(feedBlogURLClear()),
-    feedBlogURLChange: (...props) => dispatch(feedBlogURLChange(...props)),
-    fetchFeed: (...props) => dispatch(fetchFeed(...props)),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(FeedPage);
+export default FeedPage;

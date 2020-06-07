@@ -2,15 +2,11 @@ import { chunk, flatten } from 'lodash';
 import { all, call, delay, put } from 'redux-saga/effects';
 import { fetchPocketCount } from '../../../models/fetchers/count-fetchers/pocket-fetcher';
 import { CountResponse } from '../../../models/responses';
-import {
-  feedFetchPocketCountError,
-  feedFetchPocketCountRequest,
-  feedFetchPokcetCountResponse,
-} from '../../actions/feed-actions/pocket-action';
+import { feedsSlice } from '../../states/feeds-state';
 
 export function* fetchPocketCounts(blogURL: string, urls: string[], maxFetchCount: number = 30) {
   try {
-    yield put(feedFetchPocketCountRequest(blogURL));
+    yield put(feedsSlice.actions.fetchPocketCountRequest(blogURL));
     const slicedURLs = urls.slice(0, maxFetchCount - 1);
     const chunkedURLs = chunk(slicedURLs, 10);
     const counts: CountResponse[][] = [];
@@ -18,10 +14,10 @@ export function* fetchPocketCounts(blogURL: string, urls: string[], maxFetchCoun
       counts.push(yield call(fetchPocketCountChunk, urls));
     }
     const flattenedCounts = flatten(counts);
-    yield put(feedFetchPokcetCountResponse(blogURL, flattenedCounts));
+    yield put(feedsSlice.actions.fetchPocketCountResponse({ blogURL, counts: flattenedCounts }));
     return flattenedCounts;
-  } catch (e) {
-    yield put(feedFetchPocketCountError(blogURL, e));
+  } catch (error) {
+    yield put(feedsSlice.actions.fetchPocketCountError({ blogURL, error } ));
   }
 }
 
