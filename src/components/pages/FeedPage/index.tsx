@@ -8,7 +8,7 @@ import { RouteComponentProps } from 'react-router';
 import { CountType } from '../../../models/consts/count-type';
 import { CountEntity, ItemEntity } from '../../../models/entities';
 import { CountResponse, ItemResponse } from '../../../models/responses';
-import { AppState } from '../../../redux/slices/app-state';
+import { AppState } from '../../../redux/app-reducer';
 import { FeedState } from '../../../redux/slices/feeds-state';
 import ScrollView from '../../atoms/ScrollView/index';
 import LoadingView from '../../molecules/LoadingView/index';

@@ -7,7 +7,7 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../../../redux/slices/app-state';
+import { AppState } from '../../../redux/app-reducer';
 import { BlogState, fetchBlogs } from '../../../redux/slices/blog-state';
 import { PrimaryAnkerButton } from '../../atoms/Button/index';
 import ScrollView from '../../atoms/ScrollView/index';

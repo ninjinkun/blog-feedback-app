@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
-import { AppState } from '../../../redux/slices/app-state';
+import { AppState } from '../../../redux/app-reducer';
 import { UserState, fetchUser } from '../../../redux/slices/user-state';
 import LoadingView from '../../molecules/LoadingView/index';
 import PageLayout from '../../templates/PageLayout/index';

@@ -14,3 +14,5 @@ export const appReducer = combineReducers({
   feeds: feedsSlice.reducer,
   settings: settingsSlice.reducer,
 });
+
+export type AppState = ReturnType<typeof appReducer>

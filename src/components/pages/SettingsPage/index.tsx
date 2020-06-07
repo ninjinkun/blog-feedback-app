@@ -10,7 +10,7 @@ import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { ThunkDispatch } from 'redux-thunk';
 import { signOut } from '../../../redux/slices/user-state';
-import { AppState } from '../../../redux/slices/app-state';
+import { AppState } from '../../../redux/app-reducer';
 import { BlogState, fetchBlogs } from '../../../redux/slices/blog-state';
 import { Button } from '../../atoms/Button/index';
 import ScrollView from '../../atoms/ScrollView/index';

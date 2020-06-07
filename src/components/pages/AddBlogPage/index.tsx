@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 import styled from 'styled-components';
 import { AddBlogState, addBlogSlice, addBlog } from '../../../redux/slices/add-blog-state';
-import { AppState } from '../../../redux/slices/app-state';
+import { AppState } from '../../../redux/app-reducer';
 import { BlogState } from '../../../redux/slices/blog-state';
 import Button from '../../atoms/Button/index';
 import Wrapper from '../../atoms/Wrapper/index';
