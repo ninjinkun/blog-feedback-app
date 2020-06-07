@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createNextState, ThunkAction } from '@reduxjs/toolkit';
-import { BlogEntity, ItemEntity, Services, CountEntity } from '../../models/entities';
+import { BlogEntity, ItemEntity, Services } from '../../models/entities';
 import { ItemResponse, CountResponse } from '../../models/responses';
 import { flatten } from 'lodash';
 import { blogSlice } from './blog';

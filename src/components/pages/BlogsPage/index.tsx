@@ -3,10 +3,8 @@ import 'firebase/auth';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Dispatch } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from '../../../redux/app-reducer';
 import { BlogState, fetchBlogs } from '../../../redux/slices/blog';
 import { PrimaryAnkerButton } from '../../atoms/Button/index';
@@ -17,7 +15,7 @@ import BlogCell from '../../organisms/BlogCell/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
-const BlogsPage: React.FC<RouteComponentProps> = (props) => {
+const BlogsPage: React.FC<RouteComponentProps> = () => {
   const blog = useSelector<AppState, BlogState>((state) => state.blog);
   const dispatch = useDispatch();
   useEffect(() => {

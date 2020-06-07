@@ -5,10 +5,9 @@ import styled from 'styled-components';
 
 import { FiGithub } from 'react-icons/fi';
 import { MdAssignment, MdAssignmentInd, MdLaunch } from 'react-icons/md';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
-import { ThunkDispatch } from 'redux-thunk';
 import { signOut } from '../../../redux/slices/user';
 import { AppState } from '../../../redux/app-reducer';
 import { BlogState, fetchBlogs } from '../../../redux/slices/blog';
@@ -22,7 +21,7 @@ import SectionHeader from '../../organisms/SettingSectionHeader/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
-const SettingsPage: React.FC<RouteComponentProps> = (props) => {
+const SettingsPage: React.FC<RouteComponentProps> = () => {
   const blogState = useSelector<AppState, BlogState>((state) => state.blog);
   const { blogs, loading } = blogState;
   const dispatch = useDispatch();
