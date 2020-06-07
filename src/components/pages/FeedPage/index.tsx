@@ -9,7 +9,7 @@ import { CountType } from '../../../models/consts/count-type';
 import { CountEntity, ItemEntity } from '../../../models/entities';
 import { CountResponse, ItemResponse } from '../../../models/responses';
 import { AppState } from '../../../redux/states/app-state';
-import { FeedState } from '../../../redux/states/feed-state';
+import { FeedState } from '../../../redux/states/feeds-state';
 import ScrollView from '../../atoms/ScrollView/index';
 import LoadingView from '../../molecules/LoadingView/index';
 import EntryCell, { Count } from '../../organisms/EntryCell/index';
