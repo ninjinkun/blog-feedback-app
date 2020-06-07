@@ -5,14 +5,13 @@ import styled from 'styled-components';
 
 import { FiGithub } from 'react-icons/fi';
 import { MdAssignment, MdAssignmentInd, MdLaunch } from 'react-icons/md';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { ThunkDispatch } from 'redux-thunk';
-import { BlogActions, fetchBlogs } from '../../../redux/actions/blog-action';
 import { signOut } from '../../../redux/states/user-state';
 import { AppState } from '../../../redux/states/app-state';
-import { BlogState } from '../../../redux/states/blog-state';
+import { BlogState, fetchBlogs } from '../../../redux/states/blog-state';
 import { Button } from '../../atoms/Button/index';
 import ScrollView from '../../atoms/ScrollView/index';
 import Wrapper from '../../atoms/Wrapper/index';
@@ -23,25 +22,15 @@ import SectionHeader from '../../organisms/SettingSectionHeader/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
-type StateProps = {
-  blogState: BlogState;
-};
-
-type DispatchProps = {
-  fetchBlogs: (...props: Parameters<typeof fetchBlogs>) => void;
-};
-
-type Props = StateProps & DispatchProps & RouteComponentProps;
-
-const SettingsPage: React.FC<Props> = (props) => {
-  const { fetchBlogs, blogState } = props;
+const SettingsPage: React.FC<RouteComponentProps> = (props) => {
+  const blogState = useSelector<AppState, BlogState>((state) => state.blog);
   const { blogs, loading } = blogState;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchBlogs(firebase.auth());
+    dispatch(fetchBlogs(firebase.auth()));
     return () => undefined;
-  }, [fetchBlogs]);
+  }, [dispatch]);
 
   const blogCells = (
     <React.Fragment>
@@ -92,19 +81,7 @@ const SettingsPage: React.FC<Props> = (props) => {
   );
 };
 
-function mapStateToProps(state: AppState): StateProps {
-  return {
-    blogState: state.blog,
-  };
-}
-
-function mapDispatchToProps(dispatch: ThunkDispatch<AppState, undefined, BlogActions>): DispatchProps {
-  return {
-    fetchBlogs: (...props) => dispatch(fetchBlogs(...props)),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);
+export default SettingsPage;
 
 const SignOutButtonWrapper = styled(Wrapper)`
   padding: 16px;
