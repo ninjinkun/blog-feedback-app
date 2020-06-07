@@ -5,6 +5,7 @@ import { flatten } from 'lodash';
 import { blogSlice } from './blog';
 import { currenUserOronAuthStateChanged } from './user';
 import { findBlog } from '../../models/repositories/blog-repository';
+import { settingsSlice } from './settings';
 
 export type FeedState = {
   firebaseEntities?: ItemEntity[];
@@ -185,12 +186,12 @@ export const feedsSlice = createSlice({
       }
       return draft;
     });
-    // builder.addCase('', (draft, action) => {
-    //   const { blogURL, twitter, countjsoon, facebook, hatenabookmark, hatenastar, pocket, sendReport } = action.payload;
-    //   const services: Services = { twitter, countjsoon, facebook, hatenabookmark, hatenastar, pocket };
+    builder.addCase(settingsSlice.actions.saveSettingResponse, (draft, action) => {
+      const { blogURL, twitter, countjsoon, facebook, hatenabookmark, hatenastar, pocket, sendReport } = action.payload;
+      const services: Services = { twitter, countjsoon, facebook, hatenabookmark, hatenastar, pocket };
 
-    //   return updateFeed(blogURL, state, { services, sendReport });
-    // })
+      return updateFeed(blogURL, draft, { services, sendReport });
+    });
   },
 });
 

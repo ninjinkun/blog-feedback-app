@@ -21,7 +21,19 @@ export const settingsSlice = createSlice({
   initialState,
   reducers: {
     saveSettingRequest(state, action: PayloadAction<string>) {},
-    saveSettingResponse(state, action: PayloadAction<string>) {},
+    saveSettingResponse(
+      state,
+      action: PayloadAction<{
+        blogURL: string;
+        twitter: boolean;
+        countjsoon: boolean;
+        facebook: boolean;
+        hatenabookmark: boolean;
+        hatenastar: boolean;
+        pocket: boolean;
+        sendReport: boolean;
+      }>
+    ) {},
     saveSettingError(state, action: PayloadAction<{ blogURL: string; error: Error }>) {},
     firebaseSendTestReportMailRequest(state, action: PayloadAction<string>) {
       const blogURL = action.payload;
@@ -75,7 +87,18 @@ export function saveSetting(
         hatenaStarEnabled,
         pocketEnabled
       );
-      dispatch(settingsSlice.actions.saveSettingResponse(blogURL));
+      dispatch(
+        settingsSlice.actions.saveSettingResponse({
+          blogURL,
+          twitter: twitterEnabled,
+          countjsoon: countJsoonEnabled,
+          facebook: facebookEnabled,
+          hatenabookmark: hatenaBookmarkEnabled,
+          hatenastar: hatenaStarEnabled,
+          pocket: pocketEnabled,
+          sendReport: reportEnabled,
+        })
+      );
     } catch (error) {
       dispatch(settingsSlice.actions.saveSettingError({ blogURL, error }));
     }
