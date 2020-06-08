@@ -3,6 +3,7 @@
   "scripts": {
     "eslint": "eslint './src/**/*.{ts,tsx}'",
     "build": "tsc",
+    "test:compile": "tsc --noEmit",
     "serve": "npm run build && firebase serve --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
