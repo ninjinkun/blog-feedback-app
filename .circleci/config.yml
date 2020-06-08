@@ -27,6 +27,19 @@ jobs:
             - node_modules
           key: v2-dependencies-{{ checksum "package.json" }}
 
+      - restore_cache:
+          keys:
+          - v2-dependencies-functions-{{ checksum "functions/package.json" }}
+          - v2-dependencies-functions-
+
+      - run: cd functions && yarn install && cd ..
+
+      - save_cache:
+          paths:
+            - functions/node_modules
+          key: v2-dependencies-functions-{{ checksum "functions/package.json" }}
+
+
       # run tests!
       - run: yarn eslint
       - run: yarn test:compile
@@ -51,19 +64,6 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-
-      - restore_cache:
-          keys:
-          - v2-dependencies-functions-{{ checksum "functions/package.json" }}
-          - v2-dependencies-functions-
-
-      - run: cd functions && yarn install && cd ..
-
-      - save_cache:
-          paths:
-            - functions/node_modules
-          key: v2-dependencies-functions-{{ checksum "functions/package.json" }}
-
       - run: yarn build
       - run: yarn firebase deploy --project development --token "$FIREBASE_TOKEN_DEVELOPMENT"
       - run: yarn deploy-storybook -- --ci
@@ -75,19 +75,6 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-
-      - restore_cache:
-          keys:
-          - v2-dependencies-functions-{{ checksum "functions/package.json" }}
-          - v2-dependencies-functions-
-
-      - run: cd functions && yarn install && cd ..
-
-      - save_cache:
-          paths:
-            - functions/node_modules
-          key: v2-dependencies-functions-{{ checksum "functions/package.json" }}
-
       - run: yarn build:production
       - run: yarn firebase deploy --project production --token "$FIREBASE_TOKEN_PRODUCTION"
 
