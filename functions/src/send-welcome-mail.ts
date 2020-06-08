@@ -2,7 +2,7 @@ import { transport } from './mail-transport';
 import { gaImageSrc } from './mail-ga';
 import EmailTemplate = require('email-templates');
 
-export function sendWelcomeMail(to: string, userId: string): void {
+export function sendWelcomeMail(to: string, userId: string): Promise<void> {
   const email = new EmailTemplate({
     message: {
       from: '"BlogFeedback" <info@blog-feedback.app>'
