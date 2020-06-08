@@ -1,5 +1,5 @@
 import * as firebase from 'firebase-admin';
-import * as uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 
 import { transport } from './mail-transport';
 import { fetchFeed } from './fetchers/feed-fetcher';
