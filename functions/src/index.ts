@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import { flatten, shuffle } from 'lodash';
 import { auth, firestore } from 'firebase-admin';
-import * as uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 import { fetchText } from './fetcher';
 import { sendWelcomeMail as sendWelcomeMailAction } from './send-welcome-mail';
 import { crowlAndSendMail } from './send-daily-report-mail';
