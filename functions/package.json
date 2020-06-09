@@ -20,7 +20,7 @@
     "email-templates": "^7.0.5",
     "firebase-admin": "~8.12.1",
     "firebase-functions": "^3.6.2",
-    "iconv-lite": "^0.5.1",
+    "iconv-lite": "^0.5.2",
     "lodash": "^4.17.15",
     "nodemailer": "^6.4.8",
     "qs": "^6.9.4",
