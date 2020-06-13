@@ -75,7 +75,7 @@
     "firebase-tools": "8.4.2",
     "husky": "^4.2.5",
     "prettier": "^2.0.5",
-    "lint-staged": "^10.2.9",
+    "lint-staged": "^10.2.10",
     "react-docgen-typescript-webpack-plugin": "^1.1.0",
     "typescript": "^3.9.5"
   },
