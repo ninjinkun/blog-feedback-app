@@ -363,10 +363,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/email-templates@^7.0.1":
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/@types/email-templates/-/email-templates-7.0.1.tgz#0b7bcafa1ff396ff69eb6bb73de11ee8469378d1"
-  integrity sha512-dO/luzyN+O60lVi9njcmh5AoofwxKz0yZiIZEbw0F2fcfe3RsAU/BUNlJDR8ry2gyjR0qn3PoOrUNJblcu9PmQ==
+"@types/email-templates@^7.0.2":
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/@types/email-templates/-/email-templates-7.0.2.tgz#1ec249464f92ced3fa4f8f16f71734e7979b1d8c"
+  integrity sha512-vt1Btes7FEiu8chW6C5zvwXwbnECehQhnAfm6aaOWQQ3HOLcd4wlLQb2deXOZSPHmvJZZlrlhfGmTrVejMRRFQ==
   dependencies:
     "@types/html-to-text" "*"
     "@types/nodemailer" "*"
