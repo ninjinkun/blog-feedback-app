@@ -7271,10 +7271,10 @@ firebaseui@^4.1.0:
     dialog-polyfill "^0.4.7"
     material-design-lite "^1.2.0"
 
-firebaseui@^4.5.1:
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/firebaseui/-/firebaseui-4.5.1.tgz#6d7e5d154c8b27cf8823b2df318c7a9f6fd89236"
-  integrity sha512-sbBakwXFgBlsBOfPA6Qo/C4FWJUTl8TTuunueRExUtiRweFOXH/d1utjWrI8QtMRzzTt72h3aGXViMqm33Smrw==
+firebaseui@^4.5.2:
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/firebaseui/-/firebaseui-4.5.2.tgz#d53e6197c739aa6c3ef0457c2b4c218fba1c9b70"
+  integrity sha512-3vILLLQOY63x8omC08beqozev4VWdI6ajvVtuH+bNO7GBXDHTx92wdWCtr8TodG1zRVYeVLJztCPT3aoyaEkeA==
   dependencies:
     dialog-polyfill "^0.4.7"
     material-design-lite "^1.2.0"
