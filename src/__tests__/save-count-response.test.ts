@@ -47,7 +47,7 @@ const result = [
     published: new Date('2018-12-14T06:43:52.000Z'),
     itemCounts: {
       facebook: { count: 4, timestamp: new firestore.Timestamp(1544787808, 337000000) },
-      hatenabookmark: { count: 18, timestamp: { _methodName: 'FieldValue.serverTimestamp' } },
+      hatenabookmark: { count: 18, timestamp: expect.anything() },
     },
     prevCounts: {
       facebook: { count: 4, timestamp: new firestore.Timestamp(1544787808, 337000000) },
