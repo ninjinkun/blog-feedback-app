@@ -363,10 +363,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/email-templates@^7.0.2":
-  version "7.0.2"
-  resolved "https://registry.yarnpkg.com/@types/email-templates/-/email-templates-7.0.2.tgz#1ec249464f92ced3fa4f8f16f71734e7979b1d8c"
-  integrity sha512-vt1Btes7FEiu8chW6C5zvwXwbnECehQhnAfm6aaOWQQ3HOLcd4wlLQb2deXOZSPHmvJZZlrlhfGmTrVejMRRFQ==
+"@types/email-templates@^7.1.0":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@types/email-templates/-/email-templates-7.1.0.tgz#9dbdb4e20aa6c700f5587b9b76bcbd7111e985df"
+  integrity sha512-IhL+OLeZySsTq7dRtmytObRJaX5Y0SDKS1yTUtwjI6oS4rEXELiD+pYESdv/Eq5Stk8hz2unJeWChjHN/q34ig==
   dependencies:
     "@types/html-to-text" "*"
     "@types/nodemailer" "*"
@@ -1310,10 +1310,10 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-email-templates@^7.0.5:
-  version "7.0.5"
-  resolved "https://registry.yarnpkg.com/email-templates/-/email-templates-7.0.5.tgz#0b31918d97edca2b6ae6526ddf9eedfb7ff000c4"
-  integrity sha512-fkq/J7gW/+IU1PIl2R2udGaLYrTz7LKCpFkfCEYIzYRHP7e8LYfFYY1+kw/7YEPEvkizBEHEDIl+o3QJddBUug==
+email-templates@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/email-templates/-/email-templates-7.1.0.tgz#d10dad8ae673e06eaf1bdff2c179ae39dc31ae82"
+  integrity sha512-cO+6RgrFk1CPqm1y8UbSRyjZ4mrtk3FleT7IR7l82EbXfwnP2qSo94KDIeacklR4+oFktep2Z6ulkUp5Cf+UNw==
   dependencies:
     "@ladjs/i18n" "^3.0.10"
     "@sindresorhus/is" "^2.1.1"
