@@ -2016,7 +2016,7 @@
     redux-thunk "^2.3.0"
     reselect "^4.0.0"
 
-"@storybook/addon-actions@^6.0.12":
+"@storybook/addon-actions@^6.0.16":
   version "6.0.16"
   resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-6.0.16.tgz#869c90291fdfec4a0644e8415f5004cc57e59145"
   integrity sha512-kyPGMP2frdhUgJAm6ChqvndaUawwQE9Vx7pN1pk/Q4qnyVlWCneZVojQf0iAgL45q0az0XI1tOPr4ooroaniYg==
@@ -2061,7 +2061,7 @@
     react-lifecycles-compat "^3.0.4"
     util-deprecate "^1.0.2"
 
-"@storybook/addon-links@^6.0.12":
+"@storybook/addon-links@^6.0.16":
   version "6.0.16"
   resolved "https://registry.yarnpkg.com/@storybook/addon-links/-/addon-links-6.0.16.tgz#2f81545f1593718cf720cd399635f890a1f3c916"
   integrity sha512-5rQLzrjqQWmukBAIYghrQKZUrz/X9bx83DSh0W3RH+y1X+MJguah0WxbARePtJxggwb0s2rkoE/oR/uFePO+Pg==
@@ -2092,7 +2092,7 @@
     global "^4.3.2"
     util-deprecate "^1.0.2"
 
-"@storybook/addons@6.0.16", "@storybook/addons@^6.0.12":
+"@storybook/addons@6.0.16", "@storybook/addons@^6.0.16":
   version "6.0.16"
   resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-6.0.16.tgz#a20a219bd5b1474ad02b92e79a74652898a684d9"
   integrity sha512-jGMaOJYTM2yZeX1tI6whEn+4xpI1aAybZBrc+OD21CcGoQrbF/jplZMq7xKI0Y6vOMguuTGulpUNCezD3LbBjA==
@@ -2416,7 +2416,7 @@
     npmlog "^4.1.2"
     pretty-hrtime "^1.0.3"
 
-"@storybook/react@^6.0.12":
+"@storybook/react@^6.0.16":
   version "6.0.16"
   resolved "https://registry.yarnpkg.com/@storybook/react/-/react-6.0.16.tgz#21464749f7bd90dc6026235b2ee47acf168d974a"
   integrity sha512-cxnBwewx37rL1BjXo3TQFIvvCv9z26r3yuRRWh527/0QODfwGz8TT+/sJHeqBA5JIQzLwAHNqNJhLp6xzfr5Dw==
@@ -2506,7 +2506,7 @@
     resolve-from "^5.0.0"
     ts-dedent "^1.1.0"
 
-"@storybook/theming@6.0.16", "@storybook/theming@^6.0.12":
+"@storybook/theming@6.0.16", "@storybook/theming@^6.0.16":
   version "6.0.16"
   resolved "https://registry.yarnpkg.com/@storybook/theming/-/theming-6.0.16.tgz#dd6de4f29316a6a2380018978b7b4a0ef9ea33c8"
   integrity sha512-6D7oMEbeABYZdDY8e3i+O39XLrk6fvG3GBaSGp31BE30d269NcPkGPxMKY/nzc6MY30a+/LbBbM7b6gRKe6b4Q==
