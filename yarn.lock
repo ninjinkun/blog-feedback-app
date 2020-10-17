@@ -3092,10 +3092,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.13.15.tgz#fe1cc3aa465a3ea6858b793fd380b66c39919766"
   integrity sha512-kwbcs0jySLxzLsa2nWUAGOd/s21WU1jebrEdtzhsj1D4Yps1EOuyI1Qcu+FD56dL7NRNIJtDDjcqIG22NwkgLw==
 
-"@types/node@^9.6.59":
-  version "9.6.59"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.59.tgz#76eabeeb8d87ce05e232e5680feaef38ee9eae90"
-  integrity sha512-TX/dHK9lFrXoMFtHdF3oyEw6EpfYfu+8AZ1zP6Oj3rOiQGbit2rgQlJzvBRx712b9ReaCfkSNPRXYzZDYI4YSw==
+"@types/node@^9.6.60":
+  version "9.6.60"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.60.tgz#e0fa5243cf9c4793053a6ae64f0f27d44b77dacb"
+  integrity sha512-yoi9MNxtIwaN23LlUnqFiEjS13gg8tgYMCBR8AV34haAFuLswIdCpaYmOcoKLmhhOPwngbs0ZQG7I0EqWTsaRA==
 
 "@types/npmlog@^4.1.2":
   version "4.1.2"
