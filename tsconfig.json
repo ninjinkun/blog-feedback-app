@@ -8,7 +8,7 @@
       "dom"
     ],
     "allowJs": false,
-    "jsx": "preserve",
+    "jsx": "react",
     "sourceMap": true,
     "outDir": "./build/dist",
     "rootDir": "./src",
@@ -29,6 +29,7 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "noFallthroughCasesInSwitch": true,
     "noEmit": true
   },
   "include": [

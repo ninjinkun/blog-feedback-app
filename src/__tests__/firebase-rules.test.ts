@@ -1,6 +1,7 @@
 import * as firebase from '@firebase/testing';
 import fs from 'fs';
 import { db as firebaseDB, serverTimestamp } from '../models/repositories/app-repository';
+
 import { saveBlog } from '../models/repositories/blog-repository';
 import { itemRef, saveItem } from '../models/repositories/item-repository';
 import { userRef } from '../models/repositories/user-repository';
@@ -24,12 +25,12 @@ function authedApp(auth?: object) {
 // mock app's firestore initalizer
 jest.mock('../models/repositories/app-repository');
 // firebase/testing mocks serverTimestamp. We need to replace it.
-serverTimestamp.mockReturnValue(firebase.firestore.FieldValue.serverTimestamp());
 
 const rules = fs.readFileSync('firestore.rules', 'utf8');
 
 beforeAll(() => {
   testNumber++;
+
   return firebase.loadFirestoreRules({
     projectId: getProjectId(),
     rules,
@@ -64,6 +65,7 @@ describe('/users/:user_id/blogs', () => {
   it('save blog', async () => {
     const db = authedApp({ uid: 'ninjinkun' });
     firebaseDB.mockReturnValue(db);
+    serverTimestamp.mockReturnValue(firebase.firestore.FieldValue.serverTimestamp());
 
     await firebase.assertSucceeds(
       saveBlog(
@@ -86,6 +88,7 @@ describe('/users/:user_id/blogs', () => {
   it('save other users blog', async () => {
     const db = authedApp({ uid: 'daikonkun' });
     firebaseDB.mockReturnValue(db);
+    serverTimestamp.mockReturnValue(firebase.firestore.FieldValue.serverTimestamp());
 
     await firebase.assertFails(
       saveBlog(
@@ -110,6 +113,7 @@ describe('/users/:user_id/blogs/:blog_id/items', () => {
   it('save items', async () => {
     const db = authedApp({ uid: 'ninjinkun' });
     firebaseDB.mockReturnValue(db);
+    serverTimestamp.mockReturnValue(firebase.firestore.FieldValue.serverTimestamp());
 
     await firebase.assertSucceeds(
       saveItem(
@@ -145,6 +149,7 @@ describe('/users/:user_id/blogs/:blog_id/items', () => {
   it('save invalid count items', async () => {
     const db = authedApp({ uid: 'ninjinkun' });
     firebaseDB.mockReturnValue(db);
+    serverTimestamp.mockReturnValue(firebase.firestore.FieldValue.serverTimestamp());
 
     const item = itemRef(
       'ninjinkun',
