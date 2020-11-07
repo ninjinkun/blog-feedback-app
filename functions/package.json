@@ -29,7 +29,7 @@
     "xmldom": "^0.3.0"
   },
   "devDependencies": {
-    "@types/charset": "^1.0.1",
+    "@types/charset": "^1.0.2",
     "@types/cheerio": "^0.22.22",
     "@types/email-templates": "^7.1.0",
     "@types/lodash": "^4.14.162",
