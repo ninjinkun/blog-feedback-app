@@ -10,11 +10,6 @@ type Props = {
   loading: boolean;
 };
 
-type States = {
-  prevLabel?: string;
-  frameToggle: boolean;
-};
-
 const HeaderLoadingIndicator: React.FC<Props> = ({ loading, label, ratio, ...props }) => {
   const [prevLabel, setPrevLabel] = useState<string | undefined>(undefined);
 
