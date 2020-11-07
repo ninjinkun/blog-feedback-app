@@ -398,10 +398,10 @@
     "@types/connect" "*"
     "@types/node" "*"
 
-"@types/charset@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@types/charset/-/charset-1.0.1.tgz#63c625c3b5aa09bbb9cfaa9f2ae8a2fd02d6f34d"
-  integrity sha512-eWUGQfg0ZPhNHg3ZVxZgp9YpWIhsXUlxwfoMFsMG/k46mTRYt0zbR7Cw5EFMSF+ig68q8e5BFbljXpeeDMKTBw==
+"@types/charset@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/charset/-/charset-1.0.2.tgz#b4c6a941fc8bae03db56bc09b2fc82bb26938e37"
+  integrity sha512-nefKimGGB8KvRg7IzF29SgrNNEVTatVujQMie3AMSrct0df3yaDYerD2G0aG6jUprn7bzER9+1IzMrK3mPAfQw==
   dependencies:
     "@types/node" "*"
 
