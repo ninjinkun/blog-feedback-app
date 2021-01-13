@@ -1,3 +1,5 @@
+import firebase from 'firebase/app';
+
 import { BlogEntity } from '../../models/entities';
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { currenUserOronAuthStateChanged } from './user';

@@ -1,5 +1,5 @@
 import { createSlice, createNextState, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
-import { app } from 'firebase';
+import firebase from 'firebase/app';
 
 import { saveBlogSetting } from '../../models/repositories/blog-repository';
 import { currenUserOronAuthStateChanged } from './user';
@@ -110,7 +110,7 @@ export function sendTestReportMail(blogURL: string): MTA {
   return async (dispatch) => {
     dispatch(settingsSlice.actions.firebaseSendTestReportMailRequest(blogURL));
     try {
-      await app().functions('asia-northeast1').httpsCallable('sendTestReportMail')({ blogURL });
+      await firebase.app().functions('asia-northeast1').httpsCallable('sendTestReportMail')({ blogURL });
       dispatch(settingsSlice.actions.firebaseSendTestReportMailResponse(blogURL));
     } catch (error) {
       dispatch(settingsSlice.actions.firebaseSendTestMailError({ blogURL, error }));

@@ -1,3 +1,5 @@
+import firebase from 'firebase/app';
+
 import { createSlice, PayloadAction, createNextState, ThunkAction } from '@reduxjs/toolkit';
 import { BlogEntity, ItemEntity, Services } from '../../models/entities';
 import { ItemResponse, CountResponse } from '../../models/responses';

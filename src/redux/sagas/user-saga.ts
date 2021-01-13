@@ -1,3 +1,4 @@
+import firebase from 'firebase/app';
 import { call, put } from 'redux-saga/effects';
 import { userSlice, currenUserOronAuthStateChanged } from '../slices/user';
 

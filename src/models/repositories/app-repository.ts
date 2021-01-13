@@ -1,13 +1,13 @@
-import { firestore } from 'firebase/app';
+import firebase from 'firebase/app';
 
-export function db(): firestore.Firestore {
-  return firestore();
+export function db(): firebase.firestore.Firestore {
+  return firebase.firestore();
 }
 
-export function serverTimestamp(): firestore.FieldValue {
-  return firestore.FieldValue.serverTimestamp();
+export function serverTimestamp(): firebase.firestore.FieldValue {
+  return firebase.firestore.FieldValue.serverTimestamp();
 }
 
-export function writeBatch(): firestore.WriteBatch {
+export function writeBatch(): firebase.firestore.WriteBatch {
   return db().batch();
 }
