@@ -368,11 +368,6 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
 
-"@sindresorhus/is@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.0.0.tgz#2ff674e9611b45b528896d820d3d7a812de2f0e4"
-  integrity sha512-FyD2meJpDPjyNQejSjvnhpgI/azsQkA4lGbuu5BQZfjvJ9cbRZXzeWL2HceCekW4lixO9JPesIIQkSoLjeJHNQ==
-
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
@@ -1290,13 +1285,12 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-email-templates@^7.1.2:
-  version "7.1.2"
-  resolved "https://registry.yarnpkg.com/email-templates/-/email-templates-7.1.2.tgz#c8b0435d182cea08c1d3c289c9a9574da7efe4a6"
-  integrity sha512-+tp0oUj16WwkR+qo9dbrZN0H64g+ya6NrzqHi2PtJQNVrPQU1oSiERKfOQdmK52VBvpzpaawI2tHDuknvb7Czw==
+email-templates@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/email-templates/-/email-templates-7.2.0.tgz#88f89acd25e21447d3591bc42a6fbe21484931a6"
+  integrity sha512-BFZysF/uiLz+KT09YowdlXtQ1Ms7Zqk1H+vg7QE3La8+hBlpYpjv0f95Ljro4RohOesYmTNzoaWkrkXK6O4+Tw==
   dependencies:
     "@ladjs/i18n" "^6.0.5"
-    "@sindresorhus/is" "^4.0.0"
     consolidate "^0.16.0"
     debug "^4.2.0"
     get-paths "^0.0.7"
@@ -1304,7 +1298,6 @@ email-templates@^7.1.2:
     juice "^7.0.0"
     lodash "^4.17.20"
     nodemailer "^6.4.14"
-    pify "^5.0.0"
     preview-email "^2.0.2"
 
 emoji-regex@^7.0.1:
@@ -2815,11 +2808,6 @@ pify@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/pify/-/pify-4.0.1.tgz#4b2cd25c50d598735c50292224fd8c6df41e3231"
   integrity sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==
-
-pify@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/pify/-/pify-5.0.0.tgz#1f5eca3f5e87ebec28cc6d54a0e4aaf00acc127f"
-  integrity sha512-eW/gHNMlxdSP6dmG6uJip6FXN0EQBwm2clYYd8Wul42Cwu/DK8HEftzsapcNdYe2MfLiIwZqsDk2RDEsTE79hA==
 
 prelude-ls@^1.2.1:
   version "1.2.1"
