@@ -1,3 +1,5 @@
+import firebase from 'firebase/app';
+
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { currenUserOronAuthStateChanged } from './user';
 import { BlogResponse, FeedResponse } from '../../models/responses';
