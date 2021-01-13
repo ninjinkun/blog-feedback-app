@@ -4138,13 +4138,6 @@
   dependencies:
     "@types/react" "^16"
 
-"@types/react-native@*":
-  version "0.63.12"
-  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.63.12.tgz#fa4aea76220cd11220c4a7c1b7e14e00886539a2"
-  integrity sha512-EPZ4C9OImXDg59entU0wcg/yCelj+XhgvUpPz85VSKia01DULoGwHOyCH3Y3ZdVcijebSR58ekqAz7zHT8o3Tg==
-  dependencies:
-    "@types/react" "*"
-
 "@types/react-redux@^7.1.11":
   version "7.1.11"
   resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-7.1.11.tgz#a18e8ab3651e8e8cc94798934927937c66021217"
@@ -4254,14 +4247,13 @@
     "@types/react" "*"
     "@types/webpack-env" "*"
 
-"@types/styled-components@^5.1.4":
-  version "5.1.4"
-  resolved "https://registry.yarnpkg.com/@types/styled-components/-/styled-components-5.1.4.tgz#11f167dbde268635c66adc89b5a5db2e69d75384"
-  integrity sha512-78f5Zuy0v/LTQNOYfpH+CINHpchzMMmAt9amY2YNtSgsk1TmlKm8L2Wijss/mtTrsUAVTm2CdGB8VOM65vA8xg==
+"@types/styled-components@^5.1.7":
+  version "5.1.7"
+  resolved "https://registry.yarnpkg.com/@types/styled-components/-/styled-components-5.1.7.tgz#3cd10b088c1cb1acde2e4b166b3e8275a3083710"
+  integrity sha512-BJzPhFygYspyefAGFZTZ/8lCEY4Tk+Iqktvnko3xmJf9LrLqs3+grxPeU3O0zLl6yjbYBopD0/VikbHgXDbJtA==
   dependencies:
     "@types/hoist-non-react-statics" "*"
     "@types/react" "*"
-    "@types/react-native" "*"
     csstype "^3.0.2"
 
 "@types/tapable@*", "@types/tapable@^1.0.5":
