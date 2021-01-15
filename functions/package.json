@@ -19,7 +19,7 @@
     "cheerio": "^1.0.0-rc.5",
     "email-templates": "^7.2.0",
     "firebase-admin": "~9.4.2",
-    "firebase-functions": "^3.11.0",
+    "firebase-functions": "^3.13.0",
     "iconv-lite": "^0.6.2",
     "lodash": "^4.17.20",
     "nodemailer": "^6.4.17",
