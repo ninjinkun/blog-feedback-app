@@ -21,7 +21,7 @@
     "firebase-admin": "~9.4.2",
     "firebase-functions": "^3.13.1",
     "iconv-lite": "^0.6.2",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "nodemailer": "^6.4.17",
     "qs": "^6.9.6",
     "uuid": "^8.3.2",
