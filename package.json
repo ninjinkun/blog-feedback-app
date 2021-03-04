@@ -8,7 +8,7 @@
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-prettier": "^3.3.1",
     "fetch-jsonp": "^1.1.3",
-    "firebase": "^8.2.9",
+    "firebase": "^8.2.10",
     "firebaseui": "^4.7.3",
     "first-input-delay": "^0.1.3",
     "history": "^5.0.0",
