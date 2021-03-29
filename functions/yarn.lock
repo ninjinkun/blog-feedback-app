@@ -399,10 +399,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/cheerio@^0.22.25":
-  version "0.22.25"
-  resolved "https://registry.yarnpkg.com/@types/cheerio/-/cheerio-0.22.25.tgz#2f77c99922a3459373a873d55caaa049ead26fa0"
-  integrity sha512-Y2kmbk74dSGRI1bBmo67bowDoVxNm9cs+IPZznsFPRuBN6ToK2RCATZipOJsgO0Unbtiy01o0hP2SS+MKdUNvQ==
+"@types/cheerio@^0.22.28":
+  version "0.22.28"
+  resolved "https://registry.yarnpkg.com/@types/cheerio/-/cheerio-0.22.28.tgz#90808aabb44fec40fa2950f4c72351e3e4eb065b"
+  integrity sha512-ehUMGSW5IeDxJjbru4awKYMlKGmo1wSSGUVqXtYwlgmUM8X1a0PZttEIm6yEY7vHsY/hh6iPnklF213G0UColw==
   dependencies:
     "@types/node" "*"
 
