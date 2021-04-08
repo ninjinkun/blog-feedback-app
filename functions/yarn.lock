@@ -425,10 +425,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/email-templates@^8.0.2":
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/@types/email-templates/-/email-templates-8.0.2.tgz#e677e8400d0a639d1bfb0be546a225c27be5aedd"
-  integrity sha512-AmhvY1odkpbNyoltbmhYDxTuCRa9wLKdZfng6ijJ4Y/LJ4lUjP4jK4GORIaazd/TOwY5oFnZVcM606aO72Nu0g==
+"@types/email-templates@^8.0.3":
+  version "8.0.3"
+  resolved "https://registry.yarnpkg.com/@types/email-templates/-/email-templates-8.0.3.tgz#b0ba6816871821feec5d8e2dcab32510fd6aedc0"
+  integrity sha512-OeLtrRD33up4aihl75fkniqvYi4Gl9tsl3Mx3o+17R2ePdyvULkLuAEcdEEFZ90iVMhuc2ByAaEOjbaF9o5aog==
   dependencies:
     "@types/html-to-text" "*"
     "@types/nodemailer" "*"
