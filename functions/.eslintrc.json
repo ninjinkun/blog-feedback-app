@@ -2,8 +2,7 @@
   "root": true,
   "extends": [
     "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "prettier/@typescript-eslint"
+    "prettier"
   ],
   "rules": {
     "@typescript-eslint/no-use-before-define": "off"
