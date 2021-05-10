@@ -12,12 +12,10 @@ export async function findAllItems(userId: string, blogUrl: string): Promise<Ite
   const items = snapshot.docs
     .map((i: firebase.firestore.DocumentSnapshot) => i.data())
     .filter((i) => i) as firebase.firestore.DocumentData[];
-  return items.map(
-    (i: firebase.firestore.DocumentData): ItemEntity => {
-      const { title, url, published, counts, prevCounts } = i;
-      return { title, url, published, counts, prevCounts };
-    }
-  );
+  return items.map((i: firebase.firestore.DocumentData): ItemEntity => {
+    const { title, url, published, counts, prevCounts } = i;
+    return { title, url, published, counts, prevCounts };
+  });
 }
 
 export type CountSaveEntity = {

@@ -30,24 +30,22 @@ export async function fetchFeed(feedURL: string): Promise<FeedResponse> {
 }
 
 function handleAtom(atom: Atom): FeedResponse {
-  const items = atom.feed.entry.map(
-    (entry): ItemResponse => {
-      const { title, link, published, updated, 'feedburner:origLink': feedburnerLink } = entry;
-      const url = (() => {
-        if (feedburnerLink) {
-          return feedburnerLink._text;
-        } else {
-          return handleAtomLink(link);
-        }
-      })();
-      const item = {
-        title: ('_cdata' in title && title._cdata) || ('_text' in title && title._text) || '',
-        url,
-        published: new Date((published && published._text) || updated._text),
-      };
-      return item;
-    }
-  );
+  const items = atom.feed.entry.map((entry): ItemResponse => {
+    const { title, link, published, updated, 'feedburner:origLink': feedburnerLink } = entry;
+    const url = (() => {
+      if (feedburnerLink) {
+        return feedburnerLink._text;
+      } else {
+        return handleAtomLink(link);
+      }
+    })();
+    const item = {
+      title: ('_cdata' in title && title._cdata) || ('_text' in title && title._text) || '',
+      url,
+      published: new Date((published && published._text) || updated._text),
+    };
+    return item;
+  });
   return {
     title: atom.feed.title._text,
     url: handleAtomLink(atom.feed.link),
@@ -58,12 +56,10 @@ function handleAtom(atom: Atom): FeedResponse {
 
 function handleRSS1(rss1: RSS1): FeedResponse {
   const { 'rdf:RDF': rdf } = rss1;
-  const items = rdf.item.map(
-    (item): ItemResponse => {
-      const { title, link, 'dc:date': date } = item;
-      return { title: title._text, url: link._text, published: new Date(date._text) };
-    }
-  );
+  const items = rdf.item.map((item): ItemResponse => {
+    const { title, link, 'dc:date': date } = item;
+    return { title: title._text, url: link._text, published: new Date(date._text) };
+  });
   return {
     title: rdf.channel.title._text,
     url: rdf.channel.link._text,
@@ -73,16 +69,14 @@ function handleRSS1(rss1: RSS1): FeedResponse {
 }
 
 function handleRSS2(rss2: RSS2): FeedResponse {
-  const items = rss2.rss.channel.item.map(
-    (item): ItemResponse => {
-      const { title, link, pubDate } = item;
-      return {
-        title: title._cdata || title._text,
-        url: normalizeMediumURL(link._text),
-        published: new Date(pubDate._text),
-      };
-    }
-  );
+  const items = rss2.rss.channel.item.map((item): ItemResponse => {
+    const { title, link, pubDate } = item;
+    return {
+      title: title._cdata || title._text,
+      url: normalizeMediumURL(link._text),
+      published: new Date(pubDate._text),
+    };
+  });
   return {
     title: rss2.rss.channel.title._cdata || rss2.rss.channel.title._text,
     url: normalizeMediumURL(rss2.rss.channel.link._text),
