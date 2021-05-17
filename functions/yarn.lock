@@ -1456,10 +1456,10 @@ firebase-admin@~9.8.0:
     "@google-cloud/firestore" "^4.5.0"
     "@google-cloud/storage" "^5.3.0"
 
-firebase-functions@^3.14.0:
-  version "3.14.0"
-  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-3.14.0.tgz#41dec078ef0324a28ad66584f2c6a20b30bb8dca"
-  integrity sha512-8f/UNxxbMBoNJkakGRmEoV+3i6LUVEOuiJdsMZR0L9x9NQ3rV0xCpUMPCA01HB+Mcx/NqAJCzE6n4gxg2uzcxg==
+firebase-functions@^3.14.1:
+  version "3.14.1"
+  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-3.14.1.tgz#3ac5bc70989365874f41d06bca3b42a233dd6039"
+  integrity sha512-hL/qm+i5i1qKYmAFMlQ4mwRngDkP+3YT3F4E4Nd5Hj2QKeawBdZiMGgEt6zqTx08Zq04vHiSnSM0z75UJRSg6Q==
   dependencies:
     "@types/express" "4.17.3"
     cors "^2.8.5"
