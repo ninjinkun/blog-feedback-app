@@ -70,7 +70,7 @@
     "@types/react-toggle": "^4.0.2",
     "@types/storybook__addon-actions": "^3.4.3",
     "@types/storybook__react": "^4.0.2",
-    "@types/styled-components": "^5.1.9",
+    "@types/styled-components": "^5.1.10",
     "@types/ua-parser-js": "^0.7.36",
     "firebase-tools": "9.12.1",
     "husky": "^6.0.0",
