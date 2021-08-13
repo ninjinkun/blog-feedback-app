@@ -11,7 +11,7 @@
     "firebase": "^8.8.1",
     "firebaseui": "^4.8.1",
     "first-input-delay": "^0.1.3",
-    "history": "^5.0.0",
+    "history": "^5.0.1",
     "lodash": "^4.17.21",
     "normalize.css": "^8.0.1",
     "react": "^17.0.2",
