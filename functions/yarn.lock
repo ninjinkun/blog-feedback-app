@@ -397,6 +397,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/cors@^2.8.5":
+  version "2.8.12"
+  resolved "https://registry.yarnpkg.com/@types/cors/-/cors-2.8.12.tgz#6b2c510a7ad7039e98e7b8d3d6598f4359e5c080"
+  integrity sha512-vt+kDhq/M2ayberEtJcIN/hxXy1Pk+59g2FV/ZQceeaTyCtCucjL2Q7FXlFjtWn4n15KCr1NE2lNNFhp0lEThw==
+
 "@types/duplexify@^3.6.0":
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/@types/duplexify/-/duplexify-3.6.0.tgz#dfc82b64bd3a2168f5bd26444af165bf0237dcd8"
@@ -1500,11 +1505,12 @@ firebase-admin@~9.11.0:
     "@google-cloud/firestore" "^4.5.0"
     "@google-cloud/storage" "^5.3.0"
 
-firebase-functions@^3.14.1:
-  version "3.14.1"
-  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-3.14.1.tgz#3ac5bc70989365874f41d06bca3b42a233dd6039"
-  integrity sha512-hL/qm+i5i1qKYmAFMlQ4mwRngDkP+3YT3F4E4Nd5Hj2QKeawBdZiMGgEt6zqTx08Zq04vHiSnSM0z75UJRSg6Q==
+firebase-functions@^3.15.4:
+  version "3.15.4"
+  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-3.15.4.tgz#c9309a565abb1f57a1e50d41b3e54bcee6a3ee51"
+  integrity sha512-6Zq+QIqdslZLsSwWg25Hv39cgFBZr0oUAbCjfe/MXqSHMy8ZK/1Vdy/WKx5IRC6hE7+JrmfVylIyEonTyNcheA==
   dependencies:
+    "@types/cors" "^2.8.5"
     "@types/express" "4.17.3"
     cors "^2.8.5"
     express "^4.17.1"
