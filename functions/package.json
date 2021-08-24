@@ -13,7 +13,7 @@
   },
   "main": "build/index.js",
   "dependencies": {
-    "@google-cloud/pubsub": "^2.16.5",
+    "@google-cloud/pubsub": "^2.16.6",
     "axios": "^0.21.0",
     "charset": "^1.0.1",
     "cheerio": "^1.0.0-rc.10",
