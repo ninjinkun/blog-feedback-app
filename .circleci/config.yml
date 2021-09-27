@@ -51,7 +51,7 @@ jobs:
       - run: cd functions && yarn build && cd ..
       - run: yarn firebase setup:emulators:firestore && yarn firebase setup:emulators:ui
       - run:
-          command: yarn firebase emulators:start
+          command: yarn firebase emulators:start --only firestore,functions
           background: true
       - run:
           name: Run tests with JUnit as reporter
