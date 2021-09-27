@@ -32,7 +32,7 @@
     "@types/charset": "^1.0.2",
     "@types/cheerio": "^0.22.30",
     "@types/email-templates": "^8.0.4",
-    "@types/lodash": "^4.14.172",
+    "@types/lodash": "^4.14.174",
     "@types/nodemailer": "^6.4.4",
     "@types/uuid": "^8.3.1",
     "@types/xmldom": "^0.1.31",
