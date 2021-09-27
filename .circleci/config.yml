@@ -25,6 +25,7 @@ jobs:
       - save_cache:
           paths:
             - node_modules
+            - ~/.cache
           key: v2-dependencies-{{ checksum "package.json" }}
 
       - restore_cache:
