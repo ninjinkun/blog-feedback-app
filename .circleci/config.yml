@@ -53,6 +53,7 @@ jobs:
       - run:
           command: yarn firebase emulators:start --only firestore,functions
           background: true
+      - run: dockerize -wait tcp://localhost:8080 -timeout 1m
       - run:
           name: Run tests with JUnit as reporter
           command: yarn test:ci --runInBand --reporters=default --reporters=jest-junit
