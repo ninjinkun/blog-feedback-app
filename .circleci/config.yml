@@ -51,9 +51,9 @@ jobs:
           command: yarn test:compile
           working_directory: functions
       - run: yarn firebase use development --token "$FIREBASE_TOKEN_DEVELOPMENT"
-      - run: yarn firebase setup:emulators:firestore
+      - run: yarn firebase setup:emulators:firestore --token "$FIREBASE_TOKEN_DEVELOPMENT"
       - run:
-          command: yarn firebase emulators:start
+          command: yarn firebase emulators:start --token "$FIREBASE_TOKEN_DEVELOPMENT"
           background: true
       - run:
           name: Run tests with JUnit as reporter
