@@ -13,10 +13,6 @@ jobs:
     steps:
       - checkout
 
-      - run:
-          name: Install JUnit coverage reporter
-          command: yarn add --dev jest-junit
-
       # Download and cache dependencies
       - restore_cache:
           keys:
