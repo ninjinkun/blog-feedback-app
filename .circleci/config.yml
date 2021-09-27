@@ -46,11 +46,11 @@ jobs:
       - run:
           command: yarn test:compile
           working_directory: functions
-      - run: yarn firebase use development --token "$FIREBASE_TOKEN_DEVELOPMENT"
+      - run: yarn firebase use development
       - run: cd functions && yarn build && cd ..
-      - run: yarn firebase setup:emulators:firestore --token "$FIREBASE_TOKEN_DEVELOPMENT"
+      - run: yarn firebase setup:emulators:firestore
       - run:
-          command: yarn firebase emulators:start --token "$FIREBASE_TOKEN_DEVELOPMENT"
+          command: yarn firebase emulators:start
           background: true
       - run:
           name: Run tests with JUnit as reporter
@@ -76,7 +76,7 @@ jobs:
       - attach_workspace:
           at: .
       - run: yarn build
-      - run: yarn firebase deploy --project development --token "$FIREBASE_TOKEN_DEVELOPMENT"
+      - run: yarn firebase deploy --project development
       - run: yarn deploy-storybook -- --ci
 
   deploy_production:
@@ -87,7 +87,7 @@ jobs:
       - attach_workspace:
           at: .
       - run: yarn build:production
-      - run: yarn firebase deploy --project production --token "$FIREBASE_TOKEN_PRODUCTION"
+      - run: yarn firebase deploy --project production
 
 workflows:
   version: 2
