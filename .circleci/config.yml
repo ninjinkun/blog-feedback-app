@@ -25,6 +25,7 @@ jobs:
       - save_cache:
           paths:
             - node_modules
+            - ~/.cache
           key: v2-dependencies-{{ checksum "package.json" }}
 
       - restore_cache:
@@ -48,10 +49,11 @@ jobs:
           working_directory: functions
       - run: yarn firebase use development
       - run: cd functions && yarn build && cd ..
-      - run: yarn firebase setup:emulators:firestore
+      - run: yarn firebase setup:emulators:firestore && yarn firebase setup:emulators:ui
       - run:
-          command: yarn firebase emulators:start
+          command: yarn firebase emulators:start --only firestore,functions
           background: true
+      - run: dockerize -wait tcp://localhost:8080 -timeout 1m
       - run:
           name: Run tests with JUnit as reporter
           command: yarn test:ci --runInBand --reporters=default --reporters=jest-junit
