@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { CountType } from '../../consts/count-type';
 import { CountResponse } from '../../responses';
 import * as functions from 'firebase-functions';
@@ -28,7 +28,7 @@ export async function fetchFacebookCounts(urls: string[], maxFetchCount=30): Pro
     'relative_url': `?id=${encodeURIComponent(url)}&fields=og_object{engagement}`,
   }));
   const accessToken = functions.config().facebook.access_token;
-  const response = await axios.post(
+  const response = await axios.post<string, AxiosResponse<FacebookBatchResponse[]>>(
     'https://graph.facebook.com/',
     qs.stringify({
       'access_token': accessToken,

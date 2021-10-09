@@ -24,7 +24,7 @@ async function fetchPocketCountChunk(urls: string[], delayMsec = 400): Promise<C
 export async function fetchPocketCount(url: string): Promise<CountResponse | undefined> {
   try {
     const apiURL = `https://widgets.getpocket.com/api/saves?url=${encodeURIComponent(url)}`;
-    const response = await axios.get(apiURL, { timeout: 10 * 1000 });
+    const response = await axios.get<{ saves: number }>(apiURL, { timeout: 10 * 1000 });
     const json = response.data;
     const count = json.saves;
     return { url, count, type: CountType.Pocket };
