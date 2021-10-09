@@ -1,5 +1,4 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import { getAuth } from '@firebase/auth';
 import { clone } from 'lodash';
 import React, { useEffect } from 'react';
 import { MdMailOutline } from 'react-icons/md';
@@ -40,8 +39,8 @@ const SettingPage: React.FC<Props> = (props) => {
 
   useEffect(() => {
     dispatch(deleteBlogSlice.actions.reset());
-    dispatch(fetchFirebaseBlog(firebase.auth(), blogURL));
-    dispatch(fetchUser(firebase.auth()));
+    dispatch(fetchFirebaseBlog(getAuth(), blogURL));
+    dispatch(fetchUser(getAuth()));
     return () => undefined;
   }, [blogURL, dispatch]);
 
@@ -56,7 +55,7 @@ const SettingPage: React.FC<Props> = (props) => {
   ) => {
     dispatch(
       saveSetting(
-        firebase.auth(),
+        getAuth(),
         blogURL,
         sendReport,
         twitter,
@@ -237,7 +236,7 @@ const SettingPage: React.FC<Props> = (props) => {
             />
             <SectionHeader />
             <DeleteWrapper>
-              <StyledWarningButton onClick={() => dispatch(deleteBlog(firebase.auth(), blogURL))}>
+              <StyledWarningButton onClick={() => dispatch(deleteBlog(getAuth(), blogURL))}>
                 {`${(feedState && feedState.title) || 'ブログ'}`}を削除
               </StyledWarningButton>
               {deleteBlogState.loading ? (

@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import { User } from '@firebase/auth';
 import { clone } from 'lodash';
 import flatten from 'lodash/flatten';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
@@ -25,7 +25,7 @@ export default function* feedSaga() {
 function* handleFetchAction(action: ReturnType<typeof feedsSlice.actions.startFetchAndSave>) {
   const { blogURL, auth } = action.payload;
 
-  const user: firebase.User = yield call(fetchFiresbaseUser, auth);
+  const user: User = yield call(fetchFiresbaseUser, auth);
 
   const blogEntity: BlogEntity = yield call(firebaseBlog, user, blogURL);
   const { services, feedURL } = blogEntity;
@@ -66,7 +66,7 @@ function* handleFetchAction(action: ReturnType<typeof feedsSlice.actions.startFe
   yield call(saveBlogFeedItemsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts, countTypes);
 }
 
-function* firebaseBlog(user: firebase.User, blogURL: string) {
+function* firebaseBlog(user: User, blogURL: string) {
   try {
     yield put(feedsSlice.actions.firebaseBlogRequest(blogURL));
     const blogEntity: BlogEntity = yield call(findBlog, user.uid, blogURL);
@@ -79,7 +79,7 @@ function* firebaseBlog(user: firebase.User, blogURL: string) {
   }
 }
 
-function* firebaseFeed(user: firebase.User, blogURL: string) {
+function* firebaseFeed(user: User, blogURL: string) {
   try {
     yield put(feedsSlice.actions.firebaseFeedRequest(blogURL));
     const items: ItemEntity[] = yield call(findAllItems, user.uid, blogURL);
@@ -106,7 +106,7 @@ function* fetchFeed(blogURL: string, feedURL: string) {
 }
 
 function* saveBlogFeedItemsAndCounts(
-  user: firebase.User,
+  user: User,
   blogURL: string,
   firebaseItems: ItemEntity[],
   fetchedItems: ItemResponse[],

@@ -1,5 +1,4 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import { getAuth } from '@firebase/auth';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
@@ -27,7 +26,7 @@ const SettingsPage: React.FC<RouteComponentProps> = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchBlogs(firebase.auth()));
+    dispatch(fetchBlogs(getAuth()));
     return () => undefined;
   }, [dispatch]);
 
@@ -59,7 +58,7 @@ const SettingsPage: React.FC<RouteComponentProps> = () => {
         {blogCells}
         <SectionHeader>ユーザーの設定</SectionHeader>
         <SignOutButtonWrapper>
-          <SignOutButton onClick={() => dispatch(signOut(firebase.auth()))}>ログアウト</SignOutButton>
+          <SignOutButton onClick={() => dispatch(signOut(getAuth()))}>ログアウト</SignOutButton>
         </SignOutButtonWrapper>
         <SectionHeader>サービスの情報</SectionHeader>
         <Link to="/term" target="_blank">

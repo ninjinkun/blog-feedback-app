@@ -1,4 +1,7 @@
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+
 import { BlogEntity } from './../entities';
 import { serverTimestamp } from './app-repository';
 import { userRef } from './user-repository';

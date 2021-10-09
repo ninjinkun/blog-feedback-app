@@ -1,5 +1,7 @@
 import { createSlice, createNextState, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
-import firebase from 'firebase/app';
+import { getApp } from '@firebase/app';
+import { Auth } from '@firebase/auth';
+import { getFunctions, httpsCallable } from '@firebase/functions';
 
 import { saveBlogSetting } from '../../models/repositories/blog-repository';
 import { currenUserOronAuthStateChanged } from './user';
@@ -62,7 +64,7 @@ function updateStates(state: SettingsState, blogURL: string, updateState: Partia
 type STA = ThunkAction<void, SettingState, undefined, any>;
 
 export function saveSetting(
-  auth: firebase.auth.Auth,
+  auth: Auth,
   blogURL: string,
   reportEnabled: boolean,
   twitterEnabled: boolean,
@@ -112,7 +114,7 @@ export function sendTestReportMail(blogURL: string): MTA {
   return async (dispatch) => {
     dispatch(settingsSlice.actions.firebaseSendTestReportMailRequest(blogURL));
     try {
-      await firebase.app().functions('asia-northeast1').httpsCallable('sendTestReportMail')({ blogURL });
+      await httpsCallable(getFunctions(getApp(), 'asia-northeast1'), 'sendTestReportMail')({ blogURL });
       dispatch(settingsSlice.actions.firebaseSendTestReportMailResponse(blogURL));
     } catch (error) {
       if (error instanceof Error) {

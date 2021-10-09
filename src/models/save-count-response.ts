@@ -1,5 +1,5 @@
-import firebase from 'firebase/app';
-
+import { User } from '@firebase/auth';
+import { Timestamp } from '@firebase/firestore';
 import { CountType } from './consts/count-type';
 import { CountEntity, ItemEntity } from './entities';
 import { serverTimestamp, writeBatch } from './repositories/app-repository';
@@ -9,7 +9,7 @@ import { CountResponse, ItemResponse } from './responses';
 // TODO: refactor!!
 
 export async function saveFeedsAndCounts(
-  user: firebase.User,
+  user: User,
   blogURL: string,
   firebaseEntities: ItemEntity[],
   feedItemsResponse: ItemResponse[],
@@ -117,7 +117,7 @@ function createPrevItemCount(
 ) {
   const isExistSavedPrevCount = !!prevCount;
   const is10MunitesLaterUntilLastUpdate =
-    firebaseCount && firebaseCount.timestamp.seconds < firebase.firestore.Timestamp.now().seconds - 60 * 10;
+    firebaseCount && firebaseCount.timestamp.seconds < Timestamp.now().seconds - 60 * 10;
   if (is10MunitesLaterUntilLastUpdate) {
     // move current count to prevCount
     return firebaseCount;

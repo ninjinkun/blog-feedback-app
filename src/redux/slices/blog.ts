@@ -1,5 +1,5 @@
 import firebase from 'firebase/app';
-
+import { Auth } from '@firebase/auth';
 import { BlogEntity } from '../../models/entities';
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { currenUserOronAuthStateChanged } from './user';
@@ -42,7 +42,7 @@ export const blogSlice = createSlice({
   },
 });
 
-export function fetchBlogs(auth: firebase.auth.Auth): ThunkAction<void, BlogState, undefined, any> {
+export function fetchBlogs(auth: Auth): ThunkAction<void, BlogState, undefined, any> {
   return async (dispatch) => {
     let user;
     try {

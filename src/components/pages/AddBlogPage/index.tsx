@@ -1,5 +1,4 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import { getAuth } from '@firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
@@ -30,7 +29,7 @@ const AddBlogPage: React.FC<RouteComponentProps> = () => {
   }, [dispatch]);
 
   const handleSubmit = (url: string, reportMailEnabled: boolean) => {
-    dispatch(addBlog(firebase.auth(), url, reportMailEnabled));
+    dispatch(addBlog(getAuth(), url, reportMailEnabled));
   };
 
   const fillIn = (url: string) => {

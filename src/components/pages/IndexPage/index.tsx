@@ -1,5 +1,4 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import { getAuth } from '@firebase/auth';
 import React, { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,7 +13,7 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
   const user = useSelector<AppState, UserState>((state) => state.user);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchUser(firebase.auth()));
+    dispatch(fetchUser(getAuth()));
     return () => undefined;
   }, [dispatch]);
 

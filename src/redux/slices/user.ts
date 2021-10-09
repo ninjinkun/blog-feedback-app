@@ -1,9 +1,8 @@
 import { createSlice, ThunkAction, PayloadAction } from '@reduxjs/toolkit';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import { User, Auth } from '@firebase/auth';
 
 export type UserState = {
-  user?: firebase.User;
+  user?: User;
   loading: boolean;
 };
 
@@ -16,7 +15,7 @@ export const userSlice = createSlice({
     firebaseUserRequest(state) {
       return { ...state, loading: true };
     },
-    firebaseUserResponse(state, action: PayloadAction<firebase.User>) {
+    firebaseUserResponse(state, action: PayloadAction<User>) {
       return { ...state, user: action.payload, loading: false };
     },
     firebaseUnauthorizedError(state, action: PayloadAction<Error>) {
@@ -34,7 +33,7 @@ export const userSlice = createSlice({
   },
 });
 
-export function fetchUser(auth: firebase.auth.Auth): ThunkAction<void, UserState, undefined, any> {
+export function fetchUser(auth: Auth): ThunkAction<void, UserState, undefined, any> {
   return async (dispatch) => {
     try {
       dispatch(userSlice.actions.firebaseUserRequest());
@@ -48,7 +47,7 @@ export function fetchUser(auth: firebase.auth.Auth): ThunkAction<void, UserState
   };
 }
 
-export function onAuthStateChanged(auth: firebase.auth.Auth): Promise<firebase.User> {
+export function onAuthStateChanged(auth: Auth): Promise<User> {
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -60,7 +59,7 @@ export function onAuthStateChanged(auth: firebase.auth.Auth): Promise<firebase.U
   });
 }
 
-export async function currenUserOronAuthStateChanged(auth: firebase.auth.Auth): Promise<firebase.User> {
+export async function currenUserOronAuthStateChanged(auth: Auth): Promise<User> {
   const currentUser = auth.currentUser;
   if (currentUser) {
     return currentUser;
@@ -69,7 +68,7 @@ export async function currenUserOronAuthStateChanged(auth: firebase.auth.Auth): 
   }
 }
 
-export function signOut(auth: firebase.auth.Auth): ThunkAction<void, UserState, undefined, any> {
+export function signOut(auth: Auth): ThunkAction<void, UserState, undefined, any> {
   return async (dispatch) => {
     try {
       dispatch(userSlice.actions.firebaseSignoutRequest());
