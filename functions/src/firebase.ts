@@ -1,8 +1,8 @@
 
-import { initializeApp, firestore } from 'firebase-admin';
+import * as admin from 'firebase-admin';
 
-initializeApp();
-export const db = firestore();
+admin.initializeApp();
+export const db = admin.firestore();
 db.settings({
   timestampsInSnapshots: true
 });
