@@ -11,6 +11,8 @@ export function* fetchHatenaStarCounts(blogURL: string, urls: string[], maxFetch
     yield put(feedsSlice.actions.fetchHatenaStarCountResponse({ blogURL, counts }));
     return counts;
   } catch (error) {
-    yield put(feedsSlice.actions.fetchHatenaStarCountError({ blogURL, error }));
+    if (error instanceof Error) {
+      yield put(feedsSlice.actions.fetchHatenaStarCountError({ blogURL, error }));
+    }
   }
 }

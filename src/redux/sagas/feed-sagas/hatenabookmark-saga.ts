@@ -11,6 +11,8 @@ export function* fetchHatenaBookmarkCounts(blogURL: string, urls: string[], maxF
     yield put(feedsSlice.actions.fetchHatenaBookmarkCountResponse({ blogURL, counts }));
     return counts;
   } catch (error) {
-    yield put(feedsSlice.actions.fetchHatenaBookmarkCountError({ blogURL, error }));
+    if (error instanceof Error) {
+      yield put(feedsSlice.actions.fetchHatenaBookmarkCountError({ blogURL, error }));
+    }
   }
 }

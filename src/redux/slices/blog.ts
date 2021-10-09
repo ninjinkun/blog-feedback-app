@@ -55,7 +55,9 @@ export function fetchBlogs(auth: firebase.auth.Auth): ThunkAction<void, BlogStat
       const blogs = await findAllBlogs(user.uid);
       dispatch(blogSlice.actions.firebaseBlogsResponse(blogs));
     } catch (e) {
-      dispatch(blogSlice.actions.firebaseBlogsError(e));
+      if (e instanceof Error) {
+        dispatch(blogSlice.actions.firebaseBlogsError(e));
+      }
     }
   };
 }

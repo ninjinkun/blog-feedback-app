@@ -73,7 +73,9 @@ function* firebaseBlog(user: firebase.User, blogURL: string) {
     yield put(feedsSlice.actions.firebaseBlogResponse({ blogURL, blogEntity }));
     return blogEntity;
   } catch (error) {
-    yield put(feedsSlice.actions.fetchAndSaveError({ blogURL, error }));
+    if (error instanceof Error) {
+      yield put(feedsSlice.actions.fetchAndSaveError({ blogURL, error }));
+    }
   }
 }
 
@@ -84,7 +86,9 @@ function* firebaseFeed(user: firebase.User, blogURL: string) {
     yield put(feedsSlice.actions.firebaseFeedResponse({ blogURL, items }));
     return items;
   } catch (error) {
-    yield put(feedsSlice.actions.fetchAndSaveError({ blogURL, error }));
+    if (error instanceof Error) {
+      yield put(feedsSlice.actions.fetchAndSaveError({ blogURL, error }));
+    }
   }
 }
 
@@ -95,7 +99,9 @@ function* fetchFeed(blogURL: string, feedURL: string) {
     yield put(feedsSlice.actions.fetchRSSResponse({ blogURL, items: feed.items }));
     return feed.items;
   } catch (e) {
-    yield put(feedsSlice.actions.fetchRSSError({ blogURL, error: clone(e) }));
+    if (e instanceof Error) {
+      yield put(feedsSlice.actions.fetchRSSError({ blogURL, error: clone(e) }));
+    }
   }
 }
 
@@ -112,6 +118,8 @@ function* saveBlogFeedItemsAndCounts(
     yield call(saveFeedsAndCounts, user, blogURL, firebaseItems, fetchedItems, counts, countTypes);
     yield put(feedsSlice.actions.firebaseSaveResponse(blogURL));
   } catch (error) {
-    yield put(feedsSlice.actions.firebaseSaveError({ blogURL, error }));
+    if (error instanceof Error) {
+      yield put(feedsSlice.actions.firebaseSaveError({ blogURL, error }));
+    }
   }
 }

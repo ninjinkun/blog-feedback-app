@@ -18,7 +18,9 @@ export function* fetchFacebookCounts(blogURL: string, urls: string[], maxFetchCo
     yield put(feedsSlice.actions.fetchFacebookCountResponse({ blogURL, counts: flattenedCounts }));
     return flattenedCounts;
   } catch (error) {
-    yield put(feedsSlice.actions.fetchFacebookCountError({ blogURL, error }));
+    if (error instanceof Error) {
+      yield put(feedsSlice.actions.fetchFacebookCountError({ blogURL, error }));
+    }
   }
 }
 

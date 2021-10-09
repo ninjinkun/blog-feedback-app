@@ -9,6 +9,8 @@ export function* fetchFiresbaseUser(auth: firebase.auth.Auth) {
     yield put(userSlice.actions.firebaseUserResponse(JSON.parse(JSON.stringify(user))));
     return user;
   } catch (e) {
-    yield put(userSlice.actions.firebaseUnauthorizedError(e));
+    if (e instanceof Error) {
+      yield put(userSlice.actions.firebaseUnauthorizedError(e));
+    }
   }
 }

@@ -223,7 +223,9 @@ export function fetchFirebaseBlog(auth: firebase.auth.Auth, blogURL: string): TA
       const blogEntity = await findBlog(user.uid, blogURL);
       dispatch(feedsSlice.actions.firebaseBlogResponse({ blogURL, blogEntity }));
     } catch (error) {
-      dispatch(feedsSlice.actions.firebaseBlogError({ blogURL, error }));
+      if (error instanceof Error) {
+        dispatch(feedsSlice.actions.firebaseBlogError({ blogURL, error }));
+      }
     }
   };
 }

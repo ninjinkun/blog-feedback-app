@@ -47,7 +47,9 @@ export function deleteBlog(auth: firebase.auth.Auth, blogURL: string): TA {
       await BlogRepo.deleteBlog(user.uid, blogURL);
       dispatch(deleteBlogSlice.actions.deleteBlogResponse(blogURL));
     } catch (error) {
-      dispatch(deleteBlogSlice.actions.deleteBlogError({ blogURL, error }));
+      if (error instanceof Error) {
+        dispatch(deleteBlogSlice.actions.deleteBlogError({ blogURL, error }));
+      }
     }
   };
 }

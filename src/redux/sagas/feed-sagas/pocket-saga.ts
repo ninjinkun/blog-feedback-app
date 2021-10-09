@@ -17,7 +17,9 @@ export function* fetchPocketCounts(blogURL: string, urls: string[], maxFetchCoun
     yield put(feedsSlice.actions.fetchPocketCountResponse({ blogURL, counts: flattenedCounts }));
     return flattenedCounts;
   } catch (error) {
-    yield put(feedsSlice.actions.fetchPocketCountError({ blogURL, error }));
+    if (error instanceof Error) {
+      yield put(feedsSlice.actions.fetchPocketCountError({ blogURL, error }));
+    }
   }
 }
 
