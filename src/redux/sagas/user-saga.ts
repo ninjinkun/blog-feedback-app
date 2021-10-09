@@ -1,5 +1,5 @@
 import firebase from 'firebase/app';
-import { Auth, User } from '@firebase/auth'
+import { Auth, User } from '@firebase/auth';
 import { call, put } from 'redux-saga/effects';
 import { userSlice, currenUserOronAuthStateChanged } from '../slices/user';
 

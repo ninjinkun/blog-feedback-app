@@ -54,17 +54,7 @@ const SettingPage: React.FC<Props> = (props) => {
     pocket: boolean
   ) => {
     dispatch(
-      saveSetting(
-        getAuth(),
-        blogURL,
-        sendReport,
-        twitter,
-        countjsoon,
-        facebook,
-        hatenabookmark,
-        hatenastar,
-        pocket
-      )
+      saveSetting(getAuth(), blogURL, sendReport, twitter, countjsoon, facebook, hatenabookmark, hatenastar, pocket)
     );
   };
 

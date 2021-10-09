@@ -80,11 +80,7 @@ const uiConfig = {
   // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
   signInSuccessUrl: '/signin',
   // We will display Google and Facebook as auth providers.
-  signInOptions: [
-    TwitterAuthProvider.PROVIDER_ID,
-    FacebookAuthProvider.PROVIDER_ID,
-    GoogleAuthProvider.PROVIDER_ID,
-  ],
+  signInOptions: [TwitterAuthProvider.PROVIDER_ID, FacebookAuthProvider.PROVIDER_ID, GoogleAuthProvider.PROVIDER_ID],
 };
 
 const StyledWrapper = styled(Wrapper)`
