@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import { initializeApp } from '@firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/functions';
@@ -16,7 +16,7 @@ export function initializeFirebase() {
     messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
     appID: process.env.REACT_APP_FIREBASE_APP_ID,
   };
-  firebase.initializeApp(config);
+  initializeApp(config);
 
   //  firebase.performance(app);
 }
