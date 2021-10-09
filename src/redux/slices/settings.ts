@@ -100,7 +100,9 @@ export function saveSetting(
         })
       );
     } catch (error) {
-      dispatch(settingsSlice.actions.saveSettingError({ blogURL, error }));
+      if (error instanceof Error) {
+        dispatch(settingsSlice.actions.saveSettingError({ blogURL, error }));
+      }
     }
   };
 }
@@ -113,7 +115,9 @@ export function sendTestReportMail(blogURL: string): MTA {
       await firebase.app().functions('asia-northeast1').httpsCallable('sendTestReportMail')({ blogURL });
       dispatch(settingsSlice.actions.firebaseSendTestReportMailResponse(blogURL));
     } catch (error) {
-      dispatch(settingsSlice.actions.firebaseSendTestMailError({ blogURL, error }));
+      if (error instanceof Error) {
+        dispatch(settingsSlice.actions.firebaseSendTestMailError({ blogURL, error }));
+      }
     }
   };
 }

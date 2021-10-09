@@ -18,7 +18,9 @@ export function* fetchCountJsoonCounts(blogURL: string, urls: string[], maxFetch
     yield put(feedsSlice.actions.fetchCountJSOONCountResponse({ blogURL, counts: flattenedCounts }));
     return flattenedCounts;
   } catch (error) {
-    yield put(feedsSlice.actions.fetchCountJSOONCountError({ blogURL, error }));
+    if (error instanceof Error) {
+      yield put(feedsSlice.actions.fetchCountJSOONCountError({ blogURL, error }));
+    }
   }
 }
 

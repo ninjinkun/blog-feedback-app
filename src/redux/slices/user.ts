@@ -41,7 +41,9 @@ export function fetchUser(auth: firebase.auth.Auth): ThunkAction<void, UserState
       const user = await currenUserOronAuthStateChanged(auth);
       dispatch(userSlice.actions.firebaseUserResponse(JSON.parse(JSON.stringify(user))));
     } catch (e) {
-      dispatch(userSlice.actions.firebaseUnauthorizedError(e));
+      if (e instanceof Error) {
+        dispatch(userSlice.actions.firebaseUnauthorizedError(e));
+      }
     }
   };
 }
@@ -74,7 +76,9 @@ export function signOut(auth: firebase.auth.Auth): ThunkAction<void, UserState, 
       await auth.signOut();
       dispatch(userSlice.actions.firebaseSignoutResponse());
     } catch (e) {
-      dispatch(userSlice.actions.firebaseSignoutError(e));
+      if (e instanceof Error) {
+        dispatch(userSlice.actions.firebaseSignoutError(e));
+      }
     }
   };
 }
