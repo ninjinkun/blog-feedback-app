@@ -23,7 +23,7 @@ async function fetchCountJsoonCountChunk(urls: string[], delayMsec = 200): Promi
 
 export async function fetchCountJsoonCount(url: string): Promise<CountResponse | undefined> {
   try {
-    const response = await axios.get(
+    const response = await axios.get<{ count: number }>(
       `https://jsoon.digitiminimi.com/twitter/count.json?url=${encodeURIComponent(url)}`,
       { timeout: 10 * 1000 }
     );
