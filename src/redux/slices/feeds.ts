@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import { Auth } from '@firebase/auth';
 
 import { createSlice, PayloadAction, createNextState, ThunkAction } from '@reduxjs/toolkit';
 import { BlogEntity, ItemEntity, Services } from '../../models/entities';
@@ -55,7 +55,7 @@ export const feedsSlice = createSlice({
     clearBlogURL(state) {
       return { ...state, currentBlogURL: undefined };
     },
-    startFetchAndSave(state, action: PayloadAction<{ auth: firebase.auth.Auth; blogURL: string }>) {
+    startFetchAndSave(state, action: PayloadAction<{ auth: Auth; blogURL: string }>) {
       const { blogURL } = action.payload;
       return updateFeed(blogURL, state, { loading: true });
     },
@@ -210,7 +210,7 @@ function updateFeed(blogURL: string, state: FeedsState, newFeed: Partial<FeedSta
 }
 
 type TA = ThunkAction<void, FeedState, undefined, any>;
-export function fetchFirebaseBlog(auth: firebase.auth.Auth, blogURL: string): TA {
+export function fetchFirebaseBlog(auth: Auth, blogURL: string): TA {
   return async (dispatch) => {
     let user;
     try {

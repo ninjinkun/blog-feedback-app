@@ -1,5 +1,9 @@
-import firebase from 'firebase/app';
-import 'firebase/functions';
+import { getApp } from '@firebase/app';
+import { getFunctions, httpsCallable } from '@firebase/functions';
+
+type Response = {
+  body: string;
+};
 
 export const crossOriginFetch = (url: string) =>
-  firebase.app().functions('asia-northeast1').httpsCallable('crossOriginFetch')({ url });
+  httpsCallable<{ url: string }, Response>(getFunctions(getApp(), 'asia-northeast1'), 'crossOriginFetch');

@@ -1,4 +1,7 @@
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+
 import { ItemEntity } from '../entities';
 import { serverTimestamp, writeBatch } from './app-repository';
 import { blogRef } from './blog-repository';
@@ -9,10 +12,10 @@ export function itemRef(userId: string, blogUrl: string, itemUrl: string): fireb
 
 export async function findAllItems(userId: string, blogUrl: string): Promise<ItemEntity[]> {
   const snapshot = await blogRef(userId, blogUrl).collection('items').orderBy('published', 'desc').get();
-  const items = snapshot.docs
+  const items: firebase.firestore.DocumentData[] = snapshot.docs
     .map((i: firebase.firestore.DocumentSnapshot) => i.data())
-    .filter((i) => i) as firebase.firestore.DocumentData[];
-  return items.map((i: firebase.firestore.DocumentData): ItemEntity => {
+    .filter((i?: firebase.firestore.DocumentData) => !!i) as firebase.firestore.DocumentData[];
+  return items.map((i): ItemEntity => {
     const { title, url, published, counts, prevCounts } = i;
     return { title, url, published, counts, prevCounts };
   });

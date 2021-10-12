@@ -1,5 +1,5 @@
-import { firestore } from 'firebase/app';
-import 'firebase/firestore';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
 import { CountType } from '../models/consts/count-type';
 import { ItemEntity } from '../models/entities';
 import { CountResponse, ItemResponse } from '../models/responses';
@@ -15,14 +15,14 @@ const firebaseEntities: ItemEntity[] = [
   {
     title: 'Ikyu Frontend Meetupを開催しました',
     url: 'https://user-first.ikyu.co.jp/entry/2018/12/14/154352',
-    published: new firestore.Timestamp(1544769832, 0),
+    published: new firebase.firestore.Timestamp(1544769832, 0),
     counts: {
-      facebook: { count: 4, timestamp: new firestore.Timestamp(1544787808, 337000000) },
-      hatenabookmark: { count: 6, timestamp: new firestore.Timestamp(1544787808, 337000000) },
+      facebook: { count: 4, timestamp: new firebase.firestore.Timestamp(1544787808, 337000000) },
+      hatenabookmark: { count: 6, timestamp: new firebase.firestore.Timestamp(1544787808, 337000000) },
     },
     prevCounts: {
-      facebook: { count: 3, timestamp: new firestore.Timestamp(1544787295, 410000000) },
-      hatenabookmark: { count: 4, timestamp: new firestore.Timestamp(1544775366, 395000000) },
+      facebook: { count: 3, timestamp: new firebase.firestore.Timestamp(1544787295, 410000000) },
+      hatenabookmark: { count: 4, timestamp: new firebase.firestore.Timestamp(1544775366, 395000000) },
     },
   },
 ];
@@ -46,12 +46,12 @@ const result = [
     title: 'Ikyu Frontend Meetupを開催しました',
     published: new Date('2018-12-14T06:43:52.000Z'),
     itemCounts: {
-      facebook: { count: 4, timestamp: new firestore.Timestamp(1544787808, 337000000) },
+      facebook: { count: 4, timestamp: new firebase.firestore.Timestamp(1544787808, 337000000) },
       hatenabookmark: { count: 18, timestamp: expect.anything() },
     },
     prevCounts: {
-      facebook: { count: 4, timestamp: new firestore.Timestamp(1544787808, 337000000) },
-      hatenabookmark: { count: 6, timestamp: new firestore.Timestamp(1544787808, 337000000) },
+      facebook: { count: 4, timestamp: new firebase.firestore.Timestamp(1544787808, 337000000) },
+      hatenabookmark: { count: 6, timestamp: new firebase.firestore.Timestamp(1544787808, 337000000) },
     },
   },
 ];

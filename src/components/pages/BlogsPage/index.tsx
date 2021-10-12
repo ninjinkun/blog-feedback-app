@@ -1,5 +1,4 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import { getAuth } from '@firebase/auth';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
@@ -19,7 +18,7 @@ const BlogsPage: React.FC<RouteComponentProps> = () => {
   const blog = useSelector<AppState, BlogState>((state) => state.blog);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchBlogs(firebase.auth()));
+    dispatch(fetchBlogs(getAuth()));
   }, [dispatch]);
 
   const { blogs, loading } = blog;

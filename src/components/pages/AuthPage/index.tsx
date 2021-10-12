@@ -1,5 +1,4 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import { getAuth } from '@firebase/auth';
 import React, { Fragment, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
@@ -15,7 +14,7 @@ const AuthPage: React.FC<RouteComponentProps> = (props) => {
   const { children, location } = props;
 
   useEffect(() => {
-    dispatch(fetchUser(firebase.auth()));
+    dispatch(fetchUser(getAuth()));
     return () => undefined;
   }, [dispatch]);
 

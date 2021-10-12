@@ -1,11 +1,14 @@
-import firebase from 'firebase/app';
-import 'firebase/functions';
+import { getApp } from '@firebase/app';
+import { getFunctions, httpsCallable, HttpsCallableResult } from '@firebase/functions';
 
 type Response = {
-  data: { body: string };
+  body: string;
 };
 
-export function crossOriginFetch(url: string): Promise<Response> {
-  const crossOriginFetch = firebase.app().functions('asia-northeast1').httpsCallable('crossOriginFetch');
+export function crossOriginFetch(url: string): Promise<HttpsCallableResult<Response>> {
+  const crossOriginFetch = httpsCallable<{ url: string }, Response>(
+    getFunctions(getApp(), 'asia-northeast1'),
+    'crossOriginFetch'
+  );
   return crossOriginFetch({ url });
 }

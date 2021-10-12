@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import { Auth } from '@firebase/auth';
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { currenUserOronAuthStateChanged } from './user';
 import * as BlogRepo from '../../models/repositories/blog-repository';
@@ -38,7 +38,7 @@ export const deleteBlogSlice = createSlice({
 });
 
 type TA = ThunkAction<void, DeleteBlogState, undefined, any>;
-export function deleteBlog(auth: firebase.auth.Auth, blogURL: string): TA {
+export function deleteBlog(auth: Auth, blogURL: string): TA {
   return async (dispatch) => {
     try {
       const user = await currenUserOronAuthStateChanged(auth);

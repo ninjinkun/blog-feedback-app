@@ -1,5 +1,4 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import { getAuth } from '@firebase/auth';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
@@ -14,6 +13,7 @@ import Wrapper from '../../atoms/Wrapper/index';
 import LoadingView from '../../molecules/LoadingView/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
+import { FacebookAuthProvider, GoogleAuthProvider, TwitterAuthProvider } from 'firebase/auth';
 
 type Props = RouteComponentProps<{}, {}, { from?: Location }>;
 
@@ -22,7 +22,7 @@ const SignInPage: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchUser(firebase.auth()));
+    dispatch(fetchUser(getAuth()));
     return () => undefined;
   }, [dispatch]);
 
@@ -44,7 +44,7 @@ const SignInPage: React.FC<Props> = (props) => {
           } else {
             return (
               <StyledWrapper>
-                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={getAuth()} />
 
                 <TextWrapper>
                   <Text>
@@ -80,11 +80,7 @@ const uiConfig = {
   // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
   signInSuccessUrl: '/signin',
   // We will display Google and Facebook as auth providers.
-  signInOptions: [
-    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-  ],
+  signInOptions: [TwitterAuthProvider.PROVIDER_ID, FacebookAuthProvider.PROVIDER_ID, GoogleAuthProvider.PROVIDER_ID],
 };
 
 const StyledWrapper = styled(Wrapper)`
