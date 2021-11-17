@@ -14,7 +14,7 @@
   "main": "build/index.js",
   "dependencies": {
     "@google-cloud/pubsub": "^2.18.1",
-    "axios": "^0.23.0",
+    "axios": "^0.24.0",
     "charset": "^1.0.1",
     "cheerio": "^1.0.0-rc.10",
     "email-templates": "^8.0.8",
