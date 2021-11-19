@@ -1,4 +1,4 @@
-import { getAuth } from '@firebase/auth';
+import { getAuth, FacebookAuthProvider, GoogleAuthProvider, TwitterAuthProvider } from '@firebase/auth';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
@@ -13,7 +13,6 @@ import Wrapper from '../../atoms/Wrapper/index';
 import LoadingView from '../../molecules/LoadingView/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
-import { FacebookAuthProvider, GoogleAuthProvider, TwitterAuthProvider } from 'firebase/auth';
 
 type Props = RouteComponentProps<{}, {}, { from?: Location }>;
 
