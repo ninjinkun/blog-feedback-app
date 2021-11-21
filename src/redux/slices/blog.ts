@@ -1,4 +1,3 @@
-import firebase from 'firebase/app';
 import { Auth } from '@firebase/auth';
 import { BlogEntity } from '../../models/entities';
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';

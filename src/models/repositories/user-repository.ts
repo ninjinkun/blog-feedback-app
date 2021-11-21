@@ -1,4 +1,3 @@
-import { DocumentReference } from '@firebase/firestore';
 import { db } from './app-repository';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
