@@ -80,10 +80,6 @@
     "react-docgen-typescript-webpack-plugin": "^1.1.0",
     "typescript": "^4.5.4"
   },
-  "resolutions": {
-    "babel-loader": "8.2.3",
-    "webpack": "4.44.2"
-  },
   "browserslist": [
     "defaults"
   ],
