@@ -32,17 +32,17 @@ const App = () => (
         <Router>
           <ScrollToTop>
             <Switch>
-              <Route exact={true} path="/" component={withTracker(IndexPage)} />
-              <Route exact={true} path="/signin" component={withTracker(SignInPage)} />
-              <Route exact={true} path="/term" component={withTracker(TermPage)} />
-              <Route exact={true} path="/privacy" component={withTracker(PrivacyPage)} />
+              <Route exact path="/" component={withTracker(IndexPage)} />
+              <Route exact path="/signin" component={withTracker(SignInPage)} />
+              <Route exact path="/term" component={withTracker(TermPage)} />
+              <Route exact path="/privacy" component={withTracker(PrivacyPage)} />
               <AuthPage>
                 <Switch>
-                  <Route exact={true} path="/add" component={withTracker(AddBlogPage)} />
-                  <Route exact={true} path="/blogs" component={withTracker(BlogsPage)} />
-                  <Route exact={true} path="/blogs/:blogURL" component={withTracker(FeedPage)} />
-                  <Route exact={true} path="/settings" component={withTracker(SettingsPage)} />
-                  <Route exact={true} path="/settings/:blogURL" component={withTracker(SettingPage)} />
+                  <Route exact path="/add" component={withTracker(AddBlogPage)} />
+                  <Route exact path="/blogs" component={withTracker(BlogsPage)} />
+                  <Route path="/blogs/:blogURL" component={withTracker(FeedPage)} />
+                  <Route exact path="/settings" component={withTracker(SettingsPage)} />
+                  <Route path="/settings/:blogURL" component={withTracker(SettingPage)} />
                 </Switch>
               </AuthPage>
             </Switch>

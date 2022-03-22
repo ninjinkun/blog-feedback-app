@@ -29,7 +29,16 @@ import { SettingState, saveSetting, sendTestReportMail } from '../../../redux/sl
 type Props = RouteComponentProps<{ blogURL: string }>;
 
 const SettingPage: React.FC<Props> = (props) => {
-  const blogURL = decodeURIComponent(props.match.params.blogURL);
+  let blogURL = decodeURIComponent(props.match.params.blogURL);
+  // On production, web browsers normalize the blog URLs without encoding.
+  // The URLs don't match React Router's path matching rules.
+  // So, the following code extracts the blog URL from `location`.
+  if (!blogURL?.startsWith('http://') && !blogURL?.startsWith('https://')) {
+    const matched = /^\/blogs\/(.+)$/.exec(props.location.pathname)?.[1];
+    if (matched) {
+      blogURL = matched;
+    }
+  }
 
   const userState = useSelector<AppState, UserState>((state) => state.user);
   const feedState = useSelector<AppState, FeedState>((state) => state.feeds.feeds[blogURL]);
