@@ -20,7 +20,15 @@ type CountMap = Map<string, number>;
 type AnimateMap = Map<string, boolean>;
 
 const FeedPage: React.FC<RouteComponentProps<{ blogURL: string }>> = (props) => {
-  const blogURL = decodeURIComponent(props.match.params.blogURL);
+  let blogURL = decodeURIComponent(props.match.params.blogURL);
+
+  if (!blogURL?.startsWith('http://') && !blogURL?.startsWith('https://')) {
+    const matched = /^\/blogs\/(.+)$/.exec(props.location.pathname)?.[1];
+    if (matched) {
+      blogURL = matched;
+    }
+  }
+
   const feed = useSelector<AppState, FeedState>((state) => state.feeds.feeds[blogURL]);
   const dispatch = useDispatch();
 
