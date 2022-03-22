@@ -1,6 +1,8 @@
-import { getAuth, FacebookAuthProvider, GoogleAuthProvider, TwitterAuthProvider } from '@firebase/auth';
+import { getAuth } from '@firebase/auth';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 import { Location } from 'history';
 import { StyledFirebaseAuth } from 'react-firebaseui';
@@ -79,7 +81,11 @@ const uiConfig = {
   // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
   signInSuccessUrl: '/signin',
   // We will display Google and Facebook as auth providers.
-  signInOptions: [TwitterAuthProvider.PROVIDER_ID, FacebookAuthProvider.PROVIDER_ID, GoogleAuthProvider.PROVIDER_ID],
+  signInOptions: [
+    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+  ],
 };
 
 const StyledWrapper = styled(Wrapper)`

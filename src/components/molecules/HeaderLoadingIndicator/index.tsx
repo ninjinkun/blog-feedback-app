@@ -31,8 +31,8 @@ const HeaderLoadingIndicator: React.FC<Props> = ({ loading, label, ratio, ...pro
         <Content>
           <SpinnerWrapper>{loading ? <Spinner size={12} singleColor={'white'} /> : undefined}</SpinnerWrapper>
           <LabelWrapper>
-            {trans.map(({ item, props, key }) => (
-              <Label style={props} key={key}>
+            {trans.map(({ item, props, key }, i) => (
+              <Label style={props} key={`${key}-${i}`}>
                 {item}
               </Label>
             ))}

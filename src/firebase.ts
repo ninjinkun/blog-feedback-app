@@ -1,8 +1,8 @@
-import { initializeApp } from '@firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
-import 'firebase/functions';
-import 'firebase/performance';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+import 'firebase/compat/functions';
+import 'firebase/compat/performance';
 
 export function initializeFirebase() {
   validateDotEnv();
@@ -16,7 +16,7 @@ export function initializeFirebase() {
     messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
     appID: process.env.REACT_APP_FIREBASE_APP_ID,
   };
-  initializeApp(config);
+  firebase.initializeApp(config);
 
   //  firebase.performance(app);
 }

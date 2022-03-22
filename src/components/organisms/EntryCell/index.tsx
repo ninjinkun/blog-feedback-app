@@ -27,7 +27,7 @@ const EntryCell: React.FunctionComponent<Props> = ({ favicon, title, counts, url
         {counts.map((count) => (
           <AnimatedCountButton
             animate={count.animate}
-            key={count.type}
+            key={`${count.type}-${count.count}`}
             type={count.type}
             count={count.count}
             href={toServiceURL(count.type, url) || ''}
