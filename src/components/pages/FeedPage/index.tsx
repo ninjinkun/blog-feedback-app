@@ -21,7 +21,9 @@ type AnimateMap = Map<string, boolean>;
 
 const FeedPage: React.FC<RouteComponentProps<{ blogURL: string }>> = (props) => {
   let blogURL = decodeURIComponent(props.match.params.blogURL);
-
+  // On production, web browsers normalize the blog URLs without encoding.
+  // The URLs don't match React Router's path matching rules.
+  // So, the following code extracts the blog URL from `location`.
   if (!blogURL?.startsWith('http://') && !blogURL?.startsWith('https://')) {
     const matched = /^\/blogs\/(.+)$/.exec(props.location.pathname)?.[1];
     if (matched) {
