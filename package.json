@@ -36,12 +36,11 @@
     "xml-js": "^1.6.11"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build:production": "react-scripts build",
-    "build": "env-cmd -f .env.development react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "test:ci": "CI=true react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
+    "start": "react-app-rewired start",
+    "build:production": "react-app-rewired build",
+    "build": "env-cmd -f .env.development react-app-rewired build",
+    "test": "react-app-rewired test --env=jsdom",
+    "test:ci": "CI=true react-app-rewired test --env=jsdom",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "storybook:visual": "start-storybook -p 9001 -s ./build",
@@ -77,7 +76,9 @@
     "jest-junit": "^13.0.0",
     "lint-staged": "^12.1.7",
     "prettier": "^2.5.1",
+    "react-app-rewired": "^2.2.1",
     "react-docgen-typescript-webpack-plugin": "^1.1.0",
+    "stream-browserify": "^3.0.0",
     "typescript": "^4.5.4"
   },
   "browserslist": [
