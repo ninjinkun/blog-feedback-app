@@ -25,6 +25,7 @@ import PageLayout from '../../templates/PageLayout/index';
 import { UserState, fetchUser } from '../../../redux/slices/user';
 import { fetchFirebaseBlog } from '../../../redux/slices/feeds';
 import { SettingState, saveSetting, sendTestReportMail } from '../../../redux/slices/settings';
+import { canonicalize } from '../../../utils/canonicalize';
 
 type Props = RouteComponentProps<{ blogURL: string }>;
 
@@ -34,9 +35,9 @@ const SettingPage: React.FC<Props> = (props) => {
   // The URLs don't match React Router's path matching rules.
   // So, the following code extracts the blog URL from `location`.
   if (!blogURL?.startsWith('http://') && !blogURL?.startsWith('https://')) {
-    const matched = /^\/blogs\/(.+)$/.exec(props.location.pathname)?.[1];
+    const matched = /^\/settings\/(.+)$/.exec(props.location.pathname)?.[1];
     if (matched) {
-      blogURL = matched;
+      blogURL = canonicalize(matched);
     }
   }
 
