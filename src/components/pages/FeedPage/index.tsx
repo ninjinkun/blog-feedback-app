@@ -15,6 +15,7 @@ import EntryCell, { Count } from '../../organisms/EntryCell/index';
 import { colorsValue } from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 import { feedsSlice } from '../../../redux/slices/feeds';
+import { canonicalize } from '../../../utils/canonicalize';
 
 type CountMap = Map<string, number>;
 type AnimateMap = Map<string, boolean>;
@@ -27,7 +28,7 @@ const FeedPage: React.FC<RouteComponentProps<{ blogURL: string }>> = (props) => 
   if (!blogURL?.startsWith('http://') && !blogURL?.startsWith('https://')) {
     const matched = /^\/blogs\/(.+)$/.exec(props.location.pathname)?.[1];
     if (matched) {
-      blogURL = matched;
+      blogURL = canonicalize(matched);
     }
   }
 
