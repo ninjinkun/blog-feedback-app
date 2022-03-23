@@ -1204,7 +1204,7 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-email-templates@^8.0.10:
+email-templates@^8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/email-templates/-/email-templates-8.1.0.tgz#837fc3d4e2bc1b0ca7da9d8ceac5d9407d2a04ca"
   integrity sha512-TbUIfPrbMSqhVry6H9vt+BjjzKx2E9L0B2pSB25cZpMPP5DjP/KV3XCHN1mMnOc4iqVbhv5T7K2fcPuf5tYu8w==
