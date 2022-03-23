@@ -30,6 +30,8 @@ const FeedPage: React.FC<RouteComponentProps<{ blogURL: string }>> = (props) => 
       blogURL = matched;
     }
   }
+  console.log(blogURL);
+  console.log(props.location);
 
   const feed = useSelector<AppState, FeedState>((state) => state.feeds.feeds[blogURL]);
   const dispatch = useDispatch();
