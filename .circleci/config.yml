@@ -72,7 +72,7 @@ jobs:
 
   deploy_development:
     docker:
-      - image: circleci/node:16.11
+      - image: circleci/node:16.13
     working_directory: ~/repo
     steps:
       - attach_workspace:
@@ -83,7 +83,7 @@ jobs:
 
   deploy_production:
     docker:
-      - image: circleci/node:16.11
+      - image: circleci/node:16.13
     working_directory: ~/repo
     steps:
       - attach_workspace:
