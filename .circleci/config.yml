@@ -79,7 +79,7 @@ jobs:
           at: .
       - run: yarn build
       - run: yarn firebase deploy --project development
-      - run: yarn deploy-storybook -- --ci
+      - run: yarn deploy-storybook --ci
 
   deploy_production:
     docker:
