@@ -79,7 +79,11 @@ jobs:
           at: .
       - run: yarn build
       - run: yarn firebase deploy --project development
-      - run: yarn deploy-storybook --ci
+      - run: 
+        name: Deploy Storybook
+        command: yarn deploy-storybook --ci
+        environment: 
+          NODE_OPTIONS: --openssl-legacy-provider 
 
   deploy_production:
     docker:
