@@ -170,10 +170,10 @@
   resolved "https://registry.yarnpkg.com/@google-cloud/promisify/-/promisify-2.0.4.tgz#9d8705ecb2baa41b6b2673f3a8e9b7b7e1abc52a"
   integrity sha512-j8yRSSqswWi1QqUGKVEKOG03Q7qOoZP6/h2zN2YO+F5h2+DHU0bSrHCK9Y7lo2DI9fBd8qGAw795sf+3Jva4yA==
 
-"@google-cloud/pubsub@^2.19.0":
-  version "2.19.0"
-  resolved "https://registry.yarnpkg.com/@google-cloud/pubsub/-/pubsub-2.19.0.tgz#45541e66db9fbe9faa4f00e89a44f41954c6fc86"
-  integrity sha512-aNgaS7zI6MkE4hrhmxrGiyFZHPvb0BW1djk0D5RoKDwPb8GTuYBfu8w/3twTvaf+HiM7NchvPtdFRbiETIaadw==
+"@google-cloud/pubsub@^2.19.3":
+  version "2.19.3"
+  resolved "https://registry.yarnpkg.com/@google-cloud/pubsub/-/pubsub-2.19.3.tgz#2693640005d90549ccac4c725c0ea69364308be3"
+  integrity sha512-VUP+4vaKPrgy/9YzZHfZgR+9jnmmZe6ZwkWS8xVq5B5DdSJAYAEjKWuYcY9MQo9sNeyVAQCzTV6zzaS57vya0g==
   dependencies:
     "@google-cloud/paginator" "^3.0.6"
     "@google-cloud/precise-date" "^2.0.0"
@@ -186,7 +186,7 @@
     arrify "^2.0.0"
     extend "^3.0.2"
     google-auth-library "^7.0.0"
-    google-gax "2.29.6"
+    google-gax "2.30.2"
     is-stream-ended "^0.1.4"
     lodash.snakecase "^4.1.1"
     p-defer "^3.0.0"
@@ -223,10 +223,10 @@
   dependencies:
     "@types/node" ">=12.12.47"
 
-"@grpc/grpc-js@~1.5.0":
-  version "1.5.9"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.5.9.tgz#df44b3d6bc1d5eb4779aab96e00f6084fd07a3c8"
-  integrity sha512-un+cXqErq5P4p3+WgYVNVh7FB51MSnaoRef7QWDcMXKR6FX2R6Z/bltcJMxNNdTUMC85lkOQcpnAAetFziPSng==
+"@grpc/grpc-js@~1.6.0":
+  version "1.6.7"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.6.7.tgz#4c4fa998ff719fe859ac19fe977fdef097bb99aa"
+  integrity sha512-eBM03pu9hd3VqDQG+kHahiG1x80RGkkqqRb1Pchcwqej/KkAH95gAvKs6laqaHCycYaPK+TKuNQnOz9UXYA8qw==
   dependencies:
     "@grpc/proto-loader" "^0.6.4"
     "@types/node" ">=12.12.47"
@@ -1722,21 +1722,36 @@ google-auth-library@^7.0.0, google-auth-library@^7.6.1, google-auth-library@^7.9
     jws "^4.0.0"
     lru-cache "^6.0.0"
 
-google-gax@2.29.6:
-  version "2.29.6"
-  resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-2.29.6.tgz#ba049cf8cbe6d543908286b58648ac98bb1351e6"
-  integrity sha512-NsuGBpxOzvBS4rbaeicIpgZ1caU3vNcG04kJWb51rlcYJvzXwHgPof9w4UplR2WVqlFzLkDtEStQOKhS/QcLmA==
+google-auth-library@^7.14.0:
+  version "7.14.1"
+  resolved "https://registry.yarnpkg.com/google-auth-library/-/google-auth-library-7.14.1.tgz#e3483034162f24cc71b95c8a55a210008826213c"
+  integrity sha512-5Rk7iLNDFhFeBYc3s8l1CqzbEBcdhwR193RlD4vSNFajIcINKI8W8P0JLmBpwymHqqWbX34pJDQu39cSy/6RsA==
   dependencies:
-    "@grpc/grpc-js" "~1.5.0"
+    arrify "^2.0.0"
+    base64-js "^1.3.0"
+    ecdsa-sig-formatter "^1.0.11"
+    fast-text-encoding "^1.0.0"
+    gaxios "^4.0.0"
+    gcp-metadata "^4.2.0"
+    gtoken "^5.0.4"
+    jws "^4.0.0"
+    lru-cache "^6.0.0"
+
+google-gax@2.30.2:
+  version "2.30.2"
+  resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-2.30.2.tgz#ba16940bad5a116099547a5966fdf83f6c026356"
+  integrity sha512-BCNCT26kb0iC52zj2SosyOZMhI5sVfXuul1h0Aw5uT9nGAbmS5eOvQ49ft53ft6XotDj11sUSDV6XESEiQqCqg==
+  dependencies:
+    "@grpc/grpc-js" "~1.6.0"
     "@grpc/proto-loader" "^0.6.1"
     "@types/long" "^4.0.0"
     abort-controller "^3.0.0"
     duplexify "^4.0.0"
     fast-text-encoding "^1.0.3"
-    google-auth-library "^7.6.1"
+    google-auth-library "^7.14.0"
     is-stream-ended "^0.1.4"
     node-fetch "^2.6.1"
-    object-hash "^2.1.1"
+    object-hash "^3.0.0"
     proto3-json-serializer "^0.1.8"
     protobufjs "6.11.2"
     retry-request "^4.0.0"
@@ -2533,6 +2548,11 @@ object-hash@^2.1.1:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/object-hash/-/object-hash-2.2.0.tgz#5ad518581eefc443bd763472b8ff2e9c2c0d54a5"
   integrity sha512-gScRMn0bS5fH+IuwyIFgnh9zBdo4DV+6GhygmWM9HyNJSgS0hScp1f5vjtm7oIIOiT9trXrShAkLFSc2IqKNgw==
+
+object-hash@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/object-hash/-/object-hash-3.0.0.tgz#73f97f753e7baffc0e2cc9d6e079079744ac82e9"
+  integrity sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==
 
 object-inspect@^1.9.0:
   version "1.11.0"
