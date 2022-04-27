@@ -1,0 +1,20 @@
+{
+  "short_name": "Feedback",
+  "name": "BlogFeedback",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "rgba(0, 71, 132, 1)",
+  "background_color": "rgba(0, 71, 132, 1)",
+  "start_url": "/",
+  "display": "standalone"
+}
