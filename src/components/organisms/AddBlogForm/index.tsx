@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { MdError } from 'react-icons/md';
-import Toggle from 'react-toggle';
-import 'react-toggle/style.css';
+import Toggle from '../../atoms/Toggle/index';
 import styled from 'styled-components';
 import { PrimaryButton } from '../../atoms/Button';
 import Spinner from '../../atoms/Spinner/index';
@@ -54,9 +53,7 @@ const AddBlogForm: React.FC<Props> = (props) => {
           </ReportMailLabel>
           <Switch
             id="report-mail"
-            type="checkbox"
             defaultChecked={true}
-            icons={false}
             onChange={(e: React.FormEvent<HTMLInputElement>) =>
               setReportMailEnabled((e.target as HTMLInputElement).checked)
             }

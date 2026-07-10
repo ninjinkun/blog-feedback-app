@@ -10,7 +10,7 @@ export async function fetchFacebookCount(url: string): Promise<CountResponse> {
     `https://graph.facebook.com/?id=${encodeURIComponent(url)}&fields=og_object{engagement}`
   );
   const json = await response.json();
-  if (json.hasOwnProperty('og_object') && json.og_object.hasOwnProperty('engagement')) {
+  if (Object.hasOwn(json, 'og_object') && Object.hasOwn(json.og_object, 'engagement')) {
     return { url: json.id, count: json.og_object.engagement.count, type: CountType.Facebook };
   } else {
     return { url: json.id, count: 0, type: CountType.Facebook };

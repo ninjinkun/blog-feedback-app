@@ -1,5 +1,5 @@
 import React from 'react';
-import { animated } from 'react-spring';
+import { animated } from '@react-spring/web';
 import styled from 'styled-components';
 import { CountType } from '../../../models/consts/count-type';
 import { AnkerButton } from '../../atoms/Button';
@@ -13,7 +13,7 @@ type Props = {
   count?: number;
 };
 
-const CountButton: React.FunctionComponent<Props> = ({ count, type, children, href, ...props }) => (
+const CountButton: React.FC<React.PropsWithChildren<Props>> = ({ count, type, children, href, ...props }) => (
   <StyledButton href={href} {...props}>
     <ServiceIcon type={type} />
     {count !== undefined ? <CuontLabel>{count}</CuontLabel> : <UndefinedCuontLabel>-</UndefinedCuontLabel>}

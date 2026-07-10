@@ -1,11 +1,16 @@
 import 'normalize.css';
-import React from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import App from './App';
-import { register } from './serviceWorker';
 
-// App registration and rendering
-render(<App />, document.getElementById('root'));
+createRoot(document.getElementById('root')!).render(<App />);
 
-register();
+// The previous CRA build registered a cache-first service worker.
+// Unregister it so existing clients pick up new deploys immediately.
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    for (const registration of registrations) {
+      registration.unregister();
+    }
+  });
+}

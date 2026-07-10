@@ -1,12 +1,12 @@
-import { getAuth } from '@firebase/auth';
+import { getAuth } from 'firebase/auth';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { FiGithub } from 'react-icons/fi';
 import { MdAssignment, MdAssignmentInd, MdLaunch } from 'react-icons/md';
-import { useDispatch, useSelector } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../../redux/hooks';
+import { Link } from 'react-router';
 import { signOut } from '../../../redux/slices/user';
 import { AppState } from '../../../redux/app-reducer';
 import { BlogState, fetchBlogs } from '../../../redux/slices/blog';
@@ -20,10 +20,10 @@ import SectionHeader from '../../organisms/SettingSectionHeader/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
-const SettingsPage: React.FC<RouteComponentProps> = () => {
+const SettingsPage: React.FC = () => {
   const blogState = useSelector<AppState, BlogState>((state) => state.blog);
   const { blogs, loading } = blogState;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchBlogs(getAuth()));

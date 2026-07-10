@@ -1,7 +1,11 @@
-## Compiled JavaScript files
-**/*.js
-**/*.js.map
+# Compiled JavaScript files
+build/**/*.js
+build/**/*.js.map
+lib/
 
 # Typescript v1 declaration files
 typings/
+
 .runtimeconfig.json
+.env
+.DS_Store

@@ -1,5 +1,4 @@
-import { storiesOf } from '@storybook/react';
-import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import styled from 'styled-components';
 import BlogCell from './index';
 
@@ -11,8 +10,21 @@ const Background = styled.div`
   width: 100%;
 `;
 
-storiesOf('organisms/BlogCell', module).add('default', () => (
-  <Background>
-    <BlogCell favicon={favicon} title={'一休.com Developers Blog'} />
-  </Background>
-));
+const meta = {
+  title: 'organisms/BlogCell',
+  component: BlogCell,
+  decorators: [
+    (Story) => (
+      <Background>
+        <Story />
+      </Background>
+    ),
+  ],
+} satisfies Meta<typeof BlogCell>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: { favicon, title: '一休.com Developers Blog' },
+};

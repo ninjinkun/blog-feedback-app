@@ -1,5 +1,4 @@
-import { storiesOf } from '@storybook/react';
-import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import styled from 'styled-components';
 import { CountType } from '../../../models/consts/count-type';
 import EntryCell from './index';
@@ -19,14 +18,25 @@ const Background = styled.div`
   width: 100%;
 `;
 
-storiesOf('organisms/EntryCell', module)
-  .add('default', () => (
-    <Background>
-      <EntryCell favicon={favicon} title={'一休のDB移行'} counts={counts} url={''} />
-    </Background>
-  ))
-  .add('animate', () => (
-    <Background>
-      <EntryCell favicon={favicon} title={'一休のDB移行'} counts={counts} url={''} />
-    </Background>
-  ));
+const meta = {
+  title: 'organisms/EntryCell',
+  component: EntryCell,
+  decorators: [
+    (Story) => (
+      <Background>
+        <Story />
+      </Background>
+    ),
+  ],
+} satisfies Meta<typeof EntryCell>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: { favicon, title: '一休のDB移行', counts, url: '' },
+};
+
+export const Animate: Story = {
+  args: { favicon, title: '一休のDB移行', counts, url: '' },
+};

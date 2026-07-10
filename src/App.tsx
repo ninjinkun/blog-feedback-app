@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router';
 
 import { GlobalStyle } from './components/base-style';
 import ScrollToTop from './components/templates/ScrollToTop/index';
@@ -18,36 +18,38 @@ import SettingPage from './components/pages/SettingPage/index';
 import SettingsPage from './components/pages/SettingsPage/index';
 import SignInPage from './components/pages/SignInPage/index';
 import TermPage from './components/pages/TermPage/index';
-import { initializeGoogleAnalytics } from './ga';
-import withTracker from './withTracker';
+import { initializeGoogleAnalytics, usePageTracking } from './ga';
 
 initializeFirebase();
 initializeGoogleAnalytics();
+
+const PageTracker = () => {
+  usePageTracking();
+  return null;
+};
 
 const App = () => (
   <React.Fragment>
     <GlobalStyle />
     <Provider store={appStore}>
       <SmartphoneLayout>
-        <Router>
-          <ScrollToTop>
-            <Switch>
-              <Route exact path="/" component={withTracker(IndexPage)} />
-              <Route exact path="/signin" component={withTracker(SignInPage)} />
-              <Route exact path="/term" component={withTracker(TermPage)} />
-              <Route exact path="/privacy" component={withTracker(PrivacyPage)} />
-              <AuthPage>
-                <Switch>
-                  <Route exact path="/add" component={withTracker(AddBlogPage)} />
-                  <Route exact path="/blogs" component={withTracker(BlogsPage)} />
-                  <Route path="/blogs/:blogURL" component={withTracker(FeedPage)} />
-                  <Route exact path="/settings" component={withTracker(SettingsPage)} />
-                  <Route path="/settings/:blogURL" component={withTracker(SettingPage)} />
-                </Switch>
-              </AuthPage>
-            </Switch>
-          </ScrollToTop>
-        </Router>
+        <BrowserRouter>
+          <ScrollToTop />
+          <PageTracker />
+          <Routes>
+            <Route path="/" element={<IndexPage />} />
+            <Route path="/signin" element={<SignInPage />} />
+            <Route path="/term" element={<TermPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route element={<AuthPage />}>
+              <Route path="/add" element={<AddBlogPage />} />
+              <Route path="/blogs" element={<BlogsPage />} />
+              <Route path="/blogs/:blogURL" element={<FeedPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/settings/:blogURL" element={<SettingPage />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
       </SmartphoneLayout>
     </Provider>
   </React.Fragment>

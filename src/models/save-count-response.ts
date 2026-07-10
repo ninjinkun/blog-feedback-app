@@ -1,5 +1,5 @@
-import { User } from '@firebase/auth';
-import { Timestamp } from '@firebase/firestore';
+import { User } from 'firebase/auth';
+import { Timestamp } from 'firebase/firestore';
 import { CountType } from './consts/count-type';
 import { CountEntity, ItemEntity } from './entities';
 import { serverTimestamp, writeBatch } from './repositories/app-repository';

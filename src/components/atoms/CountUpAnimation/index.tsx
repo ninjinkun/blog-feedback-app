@@ -1,5 +1,5 @@
 import React from 'react';
-import { animated, useSpring } from 'react-spring';
+import { animated, useSpring } from '@react-spring/web';
 
 type ChildRenderer = (count: number) => React.ReactNode;
 
@@ -9,13 +9,13 @@ type Props = {
   children: ChildRenderer;
 };
 
-const CountUp: React.FunctionComponent<Props> = ({ children, start, end, ...props }) => {
-  const style = useSpring<{ value: number }>({
+const CountUp: React.FunctionComponent<Props> = ({ children, start, end }) => {
+  const { value } = useSpring({
     from: { value: start },
     value: end,
-    config: { duration: 500, easing: (t) => t },
+    config: { duration: 500, easing: (t: number) => t },
   });
-  return <animated.div>{children && children(style.value.interpolate((v) => Math.round(v)))}</animated.div>;
+  return <animated.div>{children && children(value.to((v) => Math.round(v)) as unknown as number)}</animated.div>;
 };
 
 export default CountUp;

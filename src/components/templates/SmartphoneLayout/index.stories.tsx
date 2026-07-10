@@ -1,5 +1,14 @@
-import { storiesOf } from '@storybook/react';
-import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import SmartphoneLayout from './index';
 
-storiesOf('templates/SmartphoneLayout', module).add('default', () => <SmartphoneLayout>brabrabra</SmartphoneLayout>);
+const meta = {
+  title: 'templates/SmartphoneLayout',
+  component: SmartphoneLayout,
+} satisfies Meta<typeof SmartphoneLayout>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  render: () => <SmartphoneLayout>brabrabra</SmartphoneLayout>,
+};

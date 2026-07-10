@@ -1,7 +1,8 @@
-import { getAuth } from '@firebase/auth';
+import { getAuth } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, RouteComponentProps } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../../redux/hooks';
+import { Navigate } from 'react-router';
 import styled from 'styled-components';
 import { AddBlogState, addBlogSlice, addBlog } from '../../../redux/slices/add-blog';
 import { AppState } from '../../../redux/app-reducer';
@@ -16,11 +17,11 @@ type States = {
   fillInURL?: string;
 };
 
-const AddBlogPage: React.FC<RouteComponentProps> = () => {
+const AddBlogPage: React.FC = () => {
   const [state, setState] = useState<States>({});
   const addBlogState = useSelector<AppState, AddBlogState>((state) => state.addBlog);
   const blogState = useSelector<AppState, BlogState>((state) => state.blog);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     return () => {
@@ -43,7 +44,7 @@ const AddBlogPage: React.FC<RouteComponentProps> = () => {
   const { loading, error, finished, blogURL } = addBlogState;
   const { blogs } = blogState;
   if (finished && blogURL) {
-    return <Redirect to={`/blogs/${encodeURIComponent(blogURL)}`} />;
+    return <Navigate to={`/blogs/${encodeURIComponent(blogURL)}`} replace />;
   } else {
     return (
       <PageLayout

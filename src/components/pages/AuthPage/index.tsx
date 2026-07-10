@@ -1,17 +1,17 @@
-import { getAuth } from '@firebase/auth';
-import React, { Fragment, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
-import { UserState, fetchUser } from '../../../redux/slices/user';
+import { getAuth } from 'firebase/auth';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../../redux/hooks';
+import { Navigate, Outlet, useLocation } from 'react-router';
 import { AppState } from '../../../redux/app-reducer';
+import { UserState, fetchUser } from '../../../redux/slices/user';
 import LoadingView from '../../molecules/LoadingView/index';
 import PageLayout from '../../templates/PageLayout/index';
 
-const AuthPage: React.FC<RouteComponentProps> = (props) => {
+const AuthPage: React.FC = () => {
   const userState = useSelector<AppState, UserState>((state) => state.user);
-  const dispatch = useDispatch();
-
-  const { children, location } = props;
+  const dispatch = useAppDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(fetchUser(getAuth()));
@@ -20,7 +20,7 @@ const AuthPage: React.FC<RouteComponentProps> = (props) => {
 
   const { user, loading } = userState;
   if (user) {
-    return <Fragment>{children}</Fragment>;
+    return <Outlet />;
   } else if (loading) {
     return (
       <PageLayout
@@ -32,8 +32,8 @@ const AuthPage: React.FC<RouteComponentProps> = (props) => {
       </PageLayout>
     );
   } else {
-    return <Redirect to={{ pathname: '/signin', state: { from: location } }} />;
+    return <Navigate to="/signin" state={{ from: location }} replace />;
   }
 };
 
-export default withRouter(AuthPage);
+export default AuthPage;

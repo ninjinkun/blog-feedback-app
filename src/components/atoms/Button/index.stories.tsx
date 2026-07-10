@@ -1,8 +1,22 @@
-import { storiesOf } from '@storybook/react';
-import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Button, { PrimaryButton, WarningButton } from './index';
 
-storiesOf('atoms/Button', module)
-  .add('デフォルト', () => <Button>デフォルト</Button>)
-  .add('プライマリ', () => <PrimaryButton>プライマリ</PrimaryButton>)
-  .add('警告', () => <WarningButton>警告</WarningButton>);
+const meta = {
+  title: 'atoms/Button',
+  component: Button,
+} satisfies Meta<typeof Button>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  render: () => <Button>デフォルト</Button>,
+};
+
+export const Primary: Story = {
+  render: () => <PrimaryButton>プライマリ</PrimaryButton>,
+};
+
+export const Warning: Story = {
+  render: () => <WarningButton>警告</WarningButton>,
+};

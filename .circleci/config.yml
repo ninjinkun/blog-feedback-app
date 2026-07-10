@@ -1,64 +1,63 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
-version: 2
+version: 2.1
+
 jobs:
   build:
     docker:
-      - image: cimg/openjdk:17.0.0-node
+      # Node.js + JDK (JDK 21+ is required by the Firestore emulator)
+      - image: cimg/openjdk:21.0-node
 
     working_directory: ~/repo
 
     steps:
       - checkout
 
-      # Download and cache dependencies
       - restore_cache:
           keys:
-          - v2-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v2-dependencies-
+            - v3-dependencies-{{ checksum "package-lock.json" }}
+            - v3-dependencies-
 
-      - run: yarn install
+      - run: npm ci
 
       - save_cache:
           paths:
-            - node_modules
-            - ~/.cache
-          key: v2-dependencies-{{ checksum "package.json" }}
+            - ~/.npm
+          key: v3-dependencies-{{ checksum "package-lock.json" }}
 
       - restore_cache:
           keys:
-          - v2-dependencies-functions-{{ checksum "functions/package.json" }}
-          - v2-dependencies-functions-
+            - v3-dependencies-functions-{{ checksum "functions/package-lock.json" }}
+            - v3-dependencies-functions-
 
-      - run: cd functions && yarn install && cd ..
+      - run:
+          command: npm ci
+          working_directory: functions
 
       - save_cache:
           paths:
             - functions/node_modules
-          key: v2-dependencies-functions-{{ checksum "functions/package.json" }}
+          key: v3-dependencies-functions-{{ checksum "functions/package-lock.json" }}
 
-
-      # run tests!
-      - run: yarn eslint
-      - run: yarn test:compile
+      # lint & typecheck
+      - run: npm run eslint
+      - run: npm run typecheck
       - run:
-          command: yarn test:compile
+          command: npm run eslint && npm run typecheck && npm run build
           working_directory: functions
-      - run: yarn firebase use development
-      - run: cd functions && yarn build && cd ..
-      - run: yarn firebase setup:emulators:firestore && yarn firebase setup:emulators:ui
+
+      # run tests against the Firestore emulator
+      - run: npx firebase setup:emulators:firestore
       - run:
-          command: yarn firebase emulators:start --only firestore,functions
+          command: npx firebase emulators:start --only firestore --project firestore-emulator-example
           background: true
-      - run: dockerize -wait tcp://localhost:8080 -timeout 1m
       - run:
-          name: Run tests with JUnit as reporter
-          command: yarn test:ci --runInBand --reporters=default --reporters=jest-junit
-          environment:
-            JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
+          name: Wait for Firestore emulator
+          command: |
+            for i in $(seq 1 60); do
+              nc -z localhost 8080 && exit 0
+              sleep 1
+            done
+            echo "Firestore emulator did not start" && exit 1
+      - run: npm run test:ci
 
       - store_test_results:
           path: ./reports/junit/
@@ -72,31 +71,25 @@ jobs:
 
   deploy_development:
     docker:
-      - image: circleci/node:17.2
+      - image: cimg/node:22.14
     working_directory: ~/repo
     steps:
       - attach_workspace:
           at: .
-      - run: yarn build
-      - run: yarn firebase deploy --project development
-      - run: 
-          name: Deploy Storybook
-          command: yarn deploy-storybook --ci
-          environment: 
-            NODE_OPTIONS: --openssl-legacy-provider 
+      - run: npm run build
+      - run: npx firebase deploy --project development
 
   deploy_production:
     docker:
-      - image: circleci/node:17.2
+      - image: cimg/node:22.14
     working_directory: ~/repo
     steps:
       - attach_workspace:
           at: .
-      - run: yarn build:production
-      - run: yarn firebase deploy --project production
+      - run: npm run build:production
+      - run: npx firebase deploy --project production
 
 workflows:
-  version: 2
   test_and_deploy:
     jobs:
       - build:
@@ -122,4 +115,3 @@ workflows:
           filters:
             branches:
               only: master
-

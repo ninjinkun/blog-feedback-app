@@ -1,5 +1,12 @@
-import { storiesOf } from '@storybook/react';
-import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import WelcomePage from './index';
 
-storiesOf('pages/WelcomePage', module).add('defalu', () => <WelcomePage />);
+const meta = {
+  title: 'pages/WelcomePage',
+  component: WelcomePage,
+} satisfies Meta<typeof WelcomePage>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};

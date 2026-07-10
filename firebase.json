@@ -33,5 +33,10 @@
       "npm --prefix \"$RESOURCE_DIR\" run eslint",
       "npm --prefix \"$RESOURCE_DIR\" run build"
     ]
+  },
+  "emulators": {
+    "firestore": {
+      "port": 8080
+    }
   }
 }

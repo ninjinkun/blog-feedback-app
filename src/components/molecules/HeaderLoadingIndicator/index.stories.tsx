@@ -1,4 +1,4 @@
-import { storiesOf } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import HeaederLoadingIndicator from './index';
@@ -37,7 +37,7 @@ const initialItems = [
   },
 ];
 
-const Test: React.FC = (props) => {
+const Test: React.FC = () => {
   const [index, setIndex] = useState<number>(0);
   const [item, setItems] = useState<Item>(initialItems[index]);
 
@@ -53,8 +53,19 @@ const Test: React.FC = (props) => {
   );
 };
 
-storiesOf('molecules/HeaederLoadingIndicator', module).add('default', () => <Test />);
-
 const Wrapper = styled.div`
   width: 100%;
 `;
+
+const meta = {
+  title: 'molecules/HeaederLoadingIndicator',
+  component: HeaederLoadingIndicator,
+} satisfies Meta<typeof HeaederLoadingIndicator>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: { loading: false },
+  render: () => <Test />,
+};

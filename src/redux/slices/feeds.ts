@@ -1,4 +1,4 @@
-import { Auth } from '@firebase/auth';
+import { Auth } from 'firebase/auth';
 
 import { createSlice, PayloadAction, createNextState, ThunkAction } from '@reduxjs/toolkit';
 import { BlogEntity, ItemEntity, Services } from '../../models/entities';
@@ -209,15 +209,10 @@ function updateFeed(blogURL: string, state: FeedsState, newFeed: Partial<FeedSta
   });
 }
 
-type TA = ThunkAction<void, FeedState, undefined, any>;
+type TA = ThunkAction<void, unknown, undefined, any>;
 export function fetchFirebaseBlog(auth: Auth, blogURL: string): TA {
   return async (dispatch) => {
-    let user;
-    try {
-      user = await currenUserOronAuthStateChanged(auth);
-    } catch (e) {
-      throw e;
-    }
+    const user = await currenUserOronAuthStateChanged(auth);
     try {
       dispatch(feedsSlice.actions.firebaseBlogRequest(blogURL));
       const blogEntity = await findBlog(user.uid, blogURL);

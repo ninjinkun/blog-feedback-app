@@ -1,10 +1,19 @@
-import { storiesOf } from '@storybook/react';
-import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { MemoryRouter } from 'react-router';
 import TermPage from './index';
 
-storiesOf('pages/TermPage', module).add('defalut', () => (
-  <Router>
-    <Route component={TermPage} />
-  </Router>
-));
+const meta = {
+  title: 'pages/TermPage',
+  component: TermPage,
+} satisfies Meta<typeof TermPage>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  render: () => (
+    <MemoryRouter>
+      <TermPage />
+    </MemoryRouter>
+  ),
+};

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import * as properties from '../../properties';
 
-const SmartphoneLayout: React.FunctionComponent<{}> = ({ children, ...props }) => (
+const SmartphoneLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
   <Background>
     <Content>{children}</Content>
   </Background>
