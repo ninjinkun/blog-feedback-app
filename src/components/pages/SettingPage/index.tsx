@@ -1,12 +1,13 @@
-import { getAuth } from '@firebase/auth';
+import { getAuth } from 'firebase/auth';
 import { clone } from 'lodash';
 import React, { useEffect } from 'react';
 import { MdMailOutline } from 'react-icons/md';
-import { useSelector, useDispatch } from 'react-redux';
-import { Redirect, RouteComponentProps } from 'react-router';
-import Toggle from 'react-toggle';
-import 'react-toggle/style.css';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../../redux/hooks';
+import { Navigate, useLocation, useParams } from 'react-router';
+import Toggle from '../../atoms/Toggle/index';
 import styled from 'styled-components';
+import twitterIcon from '../../../assets/images/twitter-icon.png';
 import { CountType } from '../../../models/consts/count-type';
 import { AppState } from '../../../redux/app-reducer';
 import { DeleteBlogState, deleteBlogSlice, deleteBlog } from '../../../redux/slices/delete-blog';
@@ -27,15 +28,15 @@ import { fetchFirebaseBlog } from '../../../redux/slices/feeds';
 import { SettingState, saveSetting, sendTestReportMail } from '../../../redux/slices/settings';
 import { canonicalize } from '../../../utils/canonicalize';
 
-type Props = RouteComponentProps<{ blogURL: string }>;
-
-const SettingPage: React.FC<Props> = (props) => {
-  let blogURL = decodeURIComponent(props.match.params.blogURL);
+const SettingPage: React.FC = () => {
+  const params = useParams<{ blogURL: string }>();
+  const location = useLocation();
+  let blogURL = decodeURIComponent(params.blogURL ?? '');
   // On production, web browsers normalize the blog URLs without encoding.
   // The URLs don't match React Router's path matching rules.
   // So, the following code extracts the blog URL from `location`.
   if (!blogURL?.startsWith('http://') && !blogURL?.startsWith('https://')) {
-    const matched = /^\/settings\/(.+)$/.exec(props.location.pathname)?.[1];
+    const matched = /^\/settings\/(.+)$/.exec(location.pathname)?.[1];
     if (matched) {
       blogURL = canonicalize(matched);
     }
@@ -45,7 +46,7 @@ const SettingPage: React.FC<Props> = (props) => {
   const feedState = useSelector<AppState, FeedState>((state) => state.feeds.feeds[blogURL]);
   const settingState = useSelector<AppState, SettingState>((state) => state.settings.settings[blogURL]);
   const deleteBlogState = useSelector<AppState, DeleteBlogState>((state) => state.deleteBlog);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(deleteBlogSlice.actions.reset());
@@ -95,7 +96,7 @@ const SettingPage: React.FC<Props> = (props) => {
   };
 
   if (deleteBlogState.finished) {
-    return <Redirect to={'/settings'} />;
+    return <Navigate to={'/settings'} replace />;
   } else {
     return (
       <PageLayout
@@ -110,11 +111,9 @@ const SettingPage: React.FC<Props> = (props) => {
             <SettingCell
               title="Twitter"
               description={<Description>Count APIが廃止されたため、現在シェア数は表示されません。</Description>}
-              LeftIcon={<Favicon src={require('../../../assets/images/twitter-icon.png')} />}
+              LeftIcon={<Favicon src={twitterIcon} />}
               RightIcon={
                 <Toggle
-                  type="checkbox"
-                  icons={false}
                   defaultChecked={feedState && feedState.services && feedState.services.twitter}
                   onChange={(e: React.FormEvent<HTMLInputElement>) =>
                     enableCountType((e.target as HTMLInputElement).checked, CountType.Twitter)
@@ -139,8 +138,6 @@ const SettingPage: React.FC<Props> = (props) => {
               LeftIcon={<Favicon src="/images/twitter-icon.png" />}
               RightIcon={
                 <Toggle
-                  type="checkbox"
-                  icons={false}
                   defaultChecked={feedState && feedState.services && feedState.services.countjsoon}
                   onChange={(e: React.FormEvent<HTMLInputElement>) =>
                     enableCountType((e.target as HTMLInputElement).checked, CountType.CountJsoon)
@@ -153,8 +150,6 @@ const SettingPage: React.FC<Props> = (props) => {
               LeftIcon={<Favicon src="/images/facebook-icon.png" />}
               RightIcon={
                 <Toggle
-                  type="checkbox"
-                  icons={false}
                   defaultChecked={feedState && feedState.services && feedState.services.facebook}
                   onChange={(e: React.FormEvent<HTMLInputElement>) =>
                     enableCountType((e.target as HTMLInputElement).checked, CountType.Facebook)
@@ -167,8 +162,6 @@ const SettingPage: React.FC<Props> = (props) => {
               LeftIcon={<Favicon src="/images/hatenabookmark-icon.png" />}
               RightIcon={
                 <Toggle
-                  type="checkbox"
-                  icons={false}
                   defaultChecked={feedState && feedState.services && feedState.services.hatenabookmark}
                   onChange={(e: React.FormEvent<HTMLInputElement>) =>
                     enableCountType((e.target as HTMLInputElement).checked, CountType.HatenaBookmark)
@@ -181,8 +174,6 @@ const SettingPage: React.FC<Props> = (props) => {
               LeftIcon={<Favicon src="/images/hatenastar-icon.png" />}
               RightIcon={
                 <Toggle
-                  type="checkbox"
-                  icons={false}
                   defaultChecked={feedState && feedState.services && feedState.services.hatenastar}
                   onChange={(e: React.FormEvent<HTMLInputElement>) =>
                     enableCountType((e.target as HTMLInputElement).checked, CountType.HatenaStar)
@@ -195,8 +186,6 @@ const SettingPage: React.FC<Props> = (props) => {
               LeftIcon={<Favicon src="/images/pocket-icon.png" />}
               RightIcon={
                 <Toggle
-                  type="checkbox"
-                  icons={false}
                   defaultChecked={feedState && feedState.services && feedState.services.pocket}
                   onChange={(e: React.FormEvent<HTMLInputElement>) =>
                     enableCountType((e.target as HTMLInputElement).checked, CountType.Pocket)
@@ -225,9 +214,7 @@ const SettingPage: React.FC<Props> = (props) => {
               LeftIcon={<MdMailOutline size="16" />}
               RightIcon={
                 <Toggle
-                  type="checkbox"
                   defaultChecked={feedState && feedState.sendReport}
-                  icons={false}
                   onChange={(e: React.FormEvent<HTMLInputElement>) =>
                     enableSendReport((e.target as HTMLInputElement).checked)
                   }

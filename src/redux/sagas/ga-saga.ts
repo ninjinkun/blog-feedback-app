@@ -1,4 +1,4 @@
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 import { takeLatest } from 'redux-saga/effects';
 import { userSlice } from '../slices/user';
 

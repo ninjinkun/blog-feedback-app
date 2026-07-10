@@ -1,9 +1,10 @@
-import { getAuth } from '@firebase/auth';
+import { getAuth } from 'firebase/auth';
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../../redux/hooks';
 import styled from 'styled-components';
 
-import { RouteComponentProps } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import { CountType } from '../../../models/consts/count-type';
 import { CountEntity, ItemEntity } from '../../../models/entities';
 import { CountResponse, ItemResponse } from '../../../models/responses';
@@ -20,22 +21,22 @@ import { canonicalize } from '../../../utils/canonicalize';
 type CountMap = Map<string, number>;
 type AnimateMap = Map<string, boolean>;
 
-const FeedPage: React.FC<RouteComponentProps<{ blogURL: string }>> = (props) => {
-  let blogURL = decodeURIComponent(props.match.params.blogURL);
+const FeedPage: React.FC = () => {
+  const params = useParams<{ blogURL: string }>();
+  const location = useLocation();
+  let blogURL = decodeURIComponent(params.blogURL ?? '');
   // On production, web browsers normalize the blog URLs without encoding.
   // The URLs don't match React Router's path matching rules.
   // So, the following code extracts the blog URL from `location`.
   if (!blogURL?.startsWith('http://') && !blogURL?.startsWith('https://')) {
-    const matched = /^\/blogs\/(.+)$/.exec(props.location.pathname)?.[1];
+    const matched = /^\/blogs\/(.+)$/.exec(location.pathname)?.[1];
     if (matched) {
       blogURL = canonicalize(matched);
     }
   }
-  console.log(blogURL);
-  console.log(props.location);
 
   const feed = useSelector<AppState, FeedState>((state) => state.feeds.feeds[blogURL]);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(feedsSlice.actions.changeBlogURL(blogURL));
@@ -99,8 +100,8 @@ const FeedPage: React.FC<RouteComponentProps<{ blogURL: string }>> = (props) => 
             fethcedEntities && fethcedEntities.length
               ? fethcedEntities
               : firebaseEntities && firebaseEntities.length
-              ? firebaseEntities
-              : [];
+                ? firebaseEntities
+                : [];
 
           return (
             <StyledScrollView>

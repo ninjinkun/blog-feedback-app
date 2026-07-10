@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import * as properties from '../../properties';
 
-const PlainCell: React.FunctionComponent = ({ children, ...props }) => (
+const PlainCell: React.FC<React.PropsWithChildren> = ({ children, ...props }) => (
   <CellWrapper {...props}>
     <ContentWrapper>{children}</ContentWrapper>
     <Underline />

@@ -1,4 +1,4 @@
-import { Auth } from '@firebase/auth';
+import { Auth } from 'firebase/auth';
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { currenUserOronAuthStateChanged } from './user';
 import { BlogResponse, FeedResponse } from '../../models/responses';
@@ -45,7 +45,7 @@ export const addBlogSlice = createSlice({
   },
 });
 
-export type AddBlogThunkAction = ThunkAction<void, AddBlogState, undefined, any>;
+export type AddBlogThunkAction = ThunkAction<void, unknown, undefined, any>;
 export function addBlog(auth: Auth, blogURL: string, reportMailEnabled: boolean): AddBlogThunkAction {
   return async (dispatch) => {
     const user = await currenUserOronAuthStateChanged(auth);

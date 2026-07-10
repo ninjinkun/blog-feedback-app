@@ -208,7 +208,6 @@ function sendDailyReportMail(
   items: Item[],
   updatedCounts: number,
   sendForce = false
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<void> {
   const email = new EmailTemplate({
     message: {

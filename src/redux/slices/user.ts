@@ -1,5 +1,5 @@
 import { createSlice, ThunkAction, PayloadAction } from '@reduxjs/toolkit';
-import { User, Auth } from '@firebase/auth';
+import { User, Auth } from 'firebase/auth';
 
 export type UserState = {
   user?: User;
@@ -33,7 +33,7 @@ export const userSlice = createSlice({
   },
 });
 
-export function fetchUser(auth: Auth): ThunkAction<void, UserState, undefined, any> {
+export function fetchUser(auth: Auth): ThunkAction<void, unknown, undefined, any> {
   return async (dispatch) => {
     try {
       dispatch(userSlice.actions.firebaseUserRequest());
@@ -68,7 +68,7 @@ export async function currenUserOronAuthStateChanged(auth: Auth): Promise<User> 
   }
 }
 
-export function signOut(auth: Auth): ThunkAction<void, UserState, undefined, any> {
+export function signOut(auth: Auth): ThunkAction<void, unknown, undefined, any> {
   return async (dispatch) => {
     try {
       dispatch(userSlice.actions.firebaseSignoutRequest());

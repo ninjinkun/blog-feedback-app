@@ -1,10 +1,9 @@
-import React from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { MdArrowBack, MdSettings } from 'react-icons/md';
 import styled from 'styled-components';
 import * as properties from '../../properties';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import HeaderLoadingIndicator from '../../molecules/HeaderLoadingIndicator/index';
 
 export type HeaderProps = {

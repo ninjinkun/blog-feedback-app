@@ -1,17 +1,18 @@
-import { getAuth } from '@firebase/auth';
+import { getAuth } from 'firebase/auth';
 import React, { useEffect } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, RouteComponentProps } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../../redux/hooks';
+import { Navigate } from 'react-router';
 import { AppState } from '../../../redux/app-reducer';
 import { UserState, fetchUser } from '../../../redux/slices/user';
 import LoadingView from '../../molecules/LoadingView/index';
 import PageLayout from '../../templates/PageLayout/index';
 import WelcomePage from '../WelcomePage/index';
 
-const IndexPage: React.FC<RouteComponentProps> = () => {
+const IndexPage: React.FC = () => {
   const user = useSelector<AppState, UserState>((state) => state.user);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchUser(getAuth()));
     return () => undefined;
@@ -29,7 +30,7 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
       </PageLayout>
     );
   } else if (userData) {
-    return <Redirect to="/blogs" />;
+    return <Navigate to="/blogs" replace />;
   } else {
     return <WelcomePage />;
   }

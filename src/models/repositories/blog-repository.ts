@@ -1,27 +1,34 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
+import {
+  CollectionReference,
+  DocumentReference,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+} from 'firebase/firestore';
 
 import { BlogEntity } from './../entities';
 import { serverTimestamp } from './app-repository';
 import { userRef } from './user-repository';
 
-export async function findAllBlogs(userId: string): Promise<BlogEntity[]> {
-  const snapshot = await userRef(userId).collection('blogs').get();
-
-  const items = snapshot.docs
-    .map((i: firebase.firestore.DocumentSnapshot) => i.data())
-    .filter((i) => i !== undefined) as firebase.firestore.DocumentData[];
-
-  return items as BlogEntity[];
+function blogsRef(userId: string): CollectionReference {
+  return collection(userRef(userId), 'blogs');
 }
 
-export function blogRef(userId: string, blogUrl: string): firebase.firestore.DocumentReference {
-  return userRef(userId).collection('blogs').doc(encodeURIComponent(blogUrl));
+export async function findAllBlogs(userId: string): Promise<BlogEntity[]> {
+  const snapshot = await getDocs(blogsRef(userId));
+
+  return snapshot.docs.map((i) => i.data()).filter((i) => i !== undefined) as BlogEntity[];
+}
+
+export function blogRef(userId: string, blogUrl: string): DocumentReference {
+  return doc(blogsRef(userId), encodeURIComponent(blogUrl));
 }
 
 export async function findBlog(userId: string, blogUrl: string): Promise<BlogEntity> {
-  const snapshot = await blogRef(userId, blogUrl).get();
+  const snapshot = await getDoc(blogRef(userId, blogUrl));
   const entity = snapshot.data() as BlogEntity;
   const needsServicesBackwardCompat = !entity.services;
   if (needsServicesBackwardCompat) {
@@ -54,7 +61,7 @@ export function saveBlog(
   hatenaStarEnabled: boolean,
   pocketEnabled: boolean
 ): Promise<void> {
-  return blogRef(userId, blogURL).set({
+  return setDoc(blogRef(userId, blogURL), {
     title: blogTitle,
     url: blogURL,
     feedURL,
@@ -83,7 +90,8 @@ export function saveBlogSetting(
   hatenaStarEnabled: boolean,
   pocketEnabled: boolean
 ) {
-  return blogRef(userId, blogURL).set(
+  return setDoc(
+    blogRef(userId, blogURL),
     {
       timestamp: serverTimestamp(),
       sendReport: reportEnabled,
@@ -101,5 +109,5 @@ export function saveBlogSetting(
 }
 
 export function deleteBlog(userId: string, blogURL: string): Promise<void> {
-  return blogRef(userId, blogURL).delete();
+  return deleteDoc(blogRef(userId, blogURL));
 }

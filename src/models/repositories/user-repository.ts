@@ -1,8 +1,7 @@
-import { db } from './app-repository';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
+import { DocumentReference, doc } from 'firebase/firestore';
 
-export function userRef(userId: string): firebase.firestore.DocumentReference {
-  return db().collection('users').doc(userId);
+import { db } from './app-repository';
+
+export function userRef(userId: string): DocumentReference {
+  return doc(db(), 'users', userId);
 }

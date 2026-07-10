@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import Anker from '../../atoms/Anker/index';
 import { PrimaryAnkerButton } from '../../atoms/Button/index';

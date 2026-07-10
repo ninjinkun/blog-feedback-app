@@ -1,4 +1,4 @@
-import * as functions from 'firebase-functions';
+import * as functions from 'firebase-functions/v1';
 import { flatten, shuffle } from 'lodash';
 import { auth, firestore } from 'firebase-admin';
 import { v4 as uuidv4 } from 'uuid';
@@ -76,7 +76,7 @@ export const dailyReportMail = functions
     for (const [uid, email, blogURL] of shuffle(uidBlogIds)) {
       const uuid = uuidv4();
       const message: MailMessage = { email, uid, blogURL, uuid, forceSend: false };
-      await topic.publish(Buffer.from(JSON.stringify(message)));
+      await topic.publishMessage({ data: Buffer.from(JSON.stringify(message)) });
       console.log(`UUID: ${uuid}, uid: ${uid}, blogURL: ${blogURL}`);
       await sleep(sleepChunk);
     }
@@ -105,6 +105,6 @@ export const sendTestReportMail = functions.region('asia-northeast1').https.onCa
   const uuid = uuidv4(); // dummy
   const topic = pubsub.topic('send-report-mail');
   const message: MailMessage = { email, uid, blogURL, uuid, forceSend: true };
-  await topic.publish(Buffer.from(JSON.stringify(message)));
+  await topic.publishMessage({ data: Buffer.from(JSON.stringify(message)) });
   return true;
 });

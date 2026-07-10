@@ -5,10 +5,10 @@ import PlainCell from '../../molecules/PlainCell/index';
 import * as properties from '../../properties';
 
 type Props = {
-  LeftIcon?: ReactElement<{}>;
-  RightIcon?: ReactElement<{}>;
+  LeftIcon?: ReactElement;
+  RightIcon?: ReactElement;
   title: string;
-  description?: ReactElement<{}>;
+  description?: ReactElement;
 };
 
 const SettingCell: React.FunctionComponent<Props> = ({ LeftIcon, RightIcon, title, description, ...props }) => (

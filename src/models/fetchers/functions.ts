@@ -1,5 +1,5 @@
-import { getApp } from '@firebase/app';
-import { getFunctions, httpsCallable, HttpsCallableResult } from '@firebase/functions';
+import { getApp } from 'firebase/app';
+import { getFunctions, httpsCallable, HttpsCallableResult } from 'firebase/functions';
 
 type Response = {
   body: string;

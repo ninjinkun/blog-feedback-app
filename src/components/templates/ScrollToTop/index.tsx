@@ -1,22 +1,16 @@
-import React from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router';
 
 /**
  *  This hack is from
  *  https://reacttraining.com/react-router/web/guides/scroll-restoration
  */
-type Props = RouteComponentProps<{}>;
+const ScrollToTop = () => {
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+  return null;
+};
 
-class ScrollToTop extends React.Component<Props> {
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.location !== prevProps.location) {
-      window.scrollTo(0, 0);
-    }
-  }
-
-  render() {
-    return this.props.children;
-  }
-}
-
-export default withRouter(ScrollToTop);
+export default ScrollToTop;

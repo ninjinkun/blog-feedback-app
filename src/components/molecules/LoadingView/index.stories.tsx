@@ -1,5 +1,12 @@
-import { storiesOf } from '@storybook/react';
-import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import LoadingView from './index';
 
-storiesOf('molecules/LoadingView', module).add('default', () => <LoadingView />);
+const meta = {
+  title: 'molecules/LoadingView',
+  component: LoadingView,
+} satisfies Meta<typeof LoadingView>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};

@@ -1,4 +1,4 @@
-import { Auth } from '@firebase/auth';
+import { Auth } from 'firebase/auth';
 import { BlogEntity } from '../../models/entities';
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { currenUserOronAuthStateChanged } from './user';
@@ -41,14 +41,9 @@ export const blogSlice = createSlice({
   },
 });
 
-export function fetchBlogs(auth: Auth): ThunkAction<void, BlogState, undefined, any> {
+export function fetchBlogs(auth: Auth): ThunkAction<void, unknown, undefined, any> {
   return async (dispatch) => {
-    let user;
-    try {
-      user = await currenUserOronAuthStateChanged(auth);
-    } catch (e) {
-      throw e;
-    }
+    const user = await currenUserOronAuthStateChanged(auth);
     try {
       dispatch(blogSlice.actions.firebaseBlogsRequest());
       const blogs = await findAllBlogs(user.uid);

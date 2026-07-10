@@ -1,4 +1,4 @@
-import { User } from '@firebase/auth';
+import { User } from 'firebase/auth';
 import { clone } from 'lodash';
 import flatten from 'lodash/flatten';
 import { all, call, put, takeLatest } from 'redux-saga/effects';

@@ -1,5 +1,4 @@
 import React from 'react';
-import { RouteComponentProps } from 'react-router';
 import styled from 'styled-components';
 import Anker from '../../atoms/Anker/index';
 import ScrollView from '../../atoms/ScrollView/index';
@@ -7,7 +6,7 @@ import Wrapper from '../../atoms/Wrapper/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
-const PrivacyPage: React.FunctionComponent<RouteComponentProps> = () => (
+const PrivacyPage: React.FunctionComponent = () => (
   <PageLayout header={{ title: 'プライバシーポリシー' }}>
     <StyledScrollView>
       <ContentWrapper>

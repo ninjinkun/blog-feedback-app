@@ -1,9 +1,11 @@
-import { getAuth } from '@firebase/auth';
+import { getAuth } from 'firebase/auth';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import welcomeImage from '../../../assets/images/welcome-image.png';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../../redux/hooks';
+import { Link } from 'react-router';
 import { AppState } from '../../../redux/app-reducer';
 import { BlogState, fetchBlogs } from '../../../redux/slices/blog';
 import { PrimaryAnkerButton } from '../../atoms/Button/index';
@@ -14,9 +16,9 @@ import BlogCell from '../../organisms/BlogCell/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
-const BlogsPage: React.FC<RouteComponentProps> = () => {
+const BlogsPage: React.FC = () => {
   const blog = useSelector<AppState, BlogState>((state) => state.blog);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchBlogs(getAuth()));
   }, [dispatch]);
@@ -45,7 +47,7 @@ const BlogsPage: React.FC<RouteComponentProps> = () => {
           return (
             <AddBlogWrapper>
               <Title>ご登録ありがとうございます</Title>
-              <WelcomeImage src={require('../../../assets/images/welcome-image.png')} />
+              <WelcomeImage src={welcomeImage} />
               <p>ブログを追加して利用を開始しましょう</p>
               <StyledPrimaryButton href="/add">ブログを追加する</StyledPrimaryButton>
             </AddBlogWrapper>

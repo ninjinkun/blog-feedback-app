@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import MDSpinner from 'react-md-spinner';
-import { animated, useSpring, useTransition } from 'react-spring';
+import { animated, useSpring, useTransition } from '@react-spring/web';
 import styled from 'styled-components';
+import Spinner from '../../atoms/Spinner/index';
 import * as properties from '../../properties';
 
 type Props = {
@@ -19,22 +19,20 @@ const HeaderLoadingIndicator: React.FC<Props> = ({ loading, label, ratio, ...pro
   const spring = useSpring({
     backgroundColor: loading ? properties.colorsValue.grayDark : properties.colorsBlanding.accent,
   });
-  const trans = useTransition([label, prevLabel], (t) => t || '', {
+  const transitions = useTransition([label, prevLabel], {
+    keys: (t: string | undefined) => t || '',
     from: { opacity: 0, transform: `translate3d(0, -100%, 0)` },
     enter: { opacity: 1, transform: `translate3d(0, 0, 0)` },
-    // tslint:disable-next-line:jsx-alignment
     leave: { opacity: 0, transform: `translate3d(0, 100%, 0)` },
   });
   return (
     <animated.div style={spring} {...props}>
       <Wrapper>
         <Content>
-          <SpinnerWrapper>{loading ? <Spinner size={12} singleColor={'white'} /> : undefined}</SpinnerWrapper>
+          <SpinnerWrapper>{loading ? <Spinner size={12} singleColor="white" /> : undefined}</SpinnerWrapper>
           <LabelWrapper>
-            {trans.map(({ item, props, key }, i) => (
-              <Label style={props} key={`${key}-${i}`}>
-                {item}
-              </Label>
+            {transitions((style, item) => (
+              <Label style={style}>{item}</Label>
             ))}
           </LabelWrapper>
           {loading ? (
@@ -76,8 +74,6 @@ const SpinnerWrapper = styled.div`
   align-items: center;
   margin-left: 4px;
 `;
-
-const Spinner = styled(MDSpinner)``;
 
 const LabelWrapper = styled.div`
   grid-area: label;

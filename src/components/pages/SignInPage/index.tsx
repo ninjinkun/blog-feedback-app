@@ -1,36 +1,53 @@
-import { getAuth } from '@firebase/auth';
-import React, { useEffect } from 'react';
+import {
+  AuthProvider,
+  FacebookAuthProvider,
+  GoogleAuthProvider,
+  TwitterAuthProvider,
+  getAuth,
+  signInWithPopup,
+} from 'firebase/auth';
+import React, { useEffect, useState } from 'react';
+import { FaFacebook, FaGoogle, FaTwitter } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../../redux/hooks';
+import { Location, Navigate, useLocation } from 'react-router';
 import styled from 'styled-components';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-
-import { Location } from 'history';
-import { StyledFirebaseAuth } from 'react-firebaseui';
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, RouteComponentProps } from 'react-router-dom';
-import { UserState, fetchUser } from '../../../redux/slices/user';
 import { AppState } from '../../../redux/app-reducer';
+import { UserState, fetchUser } from '../../../redux/slices/user';
 import Anker from '../../atoms/Anker/index';
 import Wrapper from '../../atoms/Wrapper/index';
 import LoadingView from '../../molecules/LoadingView/index';
 import * as properties from '../../properties';
 import PageLayout from '../../templates/PageLayout/index';
 
-type Props = RouteComponentProps<{}, {}, { from?: Location }>;
-
-const SignInPage: React.FC<Props> = (props) => {
+const SignInPage: React.FC = () => {
   const userState = useSelector<AppState, UserState>((state) => state.user);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const location = useLocation();
+  const [error, setError] = useState<Error>();
 
   useEffect(() => {
     dispatch(fetchUser(getAuth()));
     return () => undefined;
   }, [dispatch]);
 
+  const signIn = async (provider: AuthProvider) => {
+    try {
+      setError(undefined);
+      await signInWithPopup(getAuth(), provider);
+      dispatch(fetchUser(getAuth()));
+    } catch (e) {
+      if (e instanceof Error) {
+        setError(e);
+      }
+    }
+  };
+
   const { loading, user } = userState;
   if (user) {
-    const from = (props.location.state && props.location.state.from) || 'blogs';
-    return <Redirect to={from} />;
+    const from =
+      ((location.state as { from?: Location } | undefined) && (location.state as { from?: Location }).from) || '/blogs';
+    return <Navigate to={from} replace />;
   } else {
     return (
       <PageLayout
@@ -45,7 +62,21 @@ const SignInPage: React.FC<Props> = (props) => {
           } else {
             return (
               <StyledWrapper>
-                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={getAuth()} />
+                <SignInButtons>
+                  <GoogleButton onClick={() => signIn(new GoogleAuthProvider())}>
+                    <FaGoogle />
+                    Google でログイン
+                  </GoogleButton>
+                  <TwitterButton onClick={() => signIn(new TwitterAuthProvider())}>
+                    <FaTwitter />
+                    Twitter でログイン
+                  </TwitterButton>
+                  <FacebookButton onClick={() => signIn(new FacebookAuthProvider())}>
+                    <FaFacebook />
+                    Facebook でログイン
+                  </FacebookButton>
+                </SignInButtons>
+                {error ? <ErrorText>ログインに失敗しました: {error.message}</ErrorText> : undefined}
 
                 <TextWrapper>
                   <Text>
@@ -75,22 +106,45 @@ const SignInPage: React.FC<Props> = (props) => {
 
 export default SignInPage;
 
-// Configure FirebaseUI.
-const uiConfig = {
-  signInFlow: 'popup',
-  // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
-  signInSuccessUrl: '/signin',
-  // We will display Google and Facebook as auth providers.
-  signInOptions: [
-    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-  ],
-};
-
 const StyledWrapper = styled(Wrapper)`
   align-items: center;
   margin-top: 16px;
+`;
+
+const SignInButtons = styled(Wrapper)`
+  width: 240px;
+  gap: 12px;
+`;
+
+const SignInButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: ${properties.fontSizes.m};
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+  &:active {
+    opacity: 0.8;
+  }
+`;
+
+const GoogleButton = styled(SignInButton)`
+  background-color: #4285f4;
+`;
+
+const TwitterButton = styled(SignInButton)`
+  background-color: #55acee;
+`;
+
+const FacebookButton = styled(SignInButton)`
+  background-color: #3b5998;
 `;
 
 const TextWrapper = styled(Wrapper)`
@@ -103,4 +157,10 @@ const Text = styled.p`
   color: ${properties.colors.grayDark};
   line-height: 1.4em;
   margin: 0.5em 0;
+`;
+
+const ErrorText = styled.p`
+  font-size: ${properties.fontSizes.s};
+  color: red;
+  padding: 0 24px;
 `;

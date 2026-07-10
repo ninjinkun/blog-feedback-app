@@ -1,6 +1,4 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
+import { Timestamp } from 'firebase/firestore';
 
 import { FeedType } from './consts/feed-type';
 
@@ -25,7 +23,7 @@ export type Services = {
 export type ItemEntity = {
   title: string;
   url: string;
-  published: firebase.firestore.Timestamp;
+  published: Timestamp;
   counts: { [key: string]: CountEntity }; // key is CountType
   prevCounts: { [key: string]: CountEntity }; // 10 minutes before
   yesterdayCounts?: { [key: string]: CountEntity };
@@ -33,5 +31,5 @@ export type ItemEntity = {
 
 export type CountEntity = {
   count: number;
-  timestamp: firebase.firestore.Timestamp;
+  timestamp: Timestamp;
 };

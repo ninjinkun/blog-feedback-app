@@ -1,9 +1,23 @@
-import { storiesOf } from '@storybook/react';
-import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { CountType } from '../../../models/consts/count-type';
 import CountButton from './index';
 
-storiesOf('molecules/CountButton', module)
-  .add('Twitter', () => <CountButton type={CountType.Twitter} />)
-  .add('Facebook', () => <CountButton type={CountType.Facebook} count={0} />)
-  .add('HatenaBookmark', () => <CountButton type={CountType.HatenaBookmark} count={1000} />);
+const meta = {
+  title: 'molecules/CountButton',
+  component: CountButton,
+} satisfies Meta<typeof CountButton>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Twitter: Story = {
+  args: { type: CountType.Twitter },
+};
+
+export const Facebook: Story = {
+  args: { type: CountType.Facebook, count: 0 },
+};
+
+export const HatenaBookmark: Story = {
+  args: { type: CountType.HatenaBookmark, count: 1000 },
+};

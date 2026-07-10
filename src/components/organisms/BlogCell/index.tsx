@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import Favicon from '../../atoms/Favicon/index';
 import PlainCell from '../../molecules/PlainCell/index';

@@ -1,19 +1,6 @@
-import { storiesOf } from '@storybook/react';
-import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import styled from 'styled-components';
 import Twincle from './index';
-
-storiesOf('atoms/TwincleAnimation', module)
-  .add('animate', () => (
-    <Twincle animate={true}>
-      <Content />
-    </Twincle>
-  ))
-  .add('no animate', () => (
-    <Twincle animate={false}>
-      <Content />
-    </Twincle>
-  ));
 
 const Content = styled.div`
   width: 200px;
@@ -22,3 +9,19 @@ const Content = styled.div`
   border-radius: 7px;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 15px 0px;
 `;
+
+const meta = {
+  title: 'atoms/TwincleAnimation',
+  component: Twincle,
+} satisfies Meta<typeof Twincle>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Animate: Story = {
+  args: { animate: true, children: <Content /> },
+};
+
+export const NoAnimate: Story = {
+  args: { animate: false, children: <Content /> },
+};

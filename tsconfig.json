@@ -1,48 +1,21 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
-    "lib": [
-      "es6",
-      "es5",
-      "dom"
-    ],
-    "allowJs": false,
+    "moduleResolution": "bundler",
     "jsx": "react-jsx",
-    "sourceMap": true,
-    "outDir": "./build/dist",
-    "rootDir": "./src",
     "strict": true,
     "noImplicitAny": true,
-    "moduleResolution": "node",
-    "rootDirs": [
-      "./src",
-      "./types"
-    ],
-    "types": [
-      "react",
-      "react-dom"
-    ],
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
     "noEmit": true
   },
-  "include": [
-    "./src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "src/setupTests.ts",
-    "src/**/**.test.*"
-  ]
+  "include": ["src", "vite.config.ts"]
 }

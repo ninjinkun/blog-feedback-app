@@ -18,6 +18,6 @@ async function fetch(url: string, acceptHeader: string): Promise<string> {
       'Accept': acceptHeader,
      },
  });
- const encoding: string = charset(res.headers);
+ const encoding: string = charset(res.headers as Record<string, string>);
  return encoding ? iconv.decode(res.data, encoding) : res.data.toString('utf8');
 }

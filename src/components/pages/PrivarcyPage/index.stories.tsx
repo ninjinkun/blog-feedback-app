@@ -1,10 +1,19 @@
-import { storiesOf } from '@storybook/react';
-import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { MemoryRouter } from 'react-router';
 import PrivacyPage from './index';
 
-storiesOf('pages/PrivacyPage', module).add('defalut', () => (
-  <Router>
-    <Route component={PrivacyPage} />
-  </Router>
-));
+const meta = {
+  title: 'pages/PrivacyPage',
+  component: PrivacyPage,
+} satisfies Meta<typeof PrivacyPage>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  render: () => (
+    <MemoryRouter>
+      <PrivacyPage />
+    </MemoryRouter>
+  ),
+};
