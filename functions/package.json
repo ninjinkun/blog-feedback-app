@@ -16,7 +16,7 @@
     "@google-cloud/pubsub": "^2.19.4",
     "axios": "^0.26.1",
     "charset": "^1.0.1",
-    "cheerio": "^1.0.0",
+    "cheerio": "^1.2.0",
     "email-templates": "^8.1.0",
     "firebase-admin": "~10.0.2",
     "firebase-functions": "^3.20.1",
