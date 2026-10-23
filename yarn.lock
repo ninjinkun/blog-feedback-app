@@ -9332,7 +9332,7 @@ fecha@^4.2.0:
   resolved "https://registry.yarnpkg.com/fecha/-/fecha-4.2.1.tgz#0a83ad8f86ef62a091e22bb5a039cd03d23eecce"
   integrity sha512-MMMQ0ludy/nBs1/o0zVOiKTpG7qMbonKUzjJgQFEuvq6INZ1OraKPRAWkBq5vlKLOUMpmNYG1JoN3oDPUQ9m3Q==
 
-fetch-jsonp@^1.2.3:
+fetch-jsonp@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/fetch-jsonp/-/fetch-jsonp-1.4.0.tgz#a68be624f20c5de02329da5bfe16630a43317d42"
   integrity sha512-SmOI6UshTUzQ1O+1CJDg31AE4VUIfAO4xfVAy/sH03h4Obml3BnuhTopdFaJMI21T94RfRvfTgTIvV0X8GnJ2A==

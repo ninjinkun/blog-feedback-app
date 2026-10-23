@@ -7,7 +7,7 @@
     "env-cmd": "^10.1.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "fetch-jsonp": "^1.2.3",
+    "fetch-jsonp": "^1.4.0",
     "firebase": "^9.6.11",
     "firebaseui": "^6.0.2",
     "first-input-delay": "^0.1.3",
